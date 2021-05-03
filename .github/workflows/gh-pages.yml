@@ -21,17 +21,23 @@ jobs:
           hugo-version: 'latest'
           extended: true
 
-      - uses: actions/setup-node@v2
+      - name: Setup Node
+        uses: actions/setup-node@v2
         with:
           node-version: '14'
 
-      - run: npm install
+      - name: Cache dependencies
+        uses: actions/cache@v1
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
 
-      - name: Build
-        run: hugo --minify
+      - run: npm ci
+      - run: hugo --minify
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./public
