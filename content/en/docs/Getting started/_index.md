@@ -20,16 +20,38 @@ Consider using the headings below for your getting started page. You can delete 
 
 ## Prerequisites
 
-Are there any system requirements for using your project? What languages are supported (if any)? Do users need to already have any software or tools installed?
-
-## Installation
-
-Where can your user find your project code? How can they install it (binaries, installable package, build from source)? Are there multiple options/versions they can install and how should they choose the right one for them?
+- JDK 11 or later
+- Gradle 7 or later
+- Kotlin 15 or later
 
 ## Setup
 
-Is there any initial setup users need to do after installation to try your project?
+Setup using Gradle Kotlin DSL.
+
+```groovy
+dependencies {
+    implementation("org.komapper:komapper-starter:0.4.0")
+    ksp("org.komapper:komapper-processor:0.4.0")
+}
+```
+
+To work ksp, see google/ksp [quickstart.md](https://github.com/google/ksp/blob/master/docs/quickstart.md).
 
 ## Try it out!
 
-Can your users test their installation, for example by running a command or deploying a Hello World example?
+Create an `Employee.kt` file and include the following code:
+
+```kotlin
+@KmEntity
+data class Employee(@KmId val id: Int, val name: String) {
+    companion object
+}
+```
+
+Run the following command:
+
+```sh
+$ ./grdlew build
+```
+
+Check that the `_Employee.kt` file has been generated under the `build/generated/ksp/main/kotlin` directory.

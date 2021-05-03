@@ -1,5 +1,5 @@
 ---
-title: Søkeresultat
+title: 検索結果
 layout: search
 
 ---
