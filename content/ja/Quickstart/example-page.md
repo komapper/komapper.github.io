@@ -1,9 +1,9 @@
 ---
-title: "Example Page"
-linkTitle: "Example Page"
+title: "Using IntelliJ IDEA"
+linkTitle: "Using IntelliJ IDEA"
 date: 2017-01-05
 description: >
-  A short lead description about this content page. It can be **bold** or _italic_ and can be split over multiple paragraphs.
+  Show you how to import our quickstart application into your Intellij IDEA.
 ---
 
 {{% pageinfo %}}
