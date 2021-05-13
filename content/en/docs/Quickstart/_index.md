@@ -9,8 +9,8 @@ description: >
 ## Prerequisites
 
 - JDK 11 or later
-- Gradle 7 or later
 - Kotlin 15 or later
+- Gradle 7 or later
 
 ## Install
 
@@ -20,10 +20,10 @@ We recommend that you install JDK using [sdkman](https://sdkman.io/).
 
 Write your Gradle build scripts using Kotlin DSL.
 
-Komapper uses [google/ksp](https://github.com/google/ksp) to generate source code at compile-time.
-For more details about google/ksp settings, see https://github.com/google/ksp/blob/master/docs/quickstart.md.
+Komapper uses [Kotlin Symbol Processing (KSP)](https://github.com/google/ksp) to generate source code at compile-time.
+For more details about KSP settings, see https://github.com/google/ksp/blob/master/docs/quickstart.md.
 
-Include the following code in your settings.gradle.kts:
+First, include the following code in your settings.gradle.kts:
 
 ```kotlin
 pluginManagement {
@@ -35,9 +35,9 @@ pluginManagement {
 
 rootProject.name = "komapper-quickstart"
 ```
-The `pluginManagement` section is required to use ksp's Gradle plugin.
+The `pluginManagement` section is required to use KSP.
 
-Include the following code in your build.gradle.kts:
+Next, include the following code in your build.gradle.kts:
 
 ```kotlin
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -46,7 +46,7 @@ plugins {
   application
   idea
   kotlin("jvm") version "1.5.0"
-  id("com.google.devtools.ksp") version "1.5.0-1.0.0-alpha09"
+  id("com.google.devtools.ksp") version "1.5.0-1.0.0-alpha10"
 }
 
 val generatedSourcePath = "build/generated/ksp/main/kotlin"
@@ -79,8 +79,8 @@ repositories {
 }
 
 dependencies {
-  implementation("org.komapper:komapper-starter:0.5.0")
-  ksp("org.komapper:komapper-processor:0.5.0")
+  implementation("org.komapper:komapper-starter:0.7.0")
+  ksp("org.komapper:komapper-processor:0.7.0")
   testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.1")
   testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.7.1")
 }
@@ -90,12 +90,7 @@ application {
 }
 ```
 
-Komapper provides two dependencies:
-
-- org.komapper:komapper-starter
-- org.komapper:komapper-processor
-
-The version number of two dependencies must be same.
+The version number of `komapper-starter` and `komapper-processor` must be same.
 Note that komapper-processor must be defined with `ksp` keyword instead of `implementation` keyword.
 
 ## Try it out!
@@ -105,7 +100,7 @@ We create the application that connects to H2 Database.
 ### Source code
 
 First, create an Entity class.
-Put the file `Employee.kt` in the `src/main/kotlin/org/komapper/quickstart` directory:
+Put the following Employee.kt file in the `src/main/kotlin/org/komapper/quickstart` directory:
 
 ```kotlin
 package org.komapper.quickstart
@@ -131,7 +126,7 @@ data class Employee(
 ```
 
 Next, create a main logic.
-Put the file `Application.kt` in the `src/main/kotlin/org/komapper/quickstart` directory:
+Put the following Application.kt file in the `src/main/kotlin/org/komapper/quickstart` directory:
 
 ```kotlin
 kage org.komapper.quickstart
