@@ -61,4 +61,4 @@ open another terminal and execute the following command to generate code:
 $ ./gradlew :codegen:komapperGenerator
 ```
 
-Check that source code has been generated under the `src` directory.
+Check that source code has been generated under the `codgen/src` directory.
