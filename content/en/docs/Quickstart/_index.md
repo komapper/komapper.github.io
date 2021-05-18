@@ -8,7 +8,7 @@ description: >
 
 ## Prerequisites
 
-- JDK 11 or later
+- JDK 8 or later
 - Kotlin 15 or later
 - Gradle 7 or later
 
@@ -64,10 +64,6 @@ idea.module {
 }
 
 tasks {
-  withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "11"
-  }
-
   withType<Test> {
     useJUnitPlatform()
   }
@@ -79,10 +75,10 @@ repositories {
 }
 
 dependencies {
-  implementation("org.komapper:komapper-starter:0.7.0")
-  ksp("org.komapper:komapper-processor:0.7.0")
-  testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.1")
-  testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.7.1")
+  implementation("org.komapper:komapper-starter:0.9.0")
+  ksp("org.komapper:komapper-processor:0.9.0")
+  testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.2")
+  testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.7.2")
 }
 
 application {
@@ -99,44 +95,31 @@ We create the application that connects to H2 Database.
 
 ### Source code
 
-First, create an Entity class.
-Put the following Employee.kt file in the `src/main/kotlin/org/komapper/quickstart` directory:
+First, create an Entity class and its mapping definition:
 
 ```kotlin
-package org.komapper.quickstart
-
-import org.komapper.annotation.KmAutoIncrement
-import org.komapper.annotation.KmCreatedAt
-import org.komapper.annotation.KmEntity
-import org.komapper.annotation.KmId
-import org.komapper.annotation.KmUpdatedAt
-import org.komapper.annotation.KmVersion
-import java.time.LocalDateTime
-
-@KmEntity
 data class Employee(
-    @KmId @KmAutoIncrement val id: Int = 0,
-    val name: String,
-    @KmVersion val version: Int = 0,
-    @KmCreatedAt val createdAt: LocalDateTime = LocalDateTime.MIN,
-    @KmUpdatedAt val updatedAt: LocalDateTime = LocalDateTime.MIN,
+  val id: Int = 0,
+  val name: String,
+  val version: Int = 0,
+  val createdAt: LocalDateTime = LocalDateTime.MIN,
+  val updatedAt: LocalDateTime = LocalDateTime.MIN,
+)
+
+@KmEntityDef(Employee::class)
+data class EmployeeDef(
+  @KmId @KmAutoIncrement val id: Nothing,
+  @KmVersion val version: Nothing,
+  @KmCreatedAt val createdAt: Nothing,
+  @KmUpdatedAt val updatedAt: Nothing,
 ) {
-    companion object
+  companion object
 }
 ```
 
-Next, create a main logic.
-Put the following Application.kt file in the `src/main/kotlin/org/komapper/quickstart` directory:
+Next, create a main logic:
 
 ```kotlin
-kage org.komapper.quickstart
-
-import org.komapper.core.Database
-import org.komapper.core.dsl.EntityDsl
-import org.komapper.core.dsl.SchemaDsl
-import org.komapper.core.dsl.runQuery
-import org.komapper.transaction.transaction
-
 fun main() {
   // (1) create a database instance
   val database: Database = Database.create("jdbc:h2:mem:quickstart;DB_CLOSE_DELAY=-1")
@@ -145,7 +128,7 @@ fun main() {
   database.transaction {
 
     // (3) get an entity metamodel
-    val e = Employee.meta
+    val e = EmployeeDef.meta
 
     // (4) create schema
     database.runQuery {
@@ -170,7 +153,18 @@ fun main() {
 }
 ```
 
-## Run the application
+### Build the application
+
+Run the following command:
+
+```sh
+$ ./grdlew build
+```
+
+Check the `build/generated/ksp/main/kotlin` directory.
+KSP outputs generated code to that directory.
+
+### Run the application
 
 Run the following command:
 
@@ -188,7 +182,7 @@ RESULT 0: Employee(id=1, name=AAA, version=0, createdAt=2021-05-05T21:00:53.1151
 RESULT 1: Employee(id=2, name=BBB, version=0, createdAt=2021-05-05T21:00:53.115250, updatedAt=2021-05-05T21:00:53.115250)
 ```
 
-Notice that the ID and timestamp columns are set automatically.
+Notice that the ID and timestamp values are set automatically.
 
 ## Complete source code
 

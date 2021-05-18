@@ -3,7 +3,7 @@ title: "Overview"
 linkTitle: "Overview"
 weight: 1
 description: >
-  Komapper is a simple and powerful SQL mapper for Kotlin 1.5 and later.
+  Komapper is a simple and powerful SQL mapper for Kotlin.
 ---
 
 ## What is it?
@@ -14,24 +14,40 @@ Komapper has several strengths as follows:
 
 - compile-time code generation
 - annotation-free data models
+- value class support
 - immutable and composable queries
+- upsert (insert-or-update) query support
 
-## Compile-time code generation
+### Compile-time code generation
 
-Thanks to compile-time code generation, Komapper works without reflection.
+Thanks to compile-time code generation using [Kotlin Symbol Processing API](https://github.com/google/ksp),
+Komapper works without reflection.
 
-Komapper uses [Kotlin Symbol Processing API](https://github.com/google/ksp)
-to generate code at compile-time.
+### Annotation-free data models
 
-## Annotation-free data models
-
-Kotlin Symbol Processing API requires annotations to generate code at compile-time. However, you may avoid specifying
-annotations on your data models.
-
-Komapper allows you to make your data model annotation-free as follows:
+Kotlin Symbol Processing API requires annotations to process source code.
+However, you can make your data model annotation-free as follows:
 
 ```kotlin
-data class Employee(val id: Int, val name: String)
+// data model: any annotations are not required
+data class Employee(val id: Int = 0, val name: String, val age: Int, val job: String)
+
+// mapping definition: some annotation are required
+@KmEntityDef(Employee::class)
+data class EmployeeDef(@KmId @KmAutoIncrement val id: Nothing) {
+    companion object
+}
+```
+
+### Value class support
+
+You can use a value class as a property of your data model as follows:
+
+```kotlin
+@JvmInline
+value class Job(val value: String)
+
+data class Employee(val id: Int = 0, val name: String, val age: Int, val job: Job)
 
 @KmEntityDef(Employee::class)
 data class EmployeeDef(@KmId @KmAutoIncrement val id: Nothing) {
@@ -39,18 +55,36 @@ data class EmployeeDef(@KmId @KmAutoIncrement val id: Nothing) {
 }
 ```
 
-In above example, `Employee` is not annotated.
-Instead, EmployeeDef is annotated.
 
-## Immutable and composable queries
+### Immutable and composable queries
 
-You can write queries as follows:
+You can compose queries as follows:
 
 ```kotlin
-val e = Employee.meta
+val e = EmployeeDef.meta
 val selectAll = EntityDsl.from(e)
 val selectByAge30 = selectAll.where { e.age eq 30 }
-val selectByJobSalesman = selectAll.where { e.job eq "SALESMAN" }
+val selectByAge30AndSalesman = selectByAge30.where { e.job eq "SALESMAN" }
+```
+
+### Upsert query support
+
+You can issue upsert query as follows:
+
+```kotlin
+val e = EmployeeDef.meta
+
+EntityDsl.insert(e)
+  .onDuplicateKeyUpdate(e.name)
+  .single(Employee(name = "ABC", age = 20, job = "SALESMAN"))
+```
+
+For example, if you use PostgreSQL, the above query is translated as follows:
+
+```sql
+insert into EMPLOYEE as t0_ (NAME, AGE, JOB) values (?, ?, ?) 
+on conflict (NAME) do update set 
+NAME = excluded.NAME, AGE = excluded.AGE, JOB = excluded.JOB
 ```
 
 ## Supported database
