@@ -40,8 +40,6 @@ The `pluginManagement` section is required to use KSP.
 Next, include the following code in your build.gradle.kts:
 
 ```kotlin
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
   application
   idea
@@ -63,22 +61,14 @@ idea.module {
   generatedSourceDirs.add(file(generatedSourcePath))
 }
 
-tasks {
-  withType<Test> {
-    useJUnitPlatform()
-  }
-}
-
 repositories {
   mavenCentral()
   google()
 }
 
 dependencies {
-  implementation("org.komapper:komapper-starter:0.9.0")
-  ksp("org.komapper:komapper-processor:0.9.0")
-  testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.2")
-  testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.7.2")
+  implementation("org.komapper:komapper-starter:0.10.0")
+  ksp("org.komapper:komapper-processor:0.10.0")
 }
 
 application {
