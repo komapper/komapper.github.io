@@ -27,15 +27,20 @@ First, include the following code in your settings.gradle.kts:
 
 ```kotlin
 pluginManagement {
-    repositories {
-        gradlePluginPortal()
-        google()
-    }
+  val kotlinVersion: String by settings
+  val kspVersion: String by settings
+  repositories {
+    gradlePluginPortal()
+    google()
+  }
+  plugins {
+    id("org.jetbrains.kotlin.jvm") version kotlinVersion
+    id("com.google.devtools.ksp") version kspVersion
+  }
 }
 
 rootProject.name = "komapper-quickstart"
 ```
-The `pluginManagement` section is required to use KSP.
 
 Next, include the following code in your build.gradle.kts:
 
@@ -43,22 +48,8 @@ Next, include the following code in your build.gradle.kts:
 plugins {
   application
   idea
-  kotlin("jvm") version "1.5.0"
-  id("com.google.devtools.ksp") version "1.5.0-1.0.0-alpha10"
-}
-
-val generatedSourcePath = "build/generated/ksp/main/kotlin"
-
-sourceSets {
-  main {
-    java {
-      srcDir(generatedSourcePath)
-    }
-  }
-}
-
-idea.module {
-  generatedSourceDirs.add(file(generatedSourcePath))
+  kotlin("jvm")
+  id("com.google.devtools.ksp")
 }
 
 repositories {
@@ -67,17 +58,14 @@ repositories {
 }
 
 dependencies {
-  implementation("org.komapper:komapper-starter:0.10.0")
-  ksp("org.komapper:komapper-processor:0.10.0")
-}
-
-application {
-  mainClass.set("org.komapper.quickstart.ApplicationKt")
+  val komapperVersion: String by project
+  implementation("org.komapper:komapper-starter:$komapperVersion")
+  ksp("org.komapper:komapper-processor:$komapperVersion")
 }
 ```
 
 The version number of `komapper-starter` and `komapper-processor` must be same.
-Note that komapper-processor must be defined with `ksp` keyword instead of `implementation` keyword.
+Note that komapper-processor must be defined with `ksp` keyword.
 
 ## Try it out!
 
@@ -85,7 +73,7 @@ We create the application that connects to H2 Database.
 
 ### Source code
 
-First, create an Entity class and its mapping definition:
+First, create an entity class and its mapping definition:
 
 ```kotlin
 data class Employee(
@@ -96,12 +84,12 @@ data class Employee(
   val updatedAt: LocalDateTime = LocalDateTime.MIN,
 )
 
-@KmEntityDef(Employee::class)
+@KomapperEntityDef(Employee::class)
 data class EmployeeDef(
-  @KmId @KmAutoIncrement val id: Nothing,
-  @KmVersion val version: Nothing,
-  @KmCreatedAt val createdAt: Nothing,
-  @KmUpdatedAt val updatedAt: Nothing,
+  @KomapperId @KomapperAutoIncrement val id: Nothing,
+  @KomapperVersion val version: Nothing,
+  @KomapperCreatedAt val createdAt: Nothing,
+  @KomapperUpdatedAt val updatedAt: Nothing,
 ) {
   companion object
 }
@@ -112,10 +100,10 @@ Next, create a main logic:
 ```kotlin
 fun main() {
   // (1) create a database instance
-  val database: Database = Database.create("jdbc:h2:mem:quickstart;DB_CLOSE_DELAY=-1")
+  val database = JdbcDatabase.create("jdbc:h2:mem:quickstart;DB_CLOSE_DELAY=-1")
 
   // (2) start transaction
-  database.transaction {
+  database.withTransaction {
 
     // (3) get an entity metamodel
     val e = EmployeeDef.meta
@@ -174,7 +162,7 @@ RESULT 1: Employee(id=2, name=BBB, version=0, createdAt=2021-05-05T21:00:53.1152
 
 Notice that the ID and timestamp values are set automatically.
 
-## Complete source code
+## Get complete code
 
-To get complete source code,
+To get complete code,
 see https://github.com/komapper/komapper-quickstart

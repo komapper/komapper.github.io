@@ -33,8 +33,8 @@ However, you can make your data model annotation-free as follows:
 data class Employee(val id: Int = 0, val name: String, val age: Int, val job: String)
 
 // mapping definition: some annotation are required
-@KmEntityDef(Employee::class)
-data class EmployeeDef(@KmId @KmAutoIncrement val id: Nothing) {
+@KomapperEntityDef(Employee::class)
+data class EmployeeDef(@KomapperId @KomapperAutoIncrement val id: Nothing) {
     companion object
 }
 ```
@@ -49,8 +49,8 @@ value class Job(val value: String)
 
 data class Employee(val id: Int = 0, val name: String, val age: Int, val job: Job)
 
-@KmEntityDef(Employee::class)
-data class EmployeeDef(@KmId @KmAutoIncrement val id: Nothing) {
+@KomapperEntityDef(Employee::class)
+data class EmployeeDef(@KomapperId @KomapperAutoIncrement val id: Nothing) {
     companion object
 }
 ```
