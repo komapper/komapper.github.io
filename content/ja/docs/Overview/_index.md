@@ -133,7 +133,7 @@ val query3 = query2.where { or { a.id eq 2 } }.orderBy(a.street)
 db.runQuery { query1 }
 // issue "select * from address where id = 1"
 db.runQuery { query2 }
-// issue "select * from address where id = 1 or id = 2" order by street
+// issue "select * from address where id = 1 or id = 2 order by street"
 db.runQuery { query3 }
 ```
 
