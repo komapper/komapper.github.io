@@ -58,9 +58,9 @@ description = "A Komapper site"
 languageName ="English"
 # Weight used for sorting.
 weight = 1
-#[languages.ja]
-#languageName ="Japanese"
-#contentDir = "content/ja"
+[languages.ja]
+languageName ="Japanese"
+contentDir = "content/ja"
 #time_format_default = "2006.02.01"
 #time_format_blog = "2006.02.01"
 
@@ -191,4 +191,3 @@ enable = false
 #	url = "https://example.org/mail"
 #	icon = "fa fa-envelope"
 #        desc = "Discuss development issues around the project"
-
