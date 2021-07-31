@@ -186,6 +186,6 @@ dependencies {
 
 ## 次に役立ちそうなドキュメント
 
-* [Quickstart](/ja/docs/quickstart/): Komapperを始める
-* [Examples](/ja/docs/examples/): サンプルコードを見る
+* [Quickstart](../quickstart/): Komapperを始める
+* [Examples](../examples/): サンプルコードを見る
 
