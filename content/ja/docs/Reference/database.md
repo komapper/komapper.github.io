@@ -6,10 +6,12 @@ description: >
   データベース
 ---
 
-## Databaseインスタンスの生成
+## 概要
 
 KomapperでデータベースにアクセスするためにはDatabaseインスタンスが必要です。
-Databaseインスタンスはトランザクションの開始やクエリの実行を担当します。
+Databaseインスタンスはトランザクションの制御やクエリの実行を担当します。
+
+## Databaseインスタンスの生成
 
 Databaseインスタンスの生成方法はJDBCを使う場合とR2DBCを使う場合で異なります。
 
@@ -76,9 +78,10 @@ val db = R2dbcDatabase.create(
 
 ## Databaseインスタンスの利用
 
-### トランザクションの開始
+### トランザクションの制御
 
-Databaseインスタンスの`withTransaction`拡張関数を呼び出すことでトランザクションを開始できます。
+Databaseインスタンスの`withTransaction`拡張関数でトランザクションを制御します。
+`withTransaction`拡張関数にはトランザクション内で処理したいロジックをラムダ式として渡します。
 
 ```kotlin
 db.withTransaction {
