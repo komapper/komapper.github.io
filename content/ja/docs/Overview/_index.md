@@ -37,6 +37,11 @@ fun main() {
 
     // execute simple CRUD operations in a transaction
     db.withTransaction {
+        // create a schema
+        db.runQuery {
+            SchemaDsl.create(a)
+        }
+
         // INSERT
         val newAddress = db.runQuery {
             EntityDsl.insert(a).single(Address(street = "street A"))
@@ -62,6 +67,11 @@ fun main() = runBlocking {
 
     // execute simple CRUD operations in a transaction
     db.withTransaction {
+        // create a schema
+        db.runQuery {
+            SchemaDsl.create(a)
+        }
+
         // INSERT
         val newAddress = db.runQuery {
             EntityDsl.insert(a).single(Address(street = "street A"))
