@@ -3,7 +3,7 @@ title: "Entity DSL"
 linkTitle: "Entity DSL"
 weight: 10
 description: >
-  エンティティ操作のためのSQLを組み立てるDSL
+  エンティティ操作を行うDSL
 ---
 
 ## 概要
@@ -167,6 +167,16 @@ ORDER BY句を指定する場合は`orderBy`を呼び出します。
 val query: Query<List<Adress>> = EntityDsl.from(a).orderBy(a.addressId)
 /*
 select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ order by t0_.ADDRESS_ID asc
+*/
+```
+
+デフォルトでは昇順ですが降順を指定する場合はカラムを`orderBy`に渡す前にカラムに対して`desc`を呼び出します。
+また、昇順を表す`asc`を明示的に呼び出すことやカラムを複数指定することもできます。
+
+```kotlin
+val query: Query<List<Adress>> = EntityDsl.from(a).orderBy(a.addressId.desc(), a.street.asc())
+/*
+select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ order by t0_.ADDRESS_ID desc, t0_.STREET asc
 */
 ```
 
