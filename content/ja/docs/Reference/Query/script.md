@@ -6,4 +6,18 @@ description: >
   任意のSQLスクリプトを実行するDSL
 ---
 
-{{% pageinfo %}} Under development {{% /pageinfo %}}
+## 概要
+
+Script DSLは任意のSQLスクリプトを実行できます。
+
+## execute
+
+実行したいSQLスクリプトを`execute`に渡します。
+
+```kotlin
+val query: Query<Unit> = ScriptDsl.execute("""
+    drop table if exists example;
+    create table example (id integer not null primary key, value varchar(20));
+    insert into example (id, value) values(1, 'test');
+""".trimIndent())
+```
