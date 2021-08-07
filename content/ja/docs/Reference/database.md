@@ -89,7 +89,7 @@ db.withTransaction {
 }
 ```
 
-詳細は [Transaction](../transaction/) を参照ください。
+詳細は [Transaction]({{< relref "transaction.md" >}}) を参照ください。
 
 ### クエリの実行
 
@@ -107,4 +107,4 @@ val query: FlowableQuery = ...
 val flow = db.runFlowableQuery { query }
 ```
 
-クエリの生成については [Query](../query/) を参照ください。
+クエリの生成については [Query]({{< relref "query.md" >}}) を参照ください。
