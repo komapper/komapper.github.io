@@ -29,11 +29,11 @@ val dialect = PostgreSqlJdbcDialect()
 |-------------|---------------|
 | java.math.BigDecimal | numeric, decimal |
 | java.math.BigInteger | numeric, decimal |
-| java.sql.Array | array |
+| java.sql.Array | array of data type |
 | java.sql.Blob | N/A |
 | java.sql.Clob | N/A |
 | java.sql.NClob | N/A |
-| java.sql.SQLXML | text |
+| java.sql.SQLXML | xml |
 | java.time.LocalDate | date |
 | java.time.LocalDateTime | timestamp |
 | java.time.LocalTime | time |
@@ -48,7 +48,7 @@ val dialect = PostgreSqlJdbcDialect()
 | kotlin.Int | integer, int, int4, serial |
 | kotlin.Long | bigint, int8, bigserial, serial8 |
 | kotlin.Short | smallint, int2, smallserial, serial2 |
-| kotlin.String | character varying, varchar |
+| kotlin.String | character varying, varchar, text |
 | kotlin.UByte | smallint, int2, smallserial, serial2 |
 | kotlin.UInt | bigint, int8, bigserial, serial8 |
 | kotlin.UShort | integer, int, int4, serial |

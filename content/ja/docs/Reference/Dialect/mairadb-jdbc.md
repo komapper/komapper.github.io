@@ -42,7 +42,7 @@ val dialect = MariaDbJdbcDialect()
 | kotlin.Any | N/A |
 | kotlin.Boolean | BIT(1), BOOLEAN |
 | kotlin.Byte | TINYINT |
-| kotlin.ByteArray | BINARY |
+| kotlin.ByteArray | VARBINARY |
 | kotlin.Double | DOUBLE |
 | kotlin.Float | FLOAT |
 | kotlin.Int | INT |
