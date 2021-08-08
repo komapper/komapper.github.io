@@ -48,6 +48,11 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADD
 */
 ```
 
+以下のドキュメントも参照ください。
+
+- [比較演算子]({{< relref "expression.md#comparison-operator" >}})
+- [論理演算子]({{< relref "expression.md#logical-operator" >}})
+
 ### innerJoin
 
 INNER JOINを行う場合は`innerJoin`を呼び出します。
@@ -59,6 +64,10 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ inner join EM
 */
 ```
 
+以下のドキュメントも参照ください。
+
+- [比較演算子]({{< relref "expression.md#comparison-operator" >}})
+
 ### leftJoin
 
 LEFT OUTER JOINを行う場合は`leftJoin`を呼び出します。
@@ -69,6 +78,10 @@ val query: Query<List<Address>> = SqlDsl.from(a).leftJoin(e) { a.addressId eq e.
 select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ left outer join EMPLOYEE as t1_ on (t0_.ADDRESS_ID = t1_.ADDRESS_ID)
 */
 ```
+
+以下のドキュメントも参照ください。
+
+- [比較演算子]({{< relref "expression.md#comparison-operator" >}})
 
 ### forUpdate
 
@@ -127,6 +140,10 @@ select distinct t0_.DEPARTMENT_ID, t0_.DEPARTMENT_NO, t0_.DEPARTMENT_NAME, t0_.L
 ### select
 
 射影を行うには`select`を呼び出します。
+
+以下のドキュメントも参照ください。
+
+- [集約関数]({{< relref "expression.md#aggregate-function" >}})
 
 1つのカラムを射影する例です。
 
@@ -214,6 +231,12 @@ select t0_.DEPARTMENT_ID, count(t0_.EMPLOYEE_ID) from EMPLOYEE as t0_ group by t
 {{< alert title="Note" >}}
 `groupBy`の呼び出しがない場合、GROUP BY句は`select`関数に渡された引数から推測されて生成されます。
 {{< /alert >}}
+
+以下のドキュメントも参照ください。
+
+- [比較演算子]({{< relref "expression.md#comparison-operator" >}})
+- [論理演算子]({{< relref "expression.md#logical-operator" >}})
+- [集約関数]({{< relref "expression.md#aggregate-function" >}})
 
 ### groupBy
 

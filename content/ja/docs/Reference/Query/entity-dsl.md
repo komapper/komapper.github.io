@@ -40,6 +40,11 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADD
 */
 ```
 
+以下のドキュメントも参照ください。
+
+- [比較演算子]({{< relref "expression.md#comparison-operator" >}})
+- [論理演算子]({{< relref "expression.md#logical-operator" >}})
+
 ### innerJoin
 
 INNER JOINを行う場合は`innerJoin`を呼び出します。
@@ -51,6 +56,10 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ inner join EM
 */
 ```
 
+以下のドキュメントも参照ください。
+
+- [比較演算子]({{< relref "expression.md#comparison-operator" >}})
+
 ### leftJoin
 
 LEFT OUTER JOINを行う場合は`leftJoin`を呼び出します。
@@ -61,6 +70,10 @@ val query: Query<List<Address>> = EntityDsl.from(a).leftJoin(e) { a.addressId eq
 select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ left outer join EMPLOYEE as t1_ on (t0_.ADDRESS_ID = t1_.ADDRESS_ID)
 */
 ```
+
+以下のドキュメントも参照ください。
+
+- [比較演算子]({{< relref "expression.md#comparison-operator" >}})
 
 ### associate
 

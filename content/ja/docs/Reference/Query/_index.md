@@ -18,7 +18,7 @@ val query = EntityDsl.from(a)
 val result = db.runQuery { query }
 ```
 
-本ページの子ページでは、クエリの生成を担う以下のDSLについて説明します。
+本ページの子ページでは、クエリの生成を担う以下のDSLとその構成要素である式について説明します。
 
 - Entity DSL
 - SQL DSL
