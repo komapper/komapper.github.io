@@ -12,8 +12,6 @@ Komapperでは、データベースのテーブルに対応するKotlinクラス
 
 エンティティクラスをテーブルにマッピングさせるには別途アノテーションを用いたマッピング定義が必要です。
 
-エンティティクラスのプロパティとテーブルのカラムのマッピングには型の制約があります。
-
 ## エンティティクラスの定義
 
 エンティティクラスは次の要件を満たさなければいけません。
@@ -252,64 +250,7 @@ val id: Nothing
 
 マッピングの対象外であることを表します。
 
-## プロパティとカラムの型のマッピング
+## プロパティとカラムの型のマッピング {#data-type-mapping}
 
-プロパティの型（Kotlinの型）とカラムの型（データベースの型）の対応関係を示します。
+プロパティの型（Kotlinの型）とカラムの型（データベースの型）の対応関係は [Dialect]({{< relref "Dialect" >}}) で定義されます。
 
-### H2 - JDBC
-
-| Kotlin Type | Database Type |
-|-------------|---------------|
-| java.math.BigDecimal | BIGINT |
-| java.math.BigInteger | BIGINT |
-| java.sql.Array | ARRAY |
-| java.sql.Blob | BLOB |
-| java.sql.Clob | CLOB |
-| java.sql.NClob | CLOB |
-| java.sql.SQLXML | CLOB |
-| java.time.LocalDate | DATE |
-| java.time.LocalDateTime | TIMESTAMP |
-| java.time.LocalTime | TIME |
-| java.time.OffsetDateTime | TIMESTAMP WITH TIME ZONE |
-| java.util.UUID | UUID |
-| kotlin.Any | OTHER |
-| kotlin.Boolean | BOOLEAN |
-| kotlin.Byte | TINYINT |
-| kotlin.ByteArray | BINARY |
-| kotlin.Double | DOUBLE |
-| kotlin.Float | REAL |
-| kotlin.Int | INT |
-| kotlin.Long | BIGINT |
-| kotlin.Short | SMALLINT |
-| kotlin.String | VARCHAR |
-| kotlin.UByte | SMALLINT |
-| kotlin.UInt | BIGINT |
-| kotlin.UShort | INT |
-
-### H2 - R2DBC
-
-TODO
-
-### MariaDB - JDBC
-
-TODO
-
-### MariaDB - R2DBC
-
-TODO
-
-### MySQL - JDBC
-
-TODO
-
-### MySQL - R2DBC
-
-TODO
-
-### PostgreSQL - JDBC
-
-TODO
-
-### PostgreSQL - R2DBC
-
-TODO

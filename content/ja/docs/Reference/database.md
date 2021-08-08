@@ -44,6 +44,10 @@ val db = JdbcDatabase.create(
 )
 ```
 
+以下のドキュメントも参照ください。
+
+- [Dialect]({{< relref "Dialect" >}})
+
 ### R2DBCを使う場合
 
 URLから生成する場合は次のように記述します。
@@ -75,6 +79,10 @@ val db = R2dbcDatabase.create(
   dialect = H2R2dbcDialect()
 )
 ```
+
+以下のドキュメントも参照ください。
+
+- [Dialect]({{< relref "Dialect" >}})
 
 ## Databaseインスタンスの利用
 
