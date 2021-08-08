@@ -3,7 +3,7 @@ title: "Entity DSL"
 linkTitle: "Entity DSL"
 weight: 10
 description: >
-  エンティティ操作を行うDSL
+  エンティティ操作を行うためのDSL
 ---
 
 ## 概要

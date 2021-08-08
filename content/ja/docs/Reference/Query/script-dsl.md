@@ -3,7 +3,7 @@ title: "Script DSL"
 linkTitle: "Script DSL"
 weight: 40
 description: >
-  任意のSQLスクリプトを実行するDSL
+  任意のSQLスクリプトを実行するためのDSL
 ---
 
 ## 概要
