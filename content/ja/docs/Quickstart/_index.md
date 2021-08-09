@@ -20,7 +20,7 @@ JDKとGradleのインストールには [sdkman](https://sdkman.io/) の利用�
 GradleのビルドスクリプトをKotlin DSLを使って書きます。
 
 最初に、依存ライブラリのバージョンをgradle.propertiesに記述します。
-最新のバージョン番号は本ページのリンク先のリポジトリで確認してください。
+最新のバージョン番号は本ページ最下部に記載したリンク先リポジトリで確認してください。
 
 ```properties
 kotlinVersion=1.5.21
