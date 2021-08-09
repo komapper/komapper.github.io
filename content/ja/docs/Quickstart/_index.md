@@ -9,18 +9,26 @@ description: >
 ## 必要要件
 
 - JDK 8、もしくはそれ以降のバージョン
-- Kotlin 15.21、もしくはそれ以降のバージョン
-- Gradle 7、もしくはそれ以降のバージョン
+- Gradle 7.1.1
 
 ## インストール
 
-JDKのインストールには [sdkman](https://sdkman.io/) の利用をお勧めします。
+JDKとGradleのインストールには [sdkman](https://sdkman.io/) の利用をお勧めします。
 
 ## セットアップ
 
 GradleのビルドスクリプトをKotlin DSLを使って書きます。
 
-最初に、以下のコードをsettings.gradle.ktsに記述します。
+最初に、依存ライブラリのバージョンをgradle.propertiesに記述します。
+最新のバージョン番号は本ページのリンク先のリポジトリで確認してください。
+
+```properties
+kotlinVersion=1.5.21
+komapperVersion=0.15.1
+kspVersion=1.5.21-1.0.0-beta06
+```
+
+次に、以下のコードをsettings.gradle.ktsに記述します。
 
 ```kotlin
 pluginManagement {
@@ -41,7 +49,7 @@ rootProject.name = "komapper-quickstart"
 
 pluginManagementブロックではKotlinと [Kotlin Symbol Processing API](https://github.com/google/ksp) のプラグインのバージョンを指定します。
 
-次に、以下のコードをbuild.gradle.ktsに記述します。
+最後に、以下のコードをbuild.gradle.ktsに記述します。
 
 ```kotlin
 plugins {
@@ -59,10 +67,15 @@ repositories {
 dependencies {
   val komapperVersion: String by project
   implementation("org.komapper:komapper-starter:$komapperVersion")
+  implementation("org.komapper:komapper-dialect-h2-jdbc:$komapperVersion")
   ksp("org.komapper:komapper-processor:$komapperVersion")
 }
 ```
-`komapper-starter`モジュールと`komapper-processor`モジュールのバージョンは同一でなければいけません。
+
+IDEで動作を確認するには追加のコードが必要ですがここでは省略します。
+詳細は本ページの最後に示すリンク先のリポジトリを確認ください。
+
+`komapper-starter`モジュール、`komapper-dialect-h2-jdbc`モジュール、`komapper-processor`モジュールのバージョンは同一でなければいけません。
 また`komapper-processor`モジュールは「ksp」というキーワードを使って定義されていることに注意してください。
 「ksp」はKotlin Symbol Processing APIのプラグインが提供する機能で、コンパイル時のコード生成するために必要です。
 
@@ -132,10 +145,10 @@ fun main() {
 
 ### ビルド
 
-ビルドをするには次のコマンドを実行します。
+ビルドをするには次のGradleコマンドを実行します。
 
 ```sh
-$ ./grdlew build
+$ gradle build
 ```
 
 コマンド実行後、`build/generated/ksp/main/kotlin`ディレクトリを確認してください。
@@ -143,13 +156,13 @@ Kotlin Symbol Processing APIによって生成されたコードが存在する�
 
 ### アプリケーションの実行
 
-アプリケーションを動かすには次のコマンドを実行します。
+アプリケーションを動かすには次のGradleコマンドを実行します。
 
 ```sh
-$ ./grdlew run
+$ gradle run
 ```
 
-アプリケーションの実行によりコンソール上に次のような出力が現われます。
+アプリケーションを実行するとコンソール上に次のような出力が表示されます。
 
 ```
 21:00:53.099 [main] DEBUG org.komapper.SQL - create table if not exists employee (id integer not null auto_increment, name varchar(500) not null, version integer not null, created_at timestamp not null, updated_at timestamp not null, constraint pk_employee primary key(id));
@@ -167,3 +180,15 @@ EmployeeインスタンスにIDやタイムスタンプが設定されている�
 完全なコードを得るには以下のリポジトリを確認ください。
 
 - https://github.com/komapper/komapper-quickstart
+
+上記リンク先のリポジトリではGradle Wrapperを使っています。
+したがって、Gradleをインストールしなくてもアプリケーションを動かすことができます。
+本ページではビルドと実行で2つのGradleコマンドを示しましたが、Gradle Wrapperを使うにはそれぞれ次のコマンドを使ってください。
+
+```shell
+$ ./gradlew build
+```
+
+```shell
+$ ./gradlew run
+```
