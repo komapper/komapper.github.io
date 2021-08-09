@@ -194,8 +194,8 @@ dependencies {
 
 バージョンはサポートする最小バージョンを表していますが、より小さいバージョンでも動作することがあります。
 
-## 次に役立ちそうなドキュメント
+## 次に見るべきドキュメント
 
-* [Quickstart](../quickstart/): Komapperを始める
-* [Examples](../examples/): サンプルコードを見る
+* [Quickstart]({{< relref "../Quickstart" >}})
+* [Examples]({{< relref "../Examples" >}})
 

@@ -3,7 +3,7 @@ title: "Quickstart"
 linkTitle: "Quickstart"
 weight: 2
 description: >
-  最小の構成でKomapperを動かす
+  Komapperの設定、ビルド、実行について最小の説明
 ---
 
 ## 必要要件

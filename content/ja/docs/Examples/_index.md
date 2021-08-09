@@ -4,7 +4,7 @@ linkTitle: "Examples"
 weight: 3
 date: 2017-01-05
 description: >
-  Spring Boot連携やデータベースからのコード生成など様々な例を見る
+  JDBC接続、R2DBC接続、Spring Boot連携、コード生成など様々なコード例
 ---
 
 ## 必要要件
