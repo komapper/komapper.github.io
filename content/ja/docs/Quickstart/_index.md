@@ -13,62 +13,38 @@ description: >
 
 ## インストール
 
-JDKとGradleのインストールには [sdkman](https://sdkman.io/) の利用をお勧めします。
+JDKとGradleをインストールしてください。
+
+{{< alert title="Note" >}}
+[sdkman](https://sdkman.io/) を使ってインストールすることをお勧めします。
+{{< /alert >}}
 
 ## セットアップ
 
 GradleのビルドスクリプトをKotlin DSLを使って書きます。
 
-最初に、依存ライブラリのバージョンをgradle.propertiesに記述します。
-最新のバージョン番号は本ページ最下部に記載したリンク先リポジトリで確認してください。
-
-```properties
-kotlinVersion=1.5.21
-komapperVersion=0.15.1
-kspVersion=1.5.21-1.0.0-beta06
-```
-
-次に、以下のコードをsettings.gradle.ktsに記述します。
-
-```kotlin
-pluginManagement {
-  val kotlinVersion: String by settings
-  val kspVersion: String by settings
-  repositories {
-    gradlePluginPortal()
-    google()
-  }
-  plugins {
-    id("org.jetbrains.kotlin.jvm") version kotlinVersion
-    id("com.google.devtools.ksp") version kspVersion
-  }
-}
-
-rootProject.name = "komapper-quickstart"
-```
-
-pluginManagementブロックではKotlinと [Kotlin Symbol Processing API](https://github.com/google/ksp) のプラグインのバージョンを指定します。
-
-最後に、以下のコードをbuild.gradle.ktsに記述します。
+以下のコードをbuild.gradle.ktsに記述します。
 
 ```kotlin
 plugins {
   application
-  idea
-  kotlin("jvm")
-  id("com.google.devtools.ksp")
+  id("com.google.devtools.ksp") version "1.5.21-1.0.0-beta07"
+  kotlin("jvm") version "1.5.21"
 }
 
 repositories {
   mavenCentral()
-  google()
 }
 
 dependencies {
-  val komapperVersion: String by project
-  implementation("org.komapper:komapper-starter:$komapperVersion")
+  val komapperVersion = "0.15.2"
+  implementation("org.komapper:komapper-starter-jdbc:$komapperVersion")
   implementation("org.komapper:komapper-dialect-h2-jdbc:$komapperVersion")
   ksp("org.komapper:komapper-processor:$komapperVersion")
+}
+
+application {
+  mainClass.set("org.komapper.quickstart.ApplicationKt")
 }
 ```
 
@@ -77,11 +53,11 @@ IDEで動作を確認するには追加のコードが必要ですがここで�
 
 `komapper-starter`モジュール、`komapper-dialect-h2-jdbc`モジュール、`komapper-processor`モジュールのバージョンは同一でなければいけません。
 また`komapper-processor`モジュールは「ksp」というキーワードを使って定義されていることに注意してください。
-「ksp」はKotlin Symbol Processing APIのプラグインが提供する機能で、コンパイル時のコード生成するために必要です。
+「ksp」は  [Kotlin Symbol Processing API](https://github.com/google/ksp) のプラグインが提供する機能で、コンパイル時のコード生成に必要です。
 
 ## アプリケーションの作成
 
-ここではH2データベースに接続するアプリケーションを作成します。
+ここではH2データベースにJDBCで接続するアプリケーションを作成します。
 
 ### ソースコード 
 
