@@ -82,7 +82,7 @@ val db = R2dbcDatabase.create(
 
 以下のドキュメントも参照ください。
 
-- [Dialect]({{< relref "Dialect" >}})
+- [Dialect]({{< relref "dialect.md" >}})
 
 ## Databaseインスタンスの利用
 
