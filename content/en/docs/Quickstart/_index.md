@@ -6,74 +6,68 @@ description: >
   Try Komapper with minimum settings.
 ---
 
+## Overview
+
+We show you how to create an application that uses JDBC to access H2 Database Engine.
+
 ## Prerequisites
 
 - JDK 8 or later
-- Kotlin 15 or later
-- Gradle 7 or later
+- Gradle 7.1.1
 
 ## Install
 
+Install JDK and Gradle.
+
+{{< alert title="Note" >}}
 We recommend that you install JDK using [sdkman](https://sdkman.io/).
+{{< /alert >}}
 
-## Setup
+## Create Application
+### Build Script
 
-Write your Gradle build scripts using Kotlin DSL.
+Write your build scripts using Gradle Kotlin DSL.
 
-Komapper uses [Kotlin Symbol Processing (KSP)](https://github.com/google/ksp) to generate source code at compile-time.
-For more details about KSP settings, see https://github.com/google/ksp/blob/master/docs/quickstart.md.
-
-First, include the following code in your settings.gradle.kts:
-
-```kotlin
-pluginManagement {
-  val kotlinVersion: String by settings
-  val kspVersion: String by settings
-  repositories {
-    gradlePluginPortal()
-    google()
-  }
-  plugins {
-    id("org.jetbrains.kotlin.jvm") version kotlinVersion
-    id("com.google.devtools.ksp") version kspVersion
-  }
-}
-
-rootProject.name = "komapper-quickstart"
-```
-
-Next, include the following code in your build.gradle.kts:
+Include the following code in your build.gradle.kts:
 
 ```kotlin
 plugins {
   application
-  idea
-  kotlin("jvm")
-  id("com.google.devtools.ksp")
+  id("com.google.devtools.ksp") version "1.5.21-1.0.0-beta07"
+  kotlin("jvm") version "1.5.21"
 }
 
 repositories {
   mavenCentral()
-  google()
 }
 
 dependencies {
-  val komapperVersion: String by project
-  implementation("org.komapper:komapper-starter:$komapperVersion")
+  val komapperVersion = "0.15.2"
+  implementation("org.komapper:komapper-starter-jdbc:$komapperVersion")
+  implementation("org.komapper:komapper-dialect-h2-jdbc:$komapperVersion")
   ksp("org.komapper:komapper-processor:$komapperVersion")
+}
+
+application {
+  mainClass.set("org.komapper.quickstart.ApplicationKt")
 }
 ```
 
-The version number of `komapper-starter` and `komapper-processor` must be same.
-Note that komapper-processor must be defined with `ksp` keyword.
+In the `dependencies` block, there are 3 modules.
+Note they have same version number.
 
-## Try it out!
+komapper-starter-jdbc module
+: is necessary and useful module for JDBC
 
-We create the application that connects to H2 Database.
+komapper-dialect-h2-jdbc module
+: is required to access H2 Database Engine
+
+komapper-processor module
+: generates code at compile-time using [Kotlin Symbol Processing API](https://github.com/google/ksp)
 
 ### Source code
 
-First, create an entity class and its mapping definition:
+First, create an entity class and its mapping definition class:
 
 ```kotlin
 data class Employee(
@@ -131,23 +125,23 @@ fun main() {
 }
 ```
 
-### Build the application
+### Build
 
-Run the following command:
+To build your application, execute the following command:
 
 ```sh
-$ ./grdlew build
+$ gradle build
 ```
 
 Check the `build/generated/ksp/main/kotlin` directory.
-KSP outputs generated code to that directory.
+Kotlin Symbol Processing API outputs generated code to that directory.
 
-### Run the application
+### Run
 
-Run the following command:
+To run your application, execute the following command:
 
 ```sh
-$ ./grdlew run
+$ gradle run
 ```
 
 You can see the following outputs in your console:
@@ -166,3 +160,6 @@ Notice that the ID and timestamp values are set automatically.
 
 To get complete code,
 see https://github.com/komapper/komapper-quickstart
+
+In the above repository, Gradle Wrapper is available.
+So you can execute `./gradlew build` and `./gradlew run` instead of `gradle build` and `gradle run`.
