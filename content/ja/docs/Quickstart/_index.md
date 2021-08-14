@@ -3,7 +3,7 @@ title: "Quickstart"
 linkTitle: "Quickstart"
 weight: 2
 description: >
-  とりあえず動かすための簡単な説明
+  小さなアプリケーションの作成と実行
 ---
 
 ## 概要
