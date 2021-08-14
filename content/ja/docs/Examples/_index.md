@@ -2,10 +2,13 @@
 title: "Examples"
 linkTitle: "Examples"
 weight: 3
-date: 2017-01-05
 description: >
-  JDBC接続、R2DBC接続、Spring Boot連携、コード生成など様々なコード例
+  いくつかのコード例
 ---
+
+## 概要
+
+JDBC接続、R2DBC接続、Spring Boot連携、データベーススキーマを使ったコード生成、などの例を示します。
 
 ## 必要要件
 
@@ -85,4 +88,4 @@ MySQLからもPostgreSQLからも生成する場合は次のコマンドを実�
 $ ./gradlew :codegen:komapperGenerator
 ```
 
-生成コードは `codgen/src` の下に出力されます。
+生成コードは `codgen/src/main/kotlin` の下に出力されます。
