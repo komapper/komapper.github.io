@@ -6,6 +6,10 @@ description: >
   Komapperの設定、ビルド、実行について最小の説明
 ---
 
+## 概要
+
+H2 Database EngineにJDBCで接続するアプリケーションを作成します。
+
 ## 必要要件
 
 - JDK 8、もしくはそれ以降のバージョン
@@ -19,9 +23,11 @@ JDKとGradleをインストールしてください。
 [sdkman](https://sdkman.io/) を使ってインストールすることをお勧めします。
 {{< /alert >}}
 
-## セットアップ
+## アプリケーションの作成
 
-GradleのビルドスクリプトをKotlin DSLを使って書きます。
+### ビルドスクリプト
+
+ビルドスクリプトをGradle Kotlin DSLを使って書きます。
 
 以下のコードをbuild.gradle.ktsに記述します。
 
@@ -51,13 +57,18 @@ application {
 IDEで動作を確認するには追加のコードが必要ですがここでは省略します。
 詳細は本ページの最後に示すリンク先のリポジトリを確認ください。
 
-`komapper-starter`モジュール、`komapper-dialect-h2-jdbc`モジュール、`komapper-processor`モジュールのバージョンは同一でなければいけません。
-また`komapper-processor`モジュールは「ksp」というキーワードを使って定義されていることに注意してください。
-「ksp」は  [Kotlin Symbol Processing API](https://github.com/google/ksp) のプラグインが提供する機能で、コンパイル時のコード生成に必要です。
+dependenciesブロックでは3つの依存モジュールを宣言していますが、いずれも同一のバージョンであることに注意してください。
+以下にモジュールごとの説明をします。
 
-## アプリケーションの作成
+komapper-starter-jdbc モジュール
+: Komapperを使ったJDBC接続に必要かつ便利なモジュール一式をまとめたモジュールです。
 
-ここではH2データベースにJDBCで接続するアプリケーションを作成します。
+komapper-dialect-h2-jdbc モジュール
+: H2 Database Engineに接続するために必要なモジュールです。
+
+komapper-processor モジュール
+: コンパイル時にコード生成を行うモジュールです。`ksp`というキーワードを使って宣言されていることに注意してください。
+`ksp` は [Kotlin Symbol Processing API](https://github.com/google/ksp) のプラグインが提供する機能でコンパイル時のコード生成に必要です。
 
 ### ソースコード 
 
@@ -130,7 +141,7 @@ $ gradle build
 コマンド実行後、`build/generated/ksp/main/kotlin`ディレクトリを確認してください。
 Kotlin Symbol Processing APIによって生成されたコードが存在することがわかります。
 
-### アプリケーションの実行
+### 実行
 
 アプリケーションを動かすには次のGradleコマンドを実行します。
 
