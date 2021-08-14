@@ -175,6 +175,7 @@ val komapperVersion: String by project
 
 dependencies {
     implementation("org.komapper:komapper-spring-boot-starter-jdbc:$komapperVersion")
+    implementation("org.komapper:komapper-dialect-h2-jdbc:$komapperVersion")
 }
 ```
 
