@@ -6,7 +6,7 @@ description: >
   サーバーサイドKotlinのためのシンプルでパワフルなSQLマッパー
 ---
 
-## Komapperとは？
+## Komapperとは？ {#what-is-it}
 
 KomapperはKotlin 1.5以上に対応したサーバーサイド向けのSQLマッピングライブラリーです。
 
@@ -18,7 +18,7 @@ Komapperにはいくつかの強みがあります。
 - Value Classのサポート
 - Spring Bootのサポート
 
-### JDBCとR2DBCのサポート
+### JDBCとR2DBCのサポート {#support-for-both-jdbc-and-r2dbc}
 
 Komapperは [JDBC](https://jcp.org/en/jsr/detail?id=221) もしくは
 [R2DBC](https://r2dbc.io/) を用いてデータベースにアクセスできます。
@@ -88,7 +88,7 @@ fun main() = runBlocking {
 動作する完全なコードについては [komapper-examples](https://github.com/komapper/komapper-examples)
 リポジトリ直下のconsole-jdbcとconsole-r2dbcのサブプロジェクトを参照ください。
 
-### コンパイル時のコード生成
+### コンパイル時のコード生成 {#code-generation-at-compile-time}
 
 Komapperは [Kotlin Symbol Processing API](https://github.com/google/ksp)
 を使ってコンパイル時にデータベースアクセスに必要なメタモデル（テーブルやカラムの情報）をKotlinのソースコードとして生成します。
@@ -125,7 +125,7 @@ val a = AddressDef.meta
 val query = EntityDsl.from(e).where { a.street eq "STREET 101" }.orderBy(a.id)
 ```
 
-### イミュータブルなクエリ
+### イミュータブルなクエリ {#immutable-and-composable-queries}
 
 Komapperのクエリは実質的にイミュータブルです。
 状態の共有に伴う不具合を心配することなく安全に再利用できます。
@@ -147,7 +147,7 @@ db.runQuery { query2 }
 db.runQuery { query3 }
 ```
 
-### Value Classのサポート
+### Value Classのサポート {#support-for-kotlin-value-classes}
 
 Kotlin 1.5から導入されたValue Classをエンティティクラスのプロパティとして利用できます。 利用に当たって特別な設定は不要です。
 
@@ -163,7 +163,7 @@ data class EmployeeDef(@KomapperId @KomapperAutoIncrement val id: Nothing) {
 }
 ```
 
-### Spring Bootのサポート
+### Spring Bootのサポート {#easy-spring-boot-integration}
 
 KomapperはSpring Bootとの組み合わせを容易にするstarterを提供します。
 
@@ -182,7 +182,7 @@ dependencies {
 動作する完全なコードについては [komapper-examples](https://github.com/komapper/komapper-examples)
 リポジトリ直下のspring-boot-jdbcとspring-boot-r2dbcのサブプロジェクトを参照ください。
 
-## サポートするデータベース
+## サポートするデータベース {#supported-database}
 
 現在、下記の4つのデータベースをサポートしています。
 
@@ -195,7 +195,7 @@ dependencies {
 
 バージョンはサポートする最小バージョンを表していますが、より小さいバージョンでも動作することがあります。
 
-## 次に見るべきドキュメント
+## 次に見るべきドキュメント {#where-should-i-go-next}
 
 * [Quickstart]({{< relref "../Quickstart" >}})
 * [Examples]({{< relref "../Examples" >}})

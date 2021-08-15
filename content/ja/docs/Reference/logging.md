@@ -6,13 +6,13 @@ description: >
   ロギング
 ---
 
-## 概要
+## 概要 {#overview}
 
 KomapperはSQLやトランザクションに関するログを出力します。
 
 出力先のデフォルトは標準出力ですが変更可能です。
 
-## ログカテゴリ
+## ログカテゴリ {#log-category}
 
 Komapperが出力するログのカテゴリは以下に示す4つです。
 
@@ -53,7 +53,7 @@ The transaction "83d5c2e5-8d3b-4a45-a5bb-215f846a0327" has committed.
 このカテゴリは他のどのカテゴリにも属さないログを表します。
 デフォルトでは利用されていません。
 
-## SLF4Jの利用
+## SLF4Jの利用 {#slf4j}
 
 [SLF4J](http://www.slf4j.org/) を利用してログ出力するにはkomapper-slf4jモジュールをGradleの依存関係の宣言に含めます。
 
@@ -81,7 +81,7 @@ Komapperが提供する各種starterモジュールはSLF4JとLogbackの設定�
 starterモジュールを使う場合、上記の設定は不要です。
 {{< /alert >}}
 
-### LogbackでSQLのログ出力をする場合の設定例
+### LogbackでSQLのログ出力をする場合の設定例 {#logback-example}
 
 次のようなlogback.xmlをsrc/main/resourcesの下に配置すると、バインド変数`?`が含まれた形式のSQLがコンソールに出力されます。
 

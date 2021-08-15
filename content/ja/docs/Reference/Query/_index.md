@@ -6,7 +6,7 @@ description: >
   クエリ
 ---
 
-## 概要
+## 概要 {#overview}
 
 Komapperではクエリの生成と実行は分離されています。
 クエリの生成は各種のDSLが担い、実行はJDBCやR2DBCを表すDatabaseインスタンスが担います。
@@ -26,7 +26,7 @@ val result = db.runQuery { query }
 - Script DSL
 - Schema DSL
 
-## 子ページで示すサンプルコードについて
+## 子ページで示すサンプルコードについて {#about-sample-code}
 
 下記のエンティティ定義、マッピング定義、変数が存在することを前提に説明をします。
 

@@ -6,7 +6,7 @@ description: >
   トランザクション
 ---
 
-## 概要
+## 概要 {#overview}
 
 KomapperはJDBCやR2DBCのConnectionが持つトランザクション機能をラップした高レベルAPIを提供します。
 
@@ -14,8 +14,6 @@ KomapperはJDBCやR2DBCのConnectionが持つトランザクション機能を�
 Spring Frameworkなどトランザクション機能を提供するフレームワークと組み合わせてKomapperを使う場合
 このページで説明するAPIを使ってはいけません。
 {{< /alert >}}
-
-### 依存関係の宣言
 
 このAPIを使うには専用のモジュールをGradleの依存関係に宣言します。
 
@@ -48,7 +46,7 @@ Komapperが提供するkomapper-starter-jdbcやkomapper-starter-r2dbcモジュ�
 上述のトランザクション用モジュールを依存関係に宣言する場合、全てのデータベースアクセスはトランザクション内で実行する必要があります。
 {{< /alert >}}
 
-## トランザクションの制御
+## トランザクションの制御 {#transaction-control}
 
 Komapperが提供するトランザクション制御のためのAPIはJDBC版とR2DBC版で異なりますが見た目上のインターフェースは統一されています。
 ここでは明らかに異なる部分を除いてJDBC版とR2DBC版を合わせて説明します。
@@ -63,7 +61,7 @@ val db = JdbcDatabase.create("jdbc:h2:mem:example;DB_CLOSE_DELAY=-1")
 val db = R2dbcDatabase.create("r2dbc:h2:mem:///example;DB_CLOSE_DELAY=-1")
 ```
 
-### トランザクションの開始と終了
+### 開始と終了 {#begin-and-end}
 
 JDBC版とR2DBC版のそれぞれのモジュールに定義された`withTransaction`拡張関数の呼び出すことでトランザクションを開始できます。
 
@@ -96,7 +94,7 @@ db.withTransaction(
 
 ロールバックの条件に合致しない場合コミットされます。
 
-### 明示的なロールバック
+### 明示的なロールバック {#explicit-rollback}
 
 `withTransaction`拡張関数に渡されたラムダ式の中で`setRollbackOnly`関数を呼び出すと`withTransaction`拡張関数終了時にロールバックが実行されます。
 
@@ -120,7 +118,7 @@ db.withTransaction {
 }
 ```
 
-### 新規トランザクションの開始と終了
+### 新規トランザクションの開始と終了 {#begin-and-end-of-new-transaction}
 
 すでに開始されたトランザクションの中で別のトランザクションを新しく開始するには`withTransaction`拡張関数に渡されたラムダ式の中で`requiresNew`関数を呼び出します。
 

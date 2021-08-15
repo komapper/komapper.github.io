@@ -6,15 +6,15 @@ description: >
   いくつかのコード例
 ---
 
-## 概要
+## 概要 {#overview}
 
 JDBC接続、R2DBC接続、Spring Boot連携、データベーススキーマを使ったコード生成、などの例を示します。
 
-## 必要要件
+## 必要要件 {#prerequisites}
 
 - JDK 8、もしくはそれ以降のバージョン
 
-## リポジトリの取得
+## リポジトリの取得 {#clone}
 
 [komapper/komapper-examples](https://github.com/komapper/komapper-examples)
 をクローンしてください。
@@ -27,9 +27,9 @@ $ git clone https://github.com/komapper/komapper-examples.git
 $ cd komapper-examples
 ```
 
-## サンプルコードの動かし方
+## サンプルコードの動かし方 {#try-it-out}
 
-### コンソールアプリケーション
+### コンソールアプリケーション {#console-applications}
 
 JDBC版のアプリケーションを動かすには次のコマンドを実行します。
 
@@ -43,7 +43,7 @@ R2DBC版のアプリケーションを動かすには次のコマンドを実行
 $ ./gradlew :console-r2dbc:run
 ```
 
-### Spring Bootを使ったWebアプリケーション
+### Spring Bootを使ったWebアプリケーション {#spring-boot-web-applications}
 
 JDBC版のアプリケーションを動かすには次のコマンドを実行します。
 
@@ -63,7 +63,7 @@ JSONで返されたデータがブラウザ上に表示されます。
 データを追加するには `http://localhost:8080/?text=Hi` のようにクエリパラメーターでデータを渡します。
 再度 `http://localhost:8080` を開くと追加されたデータと合わせて一覧されます。
 
-### データベースを使ったコード生成
+### データベースを使ったコード生成 {#code-generation-from-databases}
 
 Komapperはデータベースのメタデータからエンティティクラスのソースコードを生成するGradleプラグインを提供します。
 

@@ -6,7 +6,7 @@ description: >
   方言
 ---
 
-## 概要
+## 概要 {#overview}
 
 方言はデータベースやドライバの差異を吸収します。
 方言の代表的な機能はKotlinとデータベースの型の対応関係を解決することです。
@@ -222,7 +222,7 @@ val dialect = MySqlR2dbcDialect()
 
 {{% pageinfo %}} Under Construction {{% /pageinfo %}}
 
-## PostgreSQL -JDBC
+## PostgreSQL - JDBC
 
 利用するにはGradleの依存関係の宣言で次のように記述します。
 

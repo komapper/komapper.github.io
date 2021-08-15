@@ -14,6 +14,10 @@ We have the following examples:
 - Spring Boot web applications
 - Code generation from databases
 
+## Prerequisites
+
+- JDK 8 or later
+
 ## Clone
 
 To run locally, clone the [komapper/komapper-examples](https://github.com/komapper/komapper-examples) repository:

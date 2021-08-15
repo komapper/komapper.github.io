@@ -6,7 +6,7 @@ description: >
   スターター
 ---
 
-## 概要
+## 概要 {#overview}
 
 Starterモジュールを使うとKomapperを使ったプロジェクトを簡単に始められます。
 Starterモジュールにはいくつかの種類があります。
@@ -15,7 +15,7 @@ Starterモジュールにはいくつかの種類があります。
 必要最低限の依存ライブラリで動作させたい場合はStarterライブラリを用いない方が良いでしょう。
 {{< /alert >}}
 
-## シンプルなスターター
+## シンプルなスターター {#simple-starter}
 
 ### komapper-starter-jdbc
 
@@ -41,7 +41,7 @@ dependencies {
 }
 ```
 
-## Spring Boot連携のためのスターター
+## Spring Boot連携のためのスターター {#spring-boot-starter}
 
 ### komapper-spring-boot-starter-jdbc
 
@@ -58,7 +58,7 @@ dependencies {
 このスターターを使う上で特別な設定は不要です。
 Spring Bootの仕様に従ってJDBCの接続文字列をapplication.propertiesに記述すれば動きます。
 
-```properties
+```
 spring.datasource.url=jdbc:h2:mem:example-spring-boot;DB_CLOSE_DELAY=-1
 ```
 
@@ -77,6 +77,6 @@ dependencies {
 このスターターを使う上で特別な設定は不要です。
 Spring Bootの仕様に従ってR2DBCの接続文字列をapplication.propertiesに記述すれば動きます。
 
-```properties
+```
 spring.r2dbc.url=r2dbc:h2:mem:///example;DB_CLOSE_DELAY=-1
 ```

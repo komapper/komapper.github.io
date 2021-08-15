@@ -6,16 +6,16 @@ description: >
   データベース
 ---
 
-## 概要
+## 概要 {#overview}
 
 KomapperでデータベースにアクセスするためにはDatabaseインスタンスが必要です。
 Databaseインスタンスはトランザクションの制御やクエリの実行を担当します。
 
-## Databaseインスタンスの生成
+## Databaseインスタンスの生成 {#instantiation}
 
 Databaseインスタンスの生成方法はJDBCを使う場合とR2DBCを使う場合で異なります。
 
-### JDBCを使う場合
+### JDBCを使う場合 {#instantiation-for-jdbc}
 
 URLから生成する場合は次のように記述します。
 
@@ -48,7 +48,7 @@ val db = JdbcDatabase.create(
 
 - [Dialect]({{< relref "Dialect" >}})
 
-### R2DBCを使う場合
+### R2DBCを使う場合 {#instantiation-for-r2dbc}
 
 URLから生成する場合は次のように記述します。
 
@@ -84,9 +84,9 @@ val db = R2dbcDatabase.create(
 
 - [Dialect]({{< relref "dialect.md" >}})
 
-## Databaseインスタンスの利用
+## Databaseインスタンスの利用 {#usage}
 
-### トランザクションの制御
+### トランザクションの制御 {#transaction-control}
 
 Databaseインスタンスの`withTransaction`拡張関数でトランザクションを制御します。
 `withTransaction`拡張関数にはトランザクション内で処理したいロジックをラムダ式として渡します。
@@ -99,7 +99,7 @@ db.withTransaction {
 
 詳細は [Transaction]({{< relref "transaction.md" >}}) を参照ください。
 
-### クエリの実行
+### クエリの実行 {#query-execution}
 
 Databaseインスタンスの`runQuery`関数を呼び出すことでクエリを実行できます。
 

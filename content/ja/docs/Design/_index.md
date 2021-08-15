@@ -6,14 +6,16 @@ description: >
   Komapperの開発者に向けた設計指針
 ---
 
+## 概要 {#overview}
+
 本ドキュメントは、[nakamura-to](https://github.com/nakamura-to)
 が自身を含めたKomapperの開発者に対してKomapperの設計指針を示すものである。
 
-## 目的
+## 目的 {#purpose}
 
 KomapperはデータベースアクセスのためのKotlin向け高レベルAPIを提供する。
 
-## 背景
+## 背景 {#background}
 
 JavaとKotlinを比べるとKotlinは以下の魅力を持ちKotlinを使いたいモチベーションとなり得る。
 
@@ -30,14 +32,14 @@ Kotlinの一部機能を利用できないもしくは利用のために追加�
 また、Javaには多くのデータベースアクセスライブラリがあるが
 Kotlinの言語仕様を最大限利用することでより使いやすいAPIの作成が可能であるように思われる。
 
-## スコープ
+## スコープ {#scope}
 
 Komapperが動作する環境はサーバーサイドである。
 
 データベース接続にはJDBC及びR2DBCのドライバを用いる。
 逆に言えば、ドライバが提供されていないデータベースはサポート対象としない。
 
-## 既存のものとの相違点
+## 既存のものとの相違点 {#differences-from-other-database-libraries}
 
 2021年7月現在、Kotlinで作られたデータベースアクセスライブラリでよく使われていると思われるものは以下のプロダクトである。
 
@@ -53,7 +55,7 @@ Komapperが動作する環境はサーバーサイドである。
 
 {{< alert color="warning" title="補足" >}}ExposedもKtormもR2DBCサポートは検討しているようだがまだ実装されていないと思われる。{{< /alert >}}
 
-## アーキテクチャの選択
+## アーキテクチャの検討 {#architectural-considerations}
 
 主な検討項目は以下の通りである。
 
@@ -64,7 +66,7 @@ Komapperが動作する環境はサーバーサイドである。
 - 疎結合なアーキテクチャ
 - キャッシュ
 
-### コンパイル時のコード生成
+### コンパイル時のコード生成 {#compile-time-code-generation}
 
 実行時にリフレクション呼び出しやデータベースのメタデータ読み取りを避けるために
 [Kotlin Symbol Processing API](https://github.com/google/ksp) を使ってコンパイル時にコード生成を行う。
@@ -85,14 +87,14 @@ kaptは生成したJavaのスタブに注釈処理を実行する仕組みであ
 また単純に処理速度が遅いという問題も聞かれる。
 そのためkaptは選択肢から外した。
 
-### イミュータブルなデータモデル
+### イミュータブルなデータモデル {#immutable-data-model}
 
 KomapperではエンティティクラスはData Classとして定義することを求める。
 
 一般的にイミュータブルなデータモデルを使った方が不具合が起きにくく、
 KotlinにおいてイミュータブルなデータモデルはData Classで定義するのが通例であるからである。
 
-### データモデルに対するアノテーション
+### データモデルに対するアノテーション {#annotations-to-data-model}
 
 エンティティクラスのようなデータモデルは様々な場所で利用されるので特定のライブラリのアノテーションに依存したくないという意見を聞く。
 
@@ -117,7 +119,7 @@ data class AddressDef(
 }
 ```
 
-### クエリの構築と実行の分離
+### クエリの構築と実行の分離 {#separation-of-query-construction-and-execution}
 
 JDBCとR2DBCのそれぞれに対応したAPIにおいて同一のクエリを受け取れるようにしたい。
 そのためクエリの構築と実行はAPIとして分離した設計とする。
@@ -137,7 +139,7 @@ jdbcDb.runQuery { query }
 r2dbcDb.runQuery { query }
 ```
 
-### 疎結合なアーキテクチャ
+### 疎結合なアーキテクチャ {#loosely-coupled-architecture}
 
 Komapperの利用にあたっては様々な状況を想定している。
 
@@ -149,19 +151,19 @@ Komapperの利用にあたっては様々な状況を想定している。
 上述の状況において利用するクラスのみをロードできるようにライブラリレベルのモジュール分割を細かく行い、
 切り出した別ライブラリのクラスをロードするには [ServiceLoader](https://docs.oracle.com/javase/8/docs/api/?java/util/ServiceLoader.html) を用いる。
 
-### キャッシュ
+### キャッシュ {#cache}
 
 複雑さを避けるためデータベースから取得したデータのキャッシュは基本的に行わない。
 
 例外的にIDの生成に使うシーケンスの値はキャッシュし値の増分はKomapperの中で行う。
 
-## テスト自動化
+## テスト自動化 {#test-automation}
 
 [Testcontainers](https://www.testcontainers.org/) を用いてサポートする全てのデータベースに対してテストを実施する。
 
 テストはプルリクエストを受け付けるたびもしくはmainブランチにマージするたびにGitHub Actionsで実行する。
 
-## リリース自動化
+## リリース自動化 {#release-automation}
 
 GitHub Actionsのワークフローで下記のようなリリース作業は全て自動化する。
 
@@ -171,7 +173,7 @@ GitHub Actionsのワークフローで下記のようなリリース作業は全
 - リリースノートの作成
 - リリースのアナウンス
 
-## 既知の問題や懸念事項
+## 既知の問題や懸念事項 {#known-issues-and-concerns}
 
 - R2DBCのSPIと各ドライバの実装がまだ安定していない
   - しばらくメンテナンスされていないようなドライバもあり継続性が心配である
