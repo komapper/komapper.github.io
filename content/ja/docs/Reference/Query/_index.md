@@ -6,29 +6,7 @@ description: >
   クエリ
 ---
 
-## 概要 {#overview}
-
-Komapperではクエリの生成と実行は分離されています。
-クエリの生成は各種のDSLが担い、実行はJDBCやR2DBCを表すDatabaseインスタンスが担います。
-
-```kotlin
-// create a query
-val query = EntityDsl.from(a)
-// run the query
-val result = db.runQuery { query }
-```
-
-本ページの子ページでは、クエリの生成を担う以下のDSLとその構成要素である式について説明します。
-
-- Entity DSL
-- SQL DSL
-- Template DSL
-- Script DSL
-- Schema DSL
-
-## 子ページで示すサンプルコードについて {#about-sample-code}
-
-下記のエンティティ定義、マッピング定義、変数が存在することを前提に説明をします。
+本ページの子ページでは、下記のエンティティ定義、マッピング定義、変数が存在することを前提に説明をします。
 
 ```kotlin
 data class Address(

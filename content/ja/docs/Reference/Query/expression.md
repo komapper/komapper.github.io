@@ -11,20 +11,6 @@ description: >
 Entity DSLとSQL DSLはいくつかの式を組み合わせてクエリを生成します。
 ここでは式の要素である演算子や関数を説明します。
 
-## 宣言 {#declaration}
-
-Entity DSLとSQL DSLでは、例えば`where`関数や`having`関数に検索条件を表すラムダ式を渡しますが、
-Komapperではこれらのラムダ式のことを宣言と呼びます。
-
-宣言には以下のものがあります。
-
-- Having宣言
-- On宣言
-- Set宣言
-- Values宣言
-- When宣言
-- Where宣言
-
 ## 比較演算子 {#comparison-operator}
 
 次の宣言の中で利用できます。
