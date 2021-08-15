@@ -12,6 +12,8 @@ Komapperでは、データベースのテーブルに対応するKotlinクラス
 
 エンティティクラスをテーブルにマッピングさせるには別途アノテーションを用いたマッピング定義が必要です。
 
+マッピング定義はコンパイル時に解析されその結果がメタモデルとなりメタモデルがクエリの構築や実行で利用されます。
+
 ## エンティティクラスの定義 {#entity-class-definition}
 
 エンティティクラスは次の要件を満たさなければいけません。
@@ -44,6 +46,8 @@ data class Address(
   val updatedAt: LocalDateTime? = null,
 )
 ```
+
+プロパティの型（Kotlinの型）とカラムの型（データベースの型）の対応関係は [Dialect]({{< relref "Dialect" >}}) で定義されます。
 
 ## エンティティクラスのマッピング定義 {#mapping-definition}
 
@@ -136,8 +140,7 @@ data class AddressDef(
 
 #### @KomapperTable
 
-エンティティクラスとマッピングするテーブルの名称を明示的に指定します。
-このアノテーションが存在しない場合はエンティティクラスの単純名と同名のテーブルにマッピングされます。
+エンティティクラスとマッピングするテーブルの名前を明示的に指定します。
 
 ```kotlin
 @KomapperEntityDef(Address::class)
@@ -150,6 +153,11 @@ data class AddressDef(
 `catalog`プロパティや`schema`プロパティにはテーブルが属するカタログやスキーマの名前を指定できます。
 
 `alwaysQuote`プロパティに`true`を設定すると生成されるSQLの識別子が引用符で囲まれます。
+
+このアノテーションでテーブルの名前を指定しない場合、アノテーション処理の`komapper.namingStrategy`オプションに従って名前が解決されます。
+以下のドキュメントも参照ください。
+
+- [オプション]({{< relref "#annotation-processing-options" >}})
 
 ### プロパティに付与するアノテーション {#annotation-list-for-property}
 
@@ -236,8 +244,7 @@ val id: Int
 
 #### @KomapperColumn
 
-プロパティとマッピングするカラムの名称を明示的に指定します。
-このアノテーションが存在しない場合はプロパティの単純名と同名のカラムにマッピングされます。
+プロパティとマッピングするカラムの名前を明示的に指定します。
 
 ```kotlin
 @KomapperColumn(name = "ADDRESS_ID", alwaysQuote = true)
@@ -246,11 +253,67 @@ val id: Nothing
 
 `alwaysQuote`プロパティに`true`を設定すると生成されるSQLの識別子が引用符で囲まれます。
 
+このアノテーションでカラムの名前を指定しない場合、アノテーション処理の`komapper.namingStrategy`オプションに従って名前が解決されます。
+以下のドキュメントも参照ください。
+
+- [オプション]({{< relref "#annotation-processing-options" >}})
+
 #### @KomapperIgnore
 
 マッピングの対象外であることを表します。
 
-## プロパティとカラムの型のマッピング {#data-type-mapping}
+## アノテーション処理 {#annotation-processing}
 
-プロパティの型（Kotlinの型）とカラムの型（データベースの型）の対応関係は [Dialect]({{< relref "Dialect" >}}) で定義されます。
+Komapperはコンパイル時にエンティティクラスのマッピング定義に付与されたアノテーションを処理し、結果をメタモデルのソースコードとして生成します。
+アノテーションの処理とコードの生成には [Kotlin Symbol Processing API](https://github.com/google/ksp) (KSP)を利用します。
 
+KSPを実行するには、KSPのGradleプラグインの設定と下記のGradleの依存関係の宣言が必要です。
+
+```kotlin
+val komapperVersion: String by project
+dependencies {
+  ksp("org.komapper:komapper-processor:$komapperVersion")
+}
+```
+
+`komapper-processor`モジュールにはKSPを利用したKomapperのアノテーションプロセッサが含まれます。
+
+上記設定後、Gradleのbuildタスクを実行すると`build/generated/ksp/main/kotlin`ディレクトリ以下にコードが生成されます。
+
+### オプション {#annotation-processing-options}
+
+オプション指定によりアノテーションプロセッサの挙動を変更できます。
+利用可能なオプションは以下の3つです。
+
+komapper.prefix
+: 生成されるメタモデルクラスのプレフィックス。デフォルト値は`_`（アンダースコア）。
+
+komapper.suffix
+: 生成されるメタモデルクラスのサフィックス。デフォルト値は空文字。
+
+komapper.namingStrategy
+: Kotlinのエンティクラスとプロパティからデータベースのテーブルとカラムの名前をどう解決するのかの戦略。
+値には`implicit`、`lower_snake_case`、`UPPER_SNAKE_CASE`のいずれかを選択でき、デフォルト値は`implicit`。
+解決されたデータベースのテーブルとカラムの名前は生成されるメタモデルのコードの中に含まれます。
+なお、`@KomapperTable`や`@KomapperColumn`で名前が指定される場合この戦略で決定される名前よりも優先されます。
+
+`komapper.namingStrategy`オプションに指定可能な値の定義は次の通りです。
+
+implicit
+: エンティティクラスやプロパティの名前をそのままテーブルやカラムの名前とする。
+
+lower_snake_case
+: エンティティクラスやプロパティの名前をキャメルケースからスネークケースに変換した上で全て小文字にしテーブルやカラムの名前とする。
+
+UPPER_SNAKE_CASE
+: エンティティクラスやプロパティの名前をキャメルケースからスネークケースに変換した上で全て大文字にしテーブルやカラムの名前とする。
+
+オプションを指定するにはGradleのビルドスクリプトで次のように記述します。
+
+```kotlin
+ksp {
+  arg("komapper.prefix", "")
+  arg("komapper.suffix", "Metamodel")
+  arg("komapper.namingStrategy", "UPPER_SNAKE_CASE")
+}
+```
