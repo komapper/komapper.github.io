@@ -58,8 +58,8 @@ Komapperにおけるクエリは以下のクラスのいずれかもしくは両
 val q1: Query<Address> = EntityDsl.insert(a).single(Address(16, "STREET 16", 0))
 val q2: Query<Address> = EntityDsl.insert(a).single(Address(17, "STREET 17", 0))
 val q3: Query<List<Address>> = EntityDsl.from(a).where { a.addressId inList listOf(16, 17) }
-val q4: Query<List<Address>> = q1 + q2 + q3
-val list: List<Address> = db.runQuery { q4 }
+val query: Query<List<Address>> = q1 + q2 + q3
+val list: List<Address> = db.runQuery { query }
 /*
 insert into ADDRESS (ADDRESS_ID, STREET, VERSION) values (?, ?, ?)
 insert into ADDRESS (ADDRESS_ID, STREET, VERSION) values (?, ?, ?)
@@ -72,11 +72,11 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADD
 `flatMap`関数を使うと、1番目のクエリの実行結果を受け取って2番目のクエリを実行し2番目の結果を返すクエリを構築できます。
 
 ```kotlin
-val q1: Query<Address> = EntityDsl.insert(a).single(Address(16, "STREET 16", 0))
-val q2: Query<List<Employee>> = q1.flatMap { newAddress ->
-    EntityDsl.from(e).where { e.addressId less newAddress.addressId }
+val q1: Query<Address> = EntityDsl.insert(a).single(Address(16, "STREET 16", 0)) // 1st query
+val query: Query<List<Employee>> = q1.flatMap { newAddress ->
+    EntityDsl.from(e).where { e.addressId less newAddress.addressId } // 2nd query
 }
-val list: List<Employee> = db.runQuery { q2 }
+val list: List<Employee> = db.runQuery { query }
 /*
 insert into ADDRESS (ADDRESS_ID, STREET, VERSION) values (?, ?, ?)
 select t0_.EMPLOYEE_ID, t0_.EMPLOYEE_NO, t0_.EMPLOYEE_NAME, t0_.MANAGER_ID, t0_.HIREDATE, t0_.SALARY, t0_.DEPARTMENT_ID, t0_.ADDRESS_ID, t0_.VERSION from EMPLOYEE as t0_ where t0_.ADDRESS_ID < ?
@@ -88,11 +88,11 @@ select t0_.EMPLOYEE_ID, t0_.EMPLOYEE_NO, t0_.EMPLOYEE_NAME, t0_.MANAGER_ID, t0_.
 `flatZip`関数を使うと、1番目のクエリの実行結果を受け取って2番目のクエリを実行し1番目と2番目の結果を`Pair`型で返すクエリを構築できます。
 
 ```kotlin
-val q1: Query<Address> = EntityDsl.insert(a).single(Address(16, "STREET 16", 0))
-val q2: Query<Pair<Address, List<Employee>>> = q1.flatZip { newAddress ->
-    EntityDsl.from(e).where { e.addressId less newAddress.addressId }
+val q1: Query<Address> = EntityDsl.insert(a).single(Address(16, "STREET 16", 0)) // 1st query
+val query: Query<Pair<Address, List<Employee>>> = q1.flatZip { newAddress ->
+    EntityDsl.from(e).where { e.addressId less newAddress.addressId } // 2nd query
 }
-val pair: Pair<Address, List<Employee>> = db.runQuery { q2 }
+val pair: Pair<Address, List<Employee>> = db.runQuery { query }
 /*
 insert into ADDRESS (ADDRESS_ID, STREET, VERSION) values (?, ?, ?)
 select t0_.EMPLOYEE_ID, t0_.EMPLOYEE_NO, t0_.EMPLOYEE_NAME, t0_.MANAGER_ID, t0_.HIREDATE, t0_.SALARY, t0_.DEPARTMENT_ID, t0_.ADDRESS_ID, t0_.VERSION from EMPLOYEE as t0_ where t0_.ADDRESS_ID < ?
