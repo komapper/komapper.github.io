@@ -47,7 +47,7 @@ val query = EntityDsl.from(a).where { a.addressId eq nullable }
 select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_
 ```
 
-### eq
+### eq {#comparison-operator-eq}
 
 ```kotlin
 EntityDsl.from(a).where { a.addressId eq 1 }
@@ -56,7 +56,7 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADD
 */
 ```
 
-### notEq
+### notEq {#comparison-operator-noteq}
 
 ```kotlin
 EntityDsl.from(a).where { a.addressId notEq 1 }
@@ -65,7 +65,7 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADD
 */
 ```
 
-### less
+### less {#comparison-operator-less}
 
 ```kotlin
 EntityDsl.from(a).where { a.addressId less 1 }
@@ -75,7 +75,7 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADD
 
 ```
 
-### lessEq
+### lessEq {#comparison-operator-lesseq}
 
 ```kotlin
 EntityDsl.from(a).where { a.addressId lessEq 1 }
@@ -84,7 +84,7 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADD
 */
 ```
 
-### greater
+### greater {#comparison-operator-greater}
 
 ```kotlin
 EntityDsl.from(a).where { a.addressId greater 1 }
@@ -93,7 +93,7 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADD
 */
 ```
 
-### greaterEq
+### greaterEq {#comparison-operator-greatereq}
 
 ```kotlin
 EntityDsl.from(a).where { a.addressId greaterEq 1 }
@@ -102,7 +102,7 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADD
 */
 ```
 
-### isNull
+### isNull {#comparison-operator-isnull}
 
 ```kotlin
 EntityDsl.from(e).where { e.managerId.isNull() }
@@ -110,7 +110,7 @@ EntityDsl.from(e).where { e.managerId.isNull() }
 select t0_.EMPLOYEE_ID, t0_.EMPLOYEE_NO, t0_.EMPLOYEE_NAME, t0_.MANAGER_ID, t0_.HIREDATE, t0_.SALARY, t0_.DEPARTMENT_ID, t0_.ADDRESS_ID, t0_.VERSION from EMPLOYEE as t0_ where t0_.MANAGER_ID is null
 */
 ```
-### isNotNull
+### isNotNull {#comparison-operator-isnotnull}
 
 ```kotlin
 EntityDsl.from(e).where { e.managerId.isNotNull() }
@@ -119,7 +119,7 @@ select t0_.EMPLOYEE_ID, t0_.EMPLOYEE_NO, t0_.EMPLOYEE_NAME, t0_.MANAGER_ID, t0_.
 */
 ```
 
-### like
+### like {#comparison-operator-like}
 
 ```kotlin
 EntityDsl.from(a).where { a.street like "STREET 1_" }.orderBy(a.addressId)
@@ -128,7 +128,7 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.STR
 */
 ```
 
-### notLike
+### notLike {#comparison-operator-notlike}
 
 ```kotlin
 EntityDsl.from(a).where { a.street notLike "STREET 1_" }.orderBy(a.addressId)
@@ -137,7 +137,7 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.STR
 */
 ```
 
-### startsWith
+### startsWith {#comparison-operator-startswith}
 
 ```kotlin
 EntityDsl.from(a).where { a.street startsWith "STREET 1" }.orderBy(a.addressId)
@@ -146,7 +146,7 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.STR
 */
 ```
 
-### notStartsWith
+### notStartsWith {#comparison-operator-notstartswith}
 
 ```kotlin
 EntityDsl.from(a).where { a.street notStartsWith "STREET 1" }.orderBy(a.addressId)
@@ -155,7 +155,7 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.STR
 */
 ```
 
-### contains
+### contains {#comparison-operator-contains}
 
 ```kotlin
 EntityDsl.from(a).where { a.street contains "T 1" }.orderBy(a.addressId)
@@ -164,7 +164,7 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.STR
 */
 ```
 
-### notContains
+### notContains {#comparison-operator-notcontains}
 
 ```kotlin
 EntityDsl.from(a).where { a.street notContains "T 1" }.orderBy(a.addressId)
@@ -173,7 +173,7 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.STR
 */
 ```
 
-### endsWith
+### endsWith {#comparison-operator-endswith}
 
 ```kotlin
 EntityDsl.from(a).where { a.street endsWith "1" }.orderBy(a.addressId)
@@ -182,7 +182,7 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.STR
 */
 ```
 
-### notEndsWith
+### notEndsWith {#comparison-operator-notendswith}
 
 ```kotlin
 EntityDsl.from(a).where { a.street notEndsWith "1" }.orderBy(a.addressId)
@@ -191,7 +191,7 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.STR
 */
 ```
 
-### between
+### between {#comparison-operator-between}
 
 ```kotlin
 EntityDsl.from(a).where { a.addressId between 5..10 }.orderBy(a.addressId)
@@ -200,7 +200,7 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADD
 */
 ```
 
-### notBetween
+### notBetween {#comparison-operator-notbetween}
 
 ```kotlin
 EntityDsl.from(a).where { a.addressId notBetween 5..10 }.orderBy(a.addressId)
@@ -209,7 +209,7 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADD
 */
 ```
 
-### inList
+### inList {#comparison-operator-inlist}
 
 ```kotlin
 EntityDsl.from(a).where { a.addressId inList listOf(9, 10) }.orderBy(a.addressId.desc())
@@ -235,7 +235,7 @@ select t0_.EMPLOYEE_ID, t0_.EMPLOYEE_NO, t0_.EMPLOYEE_NAME, t0_.MANAGER_ID, t0_.
 */
 ```
 
-### notInList
+### notInList {#comparison-operator-notinlist}
 
 ```kotlin
 EntityDsl.from(a).where { a.addressId notInList (1..9).toList() }.orderBy(a.addressId)
@@ -260,7 +260,7 @@ select t0_.EMPLOYEE_ID, t0_.EMPLOYEE_NO, t0_.EMPLOYEE_NAME, t0_.MANAGER_ID, t0_.
 */
 ```
 
-### inList2
+### inList2 {#comparison-operator-inlist2}
 
 ```kotlin
 EntityDsl.from(a).where { a.addressId to a.version inList2 listOf(9 to 1, 10 to 1) }.orderBy(a.addressId.desc())
@@ -286,7 +286,7 @@ select t0_.EMPLOYEE_ID, t0_.EMPLOYEE_NO, t0_.EMPLOYEE_NAME, t0_.MANAGER_ID, t0_.
 */
 ```
 
-### notInList2
+### notInList2 {#comparison-operator-notinlist2}
 
 ```kotlin
 EntityDsl.from(a).where { a.addressId to a.version notInList2 listOf(9 to 1, 10 to 1) }.orderBy(a.addressId)
@@ -311,7 +311,7 @@ select t0_.EMPLOYEE_ID, t0_.EMPLOYEE_NO, t0_.EMPLOYEE_NAME, t0_.MANAGER_ID, t0_.
 */
 ```
 
-### exists
+### exists {#comparison-operator-exists}
 
 ```kotlin
 EntityDsl.from(e).where {
@@ -327,7 +327,7 @@ select t0_.EMPLOYEE_ID, t0_.EMPLOYEE_NO, t0_.EMPLOYEE_NAME, t0_.MANAGER_ID, t0_.
 */
 ```
 
-### notExists
+### notExists {#comparison-operator-notexists}
 
 ```kotlin
 EntityDsl.from(e).where {
@@ -351,7 +351,7 @@ select t0_.EMPLOYEE_ID, t0_.EMPLOYEE_NO, t0_.EMPLOYEE_NAME, t0_.MANAGER_ID, t0_.
 - When宣言
 - Where宣言
 
-### and
+### and {#logical-operator-and}
 
 宣言の中で式を並べるとAND演算子で連結されます。
 
@@ -381,7 +381,7 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADD
 */
 ```
 
-### or
+### or {#logical-operator-or}
 
 OR演算子で連結したい場合は`or`関数にラムダ式を渡します。
 
@@ -398,7 +398,7 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADD
 */
 ```
 
-### not
+### not {#logical-operator-not}
 
 NOT演算子を使うには`not`関数にラムダ式を渡します。
 
@@ -413,7 +413,6 @@ EntityDsl.from(a).where {
 select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADDRESS_ID > ? and not (t0_.ADDRESS_ID >= ?) order by t0_.ADDRESS_ID asc
 */
 ```
-
 
 ## 算術演算子 {#arithmetic-operator}
 
@@ -479,7 +478,7 @@ select t0_.DEPARTMENT_ID, count(t0_.EMPLOYEE_ID) from EMPLOYEE as t0_ group by t
 */
 ```
 
-### avg
+### avg {#aggregate-function-avg}
 
 ```kotlin
 SqlDsl.from(a).select(avg(a.addressId))
@@ -488,7 +487,7 @@ select avg(t0_.ADDRESS_ID) from ADDRESS as t0_
 */
 ```
 
-### count
+### count {#aggregate-function-count}
 
 SQLの`count(*)`に変換するには`count`関数を引数なしで呼び出します。
 
@@ -508,7 +507,7 @@ select count(t0_.STREET) from ADDRESS as t0_
 */
 ```
 
-### sum
+### sum {#aggregate-function-sum}
 
 ```kotlin
 SqlDsl.from(a).select(sum(a.addressId)).first()
@@ -517,7 +516,7 @@ select sum(t0_.ADDRESS_ID) from ADDRESS as t0_
 */
 ```
 
-### max
+### max {#aggregate-function-max}
 
 ```kotlin
 SqlDsl.from(a).select(max(a.addressId))
@@ -526,7 +525,7 @@ select max(t0_.ADDRESS_ID) from ADDRESS as t0_
 */
 ```
 
-### min
+### min {#aggregate-function-min}
 
 ```kotlin
 SqlDsl.from(a).select(min(a.addressId))

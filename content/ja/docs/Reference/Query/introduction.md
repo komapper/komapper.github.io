@@ -50,7 +50,7 @@ Komapperにおけるクエリは以下のクラスのいずれかもしくは両
 
 クエリは合成できます。
 
-### plus
+### plus {#query-composition-plus}
 
 `+`演算子を使うと、まとめて実行して最後の結果を返すクエリを構築できます。
 
@@ -67,7 +67,7 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADD
 */
 ```
 
-### flatMap
+### flatMap {#query-composition-flatmap}
 
 `flatMap`関数を使うと、1番目のクエリの実行結果を受け取って2番目のクエリを実行し2番目の結果を返すクエリを構築できます。
 
@@ -83,7 +83,7 @@ select t0_.EMPLOYEE_ID, t0_.EMPLOYEE_NO, t0_.EMPLOYEE_NAME, t0_.MANAGER_ID, t0_.
 */
 ```
 
-### flatZip
+### flatZip {#query-composition-flatzip}
 
 `flatZip`関数を使うと、1番目のクエリの実行結果を受け取って2番目のクエリを実行し1番目と2番目の結果を`Pair`型で返すクエリを構築できます。
 
@@ -117,7 +117,7 @@ Komapperではこれらのラムダ式のことを宣言と呼びます。
 
 宣言は合成できます。
 
-### plus
+### plus {#declaration-composition-plus}
 
 `+`演算子を使うと、被演算子の宣言内部に持つ式を順番に実行するような新たな宣言を構築できます。
 
@@ -138,7 +138,7 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADD
 
 `+`演算子はすべての宣言で利用できます。
 
-### and
+### and {#declaration-composition-and}
 
 `and`関数を使うと、宣言を`and`演算子で連結する新たな宣言を構築できます。
 
@@ -160,7 +160,7 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADD
 
 `and`関数は、Having宣言、When宣言、Where宣言に対して適用できます。
 
-### or
+### or {#declaration-composition-or}
 
 `or`関数を使うと、宣言を`or`演算子で連結する新たな宣言を構築できます。
 
