@@ -31,7 +31,8 @@ dependencies {
 
 ## SELECT
 
-検索を実施するには`from`関数に [SQLテンプレート]({{< relref "#sql-template" >}})、`where`関数にSQLテンプレート内で参照したいデータを渡します。
+検索を実施するには`from`関数に [SQLテンプレート]({{< relref "#sql-template" >}})、`where`関数にSQLテンプレート内で利用したいデータを渡します。
+SQLテンプレート内の各種ディレクティブではデータのpublicなメンバを参照できます。
 検索結果を任意の型に変換するために`select`関数にラムダ式を渡します。
 
 ```kotlin
@@ -71,7 +72,8 @@ val query: Query<List<Address>> = TemplateDsl.from(sql).where {
 
 ## EXECUTE
 
-更新系のDMLを実行するには`execute`関数に [SQLテンプレート]({{< relref "#sql-template" >}})、`params`関数にSQLテンプレート内で参照したいデータを渡します。
+更新系のDMLを実行するには`execute`関数に [SQLテンプレート]({{< relref "#sql-template" >}})、`params`関数にSQLテンプレート内で利用したいデータを渡します。
+SQLテンプレート内の各種ディレクティブではデータのpublicなメンバを参照できます。
 
 ```kotlin
 data class Params(val id: Int, val street: String)
@@ -130,7 +132,7 @@ order by name
 {{< /alert >}}
 
 
-### バインド変数ディレクティブ  {#bind-variable-directive}
+### バインド変数ディレクティブ  {#sql-template-bind-variable-directive}
 
 バインド変数は`/*expression*/`のように`/*`と`*/`で囲んで表します。
 `expression`には任意の値を返す式が入ります。
@@ -160,7 +162,7 @@ IN句にタプル形式で値をバインドするには`expression`を`Iterable
 where (name, age) in /*pairs*/(('a', 'b'), ('c', 'd'))
 ```
 
-### リテラル変数ディレクティブ {#literal-variable-directive}
+### リテラル変数ディレクティブ {#sql-template-literal-variable-directive}
 
 リテラル変数は`/*^expression*/`のように`/*^`と`*/`で囲んで表します。
 `expression`には任意の値を返す式が入ります。
@@ -178,7 +180,7 @@ where name = /*^name*/'test'
 where name = 'abc'
 ```
 
-### 埋め込み変数ディレクティブ {#embedded-variable-directive}
+### 埋め込み変数ディレクティブ {#sql-template-embedded-variable-directive}
 
 埋め込み変数は`/*#expression*/`のように`/*#`と`*/`で囲んで表します。
 `expression`には任意の値を返す式が入ります。
@@ -193,7 +195,7 @@ select name, age from person where age > 1 /*# orderBy */
 select name, age from person where age > 1 order by name
 ```
 
-### ifディレクティブ {#if-directive}
+### ifディレクティブ {#sql-template-if-directive}
 
 ifの条件分岐は`/*%if expression*/`で始めて`/*%end*/`で終わります。
 `expression`には真偽値を返す式が入ります。
@@ -214,7 +216,7 @@ ifの条件分岐は`/*%if expression*/`で始めて`/*%end*/`で終わります
 /*%end*/
 ```
 
-### forディレクティブ {#for-directive}
+### forディレクティブ {#sql-template-for-directive}
 
 forを使ったループは`/*%for identifier in expression */`で始めて`/*%end*/`で終わります。
 `expression`には`Iterable`を返す式が入り`identifier`は`Iterable`のそれぞれの要素を表す識別子となります。
@@ -229,3 +231,112 @@ employee_name like /* name */'hoge'
   /*%end */
 /*%end*/
 ```
+
+### 式 {#sql-template-expression}
+
+ディレクティブ内で参照される式の中では以下の機能がサポートされています。
+
+- 演算子の実行
+- プロパティアクセス
+- 関数呼び出し
+- クラス参照
+- 拡張プロパティや拡張関数の利用
+
+#### 演算子 {#sql-template-expression-operator}
+
+次の演算子がサポートされています。意味はKotlinの演算子と同じです。
+
+- `==`
+- `!=`
+- `>=`
+- `<=`
+- `>`
+- `<`
+- `!`
+- `&&`
+- `||`
+
+次のように利用できます。
+
+```kotlin
+/*%if name != null && name.length > 0 */
+  name = /*name*/'test'
+/*%else*/
+  name is null
+/*%end*/
+```
+
+#### プロパティアクセス {#sql-template-expression-property-access}
+
+`.`や`?.`を使ってプロパティにアクセスできます。`?.`はKotlinのsafe call operatorと同じ挙動をします。
+
+```kotlin
+/*%if person?.name != null */
+  name = /*person?.name*/'test'
+/*%else*/
+  name is null
+/*%end*/
+```
+
+#### 関数呼び出し {#sql-template-expression-function-invocation}
+
+関数を呼び出せます。
+
+```kotlin
+/*%if isValid(name) */
+  name = /*name*/'test'
+/*%else*/
+  name is null
+/*%end*/
+```
+
+#### クラス参照 {#sql-template-expression-class-reference}
+
+`@クラスの完全修飾名@`という記法でクラスを参照できます。
+例えば`example.Direction`というenum classに`WEST`という要素がある場合、次のように参照できます。
+
+```kotlin
+/*%if direction == @example.Direction@.WEST */
+  direction = 'west'
+/*%end*/
+```
+
+#### 拡張プロパティと拡張関数 {#sql-template-expression-extensions}
+
+Kotlinが提供する以下の拡張プロパティと拡張関数をデフォルトで利用できます。
+
+- `val CharSequence.lastIndex: Int`
+- `fun CharSequence.isBlank(): Boolean`
+- `fun CharSequence.isNotBlank(): Boolean`
+- `fun CharSequence.isNullOrBlank(): Boolean`
+- `fun CharSequence.isEmpty(): Boolean`
+- `fun CharSequence.isNotEmpty(): Boolean`
+- `fun CharSequence.isNullOrEmpty(): Boolean`
+- `fun CharSequence.any(): Boolean`
+- `fun CharSequence.none(): Boolean`
+
+```kotlin
+/*%if name.isNotBlank() */
+  name = /*name*/'test'
+/*%else*/
+  name is null
+/*%end*/
+```
+
+また、Komapperが定義する以下の拡張関数も利用できます。
+
+- `fun String?.asPrefix(): String?`
+- `fun String?.asInfix(): String?`
+- `fun String?.asSuffix(): String?`
+- `fun String?.escape(): String?`
+
+例えば、asPrefix()を呼び出すと`"hello"`という文字列が`"hello%"`となり前方一致検索で利用できるようになります。
+
+```kotlin
+where name like /*name.asPrefix()*/
+```
+
+同様に`asInfix()`を呼び出すと中間一致検索用の文字列に変換し、`asSuffix()`を呼び出すと後方一致検索用の文字列に変換します。
+
+`escape()`は`"he%llo"`という文字列の特別な意味を持つ意味を`"he\%llo"`のようにエスケープします。
+なお、`asPrefix()`、`asInfix()`、`asSuffix()`は内部でエスケープ処理を実行するので別途`escape()`を呼び出す必要はありません。
