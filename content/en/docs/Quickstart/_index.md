@@ -13,7 +13,7 @@ We show you how to create an application that uses JDBC to access H2 Database En
 ## Prerequisites
 
 - JDK 8 or later
-- Gradle 7.1.1
+- Gradle 7.2
 
 ## Install
 
@@ -33,8 +33,8 @@ Include the following code in your build.gradle.kts:
 ```kotlin
 plugins {
   application
-  id("com.google.devtools.ksp") version "1.5.21-1.0.0-beta07"
-  kotlin("jvm") version "1.5.21"
+  id("com.google.devtools.ksp") version "1.5.30-1.0.0-beta08"
+  kotlin("jvm") version "1.5.30"
 }
 
 repositories {
@@ -42,7 +42,7 @@ repositories {
 }
 
 dependencies {
-  val komapperVersion = "0.15.2"
+  val komapperVersion = "0.16.0"
   implementation("org.komapper:komapper-starter-jdbc:$komapperVersion")
   implementation("org.komapper:komapper-dialect-h2-jdbc:$komapperVersion")
   ksp("org.komapper:komapper-processor:$komapperVersion")

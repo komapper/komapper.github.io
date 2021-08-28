@@ -31,14 +31,14 @@ dependencies {
 
 ## SELECT
 
-検索を実施するには`from`関数に [SQLテンプレート]({{< relref "#sql-template" >}})、`where`関数にSQLテンプレート内で利用したいデータを渡します。
+検索を実施するには`from`関数に [SQLテンプレート]({{< relref "#sql-template" >}})、`bind`関数にSQLテンプレート内で利用したいデータを渡します。
 SQLテンプレート内の各種ディレクティブではデータのpublicなメンバを参照できます。
 検索結果を任意の型に変換するために`select`関数にラムダ式を渡します。
 
 ```kotlin
 data class Condition(val street: String)
 val sql = "select * from ADDRESS where street = /*street*/'test'"
-val query: Query<List<Address>> = TemplateDsl.from(sql).where {
+val query: Query<List<Address>> = TemplateDsl.from(sql).bind {
     Condition("STREET 10")
 }.select { row: Row ->
     Address(
@@ -49,11 +49,11 @@ val query: Query<List<Address>> = TemplateDsl.from(sql).where {
 }
 ```
 
-上述の例では`where`関数に`Condition`クラスのインスタンスを渡していますが、代わりにobject式を渡すこともできます。
+上述の例では`bind`関数に`Condition`クラスのインスタンスを渡していますが、代わりにobject式を渡すこともできます。
 
 ```kotlin
 val sql = "select * from ADDRESS where street = /*street*/'test'"
-val query: Query<List<Address>> = TemplateDsl.from(sql).where {
+val query: Query<List<Address>> = TemplateDsl.from(sql).bind {
     object {
         val street = "STREET 10"
     }
@@ -72,20 +72,20 @@ val query: Query<List<Address>> = TemplateDsl.from(sql).where {
 
 ## EXECUTE
 
-更新系のDMLを実行するには`execute`関数に [SQLテンプレート]({{< relref "#sql-template" >}})、`params`関数にSQLテンプレート内で利用したいデータを渡します。
+更新系のDMLを実行するには`execute`関数に [SQLテンプレート]({{< relref "#sql-template" >}})、`bind`関数にSQLテンプレート内で利用したいデータを渡します。
 SQLテンプレート内の各種ディレクティブではデータのpublicなメンバを参照できます。
 
 ```kotlin
-data class Params(val id: Int, val street: String)
+data class Condition(val id: Int, val street: String)
 val sql = "update ADDRESS set street = /*street*/'' where address_id = /*id*/0"
-val query = Query<Int> = TemplateDsl.execute(sql).params { Params(15, "NY street") }
+val query = Query<Int> = TemplateDsl.execute(sql).bind { Condition(15, "NY street") }
 ```
 
-上述の例では`where`関数に`Params`クラスのインスタンスを渡していますが、代わりにobject式を渡すこともできます。
+上述の例では`bind`関数に`Condition`クラスのインスタンスを渡していますが、代わりにobject式を渡すこともできます。
 
 ```kotlin
 val sql = "update ADDRESS set street = /*street*/'' where address_id = /*id*/0"
-val query = Query<Int> = TemplateDsl.execute(sql).params { object { id = 15, street = "NY street" } }
+val query = Query<Int> = TemplateDsl.execute(sql).bind { object { id = 15, street = "NY street" } }
 ```
 
 ## SQLテンプレート  {#sql-template}

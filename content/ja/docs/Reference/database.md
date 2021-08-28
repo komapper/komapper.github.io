@@ -108,11 +108,11 @@ val query = ...
 val result = db.runQuery { query }
 ```
 
-R2DBCを使っている場合でクエリの型が`org.komapper.core.dsl.query.FlowableQuery`のとき、`runFlowableQuery`関数を実行できます。
+R2DBCを使っている場合でクエリの型が`org.komapper.core.dsl.query.FlowQuery`のとき、`flow`関数を実行できます。
 
 ```kotlin
-val query: FlowableQuery = ...
-val flow = db.runFlowableQuery { query }
+val query: FlowQuery = ...
+val flow = db.flow { query }
 ```
 
 クエリの生成については [Query]({{< relref "query.md" >}}) を参照ください。
