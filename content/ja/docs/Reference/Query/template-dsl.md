@@ -37,10 +37,10 @@ SQLテンプレート内の各種ディレクティブではデータのpublic�
 
 ```kotlin
 data class Condition(val street: String)
+
 val sql = "select * from ADDRESS where street = /*street*/'test'"
-val query: Query<List<Address>> = TemplateDsl.from(sql).bind {
-    Condition("STREET 10")
-}.select { row: Row ->
+val data = Condition("STREET 10")
+val query: Query<List<Address>> = TemplateDsl.from(sql).bind(data).select { row: Row ->
     Address(
         row.asInt("address_id")!!,
         row.asString("street")!!,
@@ -53,11 +53,11 @@ val query: Query<List<Address>> = TemplateDsl.from(sql).bind {
 
 ```kotlin
 val sql = "select * from ADDRESS where street = /*street*/'test'"
-val query: Query<List<Address>> = TemplateDsl.from(sql).bind {
+val query: Query<List<Address>> = TemplateDsl.from(sql).bind(
     object {
         val street = "STREET 10"
     }
-}.select { row: Row ->
+).select { row: Row ->
     Address(
         row.asInt("address_id")!!,
         row.asString("street")!!,
@@ -77,15 +77,17 @@ SQLテンプレート内の各種ディレクティブではデータのpublic�
 
 ```kotlin
 data class Condition(val id: Int, val street: String)
+
 val sql = "update ADDRESS set street = /*street*/'' where address_id = /*id*/0"
-val query = Query<Int> = TemplateDsl.execute(sql).bind { Condition(15, "NY street") }
+val data = Condition(15, "NY street")
+val query = Query<Int> = TemplateDsl.execute(sql).bind(data)
 ```
 
 上述の例では`bind`関数に`Condition`クラスのインスタンスを渡していますが、代わりにobject式を渡すこともできます。
 
 ```kotlin
 val sql = "update ADDRESS set street = /*street*/'' where address_id = /*id*/0"
-val query = Query<Int> = TemplateDsl.execute(sql).bind { object { id = 15, street = "NY street" } }
+val query = Query<Int> = TemplateDsl.execute(sql).bind( object { id = 15, street = "NY street" } )
 ```
 
 ## SQLテンプレート  {#sql-template}
