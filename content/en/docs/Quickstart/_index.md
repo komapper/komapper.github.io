@@ -33,7 +33,7 @@ Include the following code in your build.gradle.kts:
 ```kotlin
 plugins {
   application
-  id("com.google.devtools.ksp") version "1.5.30-1.0.0-beta08"
+  id("com.google.devtools.ksp") version "1.5.30-1.0.0-beta09"
   kotlin("jvm") version "1.5.30"
 }
 
@@ -42,7 +42,7 @@ repositories {
 }
 
 dependencies {
-  val komapperVersion = "0.16.0"
+  val komapperVersion = "0.17.0"
   implementation("org.komapper:komapper-starter-jdbc:$komapperVersion")
   implementation("org.komapper:komapper-dialect-h2-jdbc:$komapperVersion")
   ksp("org.komapper:komapper-processor:$komapperVersion")
