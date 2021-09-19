@@ -118,7 +118,7 @@ github_project_repo = "https://github.com/komapper/komapper"
 github_branch= "main"
 
 # Google Custom Search Engine ID. Remove or comment out to disable search.
-gcs_engine_id = "d72aa9b2712488cc3"
+gcs_engine_id = "c4b340a784facde3d"
 
 # Enable Algolia DocSearch
 algolia_docsearch = false
