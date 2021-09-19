@@ -106,7 +106,7 @@ db.withTransaction {
 }
 ```
 
-すでに`setRollbackOnly`関数を呼び出しかどうかは`isRollbackOnly`関数で確認できます。
+すでに`setRollbackOnly`関数を呼び出したかどうかは`isRollbackOnly`関数で確認できます。
 
 ```kotlin
 db.withTransaction {
