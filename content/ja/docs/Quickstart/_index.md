@@ -34,7 +34,7 @@ JDKとGradleをインストールしてください。
 ```kotlin
 plugins {
   application
-  id("com.google.devtools.ksp") version "1.5.30-1.0.0-beta09"
+  id("com.google.devtools.ksp") version "1.5.30-1.0.0"
   kotlin("jvm") version "1.5.30"
 }
 
