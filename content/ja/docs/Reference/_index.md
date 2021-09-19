@@ -1,7 +1,7 @@
 ---
 title: "Reference"
 linkTitle: "Reference"
-weight: 200
+weight: 4
 description: >
   Komapperが持つ各機能の説明
 ---
