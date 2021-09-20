@@ -8,7 +8,7 @@ description: >
 
 ## What is it?
 
-Komapper is SQL mapping library for Kotlin 1.5 or later.
+Komapper is SQL mapping library for Kotlin 1.5.30 or later.
 
 Komapper has several strengths as follows:
 
