@@ -6,6 +6,8 @@ description: >
   How to contribute to Komapper
 ---
 
+## Overview
+
 Komapper is an open source project and we love getting patches and contributions to make Komapper and its docs even better.
 
 ## Contributing to Komapper

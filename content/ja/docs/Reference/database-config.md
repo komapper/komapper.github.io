@@ -32,7 +32,7 @@ val config: R2dbcDatabaseConfig = object: DefaultR2dbcDatabaseConfig(connectionF
 val db = R2dbcDatabase.create(config)
 ```
 
-## プロパティ
+## プロパティ {#properties}
 
 下記に説明する`JdbcDatabaseConfig`や`R2dbcDatabaseConfig`のプロパティをオーバーライドしたりサービスローダーの仕組みを使うことで挙動をカスタマイズできます。
 

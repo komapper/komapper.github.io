@@ -6,7 +6,7 @@ description: >
   Komapperへ貢献する方法
 ---
 
-## 概要
+## 概要 {#overview}
 
 Komapperはオープンソースプロジェクトです。
 KomapperとKomapperのドキュメンテーションを改善するためのパッチやコントリビューションを歓迎します。
