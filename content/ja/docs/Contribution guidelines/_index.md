@@ -6,7 +6,10 @@ description: >
   Komapperへ貢献する方法
 ---
 
-Komapperはオープンソースプロジェクトであり、Komapperとそのドキュメントをより良くするためのパッチやコントリビューションを歓迎しています。
+## 概要
+
+Komapperはオープンソースプロジェクトです。
+KomapperとKomapperのドキュメンテーションを改善するためのパッチやコントリビューションを歓迎します。
 
 ## Contributing to Komapper
 
@@ -14,20 +17,21 @@ Komapperのソースコードは <https://github.com/komapper/komapper> にあ�
 
 ### Code reviews
 
-プロジェクトメンバーによる投稿を含め、すべての投稿にはレビューが必要です。
-この目的のために、GitHubのプルリクエストを使用しています。
+プロジェクトメンバーによる修正を含め、すべての修正にはレビューが必要です。
+この目的のためにGitHubのプルリクエストを使用します。
 プルリクエストの使い方については、[GitHub Help](https://help.github.com/articles/about-pull-requests/) を参照してください。
 
 ### Creating issues
 
-あるいは、Komapperで検討したいものがある（あるいは期待通りに動かないものを見つけた）が、自分で解決する方法がわからない場合には、
+Komapperで期待通りに動かないものを見つけたが解決する方法がわからない場合は、
 [issue](https://github.com/komapper/komapper/issues) を作成してください。
 
 ## Contributing to these docs
 
-本ドキュメントは、Hugo static site generatorを使用したサイトから提供されます。
+本ドキュメントは [Hugo](https://gohugo.io/) で作成されたサイトから提供されます。
 
-サイトのデプロイメントを管理するためにGitHub Pagesを使用しています。ここでの説明は、GitHubの基本的なワークフローに精通していることを前提としています。
+サイトのデプロイメントを管理するために [GitHub Pages](https://docs.github.com/en/pages) を使用しています。
+ここでの説明はGitHubの基本的なワークフローに精通していることを前提としています。
 
 ### Quick start
 
@@ -36,34 +40,35 @@ Komapperのソースコードは <https://github.com/komapper/komapper> にあ�
 
 ### Updating a single page
 
-ドキュメントを使用しているときに変更したい点を見つけた場合、そのためのショートカットを用意しています。
+ドキュメントを参照しているときに変更したい点を見つけた場合、以下のショートカットが使えます。
 
 1. ページの右上にある **ページの編集** をクリックします。
-3. **Fork this repository and propose changes** または **Update your Fork** をクリックして、編集するプロジェクトの最新版を取得します。フォークの適切なページが編集モードで表示されます。
-4. 変更を加えプルリクエストを送ります。
+2. フォークの適切なページが編集モードで表示されます。
+3. 変更を加えプルリクエストを送ります。
 
 ### Previewing your changes locally
 
-自分のローカルHugoサーバーを実行して作業中に変更点をプレビューしたい場合は次の手順に従ってください。
+自分のローカルHugoサーバーを実行し、作業しながら変更点をプレビューしたい場合は次の手順に従ってください。
 
-1. `git clone`を使って [Komapperのドキュメンテーションレポジトリ](https://github.com/komapper/komapper.github.io) をあなたのプロジェクトにフォークしてローカルコピーを作ってください。
+1. `git clone`を使って [Komapperのドキュメンテーションレポジトリ](https://github.com/komapper/komapper.github.io) のローカルコピーを作ります。
    その際、`--recurse-submodules`の指定を忘れないようにしてください。さもないと動作するサイトを生成するために必要なコードの一部を取得できません。
 
     ```
     git clone --recurse-submodules --depth 1 https://github.com/komapper/komapper.github.io.git
     ```
 
-2. `komapper.github.io`ディレクトリに移動し、サイトをビルドしHugoサーバーを起動させるために次のdockerコマンドを実行します。
+2. `komapper.github.io`ディレクトリに移動後、次のdockerコマンドの実行によりサイトをビルドしHugoサーバーを起動させます。
 
     ```
     docker compose up
     ```
     
-    デフォルトでは、あなたのサイトは <http://localhost:1313/> で利用できます。これで、サイトがローカルに提供されているので、Hugoはコンテンツの変更を監視し自動的にサイトを更新します。
+    デフォルトでは、サイトは <http://localhost:1313/> で利用できます。
+    Hugoはコンテンツの変更を監視し自動的にサイトを更新します。
    
-3. GitHub の通常のワークフローに従って、ファイルを編集し、コミットし、フォークに変更をプッシュし、プルリクエストを作成します。
+3. GitHubの通常のワークフローに従って、ファイルを編集し、コミットし、フォークに変更をプッシュし、プルリクエストを作成します。
 
 ### Creating an issue
 
-もし、ドキュメントに何かを求めているが、自分で解決する方法がわからない場合は、[このリポジトリ](https://github.com/komapper/komapper.github.io) に課題を作成してください。
-また、特定のページに関する問題を作成するには、そのページの右上にある **ドキュメントのissueを作成** リンクをクリックします。
+もし、ドキュメントを修正したいが解決する方法がわからない場合は、[このリポジトリ](https://github.com/komapper/komapper.github.io) にissueを作成してください。
+特定のページに関するissueを作成するには、そのページの右上にある **ドキュメントのissueを作成** リンクをクリックします。

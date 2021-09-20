@@ -2,19 +2,19 @@
 
 <section class="row td-box td-box--4 td-box--gradient td-box--height-auto linkbox">
 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-<h2>学んで繋がる</h2>		
-<p>{{ .Site.Title }}をすでに使っている、もしくは使いたいですか? より多くの情報をここで見つけてください:
+<h2>学んで繋がろう</h2>		
+<p>{{ .Site.Title }}をすでに使っていますか？これから使いたいですか？より多くの情報がここで見つかります。
 {{ with index $links "user"}}
 {{ template "community-links-list"  . }}
 {{ end }}
 </div>
 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
 <h2>開発して貢献する</h2>
-<p>{{ .Site.Title }}に貢献することでもっと深く関わりたいのであれば、ここに参加してください:
+<p>{{ .Site.Title }}に貢献してより深く関わりたいのであればここに参加してください。
 {{ with index $links "developer"}}
 {{ template "community-links-list"  . }}
 {{ end }}
-<p>これらのドキュメントに貢献する方法は<a href="/ja/docs/contribution-guidelines/">Contribution Guidelines</a>に記載されています。
+<p>貢献する方法は<a href="/ja/docs/contribution-guidelines/">Contribution Guidelines</a>を参照ください。
 </div>
 </section>
 
