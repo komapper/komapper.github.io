@@ -52,10 +52,13 @@ dependencies {
 application {
   mainClass.set("org.komapper.quickstart.ApplicationKt")
 }
-```
 
-IDEで動作を確認するには追加のコードが必要ですがここでは省略します。
-詳細は本ページの最後に示すリンク先のリポジトリを確認ください。
+kotlin {
+  sourceSets.main {
+    kotlin.srcDir("build/generated/ksp/main/kotlin")
+  }
+}
+```
 
 dependenciesブロックでは3つの依存モジュールを宣言していますが、いずれも同一のバージョンであることに注意してください。
 以下にモジュールごとの説明をします。

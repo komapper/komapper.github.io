@@ -51,6 +51,12 @@ dependencies {
 application {
   mainClass.set("org.komapper.quickstart.ApplicationKt")
 }
+
+kotlin {
+  sourceSets.main {
+    kotlin.srcDir("build/generated/ksp/main/kotlin")
+  }
+}
 ```
 
 In the `dependencies` block, there are 3 modules.
