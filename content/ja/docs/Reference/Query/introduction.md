@@ -39,11 +39,11 @@ Komapperにおけるクエリは以下のクラスのいずれかもしくは両
 `org.komapper.core.dsl.query.Query<T>`
 : `Database`インスタンスを介して実行するとデータベースにアクセスし`T`型の値を返すクエリ。
 
-`org.komapper.core.dsl.query.FlowableQuery<T>`
+`org.komapper.core.dsl.query.FlowQuery<T>`
 : `Database`インスタンスを介して実行すると`kotlinx.coroutines.flow.Flow<T>`型の値を返すクエリ。データベースアクセスは`Flow`が`collect`されたときに初めて行われます。
 
 {{< alert title="Note" >}}
-`FlowableQuery<T>`を構築できるDSLはSQL DSLのみであり、`R2dbcDatabase`インスタンスによってのみ実行可能です。
+`FlowQuery<T>`を構築できるDSLはSQL DSLのみであり、`R2dbcDatabase`インスタンスによってのみ実行可能です。
 {{< /alert >}}
 
 ## クエリの合成 {#query-composition}
