@@ -20,20 +20,6 @@ Entity DSLとSQL DSLはいくつかの式を組み合わせてクエリを生成
 - When宣言
 - Where宣言
 
-{{< alert title="Note" >}}
-ただし、On宣言で利用できるのは以下の単純な演算子のみです。
-
-- eq
-- notEq
-- less
-- lessEq
-- greater
-- greaterEq
-- isNull
-- isNotNull
-
-{{< /alert >}}
-
 演算子の引数に`null`を渡した場合その演算子は評価されません。つまりSQLに変換されません。
 
 ```kotlin
