@@ -6,6 +6,10 @@ description: >
   Komapperのこれから
 ---
 
+## 概要 {#overview}
+
+Komapperのロードマップを示します。
+
 ## 現在のステータス {#status}
 
 - 開発中
@@ -14,8 +18,7 @@ description: >
 
 ## 今後の予定 {#plan}
 
-- [KSP](https://github.com/google/ksp) のベータが外れたらKomapper 1.0 GAをリリース
-  - それまではKSPの新しいベータバージョンが出るごとにKomapperも対応バージョンをリリース
+- ドキュメントを網羅的に記載できたらKomapper 1.0 GAをリリース
 
 ## 方針 {#policy}
 ### 依存ライブラリ {#dependencies}

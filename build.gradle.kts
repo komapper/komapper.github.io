@@ -1,6 +1,6 @@
-val kotlinVersion = "1.5.30"
-val kspVersion = "1.5.30-1.0.0"
-val komapperVersion = "0.17.0"
+val kotlinVersion = "1.5.31"
+val kspVersion = "1.5.31-1.0.0"
+val komapperVersion = "0.18.0"
 val encoding = "UTF-8"
 
 fun replaceVersion(version: String, prefix :String, suffix: String = "\"") {

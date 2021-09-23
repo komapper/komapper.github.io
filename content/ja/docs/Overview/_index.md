@@ -8,7 +8,7 @@ description: >
 
 ## Komapperとは？ {#what-is-it}
 
-KomapperはKotlin 1.5.30 以上に対応したサーバーサイド向けのSQLマッピングライブラリーです。
+KomapperはKotlin 1.5.31 以上に対応したサーバーサイド向けのSQLマッピングライブラリーです。
 
 Komapperにはいくつかの強みがあります。
 
