@@ -134,8 +134,8 @@ prism_syntax_highlighting = false
 version = "latest"
 url = "https://www.komapper.org/"
 [[params.versions]]
-version = "v0.18-test"
-url = "https://v0_18.komapper.netlify.app/"
+version = "v0.18"
+url = "https://v0_18--komapper.netlify.app/"
 
 # User interface configuration
 [params.ui]
