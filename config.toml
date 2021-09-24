@@ -135,7 +135,7 @@ version = "latest"
 url = "https://www.komapper.org/"
 [[params.versions]]
 version = "v0.18"
-url = "https://v0_18--komapper.netlify.app/"
+url = "https://v0-18.komapper.org/"
 
 # User interface configuration
 [params.ui]
