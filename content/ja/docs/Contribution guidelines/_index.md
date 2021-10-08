@@ -30,7 +30,7 @@ Komapperで期待通りに動かないものを見つけたが解決する方法
 
 本ドキュメントは [Hugo](https://gohugo.io/) で作成されたサイトから提供されます。
 
-サイトのデプロイメントを管理するために [GitHub Pages](https://docs.github.com/en/pages) を使用しています。
+サイトのデプロイメントを管理するためにGitHubとNetlifyを使用しています。
 ここでの説明はGitHubの基本的なワークフローに精通していることを前提としています。
 
 ### Quick start

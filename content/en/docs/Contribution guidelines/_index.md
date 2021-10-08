@@ -29,7 +29,7 @@ Alternatively, if there's something you'd like to see in Komapper (or if you've 
 
 This documentation is a Komapper site that uses the Hugo static site generator. We welcome updates to the docs!
 
-We use GitHub Pages to manage the deployment of the site. The instructions here assume you're familiar with basic GitHub workflows.
+We use GitHub and Netlify to manage the deployment of the site. The instructions here assume you're familiar with basic GitHub workflows.
 
 ### Quick start
 
