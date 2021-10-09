@@ -1,10 +1,17 @@
 {{ with .Site.Params.algolia_docsearch }}
 <!-- scripts for algolia docsearch -->
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
-<script type="text/javascript"> docsearch({ 
+<script type="text/javascript">
+docsearch({ 
 apiKey: '4924a635b6132722899571450fa5a23a', 
 indexName: 'komapper', 
-inputSelector: '.td-search-input', 
+inputSelector: 'header input.td-search-input', 
+debug: false // Set debug to true if you want to inspect the dropdown 
+}); 
+docsearch({ 
+apiKey: '4924a635b6132722899571450fa5a23a', 
+indexName: 'komapper', 
+inputSelector: '#content-mobile input.td-search-input', 
 debug: false // Set debug to true if you want to inspect the dropdown 
 }); 
 
