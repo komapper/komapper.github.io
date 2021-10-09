@@ -268,6 +268,9 @@ UPDATEクエリは`EntityDsl`の`update`とそれに続く関数を呼び出し�
 
 クエリ実行時にキーが重複した場合、`org.komapper.core.UniqueConstraintException`がスローされます。
 
+クエリ実行時に楽観的排他制御が失敗した場合、`org.komapper.core.OptimisticLockException`がスローされます。
+
+
 ### single {#update-single}
 
 1件を更新するには`single`を呼び出します。
@@ -299,6 +302,8 @@ update ADDRESS set STREET = ?, VERSION = ? + 1 where ADDRESS_ID = ? and VERSION 
 ## DELETE
 
 DELETEクエリは`EntityDsl`の`delete`とそれに続く関数を呼び出して生成します。
+
+クエリ実行時に楽観的排他制御が失敗した場合、`org.komapper.core.OptimisticLockException`がスローされます。
 
 ### single {#delete-single}
 
