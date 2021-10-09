@@ -13,12 +13,7 @@ Entity DSLとSQL DSLはいくつかの式を組み合わせてクエリを生成
 
 ## 比較演算子 {#comparison-operator}
 
-次の宣言の中で利用できます。
-
-- Having宣言
-- On宣言
-- When宣言
-- Where宣言
+[宣言]({{< relref "introduction#declaration" >}}) の中で利用できます。
 
 演算子の引数に`null`を渡した場合その演算子は評価されません。つまりSQLに変換されません。
 
@@ -331,11 +326,7 @@ select t0_.EMPLOYEE_ID, t0_.EMPLOYEE_NO, t0_.EMPLOYEE_NAME, t0_.MANAGER_ID, t0_.
 
 ## 論理演算子 {#logical-operator}
 
-次の宣言の中で利用できます。
-
-- Having宣言
-- When宣言
-- Where宣言
+[宣言]({{< relref "introduction#declaration" >}}) の中で利用できます。
 
 ### and {#logical-operator-and}
 
@@ -410,6 +401,8 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADD
 - `/`
 - `%`
 
+これらの演算子は`org.komapper.core.dsl.operator`に定義されています。
+
 `+`演算子を使った例を次に示します。
 
 ```kotlin
@@ -434,6 +427,8 @@ update ADDRESS as t0_ set VERSION = (t0_.VERSION + ?) where t0_.ADDRESS_ID = ?
 - ltrim
 - rtrim
 
+これらの関数は`org.komapper.core.dsl.operator`に定義されています。
+
 `concat`関数を使った例を次に示します。
 
 ```kotlin
@@ -449,7 +444,17 @@ update ADDRESS as t0_ set STREET = (concat((concat(?, t0_.STREET)), ?)) where t0
 
 ## 集約関数 {#aggregate-function}
 
-集約関数はどこからでも呼び出せますが、呼び出して得られる式は`having`や`select`で使われることを想定しています。
+次の関数が使えます。
+
+- avg
+- count
+- sum
+- max
+- min
+
+これらの関数は`org.komapper.core.dsl.operator`に定義されています。
+
+呼び出して得られる式は`having`や`select`で使われることを想定しています。
 
 ```kotlin
 SqlDsl.from(e)
@@ -523,6 +528,8 @@ select min(t0_.ADDRESS_ID) from ADDRESS as t0_
 ## リテラル {#literal}
 
 バインド変数を介さず直接値をリテラルとしてSQLに埋め込みたい場合は`literal`を呼び出します。
+
+`literal`は`org.komapper.core.dsl.operator`に定義されています。
 
 `literal`に渡せるKotlinの型は以下のものです。
 

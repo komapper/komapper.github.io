@@ -179,5 +179,3 @@ val list: List<Address> = db.runQuery { query }
 select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADDRESS_ID = ? or (t0_.VERSION = ? and t0_.STREET = ?)
 */
 ```
-
-`or`関数は、Having宣言、When宣言、Where宣言に対して適用できます。
