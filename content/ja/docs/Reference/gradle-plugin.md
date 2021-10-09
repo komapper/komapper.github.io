@@ -151,7 +151,7 @@ $ ./gradlew komapperPostgresqlGenerator
 
 ### overwriteEntities
 
-生成されるエンティティクラスのソースコードを上書きするかどうかです。
+生成されるエンティティクラスのソースコードを上書きするかどうかを表します。
 
 設定は必須ではありません。
 
@@ -159,7 +159,7 @@ $ ./gradlew komapperPostgresqlGenerator
 
 ### overwriteDefinitions
 
-生成されるマッピング定義のソースコードを上書きするかどうかです。
+生成されるマッピング定義のソースコードを上書きするかどうかを表します。
 
 設定は必須ではありません。
 
@@ -167,7 +167,7 @@ $ ./gradlew komapperPostgresqlGenerator
 
 ### declareAsNullable
 
-生成されるエンティティクラスの全プロパティをNULL許容型として宣言するかどうかです。
+生成されるエンティティクラスの全プロパティをNULL許容型として宣言するかどうかを表します。
 
 設定は必須ではありません。
 
@@ -176,7 +176,7 @@ $ ./gradlew komapperPostgresqlGenerator
 
 ### useCatalog
 
-生成されるマッピング定義でカタログ名を明示するかどうかです。
+生成されるマッピング定義でカタログ名を明示するかどうかを表します。
 
 設定は必須ではありません。
 
@@ -184,7 +184,7 @@ $ ./gradlew komapperPostgresqlGenerator
 
 ### useSchema
 
-生成されるマッピング定義でスキーマ名を明示するかどうかです。
+生成されるマッピング定義でスキーマ名を明示するかどうかを表します。
 
 設定は必須ではありません。
 
