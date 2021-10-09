@@ -14,14 +14,32 @@ Komapperが提供するGradleプラグインは、
 - エンティティクラス
 - エンティティクラスのマッピング定義
 
-下記のコードはプラグインを利用したgradle.ktsファイルの例です。
+エンティティクラスやマッピング定義については [Entity Class]({{< relref "entity-class" >}}) を参照ください。
+
+{{< alert title="Note" >}}
+Gradleプラグインの利用は必須ではありません。
+データベース上にテーブル定義がすでに存在する場合に利用を検討ください。
+{{< /alert >}}
+
+## 利用方法 {#usage}
+
+プラグインの最新版はGradleプラグインのポータルのサイトで確認できます。
+
+- https://plugins.gradle.org/plugin/org.komapper.gradle
+
+下記のコードはプラグインを利用したgradle.ktsファイルの例（抜粋）です。
 
 ```kotlin
-// Komapperプラグインの利用を示す
+// Komapperプラグインの利用を宣言する
+plugins {
+  id "org.komapper.gradle" version "0.18.0"
+}
+
+// Komapperプラグインに関する設定を行う
 komapper {
     // Komapperプラグインの中でもコード生成に関するプラグインの利用を示す
     generators {
-        // 利用するデータベースごとにregisterブロックに適当な名前をつけてブロック内に設定を記述する
+        // registerブロックに適当な名前をつけて利用するデータベースごとの設定を記述する
         register("postgresql") {
             val initScript = file("src/main/resources/init_postgresql.sql")
             // databaseパラメータの設定
