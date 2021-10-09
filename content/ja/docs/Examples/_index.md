@@ -65,7 +65,7 @@ JSONで返されたデータがブラウザ上に表示されます。
 
 ### データベースを使ったコード生成 {#code-generation-from-databases}
 
-Komapperはデータベースのメタデータからエンティティクラスのソースコードを生成するGradleプラグインを提供します。
+Komapperはデータベースのメタデータからエンティティクラスのソースコードを生成する [Gradleプラグイン]({{< relref "../Reference/gradle-plugin.md" >}}) を提供します。
 
 KomapperのGradleプラグインの設定は、build.gradle.ktsファイル内のkomapperブロックに記述されています。
 この例ではMySQLとPostgreSQLからコード生成をします。
@@ -89,3 +89,6 @@ $ ./gradlew :codegen:komapperGenerator
 ```
 
 生成コードは `codgen/src/main/kotlin` の下に出力されます。
+
+この例では [Testcontainers](https://www.testcontainers.org/) を使ってDockerコンテナ内のデータベースに接続しています。
+Testcontainersの利用は必須ではありませんが、利用する利点は大きいと思われませす。
