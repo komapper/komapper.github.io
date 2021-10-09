@@ -12,6 +12,7 @@ fun replaceVersion(version: String, prefix :String, suffix: String = "\"") {
             "fileset"("dir" to "content") {
                 "include"("name" to "en/docs/Quickstart/_index.md")
                 "include"("name" to "ja/docs/Quickstart/_index.md")
+                "include"("name" to "ja/docs/Reference/gradle-plugin.md")
             }
         }
     }
@@ -23,6 +24,7 @@ tasks {
             replaceVersion(kotlinVersion, """kotlin\("jvm"\) version """")
             replaceVersion(kspVersion, """id\("com.google.devtools.ksp"\) version """")
             replaceVersion(komapperVersion, """val komapperVersion = """")
+            replaceVersion(komapperVersion, """id\("org.komapper.gradle"\) version """")
         }
     }
 }

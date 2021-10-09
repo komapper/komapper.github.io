@@ -32,14 +32,14 @@ Gradleプラグインの利用は必須ではありません。
 ```kotlin
 // Komapperプラグインの利用を宣言する
 plugins {
-  id "org.komapper.gradle" version "0.18.0"
+  id("org.komapper.gradle") version "0.18.0"
 }
 
 // Komapperプラグインに関する設定を行う
 komapper {
     // Komapperプラグインの中でもコード生成に関するプラグインの利用を示す
     generators {
-        // registerブロックに適当な名前をつけて利用するデータベースごとの設定を記述する
+        // 利用するデータベースごとにregisterブロックに適当な名前をつけてブロック内に設定を記述する
         register("postgresql") {
             val initScript = file("src/main/resources/init_postgresql.sql")
             // databaseパラメータの設定
