@@ -321,6 +321,8 @@ INSERTクエリは`SqlDsl`の`insert`とそれに続く関数を呼び出して�
 
 クエリを実行した場合の戻り値は追加された件数と生成されたIDの`Pair`です。
 
+クエリ実行時にキーが重複した場合、`org.komapper.core.UniqueConstraintException`がスローされます。
+
 ### values {#insert-values}
 
 1件を追加するには`values`を呼び出します。
@@ -355,6 +357,8 @@ insert into ADDRESS_ARCHIVE (ADDRESS_ID, STREET, VERSION) select t1_.ADDRESS_ID,
 UPDATEクエリは`SqlDsl`の`update`とそれに続く関数を呼び出して生成します。
 
 クエリを実行した場合の戻り値は更新された件数です。
+
+クエリ実行時にキーが重複した場合、`org.komapper.core.UniqueConstraintException`がスローされます。
 
 ### set {#update-set}
 

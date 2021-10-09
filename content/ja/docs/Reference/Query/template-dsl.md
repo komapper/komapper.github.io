@@ -75,6 +75,8 @@ val query: Query<List<Address>> = TemplateDsl.from(sql).bind(
 更新系のDMLを実行するには`execute`関数に [SQLテンプレート]({{< relref "#sql-template" >}})、`bind`関数にSQLテンプレート内で利用したいデータを渡します。
 SQLテンプレート内の各種ディレクティブではデータのpublicなメンバを参照できます。
 
+クエリ実行時にキーが重複した場合、`org.komapper.core.UniqueConstraintException`がスローされます。
+
 ```kotlin
 data class Condition(val id: Int, val street: String)
 

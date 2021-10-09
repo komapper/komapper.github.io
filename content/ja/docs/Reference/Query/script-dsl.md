@@ -14,6 +14,8 @@ Script DSLは任意のSQLスクリプトを実行できます。
 
 実行したいSQLスクリプトを`execute`に渡します。
 
+クエリ実行時にキーが重複した場合、`org.komapper.core.UniqueConstraintException`がスローされます。
+
 ```kotlin
 val query: Query<Unit> = ScriptDsl.execute("""
     drop table if exists example;

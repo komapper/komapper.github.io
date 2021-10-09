@@ -159,6 +159,8 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADD
 
 INSERTクエリは`EntityDsl`の`insert`とそれに続く関数を呼び出して生成します。
 
+クエリ実行時にキーが重複した場合、`org.komapper.core.UniqueConstraintException`がスローされます。
+
 ### single {#insert-single}
 
 1件を追加するには`single`を呼び出します。
@@ -214,7 +216,7 @@ insert into ADDRESS (ADDRESS_ID, STREET, VERSION) values (?, ?, ?)
 
 ### onDuplicateKeyIgnore {#insert-onduplicatekeyignore}
 
-`onDuplicateKeyIgnore`を呼び出すことで値が重複した場合のエラーを無視できます。
+`onDuplicateKeyIgnore`を呼び出すことでキーが重複した場合のエラーを無視できます。
 
 ```kotlin
 val address: Address = ..
@@ -238,7 +240,7 @@ insert into ADDRESS as t0_ (ADDRESS_ID, STREET, VERSION) values (?, ?, ?) on con
 
 ### onDuplicateKeyUpdate {#insert-onduplicatekeyupdate}
 
-`onDuplicateKeyIgnore`を呼び出すことで値が重複した場合にUPDATEを実行できます。
+`onDuplicateKeyIgnore`を呼び出すことでキーが重複した場合にUPDATEを実行できます。
 
 ```kotlin
 val department: Department = ..
@@ -263,6 +265,8 @@ insert into DEPARTMENT as t0_ (DEPARTMENT_ID, DEPARTMENT_NO, DEPARTMENT_NAME, LO
 ## UPDATE
 
 UPDATEクエリは`EntityDsl`の`update`とそれに続く関数を呼び出して生成します。
+
+クエリ実行時にキーが重複した場合、`org.komapper.core.UniqueConstraintException`がスローされます。
 
 ### single {#update-single}
 
