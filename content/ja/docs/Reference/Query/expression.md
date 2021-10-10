@@ -421,6 +421,7 @@ update ADDRESS as t0_ set VERSION = (t0_.VERSION + ?) where t0_.ADDRESS_ID = ?
 次の関数が使えます。
 
 - concat
+- substring
 - lower
 - upper
 - trim
