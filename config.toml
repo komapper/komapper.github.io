@@ -134,6 +134,9 @@ prism_syntax_highlighting = false
 version = "latest"
 url = "https://www.komapper.org/"
 [[params.versions]]
+version = "v0.19"
+url = "https://v0-19.komapper.org/"
+[[params.versions]]
 version = "v0.18"
 url = "https://v0-18.komapper.org/"
 
