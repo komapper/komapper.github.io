@@ -319,7 +319,8 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_
 
 INSERTクエリは`SqlDsl`の`insert`とそれに続く関数を呼び出して生成します。
 
-クエリを実行した場合の戻り値は追加された件数と生成されたIDの`Pair`です。
+クエリを実行した場合の戻り値は追加された件数と生成されるIDの`Pair`です。
+IDはエンティティクラスのマッピング定義に`@KomapperAutoIncrement`が注釈されている場合にのみ返されます。
 
 クエリ実行時にキーが重複した場合、`org.komapper.core.UniqueConstraintException`がスローされます。
 
@@ -328,7 +329,7 @@ INSERTクエリは`SqlDsl`の`insert`とそれに続く関数を呼び出して�
 1件を追加するには`values`を呼び出します。
 
 ```kotlin
-val query: Query<Pair<Int, Long?>> = SqlDsl.insert(a).values {
+val query: Query<Pair<Int, Int?>> = SqlDsl.insert(a).values {
   a.addressId set 19
   a.street set "STREET 16"
   a.version set 0
@@ -344,7 +345,7 @@ insert into ADDRESS (ADDRESS_ID, STREET, VERSION) values (?, ?, ?)
 
 ```kotlin
 val aa = Address.newMeta(table = "ADDRESS_ARCHIVE")
-val query: Query<Int, Long?> = SqlDsl.insert(aa).select {
+val query: Query<Int, Int?> = SqlDsl.insert(aa).select {
   SqlDsl.from(a).where { a.addressId between 1..5 }
 }
 /*
