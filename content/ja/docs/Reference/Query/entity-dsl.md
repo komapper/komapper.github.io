@@ -122,6 +122,15 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ order by t0_.
 */
 ```
 
+NULLのソート順序を制御するために、カラムに対して`ascNullsFirst`、`ascNullsLast`、`descNullsFirst`、`descNullsLast`を呼び出すこともできます。
+
+```kotlin
+val query: Query<List<Employee>> = EntityDsl.from(e).orderBy(e.managerId.ascNullsFirst())
+/*
+select t0_.EMPLOYEE_ID, t0_.EMPLOYEE_NO, t0_.EMPLOYEE_NAME, t0_.MANAGER_ID, t0_.HIREDATE, t0_.SALARY, t0_.DEPARTMENT_ID, t0_.ADDRESS_ID, t0_.VERSION from EMPLOYEE as t0_ order by t0_.MANAGER_ID asc nulls first
+ */
+```
+
 ### offset, limit {#select-offset-limit}
 
 指定した位置から一部の行を取り出すには`offset`や`limit`を呼び出します。
