@@ -102,6 +102,8 @@ val d = DepartmentDef.meta
 val e = EmployeeDef.meta
 ```
 
+### 注意点
+
 クエリの生成例ではどのようなクエリが生成されるかわかりやすくするために型を明示的に記載しますが実際は省略可能です。
 
 ```kotlin
