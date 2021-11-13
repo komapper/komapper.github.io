@@ -100,3 +100,21 @@ starterモジュールを使う場合、上記の設定は不要です。
     </root>
 </configuration>
 ```
+
+バインド変数を引数で置換した形式のSQLをコンソールに出力したい場合は以下のように設定してください。
+
+```xml
+<configuration>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+    
+    <logger name="org.komapper.SQL_WITH_ARGS" level="trace"/>
+
+    <root level="info">
+        <appender-ref ref="STDOUT" />
+    </root>
+</configuration>
+```
