@@ -653,7 +653,7 @@ delete from EMPLOYEE as t0_
 
 ## 比較演算子 {#comparison-operator}
 
-[宣言]({{< relref "introduction#declaration" >}}) の中で利用できます。
+[宣言]({{< relref "composition#declaration" >}}) の中で利用できます。
 
 演算子の引数に`null`を渡した場合その演算子は評価されません。つまりSQLに変換されません。
 
@@ -966,7 +966,7 @@ select t0_.EMPLOYEE_ID, t0_.EMPLOYEE_NO, t0_.EMPLOYEE_NAME, t0_.MANAGER_ID, t0_.
 
 ## 論理演算子 {#logical-operator}
 
-[宣言]({{< relref "introduction#declaration" >}}) の中で利用できます。
+[宣言]({{< relref "composition#declaration" >}}) の中で利用できます。
 
 ### and {#logical-operator-and}
 
