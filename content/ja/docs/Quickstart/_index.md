@@ -13,7 +13,7 @@ H2 Database EngineにJDBCで接続するアプリケーションを作成しま�
 ## 必要要件 {#prerequisites}
 
 - JDK 8、もしくはそれ以降のバージョン
-- Gradle 7.2
+- Gradle 7.3、もしくはそれ以降のバージョン
 
 ## インストール {#install}
 
@@ -43,7 +43,7 @@ repositories {
 }
 
 dependencies {
-  val komapperVersion = "0.19.0"
+  val komapperVersion = "0.20.0"
   implementation("org.komapper:komapper-starter-jdbc:$komapperVersion")
   implementation("org.komapper:komapper-dialect-h2-jdbc:$komapperVersion")
   ksp("org.komapper:komapper-processor:$komapperVersion")
