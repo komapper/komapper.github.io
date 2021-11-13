@@ -41,12 +41,12 @@ fun main() {
 
         // INSERT
         val newAddress = db.runQuery {
-            EntityDsl.insert(a).single(Address(street = "street A"))
+            QueryDsl.insert(a).single(Address(street = "street A"))
         }
 
         // SELECT
         val address1 = db.runQuery {
-            EntityDsl.from(a).where { a.id eq newAddress.id }.first()
+            QueryDsl.from(a).where { a.id eq newAddress.id }.first()
         }
     }
 }
@@ -71,12 +71,12 @@ fun main() = runBlocking {
 
         // INSERT
         val newAddress = db.runQuery {
-            EntityDsl.insert(a).single(Address(street = "street A"))
+            QueryDsl.insert(a).single(Address(street = "street A"))
         }
 
         // SELECT
         val address1 = db.runQuery {
-            EntityDsl.from(a).where { a.id eq newAddress.id }.first()
+            QueryDsl.from(a).where { a.id eq newAddress.id }.first()
         }
     }
 }
@@ -112,7 +112,7 @@ Using the generated code, you can build type-safe queries as follows:
 val a = AddressDef.meta
 
 // define a query
-val query = EntityDsl.from(e).where { a.street eq "STREET 101" }.orderBy(a.id)
+val query = QueryDsl.from(e).where { a.street eq "STREET 101" }.orderBy(a.id)
 ```
 
 ### Immutable and composable queries
@@ -125,7 +125,7 @@ So you can compose them safely:
 val a = AddressDef.meta
 
 // define queries
-val query1 = EntityDsl.from(a)
+val query1 = QueryDsl.from(a)
 val query2 = query1.where { a.id eq 1 }
 val query3 = query2.where { or { a.id eq 2 } }.orderBy(a.street)
 

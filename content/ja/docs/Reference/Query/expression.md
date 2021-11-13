@@ -3,12 +3,12 @@ title: "Expression"
 linkTitle: "Expression"
 weight: 100
 description: >
-  Entity DSLとSQL DSLの中で利用可能な式
+  Query DSLの中で利用可能な式
 ---
 
 ## 概要 {#overview}
 
-Entity DSLとSQL DSLはいくつかの式を組み合わせてクエリを生成します。
+Query DSLはいくつかの式を組み合わせてクエリを生成します。
 ここでは式の要素である演算子や関数を説明します。
 
 ## 比較演算子 {#comparison-operator}
@@ -19,7 +19,7 @@ Entity DSLとSQL DSLはいくつかの式を組み合わせてクエリを生成
 
 ```kotlin
 val nullable: Int? = null
-val query = EntityDsl.from(a).where { a.addressId eq nullable }
+val query = QueryDsl.from(a).where { a.addressId eq nullable }
 ```
 
 したがって、上記の`query`が実行された場合は次のSQLが発行されます。
@@ -31,7 +31,7 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_
 ### eq {#comparison-operator-eq}
 
 ```kotlin
-EntityDsl.from(a).where { a.addressId eq 1 }
+QueryDsl.from(a).where { a.addressId eq 1 }
 /*
 select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADDRESS_ID = ?
 */
@@ -40,7 +40,7 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADD
 ### notEq {#comparison-operator-noteq}
 
 ```kotlin
-EntityDsl.from(a).where { a.addressId notEq 1 }
+QueryDsl.from(a).where { a.addressId notEq 1 }
 /*
 select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADDRESS_ID <> ?
 */
@@ -49,7 +49,7 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADD
 ### less {#comparison-operator-less}
 
 ```kotlin
-EntityDsl.from(a).where { a.addressId less 1 }
+QueryDsl.from(a).where { a.addressId less 1 }
 /*
 select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADDRESS_ID < ?
 */
@@ -59,7 +59,7 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADD
 ### lessEq {#comparison-operator-lesseq}
 
 ```kotlin
-EntityDsl.from(a).where { a.addressId lessEq 1 }
+QueryDsl.from(a).where { a.addressId lessEq 1 }
 /*
 select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADDRESS_ID <= ?
 */
@@ -68,7 +68,7 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADD
 ### greater {#comparison-operator-greater}
 
 ```kotlin
-EntityDsl.from(a).where { a.addressId greater 1 }
+QueryDsl.from(a).where { a.addressId greater 1 }
 /*
 select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADDRESS_ID > ?
 */
@@ -77,7 +77,7 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADD
 ### greaterEq {#comparison-operator-greatereq}
 
 ```kotlin
-EntityDsl.from(a).where { a.addressId greaterEq 1 }
+QueryDsl.from(a).where { a.addressId greaterEq 1 }
 /*
 select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADDRESS_ID >= ?
 */
@@ -86,7 +86,7 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADD
 ### isNull {#comparison-operator-isnull}
 
 ```kotlin
-EntityDsl.from(e).where { e.managerId.isNull() }
+QueryDsl.from(e).where { e.managerId.isNull() }
 /*
 select t0_.EMPLOYEE_ID, t0_.EMPLOYEE_NO, t0_.EMPLOYEE_NAME, t0_.MANAGER_ID, t0_.HIREDATE, t0_.SALARY, t0_.DEPARTMENT_ID, t0_.ADDRESS_ID, t0_.VERSION from EMPLOYEE as t0_ where t0_.MANAGER_ID is null
 */
@@ -94,7 +94,7 @@ select t0_.EMPLOYEE_ID, t0_.EMPLOYEE_NO, t0_.EMPLOYEE_NAME, t0_.MANAGER_ID, t0_.
 ### isNotNull {#comparison-operator-isnotnull}
 
 ```kotlin
-EntityDsl.from(e).where { e.managerId.isNotNull() }
+QueryDsl.from(e).where { e.managerId.isNotNull() }
 /*
 select t0_.EMPLOYEE_ID, t0_.EMPLOYEE_NO, t0_.EMPLOYEE_NAME, t0_.MANAGER_ID, t0_.HIREDATE, t0_.SALARY, t0_.DEPARTMENT_ID, t0_.ADDRESS_ID, t0_.VERSION from EMPLOYEE as t0_ where t0_.MANAGER_ID is not null
 */
@@ -103,7 +103,7 @@ select t0_.EMPLOYEE_ID, t0_.EMPLOYEE_NO, t0_.EMPLOYEE_NAME, t0_.MANAGER_ID, t0_.
 ### like {#comparison-operator-like}
 
 ```kotlin
-EntityDsl.from(a).where { a.street like "STREET 1_" }.orderBy(a.addressId)
+QueryDsl.from(a).where { a.street like "STREET 1_" }.orderBy(a.addressId)
 /*
 select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.STREET like ? escape ? order by t0_.ADDRESS_ID asc
 */
@@ -112,7 +112,7 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.STR
 ### notLike {#comparison-operator-notlike}
 
 ```kotlin
-EntityDsl.from(a).where { a.street notLike "STREET 1_" }.orderBy(a.addressId)
+QueryDsl.from(a).where { a.street notLike "STREET 1_" }.orderBy(a.addressId)
 /*
 select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.STREET not like ? escape ? order by t0_.ADDRESS_ID asc
 */
@@ -121,7 +121,7 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.STR
 ### startsWith {#comparison-operator-startswith}
 
 ```kotlin
-EntityDsl.from(a).where { a.street startsWith "STREET 1" }.orderBy(a.addressId)
+QueryDsl.from(a).where { a.street startsWith "STREET 1" }.orderBy(a.addressId)
 /*
 select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.STREET like ? escape ? order by t0_.ADDRESS_ID asc
 */
@@ -130,7 +130,7 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.STR
 ### notStartsWith {#comparison-operator-notstartswith}
 
 ```kotlin
-EntityDsl.from(a).where { a.street notStartsWith "STREET 1" }.orderBy(a.addressId)
+QueryDsl.from(a).where { a.street notStartsWith "STREET 1" }.orderBy(a.addressId)
 /*
 select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.STREET not like ? escape ? order by t0_.ADDRESS_ID asc
 */
@@ -139,7 +139,7 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.STR
 ### contains {#comparison-operator-contains}
 
 ```kotlin
-EntityDsl.from(a).where { a.street contains "T 1" }.orderBy(a.addressId)
+QueryDsl.from(a).where { a.street contains "T 1" }.orderBy(a.addressId)
 /*
 select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.STREET like ? escape ? order by t0_.ADDRESS_ID asc
 */
@@ -148,7 +148,7 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.STR
 ### notContains {#comparison-operator-notcontains}
 
 ```kotlin
-EntityDsl.from(a).where { a.street notContains "T 1" }.orderBy(a.addressId)
+QueryDsl.from(a).where { a.street notContains "T 1" }.orderBy(a.addressId)
 /*
 select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.STREET not like ? escape ? order by t0_.ADDRESS_ID asc
 */
@@ -157,7 +157,7 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.STR
 ### endsWith {#comparison-operator-endswith}
 
 ```kotlin
-EntityDsl.from(a).where { a.street endsWith "1" }.orderBy(a.addressId)
+QueryDsl.from(a).where { a.street endsWith "1" }.orderBy(a.addressId)
 /*
 select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.STREET like ? escape ? order by t0_.ADDRESS_ID asc
 */
@@ -166,7 +166,7 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.STR
 ### notEndsWith {#comparison-operator-notendswith}
 
 ```kotlin
-EntityDsl.from(a).where { a.street notEndsWith "1" }.orderBy(a.addressId)
+QueryDsl.from(a).where { a.street notEndsWith "1" }.orderBy(a.addressId)
 /*
 select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.STREET not like ? escape ? order by t0_.ADDRESS_ID asc
 */
@@ -175,7 +175,7 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.STR
 ### between {#comparison-operator-between}
 
 ```kotlin
-EntityDsl.from(a).where { a.addressId between 5..10 }.orderBy(a.addressId)
+QueryDsl.from(a).where { a.addressId between 5..10 }.orderBy(a.addressId)
 /*
 select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADDRESS_ID between ? and ? order by t0_.ADDRESS_ID asc
 */
@@ -184,7 +184,7 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADD
 ### notBetween {#comparison-operator-notbetween}
 
 ```kotlin
-EntityDsl.from(a).where { a.addressId notBetween 5..10 }.orderBy(a.addressId)
+QueryDsl.from(a).where { a.addressId notBetween 5..10 }.orderBy(a.addressId)
 /*
 select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADDRESS_ID not between ? and ? order by t0_.ADDRESS_ID asc
 */
@@ -193,7 +193,7 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADD
 ### inList {#comparison-operator-inlist}
 
 ```kotlin
-EntityDsl.from(a).where { a.addressId inList listOf(9, 10) }.orderBy(a.addressId.desc())
+QueryDsl.from(a).where { a.addressId inList listOf(9, 10) }.orderBy(a.addressId.desc())
 /*
 select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADDRESS_ID in (?, ?) order by t0_.ADDRESS_ID desc
 */
@@ -202,9 +202,9 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADD
 サブクエリも使えます。
 
 ```kotlin
-SqlDsl.from(e).where {
+QueryDsl.from(e).where {
     e.addressId inList {
-        SqlDsl.from(a)
+        QueryDsl.from(a)
             .where {
                 e.addressId eq a.addressId
                 e.employeeName like "%S%"
@@ -219,7 +219,7 @@ select t0_.EMPLOYEE_ID, t0_.EMPLOYEE_NO, t0_.EMPLOYEE_NAME, t0_.MANAGER_ID, t0_.
 ### notInList {#comparison-operator-notinlist}
 
 ```kotlin
-EntityDsl.from(a).where { a.addressId notInList (1..9).toList() }.orderBy(a.addressId)
+QueryDsl.from(a).where { a.addressId notInList (1..9).toList() }.orderBy(a.addressId)
 /*
 select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADDRESS_ID not in (?, ?, ?, ?, ?, ?, ?, ?, ?) order by t0_.ADDRESS_ID asc
 */
@@ -228,9 +228,9 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADD
 サブクエリも使えます。
 
 ```kotlin
-SqlDsl.from(e).where {
+QueryDsl.from(e).where {
     e.addressId notInList {
-        SqlDsl.from(a).where {
+        QueryDsl.from(a).where {
             e.addressId eq a.addressId
             e.employeeName like "%S%"
         }.select(a.addressId)
@@ -244,7 +244,7 @@ select t0_.EMPLOYEE_ID, t0_.EMPLOYEE_NO, t0_.EMPLOYEE_NAME, t0_.MANAGER_ID, t0_.
 ### inList2 {#comparison-operator-inlist2}
 
 ```kotlin
-EntityDsl.from(a).where { a.addressId to a.version inList2 listOf(9 to 1, 10 to 1) }.orderBy(a.addressId.desc())
+QueryDsl.from(a).where { a.addressId to a.version inList2 listOf(9 to 1, 10 to 1) }.orderBy(a.addressId.desc())
 /*
 select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where (t0_.ADDRESS_ID, t0_.VERSION) in ((?, ?), (?, ?)) order by t0_.ADDRESS_ID desc
 */
@@ -253,9 +253,9 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where (t0_.AD
 サブクエリも使えます。
 
 ```kotlin
-SqlDsl.from(e).where {
+QueryDsl.from(e).where {
     e.addressId to e.version inList2 {
-        SqlDsl.from(a)
+        QueryDsl.from(a)
             .where {
                 e.addressId eq a.addressId
                 e.employeeName like "%S%"
@@ -270,7 +270,7 @@ select t0_.EMPLOYEE_ID, t0_.EMPLOYEE_NO, t0_.EMPLOYEE_NAME, t0_.MANAGER_ID, t0_.
 ### notInList2 {#comparison-operator-notinlist2}
 
 ```kotlin
-EntityDsl.from(a).where { a.addressId to a.version notInList2 listOf(9 to 1, 10 to 1) }.orderBy(a.addressId)
+QueryDsl.from(a).where { a.addressId to a.version notInList2 listOf(9 to 1, 10 to 1) }.orderBy(a.addressId)
 /*
 select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where (t0_.ADDRESS_ID, t0_.VERSION) not in ((?, ?), (?, ?)) order by t0_.ADDRESS_ID asc
 */
@@ -279,9 +279,9 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where (t0_.AD
 サブクエリも使えます。
 
 ```kotlin
-SqlDsl.from(e).where {
+QueryDsl.from(e).where {
     e.addressId to e.version notInList2 {
-        SqlDsl.from(a).where {
+        QueryDsl.from(a).where {
             e.addressId eq a.addressId
             e.employeeName like "%S%"
         }.select(a.addressId, a.version)
@@ -295,9 +295,9 @@ select t0_.EMPLOYEE_ID, t0_.EMPLOYEE_NO, t0_.EMPLOYEE_NAME, t0_.MANAGER_ID, t0_.
 ### exists {#comparison-operator-exists}
 
 ```kotlin
-EntityDsl.from(e).where {
+QueryDsl.from(e).where {
     exists {
-        EntityDsl.from(a).where {
+        QueryDsl.from(a).where {
             e.addressId eq a.addressId
             e.employeeName like "%S%"
         }
@@ -311,9 +311,9 @@ select t0_.EMPLOYEE_ID, t0_.EMPLOYEE_NO, t0_.EMPLOYEE_NAME, t0_.MANAGER_ID, t0_.
 ### notExists {#comparison-operator-notexists}
 
 ```kotlin
-EntityDsl.from(e).where {
+QueryDsl.from(e).where {
     notExists {
-        EntityDsl.from(a).where {
+        QueryDsl.from(a).where {
             e.addressId eq a.addressId
             e.employeeName like "%S%"
         }
@@ -333,7 +333,7 @@ select t0_.EMPLOYEE_ID, t0_.EMPLOYEE_NO, t0_.EMPLOYEE_NAME, t0_.MANAGER_ID, t0_.
 宣言の中で式を並べるとAND演算子で連結されます。
 
 ```kotlin
-EntityDsl.from(a).where {
+QueryDsl.from(a).where {
     a.addressId greater 1
     a.street startsWith "S"
     a.version less 100
@@ -346,7 +346,7 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADD
 明示的にAND演算子を使いたい場合は`and`関数にラムダ式を渡します。
 
 ```kotlin
-EntityDsl.from(a).where {
+QueryDsl.from(a).where {
   a.addressId greater 1
   and {
     a.street startsWith "S"
@@ -363,7 +363,7 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADD
 OR演算子で連結したい場合は`or`関数にラムダ式を渡します。
 
 ```kotlin
-EntityDsl.from(a).where {
+QueryDsl.from(a).where {
   a.addressId greater 1
   or {
     a.street startsWith "S"
@@ -380,7 +380,7 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADD
 NOT演算子を使うには`not`関数にラムダ式を渡します。
 
 ```kotlin
-EntityDsl.from(a).where {
+QueryDsl.from(a).where {
     a.addressId greater 5
     not {
         a.addressId greaterEq 10
@@ -406,7 +406,7 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADD
 `+`演算子を使った例を次に示します。
 
 ```kotlin
-SqlDsl.update(a).set {
+QueryDsl.update(a).set {
     a.version set (a.version + 10)
 }.where {
     a.addressId eq 1
@@ -433,7 +433,7 @@ update ADDRESS as t0_ set VERSION = (t0_.VERSION + ?) where t0_.ADDRESS_ID = ?
 `concat`関数を使った例を次に示します。
 
 ```kotlin
-SqlDsl.update(a).set {
+QueryDsl.update(a).set {
   a.street set (concat(concat("[", a.street), "]"))
 }.where {
   a.addressId eq 1
@@ -458,7 +458,7 @@ update ADDRESS as t0_ set STREET = (concat((concat(?, t0_.STREET)), ?)) where t0
 呼び出して得られる式は`having`や`select`で使われることを想定しています。
 
 ```kotlin
-SqlDsl.from(e)
+QueryDsl.from(e)
     .groupBy(e.departmentId)
     .having {
         count(e.employeeId) greaterEq 4L
@@ -473,7 +473,7 @@ select t0_.DEPARTMENT_ID, count(t0_.EMPLOYEE_ID) from EMPLOYEE as t0_ group by t
 ### avg {#aggregate-function-avg}
 
 ```kotlin
-SqlDsl.from(a).select(avg(a.addressId))
+QueryDsl.from(a).select(avg(a.addressId))
 /*
 select avg(t0_.ADDRESS_ID) from ADDRESS as t0_
 */
@@ -484,7 +484,7 @@ select avg(t0_.ADDRESS_ID) from ADDRESS as t0_
 SQLの`count(*)`に変換するには`count`関数を引数なしで呼び出します。
 
 ```kotlin
-SqlDsl.from(a).select(count()).first()
+QueryDsl.from(a).select(count()).first()
 /*
 select count(*) from ADDRESS as t0_
 */
@@ -493,7 +493,7 @@ select count(*) from ADDRESS as t0_
 `count`関数をカラムを指定して呼び出すこともできます。
 
 ```kotlin
-SqlDsl.from(a).select(count(a.street)).first()
+QueryDsl.from(a).select(count(a.street)).first()
 /*
 select count(t0_.STREET) from ADDRESS as t0_
 */
@@ -502,7 +502,7 @@ select count(t0_.STREET) from ADDRESS as t0_
 ### sum {#aggregate-function-sum}
 
 ```kotlin
-SqlDsl.from(a).select(sum(a.addressId)).first()
+QueryDsl.from(a).select(sum(a.addressId)).first()
 /*
 select sum(t0_.ADDRESS_ID) from ADDRESS as t0_
 */
@@ -511,7 +511,7 @@ select sum(t0_.ADDRESS_ID) from ADDRESS as t0_
 ### max {#aggregate-function-max}
 
 ```kotlin
-SqlDsl.from(a).select(max(a.addressId))
+QueryDsl.from(a).select(max(a.addressId))
 /*
 select max(t0_.ADDRESS_ID) from ADDRESS as t0_
 */
@@ -520,7 +520,7 @@ select max(t0_.ADDRESS_ID) from ADDRESS as t0_
 ### min {#aggregate-function-min}
 
 ```kotlin
-SqlDsl.from(a).select(min(a.addressId))
+QueryDsl.from(a).select(min(a.addressId))
 /*
 select min(t0_.ADDRESS_ID) from ADDRESS as t0_
 */
@@ -542,7 +542,7 @@ select min(t0_.ADDRESS_ID) from ADDRESS as t0_
 使用例です。
 
 ```kotlin
-SqlDsl.insert(a).values {
+QueryDsl.insert(a).values {
   a.addressId set 100
   a.street set literal("STREET 100")
   a.version set literal(100)

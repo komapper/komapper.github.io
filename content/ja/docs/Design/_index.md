@@ -130,7 +130,7 @@ val r2dbcDb = R2dbcDatabase.create("r2dbc:h2:mem:///example;DB_CLOSE_DELAY=-1")
 val a = AddressDef.meta
 
 // クエリの構築
-val query = EntityDsl.from(a).where { a.street startsWith "TOKYO" }.orderBy(a.id)
+val query = QueryDsl.from(a).where { a.street startsWith "TOKYO" }.orderBy(a.id)
 
 // クエリの実行（JDBC版）
 jdbcDb.runQuery { query }

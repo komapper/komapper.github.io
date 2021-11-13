@@ -13,7 +13,7 @@ Komapperではクエリの構築と実行は分離されています。
 
 ```kotlin
 // create a query
-val query: Query<List<Address>> = EntityDsl.from(a)
+val query: Query<List<Address>> = QueryDsl.from(a)
 // run the query
 val result: List<Address> = db.runQuery { query }
 ```
@@ -22,9 +22,8 @@ val result: List<Address> = db.runQuery { query }
 
 クエリの構築を担うDSLについては専用のページを参照ください。
 
-- [Entity DSL]({{< relref "entity-dsl.md" >}})
-- [SQL DSL]({{< relref "entity-dsl.md" >}})
-- [Template DSL]({{< relref "sql-dsl.md" >}})
+- [Query DSL]({{< relref "query-dsl.md" >}})
+- [Template DSL]({{< relref "template-dsl.md" >}})
 - [Script DSL]({{< relref "script-dsl.md" >}})
 - [Schema DSL]({{< relref "schema-dsl.md" >}})
 
@@ -43,21 +42,21 @@ Komapperにおけるクエリは以下のクラスのいずれかもしくは両
 : `Database`インスタンスを介して実行すると`kotlinx.coroutines.flow.Flow<T>`型の値を返すクエリ。データベースアクセスは`Flow`が`collect`されたときに初めて行われます。
 
 {{< alert title="Note" >}}
-`FlowQuery<T>`を構築できるDSLはSQL DSLのみであり、`R2dbcDatabase`インスタンスによってのみ実行可能です。
+`FlowQuery<T>`は`R2dbcDatabase`インスタンスによってのみ実行可能です。
 {{< /alert >}}
 
 ## クエリの合成 {#query-composition}
 
-クエリは合成できます。
+`org.komapper.core.dsl.query.Query<T>`は合成できます。
 
 ### plus {#query-composition-plus}
 
 `+`演算子を使うと、まとめて実行して最後の結果を返すクエリを構築できます。
 
 ```kotlin
-val q1: Query<Address> = EntityDsl.insert(a).single(Address(16, "STREET 16", 0))
-val q2: Query<Address> = EntityDsl.insert(a).single(Address(17, "STREET 17", 0))
-val q3: Query<List<Address>> = EntityDsl.from(a).where { a.addressId inList listOf(16, 17) }
+val q1: Query<Address> = QueryDsl.insert(a).single(Address(16, "STREET 16", 0))
+val q2: Query<Address> = QueryDsl.insert(a).single(Address(17, "STREET 17", 0))
+val q3: Query<List<Address>> = QueryDsl.from(a).where { a.addressId inList listOf(16, 17) }
 val query: Query<List<Address>> = q1 + q2 + q3
 val list: List<Address> = db.runQuery { query }
 /*
@@ -72,9 +71,9 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADD
 `flatMap`関数を使うと、1番目のクエリの実行結果を受け取って2番目のクエリを実行し2番目の結果を返すクエリを構築できます。
 
 ```kotlin
-val q1: Query<Address> = EntityDsl.insert(a).single(Address(16, "STREET 16", 0)) // 1st query
+val q1: Query<Address> = QueryDsl.insert(a).single(Address(16, "STREET 16", 0)) // 1st query
 val query: Query<List<Employee>> = q1.flatMap { newAddress ->
-    EntityDsl.from(e).where { e.addressId less newAddress.addressId } // 2nd query
+    QueryDsl.from(e).where { e.addressId less newAddress.addressId } // 2nd query
 }
 val list: List<Employee> = db.runQuery { query }
 /*
@@ -88,9 +87,9 @@ select t0_.EMPLOYEE_ID, t0_.EMPLOYEE_NO, t0_.EMPLOYEE_NAME, t0_.MANAGER_ID, t0_.
 `flatZip`関数を使うと、1番目のクエリの実行結果を受け取って2番目のクエリを実行し1番目と2番目の結果を`Pair`型で返すクエリを構築できます。
 
 ```kotlin
-val q1: Query<Address> = EntityDsl.insert(a).single(Address(16, "STREET 16", 0)) // 1st query
+val q1: Query<Address> = QueryDsl.insert(a).single(Address(16, "STREET 16", 0)) // 1st query
 val query: Query<Pair<Address, List<Employee>>> = q1.flatZip { newAddress ->
-    EntityDsl.from(e).where { e.addressId less newAddress.addressId } // 2nd query
+    QueryDsl.from(e).where { e.addressId less newAddress.addressId } // 2nd query
 }
 val pair: Pair<Address, List<Employee>> = db.runQuery { query }
 /*
@@ -101,7 +100,7 @@ select t0_.EMPLOYEE_ID, t0_.EMPLOYEE_NO, t0_.EMPLOYEE_NAME, t0_.MANAGER_ID, t0_.
 
 ## 宣言 {#declaration}
 
-Entity DSLとSQL DSLでは、例えば`where`関数や`having`関数に検索条件を表すラムダ式を渡しますが、
+Query DSLでは、例えば`where`関数や`having`関数に検索条件を表すラムダ式を渡しますが、
 Komapperではこれらのラムダ式のことを宣言と呼びます。
 
 宣言には以下のものがあります。
@@ -129,7 +128,7 @@ val w2: WhereDeclaration = {
     a.version eq 1
 }
 val w3: WhereDeclaration = w1 + w2 // +演算子の利用
-val query: Query<List<Address>> = EntityDsl.from(a).where(w3)
+val query: Query<List<Address>> = QueryDsl.from(a).where(w3)
 val list: List<Address> = db.runQuery { query }
 /*
 select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADDRESS_ID = ? and t0_.VERSION = ?
@@ -151,7 +150,7 @@ val w2: WhereDeclaration = {
     or { a.version eq 2 }
 }
 val w3: WhereDeclaration = w1 and w2 // and関数の利用
-val query: Query<List<Address>> = EntityDsl.from(a).where(w3)
+val query: Query<List<Address>> = QueryDsl.from(a).where(w3)
 val list: List<Address> = db.runQuery { query }
 /*
 select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADDRESS_ID = ? and (t0_.VERSION = ? or (t0_.VERSION = ?))
@@ -173,7 +172,7 @@ val w2: WhereDeclaration = {
     a.street eq "STREET 1"
 }
 val w3: WhereDeclaration = w1 or w2 // or関数の利用
-val query: Query<List<Address>> = EntityDsl.from(a).where(w3)
+val query: Query<List<Address>> = QueryDsl.from(a).where(w3)
 val list: List<Address> = db.runQuery { query }
 /*
 select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADDRESS_ID = ? or (t0_.VERSION = ? and t0_.STREET = ?)

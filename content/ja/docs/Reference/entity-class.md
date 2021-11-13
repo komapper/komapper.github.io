@@ -206,7 +206,7 @@ val id: Int
 
 楽観的排他制御に使われるバージョン番号であることを表します。
 
-このアノテーションを付与すると、 [EntityDsl]({{< relref "query/entity-dsl.md" >}}) のUPDATE処理やDELETE処理で楽観的排他制御が行われます。
+このアノテーションを付与すると、 [QueryDsl]({{< relref "query/query-dsl.md" >}}) のUPDATE処理やDELETE処理で楽観的排他制御が行われます。
 つまり、WHERE句にバージョン番号チェックが含まれ処理件数が0の場合に例外がスローされます。
 
 このアノテーションを付与するプロパティの型は次のいずれかでなければいけません。
@@ -221,7 +221,7 @@ val id: Int
 生成時のタイムスタンプであることを表します。
 
 このアノテーションを付与すると、
-[EntityDsl]({{< relref "query/entity-dsl.md" >}}) のINSERT処理にてタイムスタンプがプロパティに設定されます。
+[QueryDsl]({{< relref "query/query-dsl.md" >}}) のINSERT処理にてタイムスタンプがプロパティに設定されます。
 
 このアノテーションを付与するプロパティの型は次のいずれかでなければいけません。
 
@@ -234,7 +234,7 @@ val id: Int
 更新時のタイムスタンプであることを表します。
 
 このアノテーションを付与すると、
-[EntityDsl]({{< relref "query/entity-dsl.md" >}}) のINSERT処理とUPDATE処理にてタイムスタンプがプロパティに設定されます。
+[QueryDsl]({{< relref "query/query-dsl.md" >}}) のINSERT処理とUPDATE処理にてタイムスタンプがプロパティに設定されます。
 
 このアノテーションを付与するプロパティの型は次のいずれかでなければいけません。
 

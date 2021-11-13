@@ -80,7 +80,7 @@ val e = EmployeeDef.meta
 クエリの生成例ではどのようなクエリが生成されるかわかりやすくするために型を明示的に記載しますが実際は省略可能です。
 
 ```kotlin
-val query: Query<List<Address>> = EntityDsl.from(a)
+val query: Query<List<Address>> = QueryDsl.from(a)
 /*
 select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_
 */
