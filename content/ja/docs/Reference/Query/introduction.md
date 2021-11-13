@@ -49,20 +49,47 @@ Komapperにおけるクエリは以下のクラスのいずれかもしくは両
 
 `org.komapper.core.dsl.query.Query<T>`は合成できます。
 
-### plus {#query-composition-plus}
+### andThen {#query-composition-andthen}
 
-`+`演算子を使うと、まとめて実行して最後の結果を返すクエリを構築できます。
+`andThen`関数を使うと、まとめて実行して最後の結果を返すクエリを構築できます。
 
 ```kotlin
 val q1: Query<Address> = QueryDsl.insert(a).single(Address(16, "STREET 16", 0))
 val q2: Query<Address> = QueryDsl.insert(a).single(Address(17, "STREET 17", 0))
 val q3: Query<List<Address>> = QueryDsl.from(a).where { a.addressId inList listOf(16, 17) }
-val query: Query<List<Address>> = q1 + q2 + q3
+val query: Query<List<Address>> = q1.andThen(q2).andThen(q3)
 val list: List<Address> = db.runQuery { query }
 /*
 insert into ADDRESS (ADDRESS_ID, STREET, VERSION) values (?, ?, ?)
 insert into ADDRESS (ADDRESS_ID, STREET, VERSION) values (?, ?, ?)
 select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADDRESS_ID in (?, ?)
+*/
+```
+
+### map {#query-composition-map}
+
+`map`関数を使うと、クエリ結果に変更を加えるクエリを構築できます。
+
+```kotlin
+val query: Query<List<Address>> = QueryDsl.from(a).map { 
+  it.map { address -> address.copy(version = 100) }
+}
+/*
+select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ 
+*/
+```
+
+### zip {#query-composition-zip}
+
+`map`関数を使うと、2つのクエリ結果を`Pair`型で返すクエリを構築できます。
+
+```kotlin
+val q1 = QueryDsl.insert(a).single(Address(16, "STREET 16", 0))
+val q2 = QueryDsl.from(a)
+val query: Query<Pair<Address, List<Address>>> = q1.zip(q2)
+/*
+insert into ADDRESS (ADDRESS_ID, STREET, VERSION) values (?, ?, ?)
+select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_
 */
 ```
 
@@ -149,7 +176,7 @@ val w2: WhereDeclaration = {
     a.version eq 1
     or { a.version eq 2 }
 }
-val w3: WhereDeclaration = w1 and w2 // and関数の利用
+val w3: WhereDeclaration = w1.and(w2) // and関数の利用
 val query: Query<List<Address>> = QueryDsl.from(a).where(w3)
 val list: List<Address> = db.runQuery { query }
 /*
@@ -171,7 +198,7 @@ val w2: WhereDeclaration = {
     a.version eq 1
     a.street eq "STREET 1"
 }
-val w3: WhereDeclaration = w1 or w2 // or関数の利用
+val w3: WhereDeclaration = w1.or(w2) // or関数の利用
 val query: Query<List<Address>> = QueryDsl.from(a).where(w3)
 val list: List<Address> = db.runQuery { query }
 /*
