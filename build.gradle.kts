@@ -1,5 +1,5 @@
 val kotlinVersion = "1.5.31"
-val kspVersion = "1.5.31-1.0.0"
+val kspVersion = "1.5.31-1.0.1"
 val komapperVersion = "0.20.0"
 val encoding = "UTF-8"
 
