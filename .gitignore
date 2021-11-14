@@ -9,3 +9,5 @@ tech-doc-hugo
 
 # Ignore Gradle build output directory
 build
+
+/.hugo_build.lock
