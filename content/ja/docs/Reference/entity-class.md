@@ -257,7 +257,7 @@ val id: Nothing
 このアノテーションでカラムの名前を指定しない場合、アノテーション処理の`komapper.namingStrategy`オプションに従って名前が解決されます。
 以下のドキュメントも参照ください。
 
-- [オプション]({{< relref "#annotation-processing-options" >}})
+- [オプション]({{< relref "annotation-processing#options" >}})
 
 ### @KomapperIgnore
 
