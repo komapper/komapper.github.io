@@ -315,7 +315,7 @@ val query: Query<List<Pair<Int?, String?>>> = (q1 union q2 union q3).orderBy("ID
 
 {{< alert title="Note" >}}
 `union`以外のセット演算子では、`unionAll`、`except`、`intersect`が利用できます。
-ただし、データベースがサポートしていない場合をSQLを発行した時点で例外が発生します。
+ただし、データベースがサポートしていない場合、SQLを発行した時点で例外が発生します。
 {{< /alert >}}
 
 ### first {#select-first}
@@ -565,7 +565,7 @@ update ADDRESS as t0_ set STREET = ? where t0_.ADDRESS_ID = ?
 任意の条件にマッチする行を更新するには`where`を呼び出します。
 
 デフォルトではWHERE句の指定は必須でありWHERE句が指定されない場合は例外が発生します。
-意図的に全件更新を認める場合は`option`を呼び出して`allowEmptyWhereClause`に`true`を設定します。
+意図的に全件更新を認める場合は`options`を呼び出して`allowEmptyWhereClause`に`true`を設定します。
 
 ```kotlin
 val query: Query<Int> = QueryDsl.update(e).set {
@@ -624,7 +624,7 @@ delete from EMPLOYEE as t0_
 */
 ```
 
-`option`を呼び出して`allowEmptyWhereClause`に`true`を設定する必要があります。
+`options`を呼び出して`allowEmptyWhereClause`に`true`を設定する必要があります。
 
 このクエリを実行した場合の戻り値は削除された件数です。
 
@@ -640,7 +640,7 @@ delete from ADDRESS as t0_ where t0_.ADDRESS_ID = ?
 ```
 
 デフォルトではWHERE句の指定は必須です。もし`where`のブロック内で条件が指定されない場合は例外が発生します。
-意図的に全件削除を認めたい場合は`option`を呼び出して`allowEmptyWhereClause`に`true`を設定します。
+意図的に全件削除を認めたい場合は`options`を呼び出して`allowEmptyWhereClause`に`true`を設定します。
 
 ```kotlin
 val query: Query<Int> = QueryDsl.delete(e).where {}.options { it.copy(allowEmptyWhereClause = true) }
