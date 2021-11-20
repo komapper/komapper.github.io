@@ -13,7 +13,7 @@ We show you how to create an application that uses JDBC to access H2 Database En
 ## Prerequisites
 
 - JDK 8 or later
-- Gradle 7.3 or later
+- Gradle 7.2 or later
 
 ## Install
 
@@ -32,30 +32,38 @@ Include the following code in your build.gradle.kts:
 
 ```kotlin
 plugins {
-  application
-  id("com.google.devtools.ksp") version "1.5.31-1.0.1"
-  kotlin("jvm") version "1.5.31"
-}
-
-repositories {
-  mavenCentral()
-}
-
-dependencies {
-  val komapperVersion = "0.20.0"
-  implementation("org.komapper:komapper-starter-jdbc:$komapperVersion")
-  implementation("org.komapper:komapper-dialect-h2-jdbc:$komapperVersion")
-  ksp("org.komapper:komapper-processor:$komapperVersion")
+    application
+    id("com.google.devtools.ksp") version "1.5.31-1.0.1"
+    kotlin("jvm") version "1.5.31"
 }
 
 application {
-  mainClass.set("org.komapper.quickstart.ApplicationKt")
+    mainClass.set("org.komapper.quickstart.ApplicationKt")
+}
+
+dependencies {
+    val komapperVersion = "0.21.0"
+    implementation("org.komapper:komapper-starter-jdbc:$komapperVersion")
+    implementation("org.komapper:komapper-dialect-h2-jdbc:$komapperVersion")
+    ksp("org.komapper:komapper-processor:$komapperVersion")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.1")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.1")
 }
 
 kotlin {
-  sourceSets.main {
-    kotlin.srcDir("build/generated/ksp/main/kotlin")
-  }
+    sourceSets.main {
+        kotlin.srcDir("build/generated/ksp/main/kotlin")
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+tasks {
+    withType<Test>().configureEach {
+        useJUnitPlatform()
+    }
 }
 ```
 

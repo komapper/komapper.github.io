@@ -13,7 +13,7 @@ H2 Database EngineにJDBCで接続するアプリケーションを作成しま�
 ## 必要要件 {#prerequisites}
 
 - JDK 8、もしくはそれ以降のバージョン
-- Gradle 7.3、もしくはそれ以降のバージョン
+- Gradle 7.2、もしくはそれ以降のバージョン
 
 ## インストール {#install}
 
@@ -33,30 +33,38 @@ JDKとGradleをインストールしてください。
 
 ```kotlin
 plugins {
-  application
-  id("com.google.devtools.ksp") version "1.5.31-1.0.1"
-  kotlin("jvm") version "1.5.31"
-}
-
-repositories {
-  mavenCentral()
-}
-
-dependencies {
-  val komapperVersion = "0.20.0"
-  implementation("org.komapper:komapper-starter-jdbc:$komapperVersion")
-  implementation("org.komapper:komapper-dialect-h2-jdbc:$komapperVersion")
-  ksp("org.komapper:komapper-processor:$komapperVersion")
+    application
+    id("com.google.devtools.ksp") version "1.5.31-1.0.1"
+    kotlin("jvm") version "1.5.31"
 }
 
 application {
-  mainClass.set("org.komapper.quickstart.ApplicationKt")
+    mainClass.set("org.komapper.quickstart.ApplicationKt")
+}
+
+dependencies {
+    val komapperVersion = "0.21.0"
+    implementation("org.komapper:komapper-starter-jdbc:$komapperVersion")
+    implementation("org.komapper:komapper-dialect-h2-jdbc:$komapperVersion")
+    ksp("org.komapper:komapper-processor:$komapperVersion")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.1")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.1")
 }
 
 kotlin {
-  sourceSets.main {
-    kotlin.srcDir("build/generated/ksp/main/kotlin")
-  }
+    sourceSets.main {
+        kotlin.srcDir("build/generated/ksp/main/kotlin")
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+tasks {
+    withType<Test>().configureEach {
+        useJUnitPlatform()
+    }
 }
 ```
 
