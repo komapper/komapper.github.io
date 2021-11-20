@@ -1,7 +1,10 @@
-val kotlinVersion = "1.5.31"
-val kspVersion = "1.5.31-1.0.1"
-val komapperVersion = "0.20.0"
-val encoding = "UTF-8"
+plugins {
+    base
+}
+val kotlinVersion: String by project
+val kspVersion: String by project
+val komapperVersion: String by project
+val encoding: String by project
 
 fun replaceVersion(version: String, prefix :String, suffix: String = "\"") {
     ant.withGroovyBuilder {
