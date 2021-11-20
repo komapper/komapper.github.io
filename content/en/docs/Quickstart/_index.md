@@ -90,9 +90,7 @@ data class EmployeeDef(
   @KomapperVersion val version: Nothing,
   @KomapperCreatedAt val createdAt: Nothing,
   @KomapperUpdatedAt val updatedAt: Nothing,
-) {
-  companion object
-}
+)
 ```
 
 Next, create a main logic:
@@ -106,7 +104,7 @@ fun main() {
   database.withTransaction {
 
     // (3) get an entity metamodel
-    val e = EmployeeDef.meta
+    val e = Meta.employee
 
     // (4) create schema
     database.runQuery {

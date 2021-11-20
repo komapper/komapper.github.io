@@ -64,7 +64,6 @@ data class Address(
 このときエンティティクラスは前のセクションで説明した要件に加えて次の条件を満たさなければいけません。
 
 - `@KomapperEntity`で注釈される
-- `companion object`を持つ
 
 例えば、前のセクションで示した`Address`クラスにこの方法を適用すると次のように変更できます。
 
@@ -82,9 +81,7 @@ data class Address(
   val createdAt: LocalDateTime? = null,
   @KomapperUpdatedAt
   val updatedAt: LocalDateTime? = null,
-) {
-  companion object
-}
+)
 ```
 
 ### 分離マッピング {#separate-mapping-definition}
@@ -95,7 +92,6 @@ data class Address(
 - 可視性がprivateでない
 - 型パラメータを持っていない
 - `@KomapperEntityDef`で注釈され引数でエンティティクラスを受け取る
-- `companion object`を持つ
 - エンティティクラスに定義されたプロパティと異なる名前のプロパティを持たない
 
 例えば、前のセクションで示した`Address`クラスに対するエンティティ定義クラスは次のように記述できます。
@@ -113,9 +109,7 @@ data class AddressDef(
   val createdAt: Nothing,
   @KomapperUpdatedAt
   val updatedAt: Nothing,
-) {
-  companion object
-}
+)
 ```
 
 エンティティ定義クラスは、参照するエンティティクラスに定義された同名のプロパティに対し様々な設定ができます。

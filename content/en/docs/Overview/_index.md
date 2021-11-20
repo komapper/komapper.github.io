@@ -30,7 +30,7 @@ fun main() {
     val db = JdbcDatabase.create("jdbc:h2:mem:example;DB_CLOSE_DELAY=-1")
 
     // get a metamodel
-    val a = AddressDef.meta
+    val a = Meta.address
 
     // execute simple CRUD operations in a transaction
     db.withTransaction {
@@ -60,7 +60,7 @@ fun main() = runBlocking {
     val db = R2dbcDatabase.create("r2dbc:h2:mem:///example;DB_CLOSE_DELAY=-1")
 
     // get a metamodel
-    val a = AddressDef.meta
+    val a = Meta.address
 
     // execute simple CRUD operations in a transaction
     db.withTransaction {
@@ -99,9 +99,7 @@ data class Address(
 data class AddressDef(
     @KomapperId val id: Nothing,
     @KomapperVersion val version: Nothing,
-) {
-    companion object
-}
+)
 ```
 
 Kotlin Symbol Processing API generates metamodel code from the above code.
@@ -109,7 +107,7 @@ Using the generated code, you can build type-safe queries as follows:
 
 ```kotlin
 // get a generated metamodel
-val a = AddressDef.meta
+val a = Meta.address
 
 // define a query
 val query = QueryDsl.from(e).where { a.street eq "STREET 101" }.orderBy(a.id)
@@ -122,7 +120,7 @@ So you can compose them safely:
 
 ```kotlin
 // get a generated metamodel
-val a = AddressDef.meta
+val a = Meta.address
 
 // define queries
 val query1 = QueryDsl.from(a)
@@ -148,9 +146,7 @@ value class Age(val value: Int)
 data class Employee(val id: Int = 0, val name: String, val age: Age)
 
 @KomapperEntityDef(Employee::class)
-data class EmployeeDef(@KomapperId @KomapperAutoIncrement val id: Nothing) {
-    companion object
-}
+data class EmployeeDef(@KomapperId @KomapperAutoIncrement val id: Nothing)
 ```
 
 ### Easy Spring Boot integration

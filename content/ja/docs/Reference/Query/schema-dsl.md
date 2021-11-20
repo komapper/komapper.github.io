@@ -29,7 +29,7 @@ Schema DSLは開発時のみの利用を想定しています。
 CREATE文を生成するには`create`を呼び出します。
 
 ```kotlin
-val query: Query<Unit> = SchemaDsl.create(AddressDef.meta, EmployeeDef.meta)
+val query: Query<Unit> = SchemaDsl.create(Meta.address, Meta.employee)
 /*
 create table if not exists ADDRESS (ADDRESS_ID integer not null, STREET varchar(500) not null, VERSION integer not null, constraint pk_ADDRESS primary key(ADDRESS_ID));
 create table if not exists EMPLOYEE (EMPLOYEE_ID integer not null, EMPLOYEE_NO integer not null, EMPLOYEE_NAME varchar(500) not null, MANAGER_ID integer, HIREDATE date not null, SALARY bigint not null, DEPARTMENT_ID integer not null, ADDRESS_ID integer not null, VERSION integer not null, constraint pk_EMPLOYEE primary key(EMPLOYEE_ID));
@@ -41,7 +41,7 @@ create table if not exists EMPLOYEE (EMPLOYEE_ID integer not null, EMPLOYEE_NO i
 DROP文を生成するには`drop`を呼び出します。
 
 ```kotlin
-val query: Query<Unit> = SchemaDsl.drop(AddressDef.meta, EmployeeDef.meta)
+val query: Query<Unit> = SchemaDsl.drop(Meta.address, Meta.employee)
 /*
 drop table if exists ADDRESS;
 drop table if exists EMPLOYEE;

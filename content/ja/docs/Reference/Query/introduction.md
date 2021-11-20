@@ -67,9 +67,7 @@ data class Employee(
 data class AddressDef(
     @KomapperId @KomapperColumn(name = "ADDRESS_ID") val addressId: Nothing,
     @KomapperVersion val version: Nothing
-) {
-    companion object
-}
+)
 
 @KomapperEntityDef(Department::class)
 data class DepartmentDef(
@@ -78,9 +76,7 @@ data class DepartmentDef(
   @KomapperColumn("DEPARTMENT_NAME") val departmentName: Nothing,
   @KomapperVersion val version: Nothing,
   @KomapperIgnore val employeeList: Nothing
-) {
-  companion object
-}
+)
 
 @KomapperEntityDef(Employee::class)
 data class EmployeeDef(
@@ -93,13 +89,11 @@ data class EmployeeDef(
   @KomapperVersion val version: Nothing,
   @KomapperIgnore val address: Nothing,
   @KomapperIgnore val department: Nothing
-) {
-  companion object
-}
+)
 
-val a = AddressDef.meta
-val d = DepartmentDef.meta
-val e = EmployeeDef.meta
+val a = Meta.address
+val d = Meta.department
+val e = Meta.employee
 ```
 
 ### 注意点

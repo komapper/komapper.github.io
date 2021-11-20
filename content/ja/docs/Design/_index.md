@@ -114,9 +114,7 @@ data class Address(
 data class AddressDef(
     @KomapperId val id: Nothing,
     @KomapperVersion val version: Nothing,
-) {
-    companion object
-}
+)
 ```
 
 ### クエリの構築と実行の分離 {#separation-of-query-construction-and-execution}
@@ -127,7 +125,7 @@ JDBCとR2DBCのそれぞれに対応したAPIにおいて同一のクエリを�
 ```kotlin
 val jdbcDb = JdbcDatabase.create("jdbc:h2:mem:example;DB_CLOSE_DELAY=-1")
 val r2dbcDb = R2dbcDatabase.create("r2dbc:h2:mem:///example;DB_CLOSE_DELAY=-1")
-val a = AddressDef.meta
+val a = Meta.address
 
 // クエリの構築
 val query = QueryDsl.from(a).where { a.street startsWith "TOKYO" }.orderBy(a.id)
