@@ -46,7 +46,6 @@ data class Department(
   val departmentName: String,
   val location: String,
   val version: Int,
-  val employeeList: List<Employee> = emptyList()
 )
 
 data class Employee(
@@ -59,8 +58,6 @@ data class Employee(
     val departmentId: Int,
     val addressId: Int,
     val version: Int,
-    val address: Address? = null,
-    val department: Department? = null
 )
 
 @KomapperEntityDef(Address::class)
@@ -75,7 +72,6 @@ data class DepartmentDef(
   @KomapperColumn("DEPARTMENT_NO") val departmentNo: Nothing,
   @KomapperColumn("DEPARTMENT_NAME") val departmentName: Nothing,
   @KomapperVersion val version: Nothing,
-  @KomapperIgnore val employeeList: Nothing
 )
 
 @KomapperEntityDef(Employee::class)
@@ -87,8 +83,6 @@ data class EmployeeDef(
   @KomapperColumn("DEPARTMENT_ID") val departmentId: Nothing,
   @KomapperColumn("ADDRESS_ID") val addressId: Nothing,
   @KomapperVersion val version: Nothing,
-  @KomapperIgnore val address: Nothing,
-  @KomapperIgnore val department: Nothing
 )
 
 val a = Meta.address
