@@ -32,6 +32,7 @@ dependencies {
 - komapper.prefix
 - komapper.suffix
 - komapper.namingStrategy
+- komapper.metaObject
 
 オプションを指定するにはGradleのビルドスクリプトで次のように記述します。
 
@@ -40,6 +41,7 @@ ksp {
   arg("komapper.prefix", "")
   arg("komapper.suffix", "Metamodel")
   arg("komapper.namingStrategy", "UPPER_SNAKE_CASE")
+  arg("komapper.metaObject", "example.Metamodels")
 }
 ```
 
@@ -72,3 +74,7 @@ lower_snake_case
 UPPER_SNAKE_CASE
 : エンティティクラスやプロパティの名前をキャメルケースからスネークケースに変換した上で全て大文字にしテーブルやカラムの名前とする。
 
+### komapper.metaObject
+
+メタモデルのインスタンスを拡張プロパティとして提供するobjectを指定します。
+デフォルト値は`org.komapper.core.dsl.Meta`です。
