@@ -29,7 +29,7 @@ JDKとGradleをインストールしてください。
 
 ビルドスクリプトをGradle Kotlin DSLを使って書きます。
 
-以下のコードをbuild.gradle.ktsに記述します。
+以下のコードをbuild.gradle.ktsに記述してください。
 
 ```kotlin
 plugins {
@@ -68,18 +68,24 @@ tasks {
 }
 ```
 
-dependenciesブロックでは3つの依存モジュールを宣言していますが、いずれも同一のバージョンであることに注意してください。
-以下にモジュールごとの説明をします。
+このビルドスクリプトのポイントは以下の3点です。
 
-komapper-starter-jdbc モジュール
-: Komapperを使ったJDBC接続に必要かつ便利なモジュール一式をまとめたモジュールです。
+1. `plugins`ブロックで`com.google.devtools.ksp`プラグインを指定する
+2. `dependencies`ブロックで同じバージョン番号を持つKomapperのモジュールを読み込む
+3. `kotlin`ブロックで出力されるソースコードのディレクトリを指定する
 
-komapper-dialect-h2-jdbc モジュール
-: H2 Database Engineに接続するために必要なモジュールです。
+`com.google.devtools.ksp`は [Kotlin Symbol Processing API](https://github.com/google/ksp) のプラグインです。
+コンパイル時のコード生成に必要です。
+プラグインのバージョン番号内のハイフンより前の値は使用するKotlinのバージョンに合わせる必要があります。
 
-komapper-processor モジュール
-: コンパイル時にコード生成を行うモジュールです。`ksp`というキーワードを使って宣言されていることに注意してください。
-`ksp` は [Kotlin Symbol Processing API](https://github.com/google/ksp) のプラグインが提供する機能でコンパイル時のコード生成に必要です。
+`dependencies`ブロックで指定するKomapperのモジュールのそれぞれの概要は以下の通りです。
+
+- komapper-starter-jdbc: Komapperを使ったJDBC接続に必要かつ便利なモジュール一式をまとめたモジュールです。
+- komapper-dialect-h2-jdbc: H2 Database Engineに接続するために必要なモジュールです。
+- komapper-processor: コンパイル時にコード生成を行うモジュールです。`ksp`というキーワードを使って宣言されていることに注意してください。
+`ksp`はKotlin Symbol Processing APIのプラグインが提供する機能です。
+
+`kotlin`ブロックでは、コンパイル時にコードが`build/generated/ksp/main/kotlin`に出力されることをGradleに伝えています。
 
 ### ソースコード {#source-code}
 
@@ -102,6 +108,9 @@ data class EmployeeDef(
   @KomapperUpdatedAt val updatedAt: Nothing,
 )
 ```
+
+上記のクラスの作成が終わったら一度 [ビルド]({{< relref "./#build" >}}) してください。
+メタモデルクラスのソースコードが出力され、後続のコードで利用できるようになります。
 
 次に、main関数を書きます。
 
@@ -137,6 +146,23 @@ fun main() {
     }
   }
 }
+```
+
+1. 接続文字列を与えてデータベースを表すインスタンスを生成します。このインスタンスはトランザクション制御やクエリの実行に必要となります。
+2. トランザクションを開始します。開始時にトランザクション属性や分離レベルを指定することもできます。
+3. ソースコード生成したメタモデルクラスのインスタンスを取得します。メタモデルのインスタンスは`Meta`オブジェクトの拡張プロパティとして公開されます。
+4. メタモデルを使ってスキーマを生成します。この機能は単純なサンプル作成に便利ですが、プロダクションレベルのアプリケーションでの利用は非推奨です。
+5. 複数のエンティティを一度に追加します。
+6. 全件をエンティティとして取得します。
+7. 取得したエンティティをループで出力します。
+
+上述のコードではクエリの構築と実行を同時に行っていますが、下記のように分けて行うこともできます。
+
+```kotlin
+// build a query
+val selectAllEmployees = QueryDsl.from(e).orderBy(e.id)
+// run the query
+val employees = database.runQuery { selectAllEmployees }
 ```
 
 ### ビルド {#build}
