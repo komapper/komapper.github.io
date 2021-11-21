@@ -118,60 +118,8 @@ data class AddressDef(
 )
 ```
 
-上述のコードから次のようなコードがコンパイル時に生成されます。
-
-```kotlin
-@org.komapper.core.dsl.metamodel.EntityMetamodelImplementor
-class _AddressDef private constructor(table: String = "address", catalog: String = "", schema: String = "", alwaysQuote: Boolean = false, disableSequenceAssignment: Boolean = false, declarations: List<org.komapper.core.dsl.metamodel.MetamodelDeclaration<Address, kotlin.Int, _AddressDef>> = emptyList()) : org.komapper.core.dsl.metamodel.EntityMetamodel<Address, kotlin.Int, _AddressDef> {
-    private val __tableName = table
-    private val __catalogName = catalog
-    private val __schemaName = schema
-    private val __alwaysQuote = alwaysQuote
-    private val __disableSequenceAssignment = disableSequenceAssignment
-    private val __declarations = declarations
-    private object __EntityDescriptor {
-        val id = org.komapper.core.dsl.metamodel.PropertyDescriptor<Address, kotlin.Int, kotlin.Int>(kotlin.Int::class, kotlin.Int::class, "id", "id", false, { it.id }, { e, v -> e.copy(id = v) }, { it }, { it }, false)
-        val street = org.komapper.core.dsl.metamodel.PropertyDescriptor<Address, kotlin.String, kotlin.String>(kotlin.String::class, kotlin.String::class, "street", "street", false, { it.street }, { e, v -> e.copy(street = v) }, { it }, { it }, false)
-        val version = org.komapper.core.dsl.metamodel.PropertyDescriptor<Address, kotlin.Int, kotlin.Int>(kotlin.Int::class, kotlin.Int::class, "version", "version", false, { it.version }, { e, v -> e.copy(version = v) }, { it }, { it }, false)
-    }
-    val id: org.komapper.core.dsl.metamodel.PropertyMetamodel<Address, kotlin.Int, kotlin.Int> by lazy { org.komapper.core.dsl.metamodel.PropertyMetamodelImpl(this, __EntityDescriptor.id) }
-    val street: org.komapper.core.dsl.metamodel.PropertyMetamodel<Address, kotlin.String, kotlin.String> by lazy { org.komapper.core.dsl.metamodel.PropertyMetamodelImpl(this, __EntityDescriptor.street) }
-    val version: org.komapper.core.dsl.metamodel.PropertyMetamodel<Address, kotlin.Int, kotlin.Int> by lazy { org.komapper.core.dsl.metamodel.PropertyMetamodelImpl(this, __EntityDescriptor.version) }
-    override fun klass() = Address::class
-    override fun tableName() = __tableName
-    override fun catalogName() = __catalogName
-    override fun schemaName() = __schemaName
-    override fun alwaysQuote() = __alwaysQuote
-    override fun declarations() = __declarations
-    override fun idAssignment(): org.komapper.core.dsl.metamodel.IdAssignment<Address>? = null
-    override fun idProperties(): List<org.komapper.core.dsl.metamodel.PropertyMetamodel<Address, *, *>> = listOf(id)
-    override fun versionProperty(): org.komapper.core.dsl.metamodel.PropertyMetamodel<Address, *, *>? = version
-    override fun createdAtProperty(): org.komapper.core.dsl.metamodel.PropertyMetamodel<Address, *, *>? = null
-    override fun updatedAtProperty(): org.komapper.core.dsl.metamodel.PropertyMetamodel<Address, *, *>? = null
-    override fun properties(): List<org.komapper.core.dsl.metamodel.PropertyMetamodel<Address, *, *>> = listOf(
-        id,
-        street,
-        version)
-    override fun toId(generatedKey: Long): kotlin.Int? = this.id.wrap(generatedKey.toInt())
-    override fun getId(e: Address): kotlin.Int = e.id
-    override fun preInsert(e: Address, c: java.time.Clock): Address = e.copy(version = e.version)
-    override fun preUpdate(e: Address, c: java.time.Clock): Address = e
-    override fun postUpdate(e: Address): Address = e.copy(version = e.version.inc())
-    override fun newEntity(m: Map<org.komapper.core.dsl.metamodel.PropertyMetamodel<*, *, *>, Any?>) = Address(
-        id = m[this.id] as kotlin.Int,
-        street = m[this.street] as kotlin.String,
-        version = m[this.version] as kotlin.Int)
-    override fun newMetamodel(table: String, catalog: String, schema: String, alwaysQuote: Boolean, disableSequenceAssignment: Boolean, declarations: List<org.komapper.core.dsl.metamodel.MetamodelDeclaration<Address, kotlin.Int, _AddressDef>>) = _AddressDef(table, catalog, schema, alwaysQuote, disableSequenceAssignment, declarations)
-    fun clone(table: String = "address", catalog: String = "", schema: String = "", alwaysQuote: Boolean = false, disableSequenceAssignment: Boolean = false, declarations: List<org.komapper.core.dsl.metamodel.MetamodelDeclaration<Address, kotlin.Int, _AddressDef>> = emptyList()) = _AddressDef(table, catalog, schema, alwaysQuote, disableSequenceAssignment, declarations)
-    companion object {
-        val address = _AddressDef()
-    }
-}
-
-val org.komapper.core.dsl.Meta.address get() = _AddressDef.address
-```
-
-アプリーケーションでは、生成されたメタモデルを使ってタイプセーフにクエリを組み立てられます。
+生成されたメタモデルは`org.komapper.core.dsl.Meta`オブジェクトの拡張プロパティを介してアプリケーションに公開されます。
+アプリーケーションはメタモデルを使うことでタイプセーフにクエリを組み立てられます。
 
 ```kotlin
 // get a generated metamodel
