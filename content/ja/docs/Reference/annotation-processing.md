@@ -27,7 +27,7 @@ dependencies {
 ## オプション {#options}
 
 オプションによりアノテーションプロセッサの挙動を変更できます。
-利用可能なオプションは以下の3つです。
+利用可能なオプションは以下の4つです。
 
 - komapper.prefix
 - komapper.suffix
