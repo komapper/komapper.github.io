@@ -54,60 +54,6 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ left outer jo
 */
 ```
 
-## include
-
-JOINしたテーブルのカラムをSELECT句に含める場合は`include`を呼び出します。
-`include`は連続して何度も呼び出せます。
-
-```kotlin
-val a = Address.meta
-val e = Employee.meta
-val d = Department.meta
-val query: Query<EntityContext<Address>> = QueryDsl.from(a)
-  .innerJoin(e) {
-    a.addressId eq e.addressId
-  }.innerJoin(d) {
-    e.departmentId eq d.departmentId
-  }.include(e)
-  .include(d)
-/*
-select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION, t1_.EMPLOYEE_ID, t1_.EMPLOYEE_NO, t1_.EMPLOYEE_NAME, t1_.MANAGER_ID, t1_.HIREDATE, t1_.SALARY, t1_.DEPARTMENT_ID, t1_.ADDRESS_ID, t1_.VERSION, t2_.DEPARTMENT_ID, t2_.DEPARTMENT_NO, t2_.DEPARTMENT_NAME, t2_.LOCATION, t2_.VERSION from ADDRESS as t0_ inner join EMPLOYEE as t1_ on (t0_.ADDRESS_ID = t1_.ADDRESS_ID) inner join DEPARTMENT as t2_ on (t1_.DEPARTMENT_ID = t2_.DEPARTMENT_ID)
-*/
-```
-
-全てのテーブルのカラムをSELECT句に含めたい場合は、複数回`include`を呼び出す代わりに`includeAll`を呼び出します。
-下記のコードは上記のコードと同等です。
-
-```kotlin
-val a = Address.meta
-val e = Employee.meta
-val d = Department.meta
-val query: Query<EntityContext<Address>> = QueryDsl.from(a)
-  .innerJoin(e) {
-    a.addressId eq e.addressId
-  }.innerJoin(d) {
-    e.departmentId eq d.departmentId
-  }.includeAll()
-/*
-select t0_.EMPLOYEE_ID, t0_.EMPLOYEE_NO, t0_.EMPLOYEE_NAME, t0_.MANAGER_ID, t0_.HIREDATE, t0_.SALARY, t0_.DEPARTMENT_ID, t0_.ADDRESS_ID, t0_.VERSION, t1_.ADDRESS_ID, t1_.STREET, t1_.VERSION, t2_.DEPARTMENT_ID, t2_.DEPARTMENT_NO, t2_.DEPARTMENT_NAME, t2_.LOCATION, t2_.VERSION from EMPLOYEE as t0_ inner join ADDRESS as t1_ on (t0_.ADDRESS_ID = t1_.ADDRESS_ID) inner join DEPARTMENT as t2_ on (t0_.DEPARTMENT_ID = t2_.DEPARTMENT_ID)
-*/
-```
-
-このクエリを実行した場合の戻り値は、SQLの結果セットから生成された複数のエンティティを保持する
-`org.komapper.core.dsl.query.EntityContext<ENTITY>`のインスタンスです。
-
-`EntityContext<ENTITY>`のインスタンスからは、エンティティの関連を`Map`として取得できます。
-
-```kotlin
-val entityContext: EntityContext<Address> = db.runQuery { query }
-
-val departmentEmployees: Map<Department, Set<Employee>> = entityContext.associate(d to e)
-val employeeAddress: Map<Employee, Address?> = entityContext.associate(e to a).asOneToOne()
-
-val departmentIdEmployees: Map<Int, Set<Employee>> = entityContext.associateById(d to e)
-val employeeIdAddress: Map<Int, Address?> = entityContext.associateById(e to a).asOneToOne()
-```
-
 ## forUpdate
 
 FOR UPDATE句を指定する場合は`forUpdate`を呼び出します。
@@ -242,6 +188,22 @@ for (row: Columns in list) {
 4つ以上のカラムを射影した場合、結果の値は`Columns`に含まれます。
 クエリの`select`に指定したカラムをkeyにして値を取得できます。
 
+## selectColumns
+
+4つ未満のカラムの射影で結果を`Columns`として受け取りたい場合は`select`の代わりに`selectColumns`を呼び出します。
+
+```kotlin
+val query: Query<List<Columns> = QueryDsl.from(a)
+    .where {
+        a.addressId inList listOf(1, 2)
+    }
+    .orderBy(a.addressId)
+    .selectColumn(a.street)
+/*
+select t0_.STREET from ADDRESS as t0_ where t0_.ADDRESS_ID in (?, ?) order by t0_.ADDRESS_ID asc
+*/
+```
+
 ## having
 
 HAVING句を指定するには`having`を呼び出します。
@@ -339,3 +301,66 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_
 したがって、メモリの使用効率を向上させられます。
 {{< /alert >}}
 
+## include
+
+JOINしたテーブルのカラムをSELECT句に含める場合は`include`を呼び出します。
+
+```kotlin
+val a = Address.meta
+val e = Employee.meta
+val d = Department.meta
+val query: Query<EntityContext<Address>> = QueryDsl.from(a)
+  .innerJoin(e) {
+    a.addressId eq e.addressId
+  }.innerJoin(d) {
+    e.departmentId eq d.departmentId
+  }.include(e, d)
+/*
+select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION, t1_.EMPLOYEE_ID, t1_.EMPLOYEE_NO, t1_.EMPLOYEE_NAME, t1_.MANAGER_ID, t1_.HIREDATE, t1_.SALARY, t1_.DEPARTMENT_ID, t1_.ADDRESS_ID, t1_.VERSION, t2_.DEPARTMENT_ID, t2_.DEPARTMENT_NO, t2_.DEPARTMENT_NAME, t2_.LOCATION, t2_.VERSION from ADDRESS as t0_ inner join EMPLOYEE as t1_ on (t0_.ADDRESS_ID = t1_.ADDRESS_ID) inner join DEPARTMENT as t2_ on (t1_.DEPARTMENT_ID = t2_.DEPARTMENT_ID)
+*/
+```
+
+このクエリを実行した場合の戻り値は、SQLの結果セットから生成された複数のエンティティを保持する
+`org.komapper.core.dsl.query.EntityStore`インスタンスです。
+
+`EntityStore`からエンティティの一覧を`List`として取得したり、エンティティの関連を`Map`として取得したりが可能です。
+上述の`query`を実行して`EntityStore`から一覧や関連を取り出す例を以下に示します。
+
+```kotlin
+val store: EntityStore = db.runQuery { query }
+
+val addresses: List<Address> = store.list(a)
+val employees: List<Employee> = store.list(e)
+val departments: List<Department> = store.list(d)
+
+val departmentEmployees: Map<Department, Set<Employee>> = store.oneToMany(d, e)
+val employeeDepartment: Map<Employee, Department?> = store.oneToOne(e, d)
+val employeeAddress: Map<Employee, Address?> = store.oneToOne(e, a)
+```
+
+関連を表す`Map`のキーをエンティティのIDに変換して取得することもできます。
+
+```kotlin
+val departmentIdEmployees: Map<Int, Set<Employee>> = store.oneToManyById(d, e)
+```
+
+## includeAll
+
+JOINしたテーブル全てのカラムをSELECT句に含めたい場合は、`includeAll`を呼び出します。
+
+```kotlin
+val a = Address.meta
+val e = Employee.meta
+val d = Department.meta
+val query: Query<EntityContext<Address>> = QueryDsl.from(a)
+  .innerJoin(e) {
+    a.addressId eq e.addressId
+  }.innerJoin(d) {
+    e.departmentId eq d.departmentId
+  }.includeAll()
+/*
+select t0_.EMPLOYEE_ID, t0_.EMPLOYEE_NO, t0_.EMPLOYEE_NAME, t0_.MANAGER_ID, t0_.HIREDATE, t0_.SALARY, t0_.DEPARTMENT_ID, t0_.ADDRESS_ID, t0_.VERSION, t1_.ADDRESS_ID, t1_.STREET, t1_.VERSION, t2_.DEPARTMENT_ID, t2_.DEPARTMENT_NO, t2_.DEPARTMENT_NAME, t2_.LOCATION, t2_.VERSION from EMPLOYEE as t0_ inner join ADDRESS as t1_ on (t0_.ADDRESS_ID = t1_.ADDRESS_ID) inner join DEPARTMENT as t2_ on (t0_.DEPARTMENT_ID = t2_.DEPARTMENT_ID)
+*/
+```
+
+これは [include](#include) で示した例と同等です。
