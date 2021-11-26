@@ -20,7 +20,7 @@ val result: List<Address> = db.runQuery { query }
 
 クエリの構築を担うDSLについては専用のページを参照ください。
 
-- [Query DSL]({{< relref "query-dsl.md" >}})
+- [Query DSL]({{< relref "QueryDsl" >}})
 - [Template DSL]({{< relref "template-dsl.md" >}})
 - [Script DSL]({{< relref "script-dsl.md" >}})
 - [Schema DSL]({{< relref "schema-dsl.md" >}})

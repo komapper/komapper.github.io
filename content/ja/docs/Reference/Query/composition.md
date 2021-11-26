@@ -12,17 +12,16 @@ description: >
 
 ## クエリ {#query}
 
-Komapperにおけるクエリは以下のクラスのいずれかもしくは両方で表現されます。
+Komapperにおいて、クエリは以下のクラスのいずれかもしくは両方で表現されます。
 
-`org.komapper.core.dsl.query.Query<T>`
-: `Database`インスタンスを介して実行するとデータベースにアクセスし`T`型の値を返すクエリ。合成可能です。
+org.komapper.core.dsl.query.Query<T>
+: `JdbcDatabase`もしくは`R2dbcDatabase`インスタンスを介して実行するとデータベースにアクセスし`T`型の値を返すクエリ。
 
-`org.komapper.core.dsl.query.FlowQuery<T>`
-: `Database`インスタンスを介して実行すると`kotlinx.coroutines.flow.Flow<T>`型の値を返すクエリ。データベースアクセスは`Flow`が`collect`されたときに初めて行われます。合成はサポートされていません。
+org.komapper.core.dsl.query.FlowQuery<T>
+: `R2dbcDatabase`インスタンスを介して実行すると`kotlinx.coroutines.flow.Flow<T>`型の値を返すクエリ。データベースアクセスは`Flow`が`collect`されたときに初めて行われます。
 
-{{< alert title="Note" >}}
-`FlowQuery<T>`は`R2dbcDatabase`インスタンスによってのみ実行可能です。
-{{< /alert >}}
+これらのうち、合成をサポートしているのは`Query<T>`のみです。
+下記では、`Query<T>`に対して実行できる合成関数を説明します。
 
 ### andThen {#query-composition-andthen}
 
@@ -102,19 +101,7 @@ select t0_.EMPLOYEE_ID, t0_.EMPLOYEE_NO, t0_.EMPLOYEE_NAME, t0_.MANAGER_ID, t0_.
 
 ## 宣言 {#declaration}
 
-Query DSLでは、例えば`where`関数や`having`関数に検索条件を表すラムダ式を渡しますが、
-Komapperではこれらのラムダ式のことを宣言と呼びます。
-
-宣言には以下のものがあります。
-
-- Having宣言 - `HavingDeclaration`
-- On宣言 - `OnDeclaration`
-- Set宣言 - `SetDeclaration`
-- Values宣言 - `ValuesDeclaration`
-- When宣言 - `WhenDeclaration`
-- Where宣言 - `WhereDeclaration`
-
-宣言は合成できます。
+クエリの構成要素である [宣言]({{< relref "QueryDsl/expression#declaration" >}}) は合成が可能です。
 
 ### plus {#declaration-composition-plus}
 
@@ -157,7 +144,7 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADD
 */
 ```
 
-`and`関数は、Having宣言、When宣言、Where宣言に対して適用できます。
+`and`関数は、Having、When、Whereの宣言に対して適用できます。
 
 ### or {#declaration-composition-or}
 
@@ -178,3 +165,5 @@ val list: List<Address> = db.runQuery { query }
 select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADDRESS_ID = ? or (t0_.VERSION = ? and t0_.STREET = ?)
 */
 ```
+
+`or`関数は、Having、When、Whereの宣言に対して適用できます。
