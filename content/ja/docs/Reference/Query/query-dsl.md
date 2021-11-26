@@ -487,7 +487,7 @@ IDはエンティティクラスのマッピング定義に`@KomapperAutoIncreme
 検索結果を追加するには`select`を呼び出します。
 
 ```kotlin
-val aa = Address.newMeta(table = "ADDRESS_ARCHIVE")
+val aa = Meta.address.clone(table = "ADDRESS_ARCHIVE")
 val query: Query<Int, Int?> = QueryDsl.insert(aa).select {
   QueryDsl.from(a).where { a.addressId between 1..5 }
 }
