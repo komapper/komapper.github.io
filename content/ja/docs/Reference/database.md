@@ -104,14 +104,16 @@ db.withTransaction {
 Databaseインスタンスの`runQuery`関数を呼び出すことでクエリを実行できます。
 
 ```kotlin
-val query = ...
+val a = Meta.address
+val query: FlowQuery = QueryDsl.from(a)
 val result = db.runQuery { query }
 ```
 
 R2DBCを使っている場合でクエリの型が`org.komapper.core.dsl.query.FlowQuery`のとき、`flow`関数を実行できます。
 
 ```kotlin
-val query: FlowQuery = ...
+val a = Meta.address
+val query: FlowQuery = QueryDsl.from(a)
 val flow = db.flow { query }
 ```
 
