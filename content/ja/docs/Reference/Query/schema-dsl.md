@@ -62,3 +62,28 @@ drop all objects;
 {{< alert title="Note" >}}
 利用するDialectによってはこの機能をサポートしません。
 {{< /alert >}}
+
+## options
+
+クエリの挙動をカスタマイズするには`options`を呼び出します。
+ラムダ式のパラメータはデフォルトのオプションを表します。
+変更したいプロパティを指定して`copy`メソッドを呼び出してください。
+
+```kotlin
+val query: Query<Unit> = SchemaDsl.create(Meta.address, Meta.employee).options {
+    it.copty(
+      queryTimeoutSeconds = 5
+    )
+}
+```
+
+指定可能なオプションには以下のものがあります。
+
+queryTimeoutSeconds
+: クエリタイムアウトの秒数です。デフォルトは`null`でドライバの値を使うことを示します。
+
+suppressLogging
+: SQLのログ出力を抑制するかどうかです。デフォルトは`false`です。
+
+[executionOptions]({{< relref "../database-config/#executionoptions" >}})
+の同名プロパティよりもこちらに明示的に設定した値が優先的に利用されます。

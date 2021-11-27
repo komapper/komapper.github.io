@@ -186,3 +186,35 @@ IDはエンティティクラスのマッピング定義に`@KomapperAutoIncreme
 - `@KomapperVersion`
 - `@KomapperCreatedAt`
 - `@KomapperUpdatedAt`
+
+## options
+
+クエリの挙動をカスタマイズするには`options`を呼び出します。
+ラムダ式のパラメータはデフォルトのオプションを表します。
+変更したいプロパティを指定して`copy`メソッドを呼び出してください。
+
+```kotlin
+val address: Address = Address(16, "STREET 16", 0)
+val query: Query<Address> = QueryDsl.insert(a).single(address).options {
+    it.copty(
+      queryTimeoutSeconds = 5
+    )
+}
+```
+
+指定可能なオプションには以下のものがあります。
+
+batchSize
+: バッチサイズです。デフォルトは`null`です。
+
+disableSequenceAssignment
+: IDにシーケンスで生成した値をアサインすることを無効化かどうかです。デフォルトは`false`です。
+
+queryTimeoutSeconds
+: クエリタイムアウトの秒数です。デフォルトは`null`でドライバの値を使うことを示します。
+
+suppressLogging
+: SQLのログ出力を抑制するかどうかです。デフォルトは`false`です。
+
+[executionOptions]({{< relref "../../database-config/#executionoptions" >}})
+の同名プロパティよりもこちらに明示的に設定した値が優先的に利用されます。

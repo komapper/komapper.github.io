@@ -364,3 +364,41 @@ select t0_.EMPLOYEE_ID, t0_.EMPLOYEE_NO, t0_.EMPLOYEE_NAME, t0_.MANAGER_ID, t0_.
 ```
 
 これは [include](#include) で示した例と同等です。
+
+## options
+
+クエリの挙動をカスタマイズするには`options`を呼び出します。
+ラムダ式のパラメータはデフォルトのオプションを表します。
+変更したいプロパティを指定して`copy`メソッドを呼び出してください。
+
+```kotlin
+val query: Query<List<Address>> = QueryDsl.from(a).options {
+    it.copty(
+      fetchSize = 100,
+      queryTimeoutSeconds = 5
+    )
+}
+```
+
+指定可能なオプションには以下のものがあります。
+
+allowEmptyWhereClause
+: 空のWHERE句を認めるかどうかです。デフォルトは`true`です。
+
+escapeSequence
+: LIKE句に指定されるエスケープシーケンスです。デフォルトは`null`で`Dialect`の値を使うことを示します。
+
+fetchSize
+: フェッチサイズです。デフォルトは`null`でドライバの値を使うことを示します。
+
+maxRows
+: 最大行数です。デフォルトは`null`でドライバの値を使うことを示します。
+
+queryTimeoutSeconds
+: クエリタイムアウトの秒数です。デフォルトは`null`でドライバの値を使うことを示します。
+
+suppressLogging
+: SQLのログ出力を抑制するかどうかです。デフォルトは`false`です。
+
+[executionOptions]({{< relref "../../database-config/#executionoptions" >}})
+の同名プロパティよりもこちらに明示的に設定した値が優先的に利用されます。

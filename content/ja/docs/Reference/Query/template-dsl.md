@@ -70,6 +70,52 @@ val query: Query<List<Address>> = TemplateDsl.from(sql).bind(
 カラムのラベル名やインデックスで値を取得する関数を持ちます。
 なお、インデックスは0から始まります。
 
+### options {#select-options}
+
+クエリの挙動をカスタマイズするには`options`を呼び出します。
+ラムダ式のパラメータはデフォルトのオプションを表します。
+変更したいプロパティを指定して`copy`メソッドを呼び出してください。
+
+```kotlin
+val sql = "select * from ADDRESS where street = /*street*/'test'"
+val query: Query<List<Address>> = TemplateDsl.from(sql).options {
+  it.copty(
+    fetchSize = 100,
+    queryTimeoutSeconds = 5
+  )
+}.bind(
+  object {
+    val street = "STREET 10"
+  }
+).select { row: Row ->
+  Address(
+    row.asInt("address_id")!!,
+    row.asString("street")!!,
+    row.asInt("version")!!
+  )
+}
+```
+
+指定可能なオプションには以下のものがあります。
+
+escapeSequence
+: LIKE句に指定されるエスケープシーケンスです。デフォルトは`null`で`Dialect`の値を使うことを示します。
+
+fetchSize
+: フェッチサイズです。デフォルトは`null`でドライバの値を使うことを示します。
+
+maxRows
+: 最大行数です。デフォルトは`null`でドライバの値を使うことを示します。
+
+queryTimeoutSeconds
+: クエリタイムアウトの秒数です。デフォルトは`null`でドライバの値を使うことを示します。
+
+suppressLogging
+: SQLのログ出力を抑制するかどうかです。デフォルトは`false`です。
+
+[executionOptions]({{< relref "../database-config/#executionoptions" >}})
+の同名プロパティよりもこちらに明示的に設定した値が優先的に利用されます。
+
 ## EXECUTE
 
 更新系のDMLを実行するには`execute`関数に [SQLテンプレート]({{< relref "#sql-template" >}})、`bind`関数にSQLテンプレート内で利用したいデータを渡します。
@@ -91,6 +137,38 @@ val query = Query<Int> = TemplateDsl.execute(sql).bind(data)
 val sql = "update ADDRESS set street = /*street*/'' where address_id = /*id*/0"
 val query = Query<Int> = TemplateDsl.execute(sql).bind( object { id = 15, street = "NY street" } )
 ```
+
+### options {#execute-options}
+
+クエリの挙動をカスタマイズするには`options`を呼び出します。
+ラムダ式のパラメータはデフォルトのオプションを表します。
+変更したいプロパティを指定して`copy`メソッドを呼び出してください。
+
+```kotlin
+data class Condition(val id: Int, val street: String)
+
+val sql = "update ADDRESS set street = /*street*/'' where address_id = /*id*/0"
+val data = Condition(15, "NY street")
+val query = Query<Int> = TemplateDsl.execute(sql).bind(data).options {
+    it.copty(
+      queryTimeoutSeconds = 5
+    )
+}
+```
+
+指定可能なオプションには以下のものがあります。
+
+escapeSequence
+: LIKE句に指定されるエスケープシーケンスです。デフォルトは`null`で`Dialect`の値を使うことを示します。
+
+queryTimeoutSeconds
+: クエリタイムアウトの秒数です。デフォルトは`null`でドライバの値を使うことを示します。
+
+suppressLogging
+: SQLのログ出力を抑制するかどうかです。デフォルトは`false`です。
+
+[executionOptions]({{< relref "../database-config/#executionoptions" >}})
+の同名プロパティよりもこちらに明示的に設定した値が優先的に利用されます。
 
 ## SQLテンプレート  {#sql-template}
 
