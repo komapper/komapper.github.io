@@ -3,12 +3,12 @@ title: "SELECT"
 linkTitle: "SELECT"
 weight: 10
 description: >
-  SELECT文
+  SELECTクエリの構築
 ---
 
 ## 概要 {#overview}
 
-SELECTクエリは`QueryDsl`の`from`を呼び出して生成します。これが基本の形となります。
+SELECTクエリは`QueryDsl`の`from`を呼び出して構築します。これが基本の形となります。
 
 次のクエリは`ADDRESS`テーブルを全件取得するSQLに対応します。
 

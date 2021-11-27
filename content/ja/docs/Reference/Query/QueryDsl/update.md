@@ -3,12 +3,12 @@ title: "UPDATE"
 linkTitle: "UPDATE"
 weight: 30
 description: >
-  UPDATE文
+  UPDATEクエリの構築
 ---
 
 ## 概要 {#overview}
 
-UPDATEクエリは`QueryDsl`の`update`とそれに続く関数を呼び出して生成します。
+UPDATEクエリは`QueryDsl`の`update`とそれに続く関数を呼び出して構築します。
 
 クエリ実行時にキーが重複した場合、`org.komapper.core.UniqueConstraintException`がスローされます。
 

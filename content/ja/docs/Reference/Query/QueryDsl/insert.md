@@ -3,12 +3,12 @@ title: "INSERT"
 linkTitle: "INSERT"
 weight: 20
 description: >
-  INSERT文
+  INSERTクエリの構築
 ---
 
 ## 概要 {#overview}
 
-INSERTクエリは`QueryDsl`の`insert`とそれに続く関数を呼び出して生成します。
+INSERTクエリは`QueryDsl`の`insert`とそれに続く関数を呼び出して構築します。
 
 クエリ実行時にキーが重複した場合かつ`onDuplicateKeyIgnore`や`onDuplicateKeyUpdate`を呼び出していない場合、
 `org.komapper.core.UniqueConstraintException`がスローされます。

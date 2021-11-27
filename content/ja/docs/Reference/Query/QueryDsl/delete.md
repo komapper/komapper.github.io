@@ -3,12 +3,12 @@ title: "DELETE"
 linkTitle: "DELETE"
 weight: 40
 description: >
-  DELETE文
+  DELETEクエリの構築
 ---
 
 ## 概要 {#overview}
 
-DELETEクエリは`QueryDsl`の`delete`とそれに続く関数を呼び出して生成します。
+DELETEクエリは`QueryDsl`の`delete`とそれに続く関数を呼び出して構築します。
 
 ## single
 
