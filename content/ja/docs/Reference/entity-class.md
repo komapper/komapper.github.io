@@ -363,7 +363,7 @@ data class Address(
 )
 ```
 
-`aliases`については [aliases]({{< relref "#aliases" >}}) を参照ください。
+`aliases`については [aliases]({{< relref "#metamodel-aliases" >}}) を参照ください。
 
 ### @KomapperEntityDef
 
@@ -377,7 +377,7 @@ data class AddressDef(
 )
 ```
 
-`aliases`については [aliases]({{< relref "#aliases" >}}) を参照ください。
+`aliases`については [aliases]({{< relref "#metamodel-aliases" >}}) を参照ください。
 
 ### @KomapperTable
 
