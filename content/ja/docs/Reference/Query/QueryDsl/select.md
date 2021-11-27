@@ -310,7 +310,7 @@ val a = Address.meta
 val e = Employee.meta
 val d = Department.meta
 
-val query: Query<EntityStore<Address>> = QueryDsl.from(a)
+val query: Query<EntityStore> = QueryDsl.from(a)
   .innerJoin(e) {
     a.addressId eq e.addressId
   }.innerJoin(d) {
@@ -353,7 +353,8 @@ JOINしたテーブル全てのカラムをSELECT句に含めたい場合は、`
 val a = Address.meta
 val e = Employee.meta
 val d = Department.meta
-val query: Query<EntityContext<Address>> = QueryDsl.from(a)
+
+val query: Query<EntityStore> = QueryDsl.from(a)
   .innerJoin(e) {
     a.addressId eq e.addressId
   }.innerJoin(d) {
