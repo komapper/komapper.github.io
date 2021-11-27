@@ -43,6 +43,15 @@ R2DBC版のアプリケーションを動かすには次のコマンドを実行
 $ ./gradlew :console-r2dbc:run
 ```
 
+### JetBrains Exposedとの比較 {#comparison-with-exposed}
+
+[JetBrains Exposedのサンプルコード](https://github.com/JetBrains/Exposed#sql-dsl)
+をKomapper用に書き換えたアプリケーションを動かすには次のコマンドを実行します。
+
+```sh
+$ ./gradlew :comparison-with-exposed:run
+```
+
 ### Spring Bootを使ったWebアプリケーション {#spring-boot-web-applications}
 
 JDBC版のアプリケーションを動かすには次のコマンドを実行します。
