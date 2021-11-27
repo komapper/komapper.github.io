@@ -309,7 +309,8 @@ JOINしたテーブルのカラムをSELECT句に含める場合は`include`を�
 val a = Address.meta
 val e = Employee.meta
 val d = Department.meta
-val query: Query<EntityContext<Address>> = QueryDsl.from(a)
+
+val query: Query<EntityStore<Address>> = QueryDsl.from(a)
   .innerJoin(e) {
     a.addressId eq e.addressId
   }.innerJoin(d) {
