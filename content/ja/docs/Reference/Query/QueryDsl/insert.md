@@ -3,7 +3,7 @@ title: "INSERT"
 linkTitle: "INSERT"
 weight: 20
 description: >
-  INSERTクエリの構築
+  INSERTクエリ
 ---
 
 ## 概要 {#overview}

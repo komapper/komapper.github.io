@@ -3,7 +3,7 @@ title: "SELECT"
 linkTitle: "SELECT"
 weight: 10
 description: >
-  SELECTクエリの構築
+  SELECTクエリ
 ---
 
 ## 概要 {#overview}

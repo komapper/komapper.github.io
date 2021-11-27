@@ -3,7 +3,7 @@ title: "DELETE"
 linkTitle: "DELETE"
 weight: 40
 description: >
-  DELETEクエリの構築
+  DELETEクエリ
 ---
 
 ## 概要 {#overview}

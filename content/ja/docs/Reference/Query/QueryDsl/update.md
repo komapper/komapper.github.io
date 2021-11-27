@@ -3,7 +3,7 @@ title: "UPDATE"
 linkTitle: "UPDATE"
 weight: 30
 description: >
-  UPDATEクエリの構築
+  UPDATEクエリ
 ---
 
 ## 概要 {#overview}
