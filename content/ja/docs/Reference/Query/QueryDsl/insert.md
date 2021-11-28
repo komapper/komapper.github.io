@@ -137,7 +137,9 @@ insert into DEPARTMENT as t0_ (DEPARTMENT_ID, DEPARTMENT_NO, DEPARTMENT_NAME, LO
 
 ## values
 
-プロパティごとの値を設定して1件を追加するには`values`を呼び出します。
+プロパティごとの値を設定して1件を追加するには`values`関数にラムダ式を渡します。
+
+ラムダ式の中では`set`関数を使って値を設定できます。
 
 ```kotlin
 val query: Query<Pair<Int, Int?>> = QueryDsl.insert(a).values {
@@ -148,6 +150,16 @@ val query: Query<Pair<Int, Int?>> = QueryDsl.insert(a).values {
 /*
 insert into ADDRESS (ADDRESS_ID, STREET, VERSION) values (?, ?, ?)
 */
+```
+
+`setIfNotNull`を使って値が`null`でない場合にのみ値を設定することもできます。
+
+```kotlin
+val query: Query<Pair<Int, Int?>> = QueryDsl.insert(a).values {
+    a.addressId set 19
+    a.street setIfNotNull street
+    a.version set 0
+}
 ```
 
 クエリを実行した場合の戻り値は追加された件数と生成されたIDの`Pair`です。

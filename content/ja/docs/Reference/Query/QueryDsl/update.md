@@ -61,7 +61,9 @@ update ADDRESS set STREET = ?, VERSION = ? + 1 where ADDRESS_ID = ? and VERSION 
 
 ## set {#set}
 
-任意のプロパティに更新データをセットするには`set`を呼び出します。
+任意のプロパティに更新データをセットするには`set`関数にラムダ式を渡します。
+
+ラムダ式の中では`set`関数を使って値を設定できます。
 
 ```kotlin
 val query: Query<Int> = QueryDsl.update(a).set {
@@ -74,13 +76,26 @@ update ADDRESS as t0_ set STREET = ? where t0_.ADDRESS_ID = ?
 */
 ```
 
-このクエリを実行した場合の戻り値は更新された件数です。
+`setIfNotNull`を使って値が`null`でない場合にのみ値を設定することもできます。
+
+```kotlin
+val query: Query<Int> = QueryDsl.update(e).set {
+  e.managerId setIfNotNull managerId
+  e.employeeName set "test"
+}.where {
+  e.employeeId eq 1
+}
+```
+
+これらのクエリを実行した場合の戻り値は更新された件数です。
 
 以下のマッピング定義を持つプロパティについて明示的に`set`を呼び出さない場合、発行されるSQLに自動で値が設定されます。
 明示的に`set`した場合は明示した値が優先されます。
 
 - `@KomapperVersion`
 - `@KomapperUpdatedAt`
+
+
 
 ## where {#update-where}
 
