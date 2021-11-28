@@ -306,9 +306,9 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_
 JOINしたテーブルのカラムをSELECT句に含める場合は`include`を呼び出します。
 
 ```kotlin
-val a = Address.meta
-val e = Employee.meta
-val d = Department.meta
+val a = Meta.address
+val e = Meta.employee
+val d = Meta.department
 
 val query: Query<EntityStore> = QueryDsl.from(a)
   .innerJoin(e) {
@@ -350,9 +350,9 @@ val departmentIdEmployees: Map<Int, Set<Employee>> = store.oneToManyById(d, e)
 JOINしたテーブル全てのカラムをSELECT句に含めたい場合は、`includeAll`を呼び出します。
 
 ```kotlin
-val a = Address.meta
-val e = Employee.meta
-val d = Department.meta
+val a = Meta.address
+val e = Meta.employee
+val d = Meta.department
 
 val query: Query<EntityStore> = QueryDsl.from(a)
   .innerJoin(e) {
