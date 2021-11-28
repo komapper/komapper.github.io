@@ -29,6 +29,10 @@ val result: List<Address> = db.runQuery { query }
 
 - [Composition]({{< relref "composition.md" >}})
 
+クエリのデバッグの仕方については下記のページを参照ください。
+
+- [Debugging]({{< relref "debugging.md" >}})
+
 ## 前提条件 {#prerequisites}
 
 [Query]({{< relref "../Query" >}}) の下位ページでは、下記のエンティティ定義、マッピング定義、変数が存在することを前提に説明をします。
