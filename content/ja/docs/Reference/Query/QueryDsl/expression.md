@@ -29,9 +29,10 @@ QueryDsl.from(a).where { a.addressId eq 1 }
 KomapperではこのようなSQLの句に対応するようなラムダ式のことを宣言と呼びます。
 
 宣言には以下のものがあります。
+宣言は全てtypealiasとして`org.komapper.core.dsl.expression`パッケージに定義されています。
 
 Assignment宣言
-: VALUE句に相当する`value`関数やSET句に相当する`set`関数が受け取るラムダ式。typealiasは`AssignmentDeclaration`。
+: VALUES句に相当する`values`関数やSET句に相当する`set`関数が受け取るラムダ式。typealiasは`AssignmentDeclaration`。
 
 Having宣言
 : HAVING句に対応する`having`関数が受け取るラムダ式。typealiasは`HavingDeclaration`。
@@ -564,9 +565,9 @@ select min(t0_.ADDRESS_ID) from ADDRESS as t0_
 
 バインド変数を介さず直接値をリテラルとしてSQLに埋め込みたい場合は`literal`を呼び出します。
 
-`literal`は`org.komapper.core.dsl.operator`に定義されています。
+`literal`関数は`org.komapper.core.dsl.operator`に定義されています。
 
-`literal`に渡せるKotlinの型は以下のものです。
+`literal`関数がサポートする引数の型は以下のものです。
 
 - Boolean
 - Int
