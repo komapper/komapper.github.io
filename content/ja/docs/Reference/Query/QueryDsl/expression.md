@@ -27,8 +27,6 @@ QueryDsl.from(a).where { a.addressId eq 1 }
 ```
 
 KomapperではこのようなSQLの句に対応するようなラムダ式のことを宣言と呼びます。
-
-宣言には以下のものがあります。
 宣言は全てtypealiasとして`org.komapper.core.dsl.expression`パッケージに定義されています。
 
 Assignment宣言
@@ -45,6 +43,74 @@ When宣言
 
 Where宣言
 : WHERE句に対応する`where`関数が受け取るラムダ式。typealiasは`WhereDeclaration`。
+
+これらの宣言は下記に示すように合成が可能です。
+
+### plus {#declaration-composition-plus}
+
+`+`演算子を使うと、被演算子の宣言内部に持つ式を順番に実行するような新たな宣言を構築できます。
+
+```kotlin
+val w1: WhereDeclaration = {
+    a.addressId eq 1
+}
+val w2: WhereDeclaration = {
+    a.version eq 1
+}
+val w3: WhereDeclaration = w1 + w2 // +演算子の利用
+val query: Query<List<Address>> = QueryDsl.from(a).where(w3)
+val list: List<Address> = db.runQuery { query }
+/*
+select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADDRESS_ID = ? and t0_.VERSION = ?
+*/
+```
+
+`+`演算子はすべての宣言で利用できます。
+
+### and {#declaration-composition-and}
+
+`and`関数を使うと、宣言を`and`演算子で連結する新たな宣言を構築できます。
+
+```kotlin
+val w1: WhereDeclaration = {
+    a.addressId eq 1
+}
+val w2: WhereDeclaration = {
+    a.version eq 1
+    or { a.version eq 2 }
+}
+val w3: WhereDeclaration = w1.and(w2) // and関数の利用
+val query: Query<List<Address>> = QueryDsl.from(a).where(w3)
+val list: List<Address> = db.runQuery { query }
+/*
+select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADDRESS_ID = ? and (t0_.VERSION = ? or (t0_.VERSION = ?))
+*/
+```
+
+`and`関数は、Having、When、Whereの宣言に対して適用できます。
+
+### or {#declaration-composition-or}
+
+`or`関数を使うと、宣言を`or`演算子で連結する新たな宣言を構築できます。
+
+```kotlin
+val w1: WhereDeclaration = {
+    a.addressId eq 1
+}
+val w2: WhereDeclaration = {
+    a.version eq 1
+    a.street eq "STREET 1"
+}
+val w3: WhereDeclaration = w1.or(w2) // or関数の利用
+val query: Query<List<Address>> = QueryDsl.from(a).where(w3)
+val list: List<Address> = db.runQuery { query }
+/*
+select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADDRESS_ID = ? or (t0_.VERSION = ? and t0_.STREET = ?)
+*/
+```
+
+`or`関数は、Having、When、Whereの宣言に対して適用できます。
+
 
 ## 比較演算子 {#comparison-operator}
 
