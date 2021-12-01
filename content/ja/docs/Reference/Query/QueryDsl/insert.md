@@ -181,7 +181,7 @@ IDはマッピング定義に`@KomapperAutoIncrement`や`@KomapperSequence`が�
 
 ```kotlin
 val aa = Meta.address.clone(table = "ADDRESS_ARCHIVE")
-val query: Query<Int, Int?> = QueryDsl.insert(aa).select {
+val query: Query<Int, List<Int>> = QueryDsl.insert(aa).select {
   QueryDsl.from(a).where { a.addressId between 1..5 }
 }
 /*
@@ -189,8 +189,8 @@ insert into ADDRESS_ARCHIVE (ADDRESS_ID, STREET, VERSION) select t1_.ADDRESS_ID,
 */
 ```
 
-クエリを実行した場合の戻り値は追加された件数と生成されるIDの`Pair`です。
-IDはエンティティクラスのマッピング定義に`@KomapperAutoIncrement`が注釈されている場合にのみ返されます。
+クエリを実行した場合の戻り値は追加された件数と生成されるIDのリストの`Pair`です。
+IDはエンティティクラスのマッピング定義に`@KomapperAutoIncrement`が注釈されている場合にのみ生成されます。
 
 以下のマッピング定義は考慮されません。
 
