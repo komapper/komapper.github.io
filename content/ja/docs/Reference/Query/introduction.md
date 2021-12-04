@@ -25,7 +25,7 @@ val result: List<Address> = db.runQuery { query }
 - [Script DSL]({{< relref "script-dsl.md" >}})
 - [Schema DSL]({{< relref "schema-dsl.md" >}})
 
-クエリの構築に役立つクエリや宣言の合成については下記のページを参照ください。
+複数のクエリを1つのクエリに合成する方法については下記のページを参照ください。
 
 - [Composition]({{< relref "composition.md" >}})
 
