@@ -52,6 +52,15 @@ $ ./gradlew :console-r2dbc:run
 $ ./gradlew :comparison-with-exposed:run
 ```
 
+### リポジトリパターンの実装例 {#repository-pattern}
+
+リポジトリパターンの実装例にはテストコードがあります。
+テストを実行するには次のコマンドを実行します。
+
+```sh
+$ ./gradlew :repository-pattern-jdbc:build
+```
+
 ### Spring Bootを使ったWebアプリケーション {#spring-boot-web-applications}
 
 JDBC版のアプリケーションを動かすには次のコマンドを実行します。
