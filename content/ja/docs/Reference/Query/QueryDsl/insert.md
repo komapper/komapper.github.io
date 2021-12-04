@@ -10,7 +10,7 @@ description: >
 
 INSERTクエリは`QueryDsl`の`insert`とそれに続く関数を呼び出して構築します。
 
-クエリ実行時にキーが重複した場合かつ`onDuplicateKeyIgnore`や`onDuplicateKeyUpdate`を呼び出していない場合、
+クエリ実行時にキーが重複した場合かつ`onDuplicateKeyIgnore`や`onDuplicateKeyUpdate`を適切に呼び出していない場合、
 `org.komapper.core.UniqueConstraintException`がスローされます。
 
 ## single
@@ -93,10 +93,8 @@ insert into ADDRESS (ADDRESS_ID, STREET, VERSION) values (?, ?, ?)
 
 ```kotlin
 val address: Address = ..
-val query: Query<Int> = QueryDsl.insert(a).onDuplicateKeyIgnore().single(address)
+val query: Query<Address?> = QueryDsl.insert(a).onDuplicateKeyIgnore().single(address)
 ```
-
-このクエリを実行した場合の戻り値はドライバの返す値です。
 
 上記クエリに対応するSQLはどのDialectを使うかで異なります。
 例えば、MariaDBのDialectを使う場合は次のようなSQLになります。
@@ -111,16 +109,31 @@ PostgreSQLのDialectを使う場合は次のようなSQLになります。
 insert into ADDRESS as t0_ (ADDRESS_ID, STREET, VERSION) values (?, ?, ?) on conflict (ADDRESS_ID) do nothing
 ```
 
+### single {#onduplicatekeyignore-single}
+
+`onDuplicateKeyIgnore`に続けて`single`を呼び出した場合、戻り値は追加されたデータを表す新しいエンティティです。
+キーが重複していた場合は`null`が戻ります。
+
+### multiple {#onduplicatekeyignore-multiple}
+
+このクエリを実行した場合の戻り値はドライバの返す値です。
+
+### batch {#onduplicatekeyignore-batch}
+
+このクエリを実行した場合の戻り値はドライバの返す値のリストです。
+
+{{< alert color="warning" title="Warning" >}}
+R2DBCではサポートされていません。
+{{< /alert >}}
+
 ## onDuplicateKeyUpdate
 
 `onDuplicateKeyIgnore`を呼び出すことでキーが重複した場合にUPDATEを実行できます。
 
 ```kotlin
 val department: Department = ..
-val query: Query<Int> = QueryDsl.insert(d).onDuplicateKeyUpdate().single(department)
+val query: Query<Address> = QueryDsl.insert(d).onDuplicateKeyUpdate().single(department)
 ```
-
-このクエリを実行した場合の戻り値はドライバの返す値です。
 
 上記クエリに対応するSQLはどのDialectを使うかで異なります。
 例えば、MariaDBのDialectを使う場合は次のようなSQLになります。
@@ -134,6 +147,22 @@ PostgreSQLのDialectを使う場合は次のようなSQLになります。
 ```sql
 insert into DEPARTMENT as t0_ (DEPARTMENT_ID, DEPARTMENT_NO, DEPARTMENT_NAME, LOCATION, VERSION) values (?, ?, ?, ?, ?) on conflict (DEPARTMENT_ID) do update set DEPARTMENT_NO = excluded.DEPARTMENT_NO, DEPARTMENT_NAME = excluded.DEPARTMENT_NAME, LOCATION = excluded.LOCATION, VERSION = excluded.VERSION
 ```
+
+### single {#onduplicatekeyupdate-single}
+
+`onDuplicateKeyUpdate`に続けて`single`を呼び出した場合、戻り値は追加されたデータもしくは更新されたデータを表す新しいエンティティです。
+
+### multiple {#onduplicatekeyupdate-multiple}
+
+このクエリを実行した場合の戻り値はドライバの返す値です。
+
+### batch {#onduplicatekeyupdate-batch}
+
+このクエリを実行した場合の戻り値はドライバの返す値のリストです。
+
+{{< alert color="warning" title="Warning" >}}
+R2DBCではサポートされていません。
+{{< /alert >}}
 
 ## values
 
