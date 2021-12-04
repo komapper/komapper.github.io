@@ -42,12 +42,12 @@ application {
 }
 
 dependencies {
-    val komapperVersion = "0.22.0"
+    val komapperVersion = "0.23.0"
     implementation("org.komapper:komapper-starter-jdbc:$komapperVersion")
     implementation("org.komapper:komapper-dialect-h2-jdbc:$komapperVersion")
     ksp("org.komapper:komapper-processor:$komapperVersion")
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.1")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.1")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.2")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.2")
 }
 
 kotlin {

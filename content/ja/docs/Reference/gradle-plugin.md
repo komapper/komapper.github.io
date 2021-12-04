@@ -32,7 +32,7 @@ Gradleプラグインの利用は必須ではありません。
 ```kotlin
 // Komapperプラグインの利用を宣言する
 plugins {
-  id("org.komapper.gradle") version "0.22.0"
+  id("org.komapper.gradle") version "0.23.0"
 }
 
 // Komapperプラグインに関する設定を行う
