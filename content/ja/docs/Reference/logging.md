@@ -53,6 +53,37 @@ The transaction "83d5c2e5-8d3b-4a45-a5bb-215f846a0327" has committed.
 このカテゴリは他のどのカテゴリにも属さないログを表します。
 デフォルトでは利用されていません。
 
+## LoggerFacadeの利用例 {#loggerfacade}
+
+LoggerFacadeを使えば、ログメッセージやログレベルの変更ができます。
+
+### SQLのログレベルを変更する場合の設定例 {#loggerfacade-loglevel-example}
+
+例えば、SQLのログレベルをDEBUGからINFOに変更したい場合は、以下のような実装を作成します。
+
+```kotlin
+class MyLoggerFacade(private val logger: Logger): LoggerFacade by DefaultLoggerFacade(logger) {
+    override fun sql(statement: Statement, format: (Int, StatementPart.PlaceHolder) -> CharSequence) {
+        logger.info(LogCategory.SQL.value) {
+            statement.toSql(format)
+        }
+    }
+}
+```
+
+上記の実装クラスを`JdbcDatabaseConfig`に設定するには次のように記述します。
+
+```kotlin
+val dataSource: DataSource = ..
+val dialect: JdbcDialect = ..
+val config: JdbcDatabaseConfig = object: DefaultJdbcDatabaseConfig(dataSource, dialect) {
+  override val loggerFacade: LoggerFacade by {
+    MyLoggerFacade(logger)
+  }
+}
+val db = JdbcDatabase.create(config)
+```
+
 ## SLF4Jの利用 {#slf4j}
 
 [SLF4J](http://www.slf4j.org/) を利用してログ出力するにはkomapper-slf4jモジュールをGradleの依存関係の宣言に含めます。
@@ -81,7 +112,7 @@ Komapperが提供する各種starterモジュールはSLF4JとLogbackの設定�
 starterモジュールを使う場合、上記の設定は不要です。
 {{< /alert >}}
 
-### LogbackでSQLのログ出力をする場合の設定例 {#logback-example}
+### LogbackでSQLのログ出力をする場合の設定例 {#slf4j-logback-example}
 
 次のようなlogback.xmlをsrc/main/resourcesの下に配置すると、バインド変数`?`が含まれた形式のSQLがコンソールに出力されます。
 
