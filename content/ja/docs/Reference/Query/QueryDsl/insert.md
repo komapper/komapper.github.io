@@ -90,10 +90,11 @@ insert into ADDRESS (ADDRESS_ID, STREET, VERSION) values (?, ?, ?)
 ## onDuplicateKeyIgnore
 
 `onDuplicateKeyIgnore`を呼び出すことでキーが重複した場合のエラーを無視できます。
+`onDuplicateKeyIgnore`には重複チェック対象のキーを指定できます。指定されない場合は主キーが使われます。
 
 ```kotlin
 val address: Address = ..
-val query: Query<Address?> = QueryDsl.insert(a).onDuplicateKeyIgnore().single(address)
+val query: Query<Address?> = QueryDsl.insert(a).onDuplicateKeyIgnore().executeAndGet(address)
 ```
 
 上記クエリに対応するSQLはどのDialectを使うかで異なります。
@@ -109,18 +110,22 @@ PostgreSQLのDialectを使う場合は次のようなSQLになります。
 insert into ADDRESS as t0_ (ADDRESS_ID, STREET, VERSION) values (?, ?, ?) on conflict (ADDRESS_ID) do nothing
 ```
 
+### executeAndGet {#onduplicatekeyignore-executeandget}
+
+`onDuplicateKeyIgnore`に続けて`executeAndGet`を呼び出した場合、戻り値は追加されたデータを表すエンティティです。
+キーが重複していた場合は`null`が戻ります。
+
 ### single {#onduplicatekeyignore-single}
 
-`onDuplicateKeyIgnore`に続けて`single`を呼び出した場合、戻り値は追加されたデータを表す新しいエンティティです。
-キーが重複していた場合は`null`が戻ります。
+`onDuplicateKeyIgnore`に続けて`single`を呼び出した場合の戻り値はドライバの返す値です。
 
 ### multiple {#onduplicatekeyignore-multiple}
 
-このクエリを実行した場合の戻り値はドライバの返す値です。
+`onDuplicateKeyIgnore`に続けて`multiple`を呼び出した場合の戻り値はドライバの返す値です。
 
 ### batch {#onduplicatekeyignore-batch}
 
-このクエリを実行した場合の戻り値はドライバの返す値のリストです。
+`onDuplicateKeyIgnore`に続けて`batch`を呼び出した場合の戻り値はドライバの返す値です。
 
 {{< alert color="warning" title="Warning" >}}
 R2DBCではサポートされていません。
@@ -128,11 +133,12 @@ R2DBCではサポートされていません。
 
 ## onDuplicateKeyUpdate
 
-`onDuplicateKeyIgnore`を呼び出すことでキーが重複した場合にUPDATEを実行できます。
+`onDuplicateKeyUpdate`を呼び出すことでキーが重複した場合に対象行を更新できます。
+`onDuplicateKeyUpdate`には重複チェック対象のキーを指定できます。指定されない場合は主キーが使われます。
 
 ```kotlin
 val department: Department = ..
-val query: Query<Address> = QueryDsl.insert(d).onDuplicateKeyUpdate().single(department)
+val query: Query<Address> = QueryDsl.insert(d).onDuplicateKeyUpdate().executeAndGet(department)
 ```
 
 上記クエリに対応するSQLはどのDialectを使うかで異なります。
@@ -148,20 +154,60 @@ PostgreSQLのDialectを使う場合は次のようなSQLになります。
 insert into DEPARTMENT as t0_ (DEPARTMENT_ID, DEPARTMENT_NO, DEPARTMENT_NAME, LOCATION, VERSION) values (?, ?, ?, ?, ?) on conflict (DEPARTMENT_ID) do update set DEPARTMENT_NO = excluded.DEPARTMENT_NO, DEPARTMENT_NAME = excluded.DEPARTMENT_NAME, LOCATION = excluded.LOCATION, VERSION = excluded.VERSION
 ```
 
+### executeAndGet {#onduplicatekeyupdate-executeandget}
+
+`onDuplicateKeyUpdate`に続けて`executeAndGet`を呼び出した場合、戻り値は追加もしくは更新されたデータを表すエンティティです。
+
+{{< alert title="Note" >}}
+戻り値を返すために、指定されたキーを使った検索クエリを追加で発行します。
+{{< /alert >}}
+
 ### single {#onduplicatekeyupdate-single}
 
-`onDuplicateKeyUpdate`に続けて`single`を呼び出した場合、戻り値は追加されたデータもしくは更新されたデータを表す新しいエンティティです。
+`onDuplicateKeyUpdate`に続けて`single`を呼び出した場合の戻り値はドライバの返す値です。
 
 ### multiple {#onduplicatekeyupdate-multiple}
 
-このクエリを実行した場合の戻り値はドライバの返す値です。
+`onDuplicateKeyUpdate`に続けて`multiple`を呼び出した場合の戻り値はドライバの返す値です。
 
 ### batch {#onduplicatekeyupdate-batch}
 
-このクエリを実行した場合の戻り値はドライバの返す値のリストです。
+`onDuplicateKeyUpdate`に続けて`batch`を呼び出した場合の戻り値はドライバの返す値です。
 
 {{< alert color="warning" title="Warning" >}}
 R2DBCではサポートされていません。
+{{< /alert >}}
+
+### set {#onduplicatekeyupdate-set}
+
+`onDuplicateKeyUpdate`の呼び出し後、他の関数を呼ぶ前に`set`を使って更新対象のカラムに特定の値を設定できます。
+
+```kotlin
+val department: Department = ..
+val query = QueryDsl.insert(d).onDuplicateKeyUpdate().set { excluded ->
+    d.departmentName set "PLANNING2"
+    d.location set concat(d.location, concat("_", excluded.location))
+}.single(department)
+```
+
+`set`関数に渡すラムダ式には`excluded`パラメータがあります。
+`excluded`は、追加しようとしているエンティティのメタモデルを表します。
+したがって、`excluded`の利用により追加しようとしているデータに基づいた更新を実現できます。
+
+PostgreSQLのDialectを使う場合、上記のクエリは次のようなSQLとして発行されます。
+
+```sql
+insert into DEPARTMENT as t0_ (DEPARTMENT_ID, DEPARTMENT_NO, DEPARTMENT_NAME, LOCATION, VERSION) values (?, ?, ?, ?, ?) on conflict (DEPARTMENT_ID) do update set DEPARTMENT_NAME = ?, LOCATION = (concat(t0_.LOCATION, (concat(?, excluded.LOCATION))))
+```
+
+MySQLのDialectを使う場合、上記のクエリは次のようなSQLとして発行されます。
+
+```sql
+insert into DEPARTMENT (DEPARTMENT_ID, DEPARTMENT_NO, DEPARTMENT_NAME, LOCATION, VERSION) values (?, ?, ?, ?, ?) as excluded on duplicate key update DEPARTMENT_NAME = ?, LOCATION = (concat(DEPARTMENT.LOCATION, (concat(?, excluded.LOCATION))))
+```
+
+{{< alert color="warning" title="Warning" >}}
+MariaDBのDialectではサポートされていません。
 {{< /alert >}}
 
 ## values
