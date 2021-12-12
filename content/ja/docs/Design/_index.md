@@ -46,7 +46,7 @@ Komapperが動作する環境はサーバーサイドである。
 - [Exposed](https://github.com/JetBrains/Exposed)
 - [Ktorm](https://github.com/kotlin-orm/ktorm)
 
-これらプロダクトとは異なりKomapperは以下の方針をとる。
+これらのプロダクトとは異なりKomapperは以下の方針をとる。
 
 - JDBCとR2DBCの両方をサポートする
 - タイプセーフにクエリを組み立てる手段とSQLテンプレートでクエリを組み立てる手段の両方を提供する
