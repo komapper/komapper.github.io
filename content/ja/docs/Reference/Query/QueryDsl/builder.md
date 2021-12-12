@@ -72,28 +72,20 @@ val addressAssignment = set(a) {
 val query: Query<Pair<Int, Int?>> = QueryDsl.insert(a).values(addressAssignment)
 ```
 
-## innerJoin
+## join
 
-InnerJoin要素を組み立てるビルダーです。
+Join要素を組み立てるビルダーです。
 
-```kotlin
-val departmentJoin = innerJoin(d) {
-    e.departmentId eq d.departmentId
-}
-val query: Query<List<Employee>> = QueryDsl.from(e).innerJoin(departmentJoin)
-```
-
-## leftJoin
-
-LeftJoin要素を組み立てるビルダーです。
+`join`関数により得られた値は、クエリの`innerJoin`や`leftJoin`の関数に渡せます。
 
 ```kotlin
-val departmentJoin = leftJoin(d) {
+val departmentJoin = join(d) {
     e.departmentId eq d.departmentId
 }
-val query: Query<List<Employee>> = QueryDsl.from(e).innerJoin(departmentJoin)
-```
 
+val query1: Query<List<Employee>> = QueryDsl.from(e).innerJoin(departmentJoin)
+val query2: Query<List<Employee>> = QueryDsl.from(e).leftJoin(departmentJoin)
+```
 
 ## groupBy
 
