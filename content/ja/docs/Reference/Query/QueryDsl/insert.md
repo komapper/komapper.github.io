@@ -185,8 +185,8 @@ R2DBCではサポートされていません。
 ```kotlin
 val department: Department = ..
 val query = QueryDsl.insert(d).onDuplicateKeyUpdate().set { excluded ->
-    d.departmentName set "PLANNING2"
-    d.location set concat(d.location, concat("_", excluded.location))
+    d.departmentName eq "PLANNING2"
+    d.location eq concat(d.location, concat("_", excluded.location))
 }.single(department)
 ```
 
@@ -214,41 +214,41 @@ MariaDBのDialectではサポートされていません。
 
 プロパティごとの値を設定して1件を追加するには`values`関数にラムダ式を渡します。
 
-ラムダ式の中では`set`関数を使って値を設定できます。
+ラムダ式の中では`eq`関数を使って値を設定できます。
 
 ```kotlin
 val query: Query<Pair<Int, Int?>> = QueryDsl.insert(a).values {
-  a.addressId set 19
-  a.street set "STREET 16"
-  a.version set 0
+  a.addressId eq 19
+  a.street eq "STREET 16"
+  a.version eq 0
 }
 /*
 insert into ADDRESS (ADDRESS_ID, STREET, VERSION) values (?, ?, ?)
 */
 ```
 
-`setIfNotNull`を使って値が`null`でない場合にのみ値を設定することもできます。
+`eqIfNotNull`を使って値が`null`でない場合にのみ値を設定することもできます。
 
 ```kotlin
 val query: Query<Pair<Int, Int?>> = QueryDsl.insert(a).values {
-    a.addressId set 19
-    a.street setIfNotNull street
-    a.version set 0
+    a.addressId eq 19
+    a.street eqIfNotNull street
+    a.version eq 0
 }
 ```
 
 クエリを実行した場合の戻り値は追加された件数と生成されたIDの`Pair`です。
 IDはマッピング定義に`@KomapperAutoIncrement`や`@KomapperSequence`が注釈されている場合にのみ返されます。
 
-以下のマッピング定義を持つプロパティについて明示的に`set`を呼び出さない場合、発行されるSQLに自動で値が設定されます。
-明示的に`set`した場合は明示した値が優先されます。
+以下のマッピング定義を持つプロパティについて明示的に`eq`を呼び出さない場合、発行されるSQLに自動で値が設定されます。
+明示的に`eq`を呼び出した場合は明示した値が優先されます。
 
 - `@KomapperSequence`
 - `@KomapperVersion`
 - `@KomapperCreatedAt`
 - `@KomapperUpdatedAt`
 
-`@KomapperAutoIncrement`の定義は常に有効です。明示的に値を`set`した場合、無視されます。
+`@KomapperAutoIncrement`の定義は常に有効です。明示的に値を`eq`した場合、無視されます。
 
 ## select
 
