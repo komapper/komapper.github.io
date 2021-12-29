@@ -54,7 +54,7 @@ Assignment宣言を組み立てるビルダーです。
 
 ```kotlin
 val addressAssignment = set(a) {
-    a.street set "STREET 16"
+    a.street eq "STREET 16"
 }
 val query: Query<Int> = QueryDsl.update(a).set(addressAssignment).where {
     a.addressId eq 1
@@ -67,7 +67,7 @@ Assignment宣言を組み立てるビルダーです。
 
 ```kotlin
 val addressAssignment = set(a) {
-    a.street set "STREET 16"
+    a.street eq "STREET 16"
 }
 val query: Query<Pair<Int, Int?>> = QueryDsl.insert(a).values(addressAssignment)
 ```

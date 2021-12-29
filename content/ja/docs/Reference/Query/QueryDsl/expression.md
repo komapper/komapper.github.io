@@ -508,7 +508,7 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADD
 
 ```kotlin
 QueryDsl.update(a).set {
-    a.version set (a.version + 10)
+    a.version eq (a.version + 10)
 }.where {
     a.addressId eq 1
 }
@@ -535,7 +535,7 @@ update ADDRESS as t0_ set VERSION = (t0_.VERSION + ?) where t0_.ADDRESS_ID = ?
 
 ```kotlin
 QueryDsl.update(a).set {
-  a.street set (concat(concat("[", a.street), "]"))
+  a.street eq (concat(concat("[", a.street), "]"))
 }.where {
   a.addressId eq 1
 }
@@ -644,9 +644,9 @@ select min(t0_.ADDRESS_ID) from ADDRESS as t0_
 
 ```kotlin
 QueryDsl.insert(a).values {
-  a.addressId set 100
-  a.street set literal("STREET 100")
-  a.version set literal(100)
+  a.addressId eq 100
+  a.street eq literal("STREET 100")
+  a.version eq literal(100)
 }
 /*
 insert into ADDRESS (ADDRESS_ID, STREET, VERSION) values (?, 'STREET 100', 100)
