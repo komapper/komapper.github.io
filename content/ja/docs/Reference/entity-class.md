@@ -490,11 +490,15 @@ val id: Int
 プロパティとマッピングするカラムの名前を明示的に指定します。
 
 ```kotlin
-@KomapperColumn(name = "ADDRESS_ID", alwaysQuote = true)
+@KomapperColumn(name = "ADDRESS_ID", alwaysQuote = true, masking = true)
 val id: Nothing
 ```
 
 `alwaysQuote`プロパティに`true`を設定すると生成されるSQLの識別子が引用符で囲まれます。
+
+`masking`プロパティに`true`を設定すると、`org.komapper.SQL_WITH_ARGS`の
+[ログカテゴリ]({{< relref "logging#log-category" >}})
+でログを出力した場合に対応するデータがマスキングされます。
 
 このアノテーションでカラムの名前を指定しない場合、アノテーション処理の`komapper.namingStrategy`オプションに従って名前が解決されます。
 以下のドキュメントも参照ください。
