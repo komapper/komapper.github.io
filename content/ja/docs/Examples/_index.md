@@ -3,12 +3,14 @@ title: "Examples"
 linkTitle: "Examples"
 weight: 3
 description: >
-  いくつかのコード例
+  サンプルアプリケーション
 ---
 
 ## 概要 {#overview}
 
-JDBC接続、R2DBC接続、Spring Boot連携、データベーススキーマを使ったコード生成、などの例を示します。
+JDBC接続、R2DBC接続、
+[Spring Boot](https://spring.io/projects/spring-boot) 連携、
+[Ktor](https://ktor.io/) 連携など、実行可能なサンプルアプリケーションをいくつか提供します。
 
 ## 必要要件 {#prerequisites}
 
@@ -27,49 +29,52 @@ $ git clone https://github.com/komapper/komapper-examples.git
 $ cd komapper-examples
 ```
 
-## サンプルコードの動かし方 {#try-it-out}
+リポジトリはGradleのマルチプロジェクト構成です。
+サンプルアプリケーションはGradleのサブプロジェクトとして実装されています。
 
-### コンソールアプリケーション {#console-applications}
+## サンプルアプリケーションの説明 {#applications}
 
-JDBC版のアプリケーションを動かすには次のコマンドを実行します。
+### console-jdbc
+
+このプロジェクトは、コンソールアプリケーションからJDBCの接続を行います。
+
+動かすには以下のコマンドを実行します。
 
 ```sh
 $ ./gradlew :console-jdbc:run
 ```
 
-R2DBC版のアプリケーションを動かすには次のコマンドを実行します。
+### console-r2dbc
+
+このプロジェクトは、コンソールアプリケーションからR2DBCの接続を行います。
+
+動かすには以下のコマンドを実行します。
 
 ```sh
 $ ./gradlew :console-r2dbc:run
 ```
 
-### JetBrains Exposedとの比較 {#comparison-with-exposed}
+### spring-boot-jdbc
 
-[JetBrains Exposedのサンプルコード](https://github.com/JetBrains/Exposed#sql-dsl)
-をKomapper用に書き換えたアプリケーションを動かすには次のコマンドを実行します。
+このプロジェクトは、Spring Bootを使ったWebアプリケーションからJDBCの接続を行います。
 
-```sh
-$ ./gradlew :comparison-with-exposed:run
-```
-
-### リポジトリパターンの実装例 {#repository-pattern}
-
-リポジトリパターンの実装例にはテストコードがあります。
-テストを実行するには次のコマンドを実行します。
-
-```sh
-$ ./gradlew :repository-pattern-jdbc:build
-```
-
-### Spring Bootを使ったWebアプリケーション {#spring-boot-web-applications}
-
-JDBC版のアプリケーションを動かすには次のコマンドを実行します。
+動かすには次のコマンドを実行します。
 
 ```sh
 $ ./gradlew :spring-boot-jdbc:bootRun
 ```
 
-R2DBC版のアプリケーションを動かすには次のコマンドを実行します。
+アプリケーションが実行されたら、ブラウザで `http://localhost:8080` を開いてください。
+JSONで返されたデータがブラウザ上に表示されます。
+
+データを追加するには `http://localhost:8080/?text=Hi` のようにクエリパラメーターでデータを渡します。
+再度 `http://localhost:8080` を開くと追加されたデータと合わせて一覧されます。
+
+### spring-boot-r2dbc
+
+このプロジェクトは、Spring Bootを使ったWebアプリケーションからR2DBCの接続を行います。
+
+動かすには次のコマンドを実行します。
 
 ```sh
 $ ./gradlew :spring-boot-r2dbc:bootRun
@@ -81,9 +86,25 @@ JSONで返されたデータがブラウザ上に表示されます。
 データを追加するには `http://localhost:8080/?text=Hi` のようにクエリパラメーターでデータを渡します。
 再度 `http://localhost:8080` を開くと追加されたデータと合わせて一覧されます。
 
-### データベースを使ったコード生成 {#code-generation-from-databases}
+### repository-pattern-jdbc
 
-Komapperはデータベースのメタデータからエンティティクラスのソースコードを生成する [Gradleプラグイン]({{< relref "../Reference/gradle-plugin" >}}) を提供します。
+このプロジェクトは、リポジトリパターンの実装例を含みます。
+
+リポジトリパターンを呼び出すテストを実行するには次のコマンドを実行します。
+
+```sh
+$ ./gradlew :repository-pattern-jdbc:check
+```
+
+### codegen
+
+このプロジェクトは、[Gradleプラグイン]({{< relref "../Reference/gradle-plugin" >}})
+を使用してデータベースのメタデータからエンティティクラスのソースコードを生成します。
+
+{{< alert title="Note" >}}
+このプロジェクトは、[Testcontainers](https://www.testcontainers.org/) を使っているため
+実行にあたってはDockerコンテナ内が必要です。
+{{< /alert >}}
 
 KomapperのGradleプラグインの設定は、build.gradle.ktsファイル内のkomapperブロックに記述されています。
 この例ではMySQLとPostgreSQLからコード生成をします。
@@ -108,5 +129,43 @@ $ ./gradlew :codegen:komapperGenerator
 
 生成コードは `codgen/src/main/kotlin` の下に出力されます。
 
-この例では [Testcontainers](https://www.testcontainers.org/) を使ってDockerコンテナ内のデータベースに接続しています。
-Testcontainersの利用は必須ではありませんが、利用する利点は大きいと思われませす。
+### comparison-with-exposed
+
+このプロジェクトは、[JetBrains Exposedのサンプルコード](https://github.com/JetBrains/Exposed#sql-dsl)
+をKomapper用に書き換えたものです。
+
+動かすには次のコマンドを実行します。
+
+```sh
+$ ./gradlew :comparison-with-exposed:run
+```
+
+### jpetstore
+
+このプロジェクトは、Spring Bootを使ったWebアプリケーションからJDBCの接続を行います。
+MyBatisの [jpetstore-6](https://github.com/mybatis/jpetstore-6) をベースにしたアプリケーションです。
+
+動かすには次のコマンドを実行します。
+
+```sh
+$ ./gradlew :jpetstore:bootRun
+```
+
+アプリケーションが実行されたら、ブラウザで `http://localhost:8080` を開いてください。
+サインインが求められる箇所では以下のusernameとpasswordが利用できます。
+
+- username: jpetstore
+- password: jpetstore
+
+### kweet
+
+このプロジェクトは、Ktorを使ったWebアプリケーションからR2DBCの接続を行います。
+Ktorの [Kweet](https://github.com/ktorio/ktor-samples/tree/main/kweet) をベースにしたアプリケーションです。
+
+動かすには次のコマンドを実行します。
+
+```sh
+$ ./gradlew :kweet:run
+```
+
+アプリケーションが実行されたら、ブラウザで `http://localhost:8080` を開いてください。
