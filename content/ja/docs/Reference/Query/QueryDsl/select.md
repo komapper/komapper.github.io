@@ -124,7 +124,7 @@ select distinct t0_.DEPARTMENT_ID, t0_.DEPARTMENT_NO, t0_.DEPARTMENT_NAME, t0_.L
 1つのカラムを射影する例です。
 
 ```kotlin
-val query: Query<List<String?> = QueryDsl.from(a)
+val query: Query<List<String?>> = QueryDsl.from(a)
     .where {
         a.addressId inList listOf(1, 2)
     }
@@ -187,6 +187,29 @@ for (row: Columns in list) {
 
 4つ以上のカラムを射影した場合、結果の値は`Columns`に含まれます。
 クエリの`select`に指定したカラムをkeyにして値を取得できます。
+
+## selectNotNull
+
+NULLでないことが確実なカラムを射影するには`selectNotNull`を呼び出せます。
+
+1つのカラムを射影する例です。
+
+```kotlin
+val query: Query<List<String>> = QueryDsl.from(a)
+    .where {
+        a.addressId inList listOf(1, 2)
+    }
+    .orderBy(a.addressId)
+    .selectNotNull(a.street)
+/*
+select t0_.STREET from ADDRESS as t0_ where t0_.ADDRESS_ID in (?, ?) order by t0_.ADDRESS_ID asc
+*/
+```
+
+`query`の型が`Query<List<String>>`であることに注目してください。
+これは、`query`を実行して得られる値の型が`<List<String>>`であることを表しています。
+
+なお、 このケースで`selectNotNull`の代わりに`select`を使うと、実行して得られる型は`<List<String?>>`です。
 
 ## selectColumns
 
