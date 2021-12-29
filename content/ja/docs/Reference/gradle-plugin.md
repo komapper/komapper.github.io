@@ -74,7 +74,7 @@ $ ./gradlew komapperGenerator
 $ ./gradlew komapperPostgresqlGenerator
 ```
 
-[Examples]({{< relref "../Examples#code-generation-from-databases" >}}) も参考にしてください。
+[Examples]({{< relref "../Examples#codegen" >}}) も参考にしてください。
 
 ## パラメータ一覧 {#parameter-list}
 
