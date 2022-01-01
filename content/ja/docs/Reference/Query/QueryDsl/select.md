@@ -166,7 +166,7 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADD
 4つ以上のカラムを射影する例です。
 
 ```kotlin
-val query: Query<List<Columns>> = QueryDsl.from(a)
+val query: Query<List<Record>> = QueryDsl.from(a)
     .where {
         a.addressId inList listOf(1, 2)
     }
@@ -176,16 +176,16 @@ val query: Query<List<Columns>> = QueryDsl.from(a)
 select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION, (concat(t0_.STREET, ?)) from ADDRESS as t0_ where t0_.ADDRESS_ID in (?, ?) order by t0_.ADDRESS_ID asc
 */
 
-val list: List<Columns> = db.runQuery { query }
-for (row: Columns in list) {
-  println(row[a.addressId])
-  println(row[a.street])
-  println(row[a.version])
-  println(row[concat(a.street, " test")])
+val list: List<Record> = db.runQuery { query }
+for (record: Record in list) {
+  println(record[a.addressId])
+  println(record[a.street])
+  println(record[a.version])
+  println(record[concat(a.street, " test")])
 }
 ```
 
-4つ以上のカラムを射影した場合、結果の値は`Columns`に含まれます。
+4つ以上のカラムを射影した場合、結果の値は`Record`に含まれます。
 クエリの`select`に指定したカラムをkeyにして値を取得できます。
 
 ## selectNotNull
@@ -211,17 +211,17 @@ select t0_.STREET from ADDRESS as t0_ where t0_.ADDRESS_ID in (?, ?) order by t0
 
 なお、 このケースで`selectNotNull`の代わりに`select`を使うと、実行して得られる型は`<List<String?>>`です。
 
-## selectColumns
+## selectAsRecord
 
-4つ未満のカラムの射影で結果を`Columns`として受け取りたい場合は`select`の代わりに`selectColumns`を呼び出します。
+4つ未満のカラムの射影で結果を`Record`として受け取りたい場合は`select`の代わりに`selectAsRecord`を呼び出します。
 
 ```kotlin
-val query: Query<List<Columns> = QueryDsl.from(a)
+val query: Query<List<Record> = QueryDsl.from(a)
     .where {
         a.addressId inList listOf(1, 2)
     }
     .orderBy(a.addressId)
-    .selectColumn(a.street)
+    .selectAsRecord(a.street)
 /*
 select t0_.STREET from ADDRESS as t0_ where t0_.ADDRESS_ID in (?, ?) order by t0_.ADDRESS_ID asc
 */
