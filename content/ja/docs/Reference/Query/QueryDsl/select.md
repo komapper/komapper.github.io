@@ -353,9 +353,9 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION, t1_.EMPLOYEE_ID, t1_.EMPLOYEE_NO
 ```kotlin
 val store: EntityStore = db.runQuery { query }
 
-val addresses: List<Address> = store.list(a)
-val employees: List<Employee> = store.list(e)
-val departments: List<Department> = store.list(d)
+val addresses: Set<Address> = store[a]
+val employees: Set<Employee> = store[e]
+val departments: Set<Department> = store[d]
 
 val departmentEmployees: Map<Department, Set<Employee>> = store.oneToMany(d, e)
 val employeeDepartment: Map<Employee, Department?> = store.oneToOne(e, d)
