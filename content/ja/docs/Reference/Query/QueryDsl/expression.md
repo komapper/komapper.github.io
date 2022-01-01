@@ -585,7 +585,7 @@ select avg(t0_.ADDRESS_ID) from ADDRESS as t0_
 SQLの`count(*)`に変換するには`count`関数を引数なしで呼び出します。
 
 ```kotlin
-QueryDsl.from(a).select(count()).first()
+QueryDsl.from(a).select(count())
 /*
 select count(*) from ADDRESS as t0_
 */
@@ -594,7 +594,7 @@ select count(*) from ADDRESS as t0_
 `count`関数をカラムを指定して呼び出すこともできます。
 
 ```kotlin
-QueryDsl.from(a).select(count(a.street)).first()
+QueryDsl.from(a).select(count(a.street))
 /*
 select count(t0_.STREET) from ADDRESS as t0_
 */
@@ -603,7 +603,7 @@ select count(t0_.STREET) from ADDRESS as t0_
 ### sum {#aggregate-function-sum}
 
 ```kotlin
-QueryDsl.from(a).select(sum(a.addressId)).first()
+QueryDsl.from(a).select(sum(a.addressId))
 /*
 select sum(t0_.ADDRESS_ID) from ADDRESS as t0_
 */
