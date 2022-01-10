@@ -3,7 +3,7 @@ title: "Examples"
 linkTitle: "Examples"
 weight: 3
 description: >
-  サンプルアプリケーション
+  いくつかのサンプルアプリケーション
 ---
 
 ## 概要 {#overview}
@@ -14,7 +14,10 @@ JDBC接続、R2DBC接続、
 
 ## 必要要件 {#prerequisites}
 
-- JDK 8、もしくはそれ以降のバージョン
+サンプルアプリケーションの動作に必要な要件です。
+
+- JDK 11、もしくはそれ以降のバージョン
+- Docker（spring-native-jdbc など一部のサンプルが利用）
 
 ## リポジトリの取得 {#clone}
 
@@ -78,6 +81,28 @@ JSONで返されたデータがブラウザ上に表示されます。
 
 ```sh
 $ ./gradlew :spring-boot-r2dbc:bootRun
+```
+
+アプリケーションが実行されたら、ブラウザで `http://localhost:8080` を開いてください。
+JSONで返されたデータがブラウザ上に表示されます。
+
+データを追加するには `http://localhost:8080/?text=Hi` のようにクエリパラメーターでデータを渡します。
+再度 `http://localhost:8080` を開くと追加されたデータと合わせて一覧されます。
+
+### spring-native-jdbc
+
+このプロジェクトは [Spring Native](https://docs.spring.io/spring-native/docs/current/reference/htmlsingle/) に対応したアプリケーションです。
+
+以下のコマンドでネイティブアプリケーションをビルドできます。
+
+```sh
+$ ./gradlew bootBuildImage
+```
+
+アプリケーションを動かすには次のようにDockerを起動します。
+
+```sh
+$ docker run --rm -p 8080:8080 docker.io/library/spring-native-jdbc:0.0.1
 ```
 
 アプリケーションが実行されたら、ブラウザで `http://localhost:8080` を開いてください。

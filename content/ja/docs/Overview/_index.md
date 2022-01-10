@@ -3,12 +3,13 @@ title: "Overview"
 linkTitle: "Overview"
 weight: 1
 description: >
-  サーバーサイドKotlinのためのシンプルでパワフルなSQLマッパー
+  サーバーサイドKotlinのためのORMライブラリ
 ---
 
 ## Komapperとは？ {#what-is-it}
 
-KomapperはKotlin 1.5.31 以上に対応したサーバーサイド向けのSQLマッピングライブラリーです。
+KomapperはサーバーサイドKotlinのためのORMライブラリーです。
+Kotlinの 1.5.31 以上をサポートします。
 
 Komapperにはいくつかの強みがあります。
 
@@ -206,19 +207,6 @@ dependencies {
 リポジトリ直下のspring-boot-jdbcとspring-boot-r2dbcのプロジェクトを参照ください。
 
 関連情報として [Starter]({{< relref "../Reference/Starter" >}}) も参照ください。
-
-## サポートするデータベース {#supported-database}
-
-現在、下記の4つのデータベースをサポートしています。
-
-| データベース         | バージョン | JDBC | R2DBC |
-|--------------------|:--------:|:----:|:-----:|
-| H2 Database Engine |  1.4.200 |  v   |   v   |
-| MariaDB            |     10.6 |  v   |   v   |
-| MySQL              |      8.0 |  v   |   v   |
-| PostgreSQL         |     13.0 |  v   |   v   |
-
-バージョンはサポートする最小バージョンを表していますが、より小さいバージョンでも動作することがあります。
 
 ## 次に見るべきドキュメント {#where-should-i-go-next}
 

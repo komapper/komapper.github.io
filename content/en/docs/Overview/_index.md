@@ -3,12 +3,13 @@ title: "Overview"
 linkTitle: "Overview"
 weight: 1
 description: >
-  Komapper is a simple and powerful SQL mapper for Kotlin.
+  Komapper is an ORM library for server-side Kotlin.
 ---
 
-## What is it?
+## What is it? {#what-is-it}
 
-Komapper is SQL mapping library for Kotlin 1.5.31 or later.
+Komapper is an ORM library for server-side Kotlin.
+Komapper supports Kotlin 1.5.31 or later.
 
 Komapper has several strengths as follows:
 
@@ -18,9 +19,9 @@ Komapper has several strengths as follows:
 - Support for Kotlin value classes
 - Easy Spring Boot integration
 
-### Support for both JDBC and R2DBC
+### Support for both JDBC and R2DBC {#support-for-both-jdbc-and-r2dbc}
 
-Komapper provides almost the same programming model for both JDBC and R2DBC.
+Komapper provides almost the same APIs for both JDBC and R2DBC.
 
 JDBC sample code:
 
@@ -82,11 +83,24 @@ fun main() = runBlocking {
 }
 ```
 
-### Code generation at compile-time
+The visual differences between above sample code are the following two points:
 
-Komapper uses [Kotlin Symbol Processing API](https://github.com/google/ksp) to generate code at compile-time.
+1. The R2DBC version encloses the `main` function with `runBlocking`.
+2. creation of `db` instance is different.
 
-You can define an entity class and its mapping definition class as follows:
+For the complete working code, see the console-jdbc and console-r2dbc projects under the
+[komapper-examples](https://github.com/komapper/komapper-examples) repository.
+
+### Code generation at compile-time {#code-generation-at-compile-time}
+
+Komapper uses the [Kotlin Symbol Processing API](https://github.com/google/ksp) to generate
+the metamodel (table and column information) as Kotlin source code at compile time.
+
+With this mechanism, Komapper does not need to use reflection or read metadata from the database at runtime.
+This improves runtime reliability and performance.
+
+Code generation is processed by reading annotations.
+For example, if you want to map the `Address` class to the `ADDRESS` table, you can write as follows:
 
 ```kotlin
 data class Address(
@@ -102,8 +116,9 @@ data class AddressDef(
 )
 ```
 
-Kotlin Symbol Processing API generates metamodel code from the above code.
-Using the generated code, you can build type-safe queries as follows:
+The generated metamodel is exposed to the application via
+the extended properties of the `org.komapper.core.dsl.Meta` object.
+Applications can use the metamodel to construct queries in a type-safe manner:
 
 ```kotlin
 // get a generated metamodel
@@ -113,10 +128,10 @@ val a = Meta.address
 val query = QueryDsl.from(e).where { a.street eq "STREET 101" }.orderBy(a.id)
 ```
 
-### Immutable and composable queries
+### Immutable and composable queries {#immutable-and-composable-queries}
 
-Komapper query objects are immutable.
-So you can compose them safely:
+Komapper's queries are virtually immutable.
+Therefore, they are safely composable without worrying about problems associated with state sharing.
 
 ```kotlin
 // get a generated metamodel
@@ -126,16 +141,22 @@ val a = Meta.address
 val query1 = QueryDsl.from(a)
 val query2 = query1.where { a.id eq 1 }
 val query3 = query2.where { or { a.id eq 2 } }.orderBy(a.street)
-
+val query4 = query1.zip(query2)
+    
 // issue "select * from address"
-db.runQuery { query1 }
+val list1 = db.runQuery { query1 }
 // issue "select * from address where id = 1"
-db.runQuery { query2 }
+val list2 = db.runQuery { query2 }
 // issue "select * from address where id = 1 or id = 2 order by street"
-db.runQuery { query3 }
+val list3 = db.runQuery { query3 }
+// issue "select * from address" and "select * from address where id = 1"
+val (list4, list5) = db.runQuery { query4 }
 ```
 
-### Support for Kotlin value classes
+Not only can you create other queries based on existing queries using the where function, etc.,
+but you can also combine multiple queries into a single query using the zip function, etc.
+
+### Support for Kotlin value classes {#support-for-kotlin-value-classes}
 
 You can use a value class as a property of your entity class as follows:
 
@@ -149,10 +170,14 @@ data class Employee(val id: Int = 0, val name: String, val age: Age)
 data class EmployeeDef(@KomapperId @KomapperAutoIncrement val id: Nothing)
 ```
 
-### Easy Spring Boot integration
+No special settings are required to use value classes.
+
+### Easy Spring Boot integration {#easy-spring-boot-integration}
 
 We provide starter modules to make Spring Boot integration easy.
-You can write your Gradle build script to access H2 Database Engine using JDBC as follows:
+
+For example, if you want to access H2 database using JDBC in combination with Spring Boot, 
+you only need to add the following configuration to the dependencies block in the Gradle build script:
 
 ```kotlin
 val komapperVersion: String by project
@@ -163,16 +188,7 @@ dependencies {
 }
 ```
 
-## Supported database
-
-We support following databases:
-
-| Database         | Version | JDBC | R2DBC |
-|--------------------|:--------:|:----:|:-----:|
-| H2 Database Engine |  1.4.200 |  v   |   v   |
-| MariaDB            |     10.6 |  v   |   v   |
-| MySQL              |      8.0 |  v   |   v   |
-| PostgreSQL         |     13.0 |  v   |   v   |
+Your application works with Spring Boot managed datasources and transactions.
 
 ## Where should I go next?
 

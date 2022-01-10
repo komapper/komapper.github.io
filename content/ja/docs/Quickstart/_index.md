@@ -3,7 +3,7 @@ title: "Quickstart"
 linkTitle: "Quickstart"
 weight: 2
 description: >
-  小さなアプリケーションの作成と実行
+  最小構成でKomapperを動かす
 ---
 
 ## 概要 {#overview}
@@ -12,7 +12,7 @@ H2 Database EngineにJDBCで接続するアプリケーションを作成しま�
 
 ## 必要要件 {#prerequisites}
 
-- JDK 8、もしくはそれ以降のバージョン
+- JDK 11、もしくはそれ以降のバージョン
 - Gradle 7.2、もしくはそれ以降のバージョン
 
 ## インストール {#install}
@@ -160,9 +160,9 @@ fun main() {
 
 ```kotlin
 // build a query
-val selectAllEmployees = QueryDsl.from(e).orderBy(e.id)
+val query = QueryDsl.from(e).orderBy(e.id)
 // run the query
-val employees = database.runQuery { selectAllEmployees }
+val employees = database.runQuery(query)
 ```
 
 ### ビルド {#build}
