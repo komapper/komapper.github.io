@@ -96,7 +96,7 @@ JSONで返されたデータがブラウザ上に表示されます。
 以下のコマンドでネイティブアプリケーションをビルドできます。
 
 ```sh
-$ ./gradlew bootBuildImage
+$ ./gradlew :spring-native-jdbc:bootBuildImage
 ```
 
 アプリケーションを動かすには次のようにDockerを起動します。

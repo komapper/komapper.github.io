@@ -93,7 +93,7 @@ and uses JDBC to access the database.
 You can build the native application with the following command:
 
 ```sh
-$ ./gradlew bootBuildImage
+$ ./gradlew :spring-native-jdbc:bootBuildImage
 ````
 
 To run the application, start Docker as follows:
