@@ -3,7 +3,7 @@ title: "Quickstart"
 linkTitle: "Quickstart"
 weight: 2
 description: >
-  Try Komapper with minimum settings.
+  Try Komapper with minimum settings
 ---
 
 ## Overview {#overview}

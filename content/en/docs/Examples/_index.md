@@ -3,24 +3,25 @@ title: "Examples"
 linkTitle: "Examples"
 weight: 3
 description: >
-  Here are some examples.
+  Here are some examples
 ---
 
-## Overview
+## overview {#overview}
 
-We have the following examples:
+We provide several sample applications including JDBC access, R2DBC access, 
+[Spring Boot](https://spring.io/projects/spring-boot) integration, 
+[Ktor](https://spring.io/projects/spring-boot) integration.
 
-- Console applications
-- Spring Boot web applications
-- Code generation from databases
+## Requirements {#prerequisites}
 
-## Prerequisites
+These are requirements for running the sample applications:
 
-- JDK 8 or later
+- JDK 11 or later version
+- Docker (used by some applications)
 
-## Clone
+## Get the repository {#clone}
 
-To run locally, clone the [komapper/komapper-examples](https://github.com/komapper/komapper-examples) repository:
+Clone the [komapper/komapper-examples](https://github.com/komapper/komapper-examples) repository.
 
 ```sh
 $ git clone https://github.com/komapper/komapper-examples.git
@@ -30,62 +31,167 @@ $ git clone https://github.com/komapper/komapper-examples.git
 $ cd komapper-examples
 ```
 
-## Try it out!
+The repository has a multi-project configuration of Gradle.
+Each subproject is implemented as a sample application.
 
-### Console applications
+## Sample applications {#applications}
 
-Execute the following command to run the JDBC version:
+### console-jdbc
+
+This project is a console application that uses JDBC to access the database.
+To run it, execute the following command:
 
 ```sh
 $ ./gradlew :console-jdbc:run
 ```
 
-Execute the following command to run the R2DBC version:
+### console-r2dbc
+
+This project is a console application that uses R2DBC to access the database.
+To run it, execute the following command:
 
 ```sh
 $ ./gradlew :console-r2dbc:run
 ```
 
-### Spring Boot web applications
+### spring-boot-jdbc
 
-Execute the following command to run the JDBC version:
+This project is a Spring Boot web application that uses JDBC to access the database.
+To run it, execute the following command:
 
 ```sh
 $ ./gradlew :spring-boot-jdbc:bootRun
-```
+````
 
-Execute the following command to run the R2DBC version:
+Once the application is running, open `http://localhost:8080` in your browser.
+The message returned from the database will be displayed in your browser.
+
+To add a message to the database, pass it as a query parameter, like `http://localhost:8080/?text=Hi`.
+If you open `http://localhost:8080` again, you will see the list with the added data.
+
+### spring-boot-r2dbc
+
+This project is a Spring Boot web application that uses R2DBC to access the database.
+To run it, execute the following command:
 
 ```sh
 $ ./gradlew :spring-boot-r2dbc:bootRun
+````
+
+Once the application is running, open `http://localhost:8080` in your browser.
+The message returned from the database will be displayed in your browser.
+
+To add a message to the database, pass it as a query parameter, like `http://localhost:8080/?text=Hi`.
+If you open `http://localhost:8080` again, you will see the list with the added data.
+
+### spring-native-jdbc
+
+This project is a Spring Boot web application that supports 
+[Spring Native](https://docs.spring.io/spring-native/docs/current/reference/htmlsingle/)
+and uses JDBC to access the database.
+
+You can build the native application with the following command:
+
+```sh
+$ ./gradlew bootBuildImage
+````
+
+To run the application, start Docker as follows:
+
+```sh
+$ docker run --rm -p 8080:8080 docker.io/library/spring-native-jdbc:0.0.1
+````
+
+Once the application is running, open `http://localhost:8080` in your browser.
+The message returned from the database will be displayed in your browser.
+
+To add a message to the database, pass it as a query parameter, like `http://localhost:8080/?text=Hi`.
+If you open `http://localhost:8080` again, you will see the list with the added data.
+
+### repository-pattern-jdbc
+
+This project contains an example implementation of the repository pattern.
+
+To run a test that invokes the repository, execute the following command:
+
+```sh
+$ ./gradlew :repository-pattern-jdbc:check
 ```
 
-Once the application starts, open the following URL: `http://localhost:8080`
+### codegen
 
-To add data, use the `text` parameter as follows: `http://localhost:8080/?text=Hi`
+This project uses the [Gradle plugin]({{< relref "../Reference/gradle-plugin" >}}).
+to generate the source code for entity classes from database metadata.
 
-When you open the following URL `http://localhost:8080` again, the added data will be shown.
+{{< alert title="Note" >}}
+Since this project uses [Testcontainers](https://www.testcontainers.org/),
+Docker is required.
+{{< /alert >}}
 
-### Code generation from databases
+The configuration of the Komapper Gradle plugin is described in the `komapper` block in the build.gradle.kts file.
+In this example, we will generate code from MySQL and PostgreSQL.
 
-We provide the gradle plugin that generates code from database schemas.
-
-Execute the following command to generate code from MySQL:
+To generate code from MySQL, run the following command:
 
 ```sh
 $ ./gradlew :codegen:komapperMysqlGenerator
 ```
 
-Execute the following command to generate code from PostgreSQL:
+To generate code from PostgreSQL, issue the following command:
 
 ```sh
 $ ./gradlew :codegen:komapperPostgresqlGenerator
 ```
 
-Execute the following command to generate code from both MySQL and PostgreSQL:
+To generate code from both MySQL and PostgreSQL at onece, execute the following command:
 
 ```sh
 $ ./gradlew :codegen:komapperGenerator
 ```
 
-Make sure the source code is generated under the `codgen/src/main/kotlin` directory.
+The generated code will be output under `codgen/src/main/kotlin`.
+
+### comparison-with-exposed
+
+This project is based on the [JetBrains Exposed sample code](https://github.com/JetBrains/Exposed#sql-dsl).
+and rewritten for Komapper.
+
+To run it, execute the following command:
+
+```sh
+$ ./gradlew :comparison-with-exposed:run
+```
+
+### jpetstore
+
+This project is a Spring Boot web application that uses JDBC to access the database.
+
+The application is based on [jpetstore-6](https://github.com/mybatis/jpetstore-6),
+which was created by the MyBatis team.
+
+To run it, execute the following command:
+
+```sh
+$ ./gradlew :jpetstore:bootRun
+````
+
+Once the application is running, open `http://localhost:8080` in your browser.
+Where you are prompted to sign in, you can use the following username and password.
+
+- username: jpetstore
+- password: jpetstore
+
+### kweet
+
+This project is a Spring Boot web application that uses R2DBC to access the database.
+
+The application is based on [Kweet](https://github.com/ktorio/ktor-samples/tree/main/kweet),
+which was created by the Ktor team.
+
+To run it, execute the following command:
+
+```sh
+$ ./gradlew :kweet:run
+````
+
+Once the application is running, open `http://localhost:8080` in your browser.

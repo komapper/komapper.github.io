@@ -3,7 +3,7 @@ title: "Overview"
 linkTitle: "Overview"
 weight: 1
 description: >
-  Komapper is an ORM library for server-side Kotlin.
+  Komapper is an ORM library for server-side Kotlin
 ---
 
 ## What is it? {#what-is-it}
