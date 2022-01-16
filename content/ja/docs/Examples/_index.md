@@ -57,6 +57,12 @@ $ ./gradlew :console-jdbc:run
 $ ./gradlew :console-r2dbc:run
 ```
 
+### quarkus-jdbc
+
+このプロジェクトは、JDBCを使ってPostgreSQLデータベースにアクセスするQuarkusのウェブアプリケーションです。
+
+詳細は [README](https://github.com/komapper/komapper-examples/blob/main/quarkus-jdbc/README.md) をご覧ください。
+
 ### spring-boot-jdbc
 
 このプロジェクトは、Spring Bootを使ったWebアプリケーションからJDBCの接続を行います。
@@ -92,6 +98,7 @@ JSONで返されたデータがブラウザ上に表示されます。
 ### spring-native-jdbc
 
 このプロジェクトは [Spring Native](https://docs.spring.io/spring-native/docs/current/reference/htmlsingle/) に対応したアプリケーションです。
+データベースの接続にJDBCを用います。
 
 以下のコマンドでネイティブアプリケーションをビルドできます。
 
@@ -110,6 +117,15 @@ JSONで返されたデータがブラウザ上に表示されます。
 
 データを追加するには `http://localhost:8080/?text=Hi` のようにクエリパラメーターでデータを渡します。
 再度 `http://localhost:8080` を開くと追加されたデータと合わせて一覧されます。
+
+### spring-native-r2dbc
+
+このプロジェクトは [Spring Native](https://docs.spring.io/spring-native/docs/current/reference/htmlsingle/) に対応したアプリケーションです。
+データベースの接続にR2DBCを用います。
+
+現在のバージョンでは、Kotlin コルーチンに関する制約を受けます。
+ 
+- https://docs.spring.io/spring-native/docs/current/reference/htmlsingle/#limitations
 
 ### repository-pattern-jdbc
 

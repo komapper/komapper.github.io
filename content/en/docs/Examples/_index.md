@@ -54,6 +54,12 @@ To run it, execute the following command:
 $ ./gradlew :console-r2dbc:run
 ```
 
+### quarkus-jdbc
+
+This project is a Quarkus web application that uses JDBC to access PostgreSQL database.
+
+See[README](https://github.com/komapper/komapper-examples/blob/main/quarkus-jdbc/README.md) for more details.
+
 ### spring-boot-jdbc
 
 This project is a Spring Boot web application that uses JDBC to access the database.
@@ -107,6 +113,16 @@ The message returned from the database will be displayed in your browser.
 
 To add a message to the database, pass it as a query parameter, like `http://localhost:8080/?text=Hi`.
 If you open `http://localhost:8080` again, you will see the list with the added data.
+
+### spring-native-r2dbc
+
+This project is a Spring Boot web application that supports
+[Spring Native](https://docs.spring.io/spring-native/docs/current/reference/htmlsingle/)
+and uses R2DBC to access the database.
+
+In the current version, there is a limitation regarding Kotlin coroutines.
+
+- https://docs.spring.io/spring-native/docs/current/reference/htmlsingle/#limitations
 
 ### repository-pattern-jdbc
 
