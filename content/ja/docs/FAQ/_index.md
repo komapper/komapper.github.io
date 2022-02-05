@@ -37,13 +37,17 @@ KSPがサポートするバージョンについては下記リンク先に記�
 
 ### どのデータベースのどのバージョンをサポートしますか？ {#database-version}
 
-4つのデータベースについてJDBCとR2DBCによる接続をサポートしています。
+6つのデータベースをサポートしています。
 
-| Database           | Version | JDBC | R2DBC |
-|--------------------|:-------:|:----:|:-----:|
-| H2 Database Engine | 1.4.200 |  v   |   v   |
-| MariaDB            |  10.6   |  v   |   v   |
-| MySQL              |   8.0   |  v   |   v   |
-| PostgreSQL         |  13.0   |  v   |   v   |
+| Database           | version | JDBC support | R2DBC support |
+|--------------------|---------|:------------:|:-------------:|
+| H2 Database        | 2.1.210 |      v       |       v       |
+| MariaDB            | 10.6.3  |      v       |      N/A      |
+| MySQL              | 8.0.25  |      v       |      N/A      |
+| Oracle Database XE | 18.4.0  |      v       |       v       |
+| PostgreSQL         | 12.9    |      v       |       v       |
+| SQL Server         | 2019    |      v       |       v       |
 
 バージョンはサポートする最小バージョンを表していますが、より小さいバージョンでも動作することがあります。
+
+サポートしている接続タイプは JDBC 4.3 と R2DBC 0.9.1 です。

@@ -28,11 +28,15 @@ Currently, we don't support Maven.
 
 We support the following databases and connectivity types:
 
-| Database           | Version | JDBC | R2DBC |
-|--------------------|:-------:|:----:|:-----:|
-| H2 Database Engine | 1.4.200 |  v   |   v   |
-| MariaDB            |  10.6   |  v   |   v   |
-| MySQL              |   8.0   |  v   |   v   |
-| PostgreSQL         |  13.0   |  v   |   v   |
+| Database           | version | JDBC support | R2DBC support |
+|--------------------|---------|:------------:|:-------------:|
+| H2 Database        | 2.1.210 |      v       |       v       |
+| MariaDB            | 10.6.3  |      v       |      N/A      |
+| MySQL              | 8.0.25  |      v       |      N/A      |
+| Oracle Database XE | 18.4.0  |      v       |       v       |
+| PostgreSQL         | 12.9    |      v       |       v       |
+| SQL Server         | 2019    |      v       |       v       |
 
 The version number above is the minimum version.
+
+Supported connectivity types are JDBC 4.3 and R2DBC 0.9.1.
