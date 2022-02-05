@@ -3,5 +3,5 @@ title: "Reference"
 linkTitle: "Reference"
 weight: 4
 description: >
-  Learn more about Komapper's features
+  Komapperが持つ各機能の説明
 ---

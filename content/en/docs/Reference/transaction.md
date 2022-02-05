@@ -3,11 +3,8 @@ title: "Transaction"
 linkTitle: "Transaction"
 weight: 40
 description: >
+  トランザクション
 ---
-
-{{% pageinfo %}}
-We are currently working on the translation from Japanese to English. We would appreciate your cooperation.
-{{% /pageinfo %}}
 
 ## 概要 {#overview}
 

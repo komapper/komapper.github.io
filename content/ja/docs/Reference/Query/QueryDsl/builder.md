@@ -1,7 +1,7 @@
 ---
 title: "Builder"
 linkTitle: "Builder"
-weight: 60
+weight: 300
 description: >
   クエリのビルダー
 ---

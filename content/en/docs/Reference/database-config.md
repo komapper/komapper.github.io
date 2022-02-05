@@ -3,11 +3,8 @@ title: "Database Config"
 linkTitle: "Database Config"
 weight: 12
 description: >
+  設定
 ---
-
-{{% pageinfo %}}
-We are currently working on the translation from Japanese to English. We would appreciate your cooperation.
-{{% /pageinfo %}}
 
 ## 概要 {#overview}
 
@@ -122,4 +119,4 @@ SQLテンプレートから`org.komapper.core.Statement`を生成するビルダ
 
 以下のドキュメントも参照ください。
 
-- [Template DSL]({{< relref "Query/template-dsl.md" >}})
+- [TEMPLATE]({{< relref "Query/QueryDsl/template.md" >}})

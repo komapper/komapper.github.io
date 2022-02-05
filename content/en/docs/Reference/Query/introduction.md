@@ -6,10 +6,6 @@ description: >
   クエリの紹介
 ---
 
-{{% pageinfo %}}
-We are currently working on the translation from Japanese to English. We would appreciate your cooperation.
-{{% /pageinfo %}}
-
 ## 概要 {#overview}
 
 Komapperではクエリの構築と実行は分離されています。
@@ -22,12 +18,9 @@ val query: Query<List<Address>> = QueryDsl.from(a)
 val result: List<Address> = db.runQuery { query }
 ```
 
-クエリの構築を担うDSLについては専用のページを参照ください。
+クエリの構築を担うDSLについては下記のページを参照ください。
 
 - [Query DSL]({{< relref "QueryDsl" >}})
-- [Template DSL]({{< relref "template-dsl.md" >}})
-- [Script DSL]({{< relref "script-dsl.md" >}})
-- [Schema DSL]({{< relref "schema-dsl.md" >}})
 
 複数のクエリを1つのクエリに合成する方法については下記のページを参照ください。
 

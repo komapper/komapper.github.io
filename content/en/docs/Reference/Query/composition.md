@@ -6,10 +6,6 @@ description: >
   クエリの合成
 ---
 
-{{% pageinfo %}}
-We are currently working on the translation from Japanese to English. We would appreciate your cooperation.
-{{% /pageinfo %}}
-
 ## 概要 {#overview}
 
 クエリとその構成要素である宣言は合成をサポートします。

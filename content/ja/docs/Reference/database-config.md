@@ -119,4 +119,4 @@ SQLテンプレートから`org.komapper.core.Statement`を生成するビルダ
 
 以下のドキュメントも参照ください。
 
-- [Template DSL]({{< relref "Query/template-dsl.md" >}})
+- [TEMPLATE]({{< relref "Query/QueryDsl/template.md" >}})

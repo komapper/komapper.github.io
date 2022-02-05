@@ -6,10 +6,6 @@ description: >
   UPDATEクエリ
 ---
 
-{{% pageinfo %}}
-We are currently working on the translation from Japanese to English. We would appreciate your cooperation.
-{{% /pageinfo %}}
-
 ## 概要 {#overview}
 
 UPDATEクエリは`QueryDsl`の`update`とそれに続く関数を呼び出して構築します。

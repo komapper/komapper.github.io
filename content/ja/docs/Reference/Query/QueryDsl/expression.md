@@ -1,7 +1,7 @@
 ---
 title: "Expression"
 linkTitle: "Expression"
-weight: 50
+weight: 200
 description: >
   クエリの構成要素である式
 ---

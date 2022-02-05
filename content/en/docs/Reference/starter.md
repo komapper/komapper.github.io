@@ -3,11 +3,8 @@ title: "Starter"
 linkTitle: "Starter"
 weight: 100
 description: >
+  スターター
 ---
-
-{{% pageinfo %}}
-We are currently working on the translation from Japanese to English. We would appreciate your cooperation.
-{{% /pageinfo %}}
 
 ## 概要 {#overview}
 

@@ -3,11 +3,8 @@ title: "Gradle Plugin"
 linkTitle: "Gradle Plugin"
 weight: 200
 description: >
+  Gradleプラグイン
 ---
-
-{{% pageinfo %}}
-We are currently working on the translation from Japanese to English. We would appreciate your cooperation.
-{{% /pageinfo %}}
 
 ## 概要 {#overview}
 
@@ -35,7 +32,7 @@ Gradleプラグインの利用は必須ではありません。
 ```kotlin
 // Komapperプラグインの利用を宣言する
 plugins {
-  id("org.komapper.gradle") version "0.25.0"
+  id("org.komapper.gradle") version "0.27.0"
 }
 
 // Komapperプラグインに関する設定を行う

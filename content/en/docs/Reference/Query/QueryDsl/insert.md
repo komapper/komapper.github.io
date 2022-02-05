@@ -6,10 +6,6 @@ description: >
   INSERTクエリ
 ---
 
-{{% pageinfo %}}
-We are currently working on the translation from Japanese to English. We would appreciate your cooperation.
-{{% /pageinfo %}}
-
 ## 概要 {#overview}
 
 INSERTクエリは`QueryDsl`の`insert`とそれに続く関数を呼び出して構築します。

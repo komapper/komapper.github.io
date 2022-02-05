@@ -37,7 +37,7 @@ fun main() {
     db.withTransaction {
         // create a schema
         db.runQuery {
-            SchemaDsl.create(a)
+            QueryDsl.create(a)
         }
 
         // INSERT
@@ -67,7 +67,7 @@ fun main() = runBlocking {
     db.withTransaction {
         // create a schema
         db.runQuery {
-            SchemaDsl.create(a)
+            QueryDsl.create(a)
         }
 
         // INSERT

@@ -127,7 +127,7 @@ fun main() {
 
     // (4) create schema
     database.runQuery {
-      SchemaDsl.create(e)
+      QueryDsl.create(e)
     }
 
     // (5) insert multiple employees at once

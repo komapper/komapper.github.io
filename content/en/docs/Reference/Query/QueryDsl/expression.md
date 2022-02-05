@@ -1,14 +1,10 @@
 ---
 title: "Expression"
 linkTitle: "Expression"
-weight: 50
+weight: 200
 description: >
   クエリの構成要素である式
 ---
-
-{{% pageinfo %}}
-We are currently working on the translation from Japanese to English. We would appreciate your cooperation.
-{{% /pageinfo %}}
 
 ## 概要 {#overview}
 

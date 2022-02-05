@@ -1,14 +1,10 @@
 ---
 title: "Builder"
 linkTitle: "Builder"
-weight: 60
+weight: 300
 description: >
   クエリのビルダー
 ---
-
-{{% pageinfo %}}
-We are currently working on the translation from Japanese to English. We would appreciate your cooperation.
-{{% /pageinfo %}}
 
 ## 概要 {#overview}
 

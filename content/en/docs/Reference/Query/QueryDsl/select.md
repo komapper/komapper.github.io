@@ -6,10 +6,6 @@ description: >
   SELECTクエリ
 ---
 
-{{% pageinfo %}}
-We are currently working on the translation from Japanese to English. We would appreciate your cooperation.
-{{% /pageinfo %}}
-
 ## 概要 {#overview}
 
 SELECTクエリは`QueryDsl`の`from`を呼び出して構築します。これが基本の形となります。

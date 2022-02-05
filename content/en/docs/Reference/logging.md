@@ -3,11 +3,8 @@ title: "Logging"
 linkTitle: "Logging"
 weight: 50
 description: >
+  ロギング
 ---
-
-{{% pageinfo %}}
-We are currently working on the translation from Japanese to English. We would appreciate your cooperation.
-{{% /pageinfo %}}
 
 ## 概要 {#overview}
 

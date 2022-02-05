@@ -3,11 +3,8 @@ title: "Dialect"
 linkTitle: "Dialect"
 weight: 15
 description: >
+  方言
 ---
-
-{{% pageinfo %}}
-We are currently working on the translation from Japanese to English. We would appreciate your cooperation.
-{{% /pageinfo %}}
 
 ## 概要 {#overview}
 

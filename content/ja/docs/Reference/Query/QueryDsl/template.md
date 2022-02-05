@@ -1,20 +1,16 @@
 ---
-title: "Template DSL"
-linkTitle: "Template DSL"
-weight: 30
+title: "TEMPLATE"
+linkTitle: "TEMPLATE"
+weight: 50
 description: >
-  テンプレートからSQLを組み立てるためのDSL
+  SQLテンプレートを利用するクエリ
 ---
-
-{{% pageinfo %}}
-We are currently working on the translation from Japanese to English. We would appreciate your cooperation.
-{{% /pageinfo %}}
 
 ## 概要 {#overview}
 
-Template DSLはSQLテンプレートを使ってSQLを組み立てます。
+TEMPLATEクエリはSQLテンプレートを利用して構築します。
 
-Template DSLはコアのモジュールには含まれないオプション機能です。
+TEMPLATEクエリはコアのモジュールには含まれないオプション機能です。
 利用するにはGradleの依存関係に次のような宣言が必要です。
 
 ```kotlin
@@ -25,7 +21,7 @@ dependencies {
 ```
 
 {{< alert title="Note" >}}
-すべての [Starter]({{< relref "../Starter" >}}) は上記の設定を含んでいます。
+すべての [Starter]({{< relref "../../Starter" >}}) は上記の設定を含んでいます。
 したがって、Starterを使う場合には上記の設定は不要です。
 {{< /alert >}}
 
@@ -33,9 +29,9 @@ dependencies {
 `komapper-template`モジュールは内部でリフレクションを使います。
 {{< /alert >}}
 
-## SELECT
+## fromTemplate
 
-検索を実施するには`from`関数に [SQLテンプレート]({{< relref "#sql-template" >}})、`bind`関数にSQLテンプレート内で利用したいデータを渡します。
+検索を実施するには`fromTemplate`関数に [SQLテンプレート]({{< relref "#sql-template" >}})、`bind`関数にSQLテンプレート内で利用したいデータを渡します。
 SQLテンプレート内の各種ディレクティブではデータのpublicなメンバを参照できます。
 検索結果を任意の型に変換するために`select`関数にラムダ式を渡します。
 
@@ -44,7 +40,7 @@ data class Condition(val street: String)
 
 val sql = "select * from ADDRESS where street = /*street*/'test'"
 val data = Condition("STREET 10")
-val query: Query<List<Address>> = TemplateDsl.from(sql).bind(data).select { row: Row ->
+val query: Query<List<Address>> = QueryDsl.fromTemplate(sql).bind(data).select { row: Row ->
     Address(
         row.asInt("address_id")!!,
         row.asString("street")!!,
@@ -57,7 +53,7 @@ val query: Query<List<Address>> = TemplateDsl.from(sql).bind(data).select { row:
 
 ```kotlin
 val sql = "select * from ADDRESS where street = /*street*/'test'"
-val query: Query<List<Address>> = TemplateDsl.from(sql).bind(
+val query: Query<List<Address>> = QueryDsl.fromTemplate(sql).bind(
     object {
         val street = "STREET 10"
     }
@@ -82,7 +78,7 @@ val query: Query<List<Address>> = TemplateDsl.from(sql).bind(
 
 ```kotlin
 val sql = "select * from ADDRESS where street = /*street*/'test'"
-val query: Query<List<Address>> = TemplateDsl.from(sql).options {
+val query: Query<List<Address>> = QueryDsl.fromTemplate(sql).options {
   it.copty(
     fetchSize = 100,
     queryTimeoutSeconds = 5
@@ -117,12 +113,12 @@ queryTimeoutSeconds
 suppressLogging
 : SQLのログ出力を抑制するかどうかです。デフォルトは`false`です。
 
-[executionOptions]({{< relref "../database-config/#executionoptions" >}})
+[executionOptions]({{< relref "../../database-config/#executionoptions" >}})
 の同名プロパティよりもこちらに明示的に設定した値が優先的に利用されます。
 
-## EXECUTE
+## executeTemplate
 
-更新系のDMLを実行するには`execute`関数に [SQLテンプレート]({{< relref "#sql-template" >}})、`bind`関数にSQLテンプレート内で利用したいデータを渡します。
+更新系のDMLを実行するには`executeTemplate`関数に [SQLテンプレート]({{< relref "#sql-template" >}})、`bind`関数にSQLテンプレート内で利用したいデータを渡します。
 SQLテンプレート内の各種ディレクティブではデータのpublicなメンバを参照できます。
 
 クエリ実行時にキーが重複した場合、`org.komapper.core.UniqueConstraintException`がスローされます。
@@ -132,14 +128,14 @@ data class Condition(val id: Int, val street: String)
 
 val sql = "update ADDRESS set street = /*street*/'' where address_id = /*id*/0"
 val data = Condition(15, "NY street")
-val query = Query<Int> = TemplateDsl.execute(sql).bind(data)
+val query = Query<Int> = QueryDsl.executeTemplate(sql).bind(data)
 ```
 
 上述の例では`bind`関数に`Condition`クラスのインスタンスを渡していますが、代わりにobject式を渡すこともできます。
 
 ```kotlin
 val sql = "update ADDRESS set street = /*street*/'' where address_id = /*id*/0"
-val query = Query<Int> = TemplateDsl.execute(sql).bind( object { id = 15, street = "NY street" } )
+val query = Query<Int> = QueryDsl.executeTemplate(sql).bind( object { id = 15, street = "NY street" } )
 ```
 
 ### options {#execute-options}
@@ -153,7 +149,7 @@ data class Condition(val id: Int, val street: String)
 
 val sql = "update ADDRESS set street = /*street*/'' where address_id = /*id*/0"
 val data = Condition(15, "NY street")
-val query = Query<Int> = TemplateDsl.execute(sql).bind(data).options {
+val query = Query<Int> = QueryDsl.executeTemplate(sql).bind(data).options {
     it.copty(
       queryTimeoutSeconds = 5
     )
@@ -171,7 +167,7 @@ queryTimeoutSeconds
 suppressLogging
 : SQLのログ出力を抑制するかどうかです。デフォルトは`false`です。
 
-[executionOptions]({{< relref "../database-config/#executionoptions" >}})
+[executionOptions]({{< relref "../../database-config/#executionoptions" >}})
 の同名プロパティよりもこちらに明示的に設定した値が優先的に利用されます。
 
 ## SQLテンプレート  {#sql-template}

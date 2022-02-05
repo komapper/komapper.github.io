@@ -3,11 +3,8 @@ title: "Entity Class"
 linkTitle: "Entity Class"
 weight: 20
 description: >
+  エンティティクラス
 ---
-
-{{% pageinfo %}}
-We are currently working on the translation from Japanese to English. We would appreciate your cooperation.
-{{% /pageinfo %}}
 
 ## 概要 {#overview}
 

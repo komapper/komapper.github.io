@@ -3,11 +3,8 @@ title: "Database"
 linkTitle: "Database"
 weight: 10
 description: >
+  データベース
 ---
-
-{{% pageinfo %}}
-We are currently working on the translation from Japanese to English. We would appreciate your cooperation.
-{{% /pageinfo %}}
 
 ## 概要 {#overview}
 
