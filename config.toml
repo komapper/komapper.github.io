@@ -142,12 +142,6 @@ url = "https://v0-27.komapper.org/"
 [[params.versions]]
 version = "v0.26"
 url = "https://v0-26.komapper.org/"
-[[params.versions]]
-version = "v0.25"
-url = "https://v0-25.komapper.org/"
-[[params.versions]]
-version = "v0.24"
-url = "https://v0-24.komapper.org/"
 
 # User interface configuration
 [params.ui]
