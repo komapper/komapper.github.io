@@ -42,7 +42,7 @@ val db: JdbcDatabase = JdbcDatabase.create(
 val dataSource: DataSource = ...
 val db: JdbcDatabase = JdbcDatabase.create(
   dataSource = dataSource, 
-  dialect = H2JdbcDialect()
+  dialect = JdbcH2Dialect()
 )
 ```
 
@@ -78,7 +78,7 @@ val db: R2dbcDatabase = R2dbcDatabase.create(options)
 val connectionFactory: ConnectionFactory = ...
 val db: R2dbcDatabase = R2dbcDatabase.create(
   connectionFactory = connectionFactory, 
-  dialect = H2R2dbcDialect()
+  dialect = R2dbcH2Dialect()
 )
 ```
 

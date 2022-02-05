@@ -72,11 +72,12 @@ db.withTransaction {
 ```
 
 `withTransaction`拡張関数にはトランザクション属性とトランザクション分離レベルを指定できます。
+下記のコードはJDBC版の`withTransaction`拡張関数の利用例です。
 
 ```kotlin
 db.withTransaction(
-  transactionAttribute = TransactionAttribute.REQUIRES_NEW, 
-  isolationLevel = IsolationLevel.SERIALIZABLE) {
+  transactionAttribute = JdbcTransactionAttribute.REQUIRES_NEW, 
+  isolationLevel = JdbcIsolationLevel.SERIALIZABLE) {
     ..
 }
 ```
@@ -137,7 +138,7 @@ db.withTransaction {
 ```kotlin
 db.withTransaction {
     ..
-    requiresNew(isolationLevel = IsolationLevel.SERIALIZABLE) {
+    requiresNew(isolationLevel = JdbcIsolationLevel.SERIALIZABLE) {
         ..
     }
     ..
