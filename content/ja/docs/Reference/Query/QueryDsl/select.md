@@ -65,6 +65,60 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADD
 */
 ```
 
+`forUpdate`に渡すラムダ式の中で、`nowait`、 `skipLocked`、 `wait`などの関数を呼び出しLockオプションを指定できます。
+
+```kotlin
+val query: Query<List<Address>> = QueryDsl.from(a).where { a.addressId eq 1 }.forUpdate { nowait() }
+/*
+select t0_.address_id, t0_.street, t0_.version from address as t0_ where t0_.address_id = ? for update nowait
+*/
+```
+
+```kotlin
+val query: Query<List<Address>> = QueryDsl.from(a).where { a.addressId eq 1 }.forUpdate { skipLocked() }
+/*
+select t0_.address_id, t0_.street, t0_.version from address as t0_ where t0_.address_id = ? for update skip locked
+*/
+```
+
+```kotlin
+val query: Query<List<Address>> = QueryDsl.from(a).where { a.addressId eq 1 }.forUpdate { wait(1) }
+/*
+select t0_.address_id, t0_.street, t0_.version from address as t0_ where t0_.address_id = ? for update wait 1
+*/
+```
+
+
+{{< alert color="warning" title="Warning" >}}
+利用している [Dialect]({{< relref "../../dialect.md" >}}) がLockオプションをサポートしない場合、
+クエリの実行時に`UnsupportedOperationException`がスローされます。
+{{< /alert >}}
+
+`forUpdate`に渡すラムダ式の中で`of`関数を使うことでLock対象のテーブルを指定できます。
+
+```kotlin
+val a = Meta.address
+val e = Meta.employee
+val address: Address = db.runQuery {
+    QueryDsl.from(a)
+        .innerJoin(e) { a.addressId eq e.addressId }
+        .where { a.addressId eq 10 }
+        .forUpdate {
+            of(a)
+            nowait()
+        }
+        .first()
+}
+/*
+select t0_.address_id, t0_.street, t0_.version from address as t0_ inner join employee as t1_ on (t0_.address_id = t1_.address_id) where t0_.address_id = ? for update of t0_ nowait
+*/
+```
+
+{{< alert color="warning" title="Warning" >}}
+利用している [Dialect]({{< relref "../../dialect.md" >}}) がLock対象のテーブル指定をサポートしない場合、
+クエリの実行時に`UnsupportedOperationException`がスローされます。
+{{< /alert >}}
+
 ## orderBy
 
 ORDER BY句を指定する場合は`orderBy`を呼び出します。
