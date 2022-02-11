@@ -208,9 +208,11 @@ dependencies {
 | io.r2dbc.spi.Clob        | CLOB                     |
 | java.math.BigDecimal     | NUMBER                   |
 | java.math.BigInteger     | NUMBER                   |
+| java.time.Duration       | INTERVAL DAY TO SECOND   |
 | java.time.LocalDate      | DATE                     |
 | java.time.LocalDateTime  | DATE                     |
 | java.time.LocalTime      | TIME                     |
+| java.time.Period         | INTERVAL YEAR TO MONTH   |
 | java.time.OffsetDateTime | TIMESTAMP WITH TIME ZONE |
 | java.util.UUID           | N/A                      |
 | kotlin.Any               | N/A                      |
