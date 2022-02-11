@@ -11,24 +11,22 @@ description: >
 方言はデータベースやドライバの差異を吸収します。
 方言の代表的な機能はKotlinとデータベースの型の対応関係を解決することです。
 
-方言は個別のモジュール（Artifact）に含まれており、どのモジュールを利用するかは接続先データベースや接続タイプに合わせて選択する必要があります。
+方言を表すクラスは個別のモジュール（Artifact）に含まれており、どのモジュールを利用するかは接続先データベースや接続タイプに合わせて選択する必要があります。
 
-| Database           | Type  |            Artifact ID            |
-|--------------------|:-----:|:---------------------------------:|
-| H2 Database Engine | JDBC  |     komapper-dialect-h2-jdbc      |
-| H2 Database Engine | R2DBC |     komapper-dialect-h2-r2dbc     |
-| MariaDB            | JDBC  |   komapper-dialect-mariadb-jdbc   |
-| MySQL              | JDBC  |    komapper-dialect-mysql-jdbc    |
-| Oracle Database    | JDBC  |   komapper-dialect-oracle-jdbc    |
-| Oracle Database    | R2DBC |   komapper-dialect-oracle-r2dbc   |
-| PostgreSQL         | JDBC  | komapper-dialect-postgresql-jdbc  |
-| PostgreSQL         | R2DBC | komapper-dialect-postgresql-r2dbc |
-| SQL Server         | JDBC  |  komapper-dialect-sqlserver-jdbc  |
-| SQL Server         | R2DBC | komapper-dialect-sqlserver-r2dbc  |
+| Database           | Type  |            Artifact ID            |     Dialect Class      |
+|--------------------|:-----:|:---------------------------------:|:----------------------:|
+| H2 Database Engine | JDBC  |     komapper-dialect-h2-jdbc      |    JdbcH2SqlDialect    |
+| H2 Database Engine | R2DBC |     komapper-dialect-h2-r2dbc     |   R2dbcH2SqlDialect    |
+| MariaDB            | JDBC  |   komapper-dialect-mariadb-jdbc   |   JdbcMariadbDialect   |
+| MySQL              | JDBC  |    komapper-dialect-mysql-jdbc    |    JdbcMySqlDialect    |
+| Oracle Database    | JDBC  |   komapper-dialect-oracle-jdbc    |   JdbcOracleDialect    |
+| Oracle Database    | R2DBC |   komapper-dialect-oracle-r2dbc   |   R2dbcOracleDialect   |
+| PostgreSQL         | JDBC  | komapper-dialect-postgresql-jdbc  | JdbcPostgreSqlDialect  |
+| PostgreSQL         | R2DBC | komapper-dialect-postgresql-r2dbc | R2dbcPostgreSqlDialect |
+| SQL Server         | JDBC  |  komapper-dialect-sqlserver-jdbc  |  JdbcSqlServerDialect  |
+| SQL Server         | R2DBC | komapper-dialect-sqlserver-r2dbc  | R2dbcSqlServerDialect  |
 
-## H2 - JDBC
-
-利用するにはGradleの依存関係の宣言で次のように記述します。
+方言を利用するにはGradleの依存関係の宣言の中で上述のArtifact IDを記述します。
 
 ```kotlin
 val komapperVersion: String by project
@@ -37,11 +35,7 @@ dependencies {
 }
 ```
 
-プログラムの中で利用するには以下のようにインスタンス化します。
-
-```kotlin
-val dialect = JdbcH2Dialect()
-```
+## H2 - JDBC
 
 データ型の対応関係を示します。
 
@@ -76,21 +70,6 @@ val dialect = JdbcH2Dialect()
 
 ## H2 - R2DBC
 
-利用するにはGradleの依存関係の宣言で次のように記述します。
-
-```kotlin
-val komapperVersion: String by project
-dependencies {
-    implementation("org.komapper:komapper-dialect-h2-r2dbc:$komapperVersion")
-}
-```
-
-プログラムの中で利用するには以下のようにインスタンス化します。
-
-```kotlin
-val dialect = R2dbcH2Dialect()
-```
-
 データ型の対応関係を示します。
 
 | Kotlin Type              | Database Type            |
@@ -121,21 +100,6 @@ val dialect = R2dbcH2Dialect()
 | enum class               | VARCHAR                  |
 
 ## MariaDB - JDBC
-
-利用するにはGradleの依存関係の宣言で次のように記述します。
-
-```kotlin
-val komapperVersion: String by project
-dependencies {
-    implementation("org.komapper:komapper-dialect-mariadb-jdbc:$komapperVersion")
-}
-```
-
-プログラムの中で利用するには以下のようにインスタンス化します。
-
-```kotlin
-val dialect = JdbcMariaDbDialect()
-```
 
 データ型の対応関係を示します。
 
@@ -170,21 +134,6 @@ val dialect = JdbcMariaDbDialect()
 
 ## MySQL - JDBC
 
-利用するにはGradleの依存関係の宣言で次のように記述します。
-
-```kotlin
-val komapperVersion: String by project
-dependencies {
-    implementation("org.komapper:komapper-dialect-mysql-jdbc:$komapperVersion")
-}
-```
-
-プログラムの中で利用するには以下のようにインスタンス化します。
-
-```kotlin
-val dialect = JdbcMySqlDialect()
-```
-
 データ型の対応関係を示します。
 
 | Kotlin Type              | Database Type   |
@@ -217,21 +166,6 @@ val dialect = JdbcMySqlDialect()
 | enum class               | VARCHAR         |
 
 ## Oracle - JDBC
-
-利用するにはGradleの依存関係の宣言で次のように記述します。
-
-```kotlin
-val komapperVersion: String by project
-dependencies {
-    implementation("org.komapper:komapper-dialect-oracle-jdbc:$komapperVersion")
-}
-```
-
-プログラムの中で利用するには以下のようにインスタンス化します。
-
-```kotlin
-val dialect = JdbcOracleDialect()
-```
 
 データ型の対応関係を示します。
 
@@ -266,21 +200,6 @@ val dialect = JdbcOracleDialect()
 
 ## Oracle - R2DBC
 
-利用するにはGradleの依存関係の宣言で次のように記述します。
-
-```kotlin
-val komapperVersion: String by project
-dependencies {
-    implementation("org.komapper:komapper-dialect-oracle-r2dbc:$komapperVersion")
-}
-```
-
-プログラムの中で利用するには以下のようにインスタンス化します。
-
-```kotlin
-val dialect = R2dbcOracleSqlDialect()
-```
-
 データ型の対応関係を示します。
 
 | Kotlin Type              | Database Type            |
@@ -310,21 +229,6 @@ val dialect = R2dbcOracleSqlDialect()
 | enum class               | VARCHAR2                 |
 
 ## PostgreSQL - JDBC
-
-利用するにはGradleの依存関係の宣言で次のように記述します。
-
-```kotlin
-val komapperVersion: String by project
-dependencies {
-    implementation("org.komapper:komapper-dialect-postgresql-jdbc:$komapperVersion")
-}
-```
-
-プログラムの中で利用するには以下のようにインスタンス化します。
-
-```kotlin
-val dialect = JdbcPostgreSqlDialect()
-```
 
 データ型の対応関係を示します。
 
@@ -359,21 +263,6 @@ val dialect = JdbcPostgreSqlDialect()
 
 ## PostgreSQL - R2DBC
 
-利用するにはGradleの依存関係の宣言で次のように記述します。
-
-```kotlin
-val komapperVersion: String by project
-dependencies {
-    implementation("org.komapper:komapper-dialect-postgresql-r2dbc:$komapperVersion")
-}
-```
-
-プログラムの中で利用するには以下のようにインスタンス化します。
-
-```kotlin
-val dialect = R2dbcPostgreSqlDialect()
-```
-
 データ型の対応関係を示します。
 
 | Kotlin Type                        | Database Type                        |
@@ -407,21 +296,6 @@ val dialect = R2dbcPostgreSqlDialect()
 
 ## SQL Server - JDBC
 
-利用するにはGradleの依存関係の宣言で次のように記述します。
-
-```kotlin
-val komapperVersion: String by project
-dependencies {
-    implementation("org.komapper:komapper-dialect-sqlserver-jdbc:$komapperVersion")
-}
-```
-
-プログラムの中で利用するには以下のようにインスタンス化します。
-
-```kotlin
-val dialect = JdbcSqlServerDialect()
-```
-
 データ型の対応関係を示します。
 
 | Kotlin Type              | Database Type     |
@@ -454,21 +328,6 @@ val dialect = JdbcSqlServerDialect()
 | enum class               | varchar, nvarchar |
 
 ## SQL Server - R2DBC
-
-利用するにはGradleの依存関係の宣言で次のように記述します。
-
-```kotlin
-val komapperVersion: String by project
-dependencies {
-    implementation("org.komapper:komapper-dialect-sqlserver-r2dbc:$komapperVersion")
-}
-```
-
-プログラムの中で利用するには以下のようにインスタンス化します。
-
-```kotlin
-val dialect = R2dbcSqlServerDialect()
-```
 
 データ型の対応関係を示します。
 
