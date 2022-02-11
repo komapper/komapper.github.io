@@ -16,6 +16,8 @@ description: >
 - [算術演算子]({{< relref "#arithmetic-operator" >}})
 - [集約関数]({{< relref "#aggregate-function" >}})
 - [文字列関数]({{< relref "#string-function" >}})
+- [CASE式]({{< relref "#case-expression" >}})
+- [スカラサブクエリ]({{< relref "#scalar-subquery" >}})
 - [リテラル]({{< relref "#literal" >}})
 
 ## 宣言 {#declaration}
@@ -624,6 +626,44 @@ select max(t0_.ADDRESS_ID) from ADDRESS as t0_
 QueryDsl.from(a).select(min(a.addressId))
 /*
 select min(t0_.ADDRESS_ID) from ADDRESS as t0_
+*/
+```
+
+## CASE式 {#case-expression}
+
+CASE式を使うには`case`を呼び出します。
+
+```kotlin
+val caseExpression = case(
+  When(
+    {
+      a.street eq "STREET 2"
+      a.addressId greater 1
+    },
+    literal("HIT")
+  )
+) { literal("NO HIT") }
+val list: List<Pair<String?, String?>> = db.runQuery {
+  QueryDsl.from(a).where { a.addressId inList listOf(1, 2, 3) }
+    .orderBy(a.addressId)
+    .select(a.street, caseExpression)
+}
+/*
+select t0_.street, case when t0_.street = ? and t0_.address_id > ? then 'HIT' else 'NO HIT' end from address as t0_ where t0_.address_id in (?, ?, ?) order by t0_.address_id asc
+*/
+```
+
+## スカラサブクエリ {#scalar-subquery}
+
+集約関数を使ってスカラを返すクエリはサブクエリとして他のクエリの`select`関数に渡せます。
+
+```kotlin
+val subquery = QueryDsl.from(e).where { d.departmentId eq e.departmentId }.select(count())
+val query = QueryDsl.from(d)
+    .orderBy(d.departmentId)
+    .select(d.departmentName, subquery)
+/*
+select t0_.department_name, (select count(*) from employee as t1_ where t0_.department_id = t1_.department_id) from department as t0_ order by t0_.department_id asc
 */
 ```
 
