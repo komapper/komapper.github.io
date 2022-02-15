@@ -127,10 +127,6 @@ insert into ADDRESS as t0_ (ADDRESS_ID, STREET, VERSION) values (?, ?, ?) on con
 
 `onDuplicateKeyIgnore`に続けて`batch`を呼び出した場合の戻り値はドライバの返す値です。
 
-{{< alert color="warning" title="Warning" >}}
-R2DBCではサポートされていません。
-{{< /alert >}}
-
 ## onDuplicateKeyUpdate
 
 `onDuplicateKeyUpdate`を呼び出すことでキーが重複した場合に対象行を更新できます。
@@ -173,10 +169,6 @@ insert into DEPARTMENT as t0_ (DEPARTMENT_ID, DEPARTMENT_NO, DEPARTMENT_NAME, LO
 ### batch {#onduplicatekeyupdate-batch}
 
 `onDuplicateKeyUpdate`に続けて`batch`を呼び出した場合の戻り値はドライバの返す値です。
-
-{{< alert color="warning" title="Warning" >}}
-R2DBCではサポートされていません。
-{{< /alert >}}
 
 ### set {#onduplicatekeyupdate-set}
 
