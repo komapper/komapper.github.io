@@ -300,6 +300,9 @@ disableSequenceAssignment
 queryTimeoutSeconds
 : クエリタイムアウトの秒数です。デフォルトは`null`でドライバの値を使うことを示します。
 
+returnGeneratedKeys
+: AUTO INCREMENTされたIDの値を返すかどうかです。デフォルトは`true`です。
+
 suppressLogging
 : SQLのログ出力を抑制するかどうかです。デフォルトは`false`です。
 
