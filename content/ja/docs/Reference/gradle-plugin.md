@@ -30,6 +30,18 @@ Gradleプラグインの利用は必須ではありません。
 下記のコードはプラグインを利用したgradle.ktsファイルの例（抜粋）です。
 
 ```kotlin
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    // TestcontainersとPostgreSQLのJDBCドライバへの依存を定義する
+    dependencies {
+        classpath(platform("org.testcontainers:testcontainers-bom:1.16.3"))
+        classpath("org.testcontainers:postgresql")
+        classpath("org.postgresql:postgresql:42.3.2")
+    }
+}
+
 // Komapperプラグインの利用を宣言する
 plugins {
   id("org.komapper.gradle") version "0.28.0"
@@ -42,15 +54,13 @@ komapper {
         // 利用するデータベースごとにregisterブロックに適当な名前をつけてブロック内に設定を記述する
         register("postgresql") {
             val initScript = file("src/main/resources/init_postgresql.sql")
-            // databaseパラメータの設定
-            database.set(
-                // Testcontainers上のPostgreSQLを利用する
-                JdbcDatabase.create(
-                    url = "jdbc:tc:postgresql:13.3:///test?TC_INITSCRIPT=file:${initScript.absolutePath}",
-                    user = "test",
-                    password = "test"
-                )
-            )
+            // JDBCパラメータの設定。Testcontainers上のPostgreSQLを利用する。
+            jdbc {
+                driver.set("org.testcontainers.jdbc.ContainerDatabaseDriver")
+                url = "jdbc:tc:postgresql:13.3:///test?TC_INITSCRIPT=file:${initScript.absolutePath}",
+                user = "test",
+                password = "test"
+            }
             // packageNameパラメータの設定
             packageName.set("org.komapper.example.postgresql")
             // overwriteEntitiesパラメータの設定
@@ -80,13 +90,25 @@ $ ./gradlew komapperPostgresqlGenerator
 
 `register`ブロック内で設定可能なパラメータを示します。
 
-### database
+### jdbc.driver
 
-接続先データベースを表します。
-
-`org.komapper.jdbc.JdbcDatabase`のインスタンスを設定してください。
+JDBCドライバのクラス名を表します。
 
 設定必須です。
+
+### jdbc.url
+
+JDBCのURLを表します。
+
+設定必須です。
+
+### jdbc.user
+
+JDBCのユーザーを表します。
+
+### jdbc.password
+
+JDBCのパスワードを表します。
 
 ### catalog
 
@@ -208,13 +230,19 @@ $ ./gradlew komapperPostgresqlGenerator
 
 デフォルトの値は`false`です。
 
-### classResolver
+### propertyTypeResolver
 
 生成されるエンティティクラスのプロパティの型を決定するリゾルバです。
 
-`org.komapper.codegen.ClassResolver`のインスタンスを設定してください。
+`org.komapper.codegen.PropertyTypeResolver`のインスタンスを設定してください。
 
-デフォルトは`org.komapper.codegen.DefaultClassResolver`のインスタンスです。
-このデフォルトの実装クラスは、接続先データベースのDialectに登録された情報を使って型を解決します。
+`PropertyTypeResolver.of()`とすることでデフォルトのインスタンスを生成できます。
 
-リゾルバで型を解決できない場合、`String`型として生成されます。
+### enquote
+
+SQLの識別子を引用符で囲むことを行う関数です
+
+`org.komapper.codegen.Enquote`のインスタンスを設定してください。
+
+`Enquote.of()`とすることでデフォルトのインスタンスを生成できます。
+
