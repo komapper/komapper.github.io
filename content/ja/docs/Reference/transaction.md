@@ -97,12 +97,12 @@ db.withTransaction(
 
 ### 明示的なロールバック {#explicit-rollback}
 
-`withTransaction`拡張関数に渡されたラムダ式の中で`setRollbackOnly`関数を呼び出すと`withTransaction`拡張関数終了時にロールバックが実行されます。
+`setRollbackOnly`関数を呼び出すと`withTransaction`拡張関数終了時にロールバックが実行されます。
 
 ```kotlin
-db.withTransaction {
+db.withTransaction { tx ->
     ..
-    setRollbackOnly()
+    tx.setRollbackOnly()
     ..
 }
 ```
@@ -110,9 +110,9 @@ db.withTransaction {
 すでに`setRollbackOnly`関数を呼び出したかどうかは`isRollbackOnly`関数で確認できます。
 
 ```kotlin
-db.withTransaction {
+db.withTransaction { tx ->
     ..
-    if (isRollbackOnly()) {
+    if (tx.isRollbackOnly()) {
         ..
     }
     ..
@@ -121,12 +121,12 @@ db.withTransaction {
 
 ### 新規トランザクションの開始と終了 {#begin-and-end-of-new-transaction}
 
-すでに開始されたトランザクションの中で別のトランザクションを新しく開始するには`withTransaction`拡張関数に渡されたラムダ式の中で`requiresNew`関数を呼び出します。
+すでに開始されたトランザクションの中で別のトランザクションを新しく開始するには`requiresNew`関数を呼び出します。
 
 ```kotlin
-db.withTransaction {
+db.withTransaction { tx ->
     ..
-    requiresNew {
+    tx.requiresNew {
         ..
     }
     ..
@@ -136,9 +136,9 @@ db.withTransaction {
 `requiresNew`関数にはトランザクション分離レベルを指定できます。
 
 ```kotlin
-db.withTransaction {
+db.withTransaction { tx ->
     ..
-    requiresNew(isolationLevel = JdbcIsolationLevel.SERIALIZABLE) {
+    tx.requiresNew(isolationLevel = JdbcIsolationLevel.SERIALIZABLE) {
         ..
     }
     ..
