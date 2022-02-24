@@ -145,10 +145,10 @@ db.config.session.connection.use { con ->
 ```
 
 同様に、R2DBCのAPIを直接利用するには`R2dbcDatabase`インスタンスから
-いくつかのプロパティを呼び出して`io.r2dbc.spi.Connection`の`Publisher`を取得します。
+いくつかのプロパティを呼び出して`io.r2dbc.spi.Connection`を取得します。
 
 ```kotlin
-val con: Publisher<out Connection> = db.config.session.connection
+val con: Connection = db.config.session.getConnection()
 ```
 
 {{< alert color="warning" title="Warning" >}}
