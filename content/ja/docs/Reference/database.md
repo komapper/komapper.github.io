@@ -111,15 +111,15 @@ val query: Query<List<Address>> = QueryDsl.from(a)
 val result: List<Address> = db.runQuery(query)
 ```
 
-Databaseインスタンスが`R2dbcDatabase`の場合でクエリの型が`org.komapper.core.dsl.query.FlowQuery`のとき、`flow`関数を実行できます。
+Databaseインスタンスが`R2dbcDatabase`の場合でクエリの型が`org.komapper.core.dsl.query.FlowQuery`のとき、`flowQuery`関数を実行できます。
 
 ```kotlin
 val a = Meta.address
 val query: FlowQuery<Address> = QueryDsl.from(a)
-val flow: Flow<Address> = db.flow(query)
+val flow: Flow<Address> = db.flowQuery(query)
 ```
 
-データベースへのアクセスは`flow`関数から返される`Flow`インスタンスを利用したときに初めて行われます。
+データベースへのアクセスは`flowQuery`関数から返される`Flow`インスタンスを利用したときに初めて行われます。
 
 クエリの生成については [Query]({{< relref "query.md" >}}) を参照ください。
 
