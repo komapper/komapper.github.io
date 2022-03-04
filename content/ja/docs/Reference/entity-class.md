@@ -84,7 +84,7 @@ data class Address(
 )
 ```
 
-### 分離マッピング {#separate-mapping-definition}
+### 分離マッピング {#separation-mapping-definition}
 
 エンティティ定義クラスは次の要件を満たさなければいけません。
 
@@ -219,8 +219,8 @@ object MetamodelHolder {
 }
 ```
 
-上記のように`define`関数で作ったメモモデルを下記のように利用すると、
-クエリ上でWHERE句を指定しなくてもWHERE句をもったSQLが生成されます。
+上記の`bostonOnly`メタモデルを利用すると、
+クエリで検索条件を指定しないにも関わらずWHERE句をもったSQLが生成されます。
 
 ```kotlin
 val d = Meta.bostonOnly
@@ -386,8 +386,9 @@ val id: Int
 
 楽観的排他制御に使われるバージョン番号であることを表します。
 
-このアノテーションを付与すると、 [QueryDsl]({{< relref "query/QueryDsl" >}}) のUPDATE処理やDELETE処理で楽観的排他制御が行われます。
-つまり、WHERE句にバージョン番号チェックが含まれ処理件数が0の場合に例外がスローされます。
+このアノテーションを付与すると、
+[UPDATE]({{< relref "query/QueryDsl/update" >}})や
+[DELETE]({{< relref "query/QueryDsl/delete" >}})で楽観的排他制御が行われます。
 
 このアノテーションを付与するプロパティの型は次のいずれかでなければいけません。
 
@@ -401,7 +402,7 @@ val id: Int
 生成時のタイムスタンプであることを表します。
 
 このアノテーションを付与すると、
-[QueryDsl]({{< relref "query/QueryDsl" >}}) のINSERT処理にてタイムスタンプがプロパティに設定されます。
+[INSERT]({{< relref "query/QueryDsl/insert" >}})にてタイムスタンプがプロパティに設定されます。
 
 このアノテーションを付与するプロパティの型は次のいずれかでなければいけません。
 
@@ -414,7 +415,8 @@ val id: Int
 更新時のタイムスタンプであることを表します。
 
 このアノテーションを付与すると、
-[QueryDsl]({{< relref "query/QueryDsl" >}}) のINSERT処理とUPDATE処理にてタイムスタンプがプロパティに設定されます。
+[INSERT]({{< relref "query/QueryDsl/insert" >}})と
+[UPDATE]({{< relref "query/QueryDsl/update" >}})にてタイムスタンプがプロパティに設定されます。
 
 このアノテーションを付与するプロパティの型は次のいずれかでなければいけません。
 
@@ -433,9 +435,7 @@ val id: Nothing
 
 `alwaysQuote`プロパティに`true`を設定すると生成されるSQLの識別子が引用符で囲まれます。
 
-`masking`プロパティに`true`を設定すると、`org.komapper.SQL_WITH_ARGS`の
-[ログカテゴリ]({{< relref "logging#log-category" >}})
-でログを出力した場合に対応するデータがマスキングされます。
+`masking`プロパティに`true`を設定すると、 ログの中で対応するデータがマスキングされます。
 
 このアノテーションでカラムの名前を指定しない場合、アノテーション処理の`komapper.namingStrategy`オプションに従って名前が解決されます。
 以下のドキュメントも参照ください。

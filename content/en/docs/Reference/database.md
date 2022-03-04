@@ -3,7 +3,6 @@ title: "Database"
 linkTitle: "Database"
 weight: 10
 description: >
-  Database
 ---
 
 ## Overview {#overview}

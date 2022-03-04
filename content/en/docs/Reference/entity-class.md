@@ -3,27 +3,27 @@ title: "Entity Class"
 linkTitle: "Entity Class"
 weight: 20
 description: >
-  エンティティクラス
 ---
 
-## 概要 {#overview}
+## Overview {#overview}
 
-Komapperでは、データベースのテーブルに対応するKotlinクラスをエンティティクラスと呼びます。
+In Komapper, the Kotlin classes corresponding to database tables are called entity classes.
 
-エンティティクラスをテーブルにマッピングさせるには別途アノテーションを用いたマッピング定義が必要です。
+Mapping definitions using annotations are necessary to map entity classes to tables.
 
-マッピング定義はコンパイル時に解析されその結果がメタモデルとなります。
-メタモデルはクエリの構築や実行で利用されます。
+[KSP](https://github.com/google/ksp) parses the mapping definitions at compile-time and generates metamodels.
 
-## エンティティクラスの定義 {#entity-class-definition}
+The metamodels are used in the construction and execution of queries.
 
-エンティティクラスは次の要件を満たさなければいけません。
+## Entity class definition {#entity-class-definition}
 
-- Data Classである
-- 可視性がprivateでない
-- 型パラメータを持っていない
+Entity classes must meet the following requirements:
 
-例えば、次のようなテーブル定義があるとします。
+- Be a Data Class
+- Visibility is not private
+- No type parameter
+
+For example, suppose we have the following table definition:
 
 ```sql
 create table if not exists ADDRESS (
@@ -36,7 +36,7 @@ create table if not exists ADDRESS (
 );
 ```
 
-上記のテーブル定義に対応するエンティティクラス定義は次のようになります。
+The entity class definition corresponding to the above table definition is as follows:
 
 ```kotlin
 data class Address(
@@ -48,24 +48,27 @@ data class Address(
 )
 ```
 
-プロパティの型（Kotlinの型）とカラムの型（データベースの型）の対応関係は [Dialect]({{< relref "Dialect" >}}) で定義されます。
+The mapping between property types (Kotlin types) and 
+column types (database types) is defined by [Dialect]({{< relref "Dialect" >}}).
 
-## マッピング定義 {#mapping-definition}
+## Mapping definition {#mapping-definition}
 
-マッピング定義の作成方法は2種類あります。
+There are two ways to create a mapping definition:
 
-- エンティティクラス自身がマッピング定義を持つ方法（セルフマッピング）
-- エンティティクラスとは別にエンティティ定義クラスを作成する方法（分離マッピング）
+1. Entity class itself has its own mapping definition (self mapping)
+2. A separate class from the entity class has the mapping definition (separation mapping)
 
-同一のエンティティクラスに対して1つの方法のみ適用できます。
+Only one way can be applied to the same entity class.
 
-### セルフマッピング {#self-mapping-definition}
+### Self mapping {#self-mapping-definition}
 
-このときエンティティクラスは前のセクションで説明した要件に加えて次の条件を満たさなければいけません。
+The entity class must satisfy the following conditions
+in addition to the requirements described in the previous section:
 
-- `@KomapperEntity`で注釈される
+- Annotated by `@KomapperEntity`
 
-例えば、前のセクションで示した`Address`クラスにこの方法を適用すると次のように変更できます。
+For example, applying self mapping to the `Address` class shown in the previous section 
+would result in the following:
 
 ```kotlin
 @KomapperEntity
@@ -84,17 +87,18 @@ data class Address(
 )
 ```
 
-### 分離マッピング {#separate-mapping-definition}
+### Separation mapping {#separation-mapping-definition}
 
-エンティティ定義クラスは次の要件を満たさなければいけません。
+Mapping classes must meet the following requirements:
 
-- Data Classである
-- 可視性がprivateでない
-- 型パラメータを持っていない
-- `@KomapperEntityDef`で注釈され引数でエンティティクラスを受け取る
-- エンティティクラスに定義されたプロパティと異なる名前のプロパティを持たない
+- Be a Data Class
+- Visibility is not private
+- No type parameter
+- Annotated with `@KomapperEntityDef` and accepts entity class as argument
+- No properties with names different from those defined in the entity class
 
-例えば、前のセクションで示した`Address`クラスに対するエンティティ定義クラスは次のように記述できます。
+For example, applying separation mapping to the `Address` class shown in the previous section
+would result in the following:
 
 ```kotlin
 @KomapperEntityDef(Address::class)
@@ -112,19 +116,20 @@ data class AddressDef(
 )
 ```
 
-エンティティ定義クラスは、参照するエンティティクラスに定義された同名のプロパティに対し様々な設定ができます。
-定義されないプロパティに対してはデフォルトのマッピング定義が適用されます。
-上記の例ではエンティティクラスに登場する`street`プロパティがエンティティ定義クラスには登場しませんが、
-`street`プロパティにはテーブル上の`STREET`カラムにマッピングされます。
+For properties that do not appear in the separation mapping, the default mapping definitions apply.
+In the above example, the street property that appears in the entity class is mapped to the STREET column
+even though it does not appear in the separation mapping.
 
-エンティティ定義クラスのプロパティの型に制約はありません。上記の例では`Nothing`を使っています。
+There are no restrictions on the types of properties in the separation mapping. 
+We use `Nothing` in the above example.
 
-## メタモデル {#metamodel}
+## Metamodel {#metamodel}
 
-マッピング定義からは`org.komapper.core.dsl.metamodel.EntityMetamodel`のインターフェースを実装する形でメタモデルが生成されます。
+From a mapping definition, a metamodel is generated 
+in the form of an implementation of the `org.komapper.core.dsl.metamodel.EntityMetamodel` interface.
 
-生成されたメタモデルは`org.komapper.core.dsl.Meta`オブジェクトの拡張プロパティとなります。
-アプリケーションではこの拡張プロパティを使ってクエリを組み立てられます。
+The generated metamodel instance will be an extension property of the `org.komapper.core.dsl.Meta` object.
+Applications can use this property to construct queries.
 
 ```kotlin
 // get a generated metamodel
@@ -136,7 +141,8 @@ val query = QueryDsl.from(e).where { a.street eq "STREET 101" }.orderBy(a.id)
 
 ### aliases {#metamodel-aliases}
 
-上述の例では拡張プロパティの名前は`address`ですが、これは`@KomapperEntity`や`@KomapperEntityDef`の`aliases`プロパティで変更できます。
+In the above example, the name of the extended property is `address`.
+However, this can be changed with the `@KomapperEntity` or `@KomapperEntityDef` aliases property.
 
 ```kotlin
 @KomapperEntity(aliases = ["addr"])
@@ -145,9 +151,9 @@ data class Address(
 )
 ```
 
-`aliases`プロパティには複数の名前を指定できます。
-その際、名前ごとに異なるインスタンスとして公開されます。
-複数の異なるインスタンスが必要となる主なユースケースは自己結合やサブクエリです。
+Multiple names can be specified for the `aliases` property.
+In this case, each name is exposed as a different instance.
+The primary use cases that require multiple different instances are self-joins and sub-queries.
 
 ```kotlin
 @KomapperEntity(aliases = ["employee", "manager"])
@@ -156,7 +162,7 @@ data class Employee(
 )
 ```
 
-例えば、マネージャーの一覧を取得するには上記のように複数の名前をつけた上で以下のようなクエリを作ります。
+For example, to get a list of managers, create the following query using the above definition:
 
 ```kotlin
 val e = Meta.employee
@@ -168,7 +174,8 @@ val query: Query<List<Employee>> = QueryDsl.from(m)
   }
 ```
 
-なお、事前に名前を持ったメタモデルを定義しない場合でも、`clone`関数を使えば同じことが実現可能です。
+Even if you do not define a metamodel with a name in advance, 
+you can use the `clone` function to achieve the same thing:
 
 ```kotlin
 val e = Meta.employee
@@ -182,8 +189,8 @@ val query: Query<List<Employee>> = QueryDsl.from(m)
 
 ### clone {#metamodel-clone}
 
-`clone`関数を使って既存のメタモデルを基に別のメタモデルを生成できます。
-主なユースケースは、データ構造が同じで名前だけが異なるテーブルにデータをコピーする場合です。
+The `clone` function can be used to generate another metamodel based on an existing metamodel.
+The primary use case is to copy data to a table with the same data structure but different names.
 
 ```kotlin
 val a = Meta.address
@@ -193,8 +200,8 @@ val query = QueryDsl.insert(archive).select {
 }
 ```
 
-cloneしたメタモデルを他のメタモデルと同様に公開したい場合は、
-オブジェクトでインスタンスを保持した上で`Meta`オブジェクトの拡張プロパティを定義してください。
+If you want to expose the cloned metamodel like any other metamodel,
+use the object to hold the instance and define the extension properties of the `Meta` object.
 
 ```kotlin
 object MetamodelHolder {
@@ -205,8 +212,8 @@ object MetamodelHolder {
 
 ### define {#metamodel-define}
 
-`define`関数を使ってメタモデルに対しデフォルトのWHERE句を定義できます。
-あるメタモデルを使う際に必ず同じ検索条件を用いたいケースで便利です。
+A default WHERE clause can be defined for a metamodel using the `define` function.
+This is useful when you want to always use the same search criteria when using a particular metamodel.
 
 ```kotlin
 object MetamodelHolder {
@@ -219,8 +226,8 @@ object MetamodelHolder {
 }
 ```
 
-上記のように`define`関数で作ったメモモデルを下記のように利用すると、
-クエリ上でWHERE句を指定しなくてもWHERE句をもったSQLが生成されます。
+The `bostonOnly` metamodel above generates SQL with a WHERE clause, 
+even though no search criteria are specified in the query.
 
 ```kotlin
 val d = Meta.bostonOnly
@@ -230,7 +237,7 @@ select t0_.DEPARTMENT_ID, t0_.DEPARTMENT_NO, t0_.DEPARTMENT_NAME, t0_.LOCATION, 
 */
 ```
 
-WHERE句を持つクエリを組み立てた場合は検索条件がAND演算子で連結されます。
+If the query has a WHERE clause, the search criteria are concatenated with the AND predicate.
 
 ```kotlin
 val d = Meta.bostonOnly
@@ -240,7 +247,7 @@ select t0_.DEPARTMENT_ID, t0_.DEPARTMENT_NO, t0_.DEPARTMENT_NAME, t0_.LOCATION, 
 */
 ```
 
-defineしたメタモデルを結合先としてクエリに含めた場合もこの機能は有効です。
+This feature is valid even if the defined metamodel is the target of the join.
 
 ```kotlin
 val e = Meta.employee
@@ -253,7 +260,7 @@ select t0_.EMPLOYEE_ID, t0_.EMPLOYEE_NO, t0_.EMPLOYEE_NAME, t0_.MANAGER_ID, t0_.
 */
 ```
 
-SELECT文だけでなくUPDATE文やDELETE文でも有効です。
+It is valid not only for SELECT statements but also for UPDATE and DELETE statements.
 
 ```kotlin
 val d = Meta.bostonOnly
@@ -263,8 +270,8 @@ delete from DEPARTMENT as t0_ where t0_.LOCATION = ?
 */
 ```
 
-デフォルトのWHERE句にパラメータを渡したい場合は、拡張関数として定義することもできます。
-ただし、メタモデルが毎回異なるインスタンスとなることは注意してください。
+If you want to pass parameters to the default WHERE clause, you can define it as an extension function.
+Note, however, that the metamodel will be a different instance each time.
 
 ```kotlin
 object MetamodelHolder {
@@ -276,7 +283,7 @@ object MetamodelHolder {
 }
 ```
 
-上記の拡張関数を呼び出す例です。
+Here is an example of calling the above extension function.
 
 ```kotlin
 val d = Meta.locationSpecificDepartment("NEW YORK")
@@ -284,14 +291,14 @@ val query = QueryDsl.from(d)
 val list = db.runQuery { query }
 ```
 
-## クラスに付与するアノテーション一覧 {#annotation-list-for-class}
+## List of annotations for classes {#annotation-list-for-class}
 
-ここで説明するアノテーションは全て`org.komapper.annotation`パッケージに属します。
+All annotations described here belong to the `org.komapper.annotation` package.
 
 ### @KomapperEntity
 
-エンティティクラスがマッピング定義を持つことを表します。
-`aliases`プロパティを持ちます。
+Indicates that the entity class has a mapping definition.
+It has an [aliases]({{< relref "#metamodel-aliases" >}}) property.
 
 ```kotlin
 @KomapperEntity(aliases = ["addr"])
@@ -300,12 +307,10 @@ data class Address(
 )
 ```
 
-`aliases`については [aliases]({{< relref "#metamodel-aliases" >}}) を参照ください。
-
 ### @KomapperEntityDef
 
-エンティティ定義クラスであることを表します。
-`entity`プロパティや`aliases`プロパティを指定できます。
+Indicates that the class is a mapping definition. 
+You can specify the entity and [aliases]({{< relref "#metamodel-aliases" >}}) properties.
 
 ```kotlin
 @KomapperEntityDef(entity = Address::class, aliases = ["addr"])
@@ -314,11 +319,9 @@ data class AddressDef(
 )
 ```
 
-`aliases`については [aliases]({{< relref "#metamodel-aliases" >}}) を参照ください。
-
 ### @KomapperTable
 
-エンティティクラスとマッピングするテーブルの名前を明示的に指定します。
+Explicitly specifies the table name.
 
 ```kotlin
 @KomapperEntityDef(Address::class)
@@ -328,35 +331,34 @@ data class AddressDef(
 )
 ```
 
-`catalog`プロパティや`schema`プロパティにはテーブルが属するカタログやスキーマの名前を指定できます。
+The `catalog` and `schema` properties indicates the name of the catalog or schema to which the table belongs.
 
-`alwaysQuote`プロパティに`true`を設定すると生成されるSQLの識別子が引用符で囲まれます。
+If the `alwaysQuote` property is set to `true`, the identifier in the generated SQL will be quoted.
 
-このアノテーションでテーブルの名前を指定しない場合、アノテーション処理の`komapper.namingStrategy`オプションに従って名前が解決されます。
-以下のドキュメントも参照ください。
+If the table name is not specified in this annotation, 
+the name will be resolved according to the `komapper.namingStrategy` option in the annotation process.
+See also [Options]({{< relref "annotation-processing#options" >}}).
 
-- [オプション]({{< relref "annotation-processing#options" >}})
+## List of annotations for properties {#annotation-list-for-property}
 
-## プロパティに付与するアノテーション一覧 {#annotation-list-for-property}
-
-ここで説明するアノテーションは全て`org.komapper.annotation`パッケージに属します。
+All annotations described here belong to the `org.komapper.annotation` package.
 
 ### @KomapperId
 
-プライマリーキーであることを表します。
-エンティティクラスのマッピングを行う上でこのアノテーションの存在は必須です。
+Indicates that it is the primary key.
+The presence of this annotation is essential for entity class mapping.
 
 ### @KomapperSequence
 
-プライマリキーがデータベースのシーケンスで生成されることを表します。
-必ず`@KomapperId`と一緒に付与する必要があります。
+Indicates that the primary key is generated by a database sequence.
+Must always be given with `@KomapperId`.
 
-このアノテーションを付与するプロパティの型は次のいずれかでなければいけません。
+The type of the property to which this annotation is given must be one of the following:
 
 - Int
 - Long
 - UInt
-- 上述の型をプロパティとして持つValue Class
+- Value class with a property of one of the above types
 
 ```kotlin
 @KomapperId
@@ -364,84 +366,84 @@ data class AddressDef(
 val id: Int
 ```
 
-`name`プロパティにはシーケンスの名前を指定しなければいけません。カタログやスキーマの指定もできます。
+The `name` property must be the name of the sequence.
+You can also specify a catalog in the `catalog` property and a schema in the `schema` property.
 
-`startWith`プロパティと`incrementBy`プロパティの値はシーケンス定義に合わせなければいけません。
+The values of the `startWith` and `incrementBy` properties must match the database sequence definition.
 
-`alwaysQuote`プロパティに`true`を設定すると生成されるSQLの識別子が引用符で囲まれます。
+If the `alwaysQuote` property is set to `true`, the identifier in the generated SQL will be quoted.
 
 ### @KomapperAutoIncrement
 
-プライマリーキーがデータベースの自動インクリメント機能で生成されることを表します。
-必ず`@KomapperId`と一緒に付与する必要があります。
+Indicates that the primary key is generated by the auto-increment column of the database.
+Must always be given with `@KomapperId`.
 
-このアノテーションを付与するプロパティの型は次のいずれかでなければいけません。
+The type of the property to which this annotation is given must be one of the following:
 
 - Int
 - Long
 - UInt
-- 上述の型をプロパティとして持つValue Class
+- Value class with a property of one of the above types
 
 ### @KomapperVersion
 
-楽観的排他制御に使われるバージョン番号であることを表します。
+Indicates that this is the version number used for optimistic locking.
 
-このアノテーションを付与すると、 [QueryDsl]({{< relref "query/QueryDsl" >}}) のUPDATE処理やDELETE処理で楽観的排他制御が行われます。
-つまり、WHERE句にバージョン番号チェックが含まれ処理件数が0の場合に例外がスローされます。
+When this annotation is specified, optimistic locking is performed for 
+[UPDATE]({{< relref "query/QueryDsl/update" >}}) and 
+[DELETE]({{< relref "query/QueryDsl/delete" >}}) operations.
 
-このアノテーションを付与するプロパティの型は次のいずれかでなければいけません。
+The type of the property to which this annotation is given must be one of the following:
 
 - Int
 - Long
 - UInt
-- 上述の型をプロパティとして持つValue Class
+- Value class with a property of one of the above types
 
 ### @KomapperCreatedAt
 
-生成時のタイムスタンプであることを表します。
+Indicates the timestamp at the time of insertion.
 
-このアノテーションを付与すると、
-[QueryDsl]({{< relref "query/QueryDsl" >}}) のINSERT処理にてタイムスタンプがプロパティに設定されます。
+If this annotation is given, the timestamp is set to the property in 
+the [INSERT]({{< relref "query/QueryDsl/insert" >}}) process.
 
-このアノテーションを付与するプロパティの型は次のいずれかでなければいけません。
+The type of the property to which this annotation is given must be one of the following:
 
 - java.time.LocalDateTime
 - java.time.OffsetDateTime
-- 上述の型をプロパティとして持つValue Class
+- Value class with a property of one of the above types
 
 ### @KomapperUpdatedAt
 
-更新時のタイムスタンプであることを表します。
+Indicates that this is the timestamp at the time of update.
 
-このアノテーションを付与すると、
-[QueryDsl]({{< relref "query/QueryDsl" >}}) のINSERT処理とUPDATE処理にてタイムスタンプがプロパティに設定されます。
+If this annotation is given, the timestamp is set to the property in the 
+[INSERT]({{< relref "query/QueryDsl/insert" >}}) and 
+[UPDATE]({{< relref "query/QueryDsl/update" >}}) process.
 
-このアノテーションを付与するプロパティの型は次のいずれかでなければいけません。
+The type of the property to which this annotation is given must be one of the following:
 
 - java.time.LocalDateTime
 - java.time.OffsetDateTime
-- 上述の型をプロパティとして持つValue Class
+- Value class with a property of one of the above types
 
 ### @KomapperColumn
 
-プロパティとマッピングするカラムの名前を明示的に指定します。
+Explicitly specifies the name of the column to be mapped to the property.
 
 ```kotlin
 @KomapperColumn(name = "ADDRESS_ID", alwaysQuote = true, masking = true)
 val id: Nothing
 ```
 
-`alwaysQuote`プロパティに`true`を設定すると生成されるSQLの識別子が引用符で囲まれます。
+If the `alwaysQuote` property is set to `true`, the identifier in the generated SQL will be quoted.
 
-`masking`プロパティに`true`を設定すると、`org.komapper.SQL_WITH_ARGS`の
-[ログカテゴリ]({{< relref "logging#log-category" >}})
-でログを出力した場合に対応するデータがマスキングされます。
+If the `masking` property is set to `true`, the corresponding data will be masked in the log.
 
-このアノテーションでカラムの名前を指定しない場合、アノテーション処理の`komapper.namingStrategy`オプションに従って名前が解決されます。
-以下のドキュメントも参照ください。
-
-- [オプション]({{< relref "annotation-processing#options" >}})
+If the column name is not specified in this annotation,
+the name will be resolved according to the `komapper.namingStrategy` option in the annotation process.
+See also [Options]({{< relref "annotation-processing#options" >}}).
 
 ### @KomapperIgnore
 
-マッピングの対象外であることを表します。
+Indicates that it is not subject to mapping.
