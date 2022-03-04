@@ -123,8 +123,8 @@ JDBCとR2DBCのそれぞれに対応したAPIにおいて同一のクエリを�
 そのためクエリの構築と実行はAPIとして分離した設計とする。
 
 ```kotlin
-val jdbcDb = JdbcDatabase.create("jdbc:h2:mem:example;DB_CLOSE_DELAY=-1")
-val r2dbcDb = R2dbcDatabase.create("r2dbc:h2:mem:///example;DB_CLOSE_DELAY=-1")
+val jdbcDb = JdbcDatabase("jdbc:h2:mem:example;DB_CLOSE_DELAY=-1")
+val r2dbcDb = R2dbcDatabase("r2dbc:h2:mem:///example;DB_CLOSE_DELAY=-1")
 val a = Meta.address
 
 // クエリの構築

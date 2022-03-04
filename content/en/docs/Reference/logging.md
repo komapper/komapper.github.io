@@ -81,7 +81,7 @@ val config: JdbcDatabaseConfig = object: DefaultJdbcDatabaseConfig(dataSource, d
     MyLoggerFacade(logger)
   }
 }
-val db = JdbcDatabase.create(config)
+val db = JdbcDatabase(config)
 ```
 
 ## SLF4Jの利用 {#slf4j}

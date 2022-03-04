@@ -22,13 +22,13 @@ Databaseインスタンスの生成方法はJDBCを使う場合とR2DBCを使う
 URLから生成する場合は次のように記述します。
 
 ```kotlin
-val db: JdbcDatabase = JdbcDatabase.create("jdbc:h2:mem:example;DB_CLOSE_DELAY=-1")
+val db: JdbcDatabase = JdbcDatabase("jdbc:h2:mem:example;DB_CLOSE_DELAY=-1")
 ```
 
 URLに加えてユーザー名やパスワードを指定する場合は次のように記述します。
 
 ```kotlin
-val db: JdbcDatabase = JdbcDatabase.create(
+val db: JdbcDatabase = JdbcDatabase(
   url = "jdbc:h2:mem:example;DB_CLOSE_DELAY=-1", 
   user = "sa", 
   password = ""
@@ -40,7 +40,7 @@ val db: JdbcDatabase = JdbcDatabase.create(
 
 ```kotlin
 val dataSource: DataSource = ...
-val db: JdbcDatabase = JdbcDatabase.create(
+val db: JdbcDatabase = JdbcDatabase(
   dataSource = dataSource, 
   dialect = H2JdbcDialect()
 )
@@ -55,7 +55,7 @@ val db: JdbcDatabase = JdbcDatabase.create(
 URLから生成する場合は次のように記述します。
 
 ```kotlin
-val db: R2dbcDatabase = R2dbcDatabase.create("r2dbc:h2:mem:///example;DB_CLOSE_DELAY=-1")
+val db: R2dbcDatabase = R2dbcDatabase("r2dbc:h2:mem:///example;DB_CLOSE_DELAY=-1")
 ```
 
 `io.r2dbc.spi.ConnectionFactoryOptions`から生成する場合は次のように記述します。
@@ -68,7 +68,7 @@ val options = ConnectionFactoryOptions.builder()
   .option(ConnectionFactoryOptions.DATABASE, "example")
   .option(Option.valueOf("DB_CLOSE_DELAY"), "-1")
   .build()
-val db: R2dbcDatabase = R2dbcDatabase.create(options)
+val db: R2dbcDatabase = R2dbcDatabase(options)
 ```
 
 `io.r2dbc.spi.ConnectionFactory`を指定することもできます。
@@ -76,7 +76,7 @@ val db: R2dbcDatabase = R2dbcDatabase.create(options)
 
 ```kotlin
 val connectionFactory: ConnectionFactory = ...
-val db: R2dbcDatabase = R2dbcDatabase.create(
+val db: R2dbcDatabase = R2dbcDatabase(
   connectionFactory = connectionFactory, 
   dialect = H2R2dbcDialect()
 )

@@ -45,7 +45,7 @@ komapper {
             // databaseパラメータの設定
             database.set(
                 // Testcontainers上のPostgreSQLを利用する
-                JdbcDatabase.create(
+                JdbcDatabase(
                     url = "jdbc:tc:postgresql:13.3:///test?TC_INITSCRIPT=file:${initScript.absolutePath}",
                     user = "test",
                     password = "test"

@@ -18,7 +18,7 @@ val dialect: JdbcDialect = ..
 val config: JdbcDatabaseConfig = object: DefaultJdbcDatabaseConfig(dataSource, dialect) {
     // you can override properties here
 }
-val db = JdbcDatabase.create(config)
+val db = JdbcDatabase(config)
 ```
 
 `R2dbcDatabase`インスタンスを生成する例です。
@@ -29,7 +29,7 @@ val dialect: R2dbcDialect = ..
 val config: R2dbcDatabaseConfig = object: DefaultR2dbcDatabaseConfig(connectionFactory, dialect) {
   // you can override properties here
 }
-val db = R2dbcDatabase.create(config)
+val db = R2dbcDatabase(config)
 ```
 
 ## プロパティ {#properties}

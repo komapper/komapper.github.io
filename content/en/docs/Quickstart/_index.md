@@ -117,7 +117,7 @@ Next, create a main logic:
 ```kotlin
 fun main() {
   // (1) create a database instance
-  val database = JdbcDatabase.create("jdbc:h2:mem:quickstart;DB_CLOSE_DELAY=-1")
+  val database = JdbcDatabase("jdbc:h2:mem:quickstart;DB_CLOSE_DELAY=-1")
 
   // (2) start transaction
   database.withTransaction {

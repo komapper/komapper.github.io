@@ -54,11 +54,11 @@ Komapperが提供するトランザクション制御のためのAPIはJDBC版�
 `JdbcDatabase`もしくは`R2dbcDatabase`が下記のように`db`という変数で宣言されていることを前提に説明を進めます。
 
 ```kotlin
-val db = JdbcDatabase.create("jdbc:h2:mem:example;DB_CLOSE_DELAY=-1")
+val db = JdbcDatabase("jdbc:h2:mem:example;DB_CLOSE_DELAY=-1")
 ```
 
 ```kotlin
-val db = R2dbcDatabase.create("r2dbc:h2:mem:///example;DB_CLOSE_DELAY=-1")
+val db = R2dbcDatabase("r2dbc:h2:mem:///example;DB_CLOSE_DELAY=-1")
 ```
 
 ### 開始と終了 {#begin-and-end}
