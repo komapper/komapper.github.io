@@ -121,17 +121,17 @@ val flow: Flow<Address> = db.flowQuery(query)
 
 データベースへのアクセスは`flowQuery`関数から返される`Flow`インスタンスを利用したときに初めて行われます。
 
-クエリの生成については [Query]({{< relref "query.md" >}}) を参照ください。
+クエリの構築については [Query]({{< relref "query.md" >}}) を参照ください。
 
 ### 低レベルAPIの実行 {#low-level-api-execution}
 
-Komapperの提供する高レベルAPI（[Query]({{< relref "query.md" >}}) ）が要件に合わない場合、
-低レベルAPI（JDBCやR2DBCのAPI）を利用できます。
+[Query]({{< relref "query.md" >}}) APIが要件に合わない場合、低レベルAPIを直接利用できます。
 
 JDBCのAPIを直接利用するには、`JdbcDatabase`インスタンスからいくつかのプロパティを呼び出して`java.sql.Connection`を取得します。
 
 ```kotlin
-db.config.session.connection.use { con ->
+val db: JdbcDatabase = ...
+db.config.session.getConnection().use { con ->
     val sql = "select employee_name from employee where employee_id = ?"
     con.prepareStatement(sql).use { ps ->
         ps.setInt(1,10)
@@ -148,10 +148,6 @@ db.config.session.connection.use { con ->
 いくつかのプロパティを呼び出して`io.r2dbc.spi.Connection`を取得します。
 
 ```kotlin
-val con: Connection = db.config.session.getConnection()
+val db: R2dbcDatabase = ...
+val connection: Connection = db.config.session.getConnection()
 ```
-
-{{< alert color="warning" title="Warning" >}}
-高レベルAPIと低レベルAPIの混在は可能です。
-ただし、Komapperのトランザクション制御下にある場合、低レベルAPIを使ってトランザクションの設定を変更することは推奨されません。
-{{< /alert >}}

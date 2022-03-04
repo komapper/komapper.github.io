@@ -3,29 +3,29 @@ title: "Database"
 linkTitle: "Database"
 weight: 10
 description: >
-  データベース
+  Database
 ---
 
-## 概要 {#overview}
+## Overview {#overview}
 
-Komapperでデータベースにアクセスするためには`JdbcDatabase`もしくは`R2dbcDatabase`のインスタンスが必要です。
-ここでは、これらを総称してDatabaseインスタンスと呼びます。
+To access a database with Komapper, an instance of `JdbcDatabase` or `R2dbcDatabase` is required.
+Here, these are collectively referred to as Database instances.
 
-Databaseインスタンスはトランザクションの制御やクエリの実行を担当します。
+The Database instances are responsible for transaction control and query execution.
 
-## Databaseインスタンスの生成 {#instantiation}
+## Creation of Database instance {#instantiation}
 
-Databaseインスタンスの生成方法はJDBCを使う場合とR2DBCを使う場合で異なります。
+The method of creating a Database instance differs when using JDBC or R2DBC.
 
-### JDBCを使う場合 {#instantiation-for-jdbc}
+### When using JDBC {#instantiation-for-jdbc}
 
-URLから生成する場合は次のように記述します。
+To create a Database instance from a URL, write as follows:
 
 ```kotlin
 val db: JdbcDatabase = JdbcDatabase("jdbc:h2:mem:example;DB_CLOSE_DELAY=-1")
 ```
 
-URLに加えてユーザー名やパスワードを指定する場合は次のように記述します。
+To specify a username and password in addition to the URL, write as follows:
 
 ```kotlin
 val db: JdbcDatabase = JdbcDatabase(
@@ -35,8 +35,8 @@ val db: JdbcDatabase = JdbcDatabase(
 )
 ```
 
-`javax.sql.DataSource`を指定することもできます。
-ただし、その場合は`dialect`の指定も必要です。
+`javax.sql.DataSource` can also be specified.
+However, in that case, you must also specify dialect.
 
 ```kotlin
 val dataSource: DataSource = ...
@@ -46,20 +46,17 @@ val db: JdbcDatabase = JdbcDatabase(
 )
 ```
 
-以下のドキュメントも参照ください。
+See also [Dialect]({{< relref "Dialect" >}}).
 
-- [Dialect]({{< relref "Dialect" >}})
+### When using R2DBC {#instantiation-for-r2dbc}
 
-### R2DBCを使う場合 {#instantiation-for-r2dbc}
-
-URLから生成する場合は次のように記述します。
+To create a Database instance from a URL, write as follows:
 
 ```kotlin
 val db: R2dbcDatabase = R2dbcDatabase("r2dbc:h2:mem:///example;DB_CLOSE_DELAY=-1")
 ```
 
-`io.r2dbc.spi.ConnectionFactoryOptions`から生成する場合は次のように記述します。
-`options`には`ConnectionFactoryOptions.DRIVER`をキーとする値を含めなければいけません。
+To create a Database instance from `io.r2dbc.spi.ConnectionFactoryOptions` write as follows:
 
 ```kotlin
 val options = ConnectionFactoryOptions.builder()
@@ -71,8 +68,10 @@ val options = ConnectionFactoryOptions.builder()
 val db: R2dbcDatabase = R2dbcDatabase(options)
 ```
 
-`io.r2dbc.spi.ConnectionFactory`を指定することもできます。
-ただし、その場合は`dialect`の指定も必要です。
+The `options` must contain a value whose key is `ConnectionFactoryOptions.DRIVER`.
+
+You can also specify io.r2dbc.spi.ConnectionFactory.
+However, in that case, you must also specify dialect.
 
 ```kotlin
 val connectionFactory: ConnectionFactory = ...
@@ -82,16 +81,14 @@ val db: R2dbcDatabase = R2dbcDatabase(
 )
 ```
 
-以下のドキュメントも参照ください。
+See also [Dialect]({{< relref "Dialect" >}}).
 
-- [Dialect]({{< relref "dialect.md" >}})
+## Use of Database instances {#usage}
 
-## Databaseインスタンスの利用 {#usage}
+### Transaction Control {#transaction-control}
 
-### トランザクションの制御 {#transaction-control}
-
-Databaseインスタンスの`withTransaction`拡張関数でトランザクションを制御します。
-`withTransaction`拡張関数にはトランザクション内で処理したいロジックをラムダ式として渡します。
+Transactions are controlled by the `withTransaction` function of the Database instance. 
+The transactional logic is passed to the `withTransaction` function as a lambda expression.
 
 ```kotlin
 db.withTransaction {
@@ -99,11 +96,11 @@ db.withTransaction {
 }
 ```
 
-詳細は [Transaction]({{< relref "transaction.md" >}}) を参照ください。
+See [Transaction]({{< relref "transaction.md" >}}) for details.
 
-### クエリの実行 {#query-execution}
+### Query Execution {#query-execution}
 
-Databaseインスタンスの`runQuery`関数を呼び出すことでクエリを実行できます。
+Queries are executed by calling the `runQuery` function of the Database instance.
 
 ```kotlin
 val a = Meta.address
@@ -111,7 +108,8 @@ val query: Query<List<Address>> = QueryDsl.from(a)
 val result: List<Address> = db.runQuery(query)
 ```
 
-Databaseインスタンスが`R2dbcDatabase`の場合でクエリの型が`org.komapper.core.dsl.query.FlowQuery`のとき、`flow`関数を実行できます。
+When the Database instance is `R2dbcDatabase` and the query type is `org.komapper.core.dsl.query.FlowQuery`, 
+the `flowQuery` function can be executed.
 
 ```kotlin
 val a = Meta.address
@@ -119,19 +117,20 @@ val query: FlowQuery<Address> = QueryDsl.from(a)
 val flow: Flow<Address> = db.flow(query)
 ```
 
-データベースへのアクセスは`flow`関数から返される`Flow`インスタンスを利用したときに初めて行われます。
+Database access is made only when the `flow` instance is collected.
 
-クエリの生成については [Query]({{< relref "query.md" >}}) を参照ください。
+See [Query]({{< relref "query.md" >}}) for information on building queries.
 
-### 低レベルAPIの実行 {#low-level-api-execution}
+### Low-level API execution {#low-level-api-execution}
 
-Komapperの提供する高レベルAPI（[Query]({{< relref "query.md" >}}) ）が要件に合わない場合、
-低レベルAPI（JDBCやR2DBCのAPI）を利用できます。
+If the [Query]({{< relref "query.md" >}}) API does not meet your requirements,
+the Low-level APIs are available.
 
-JDBCのAPIを直接利用するには、`JdbcDatabase`インスタンスからいくつかのプロパティを呼び出して`java.sql.Connection`を取得します。
+To use the JDBC API directly, call `db.config.session.getConnection()` to get `java.sql.Connection`.
 
 ```kotlin
-db.config.session.connection.use { con ->
+val db: JdbcDatabase = ...
+db.config.session.getConnection().use { con ->
     val sql = "select employee_name from employee where employee_id = ?"
     con.prepareStatement(sql).use { ps ->
         ps.setInt(1,10)
@@ -144,14 +143,9 @@ db.config.session.connection.use { con ->
 }
 ```
 
-同様に、R2DBCのAPIを直接利用するには`R2dbcDatabase`インスタンスから
-いくつかのプロパティを呼び出して`io.r2dbc.spi.Connection`の`Publisher`を取得します。
+Similarly, to use R2DBC API directly, call `db.config.session.getConnection()` to get `io.r2dbc.spi.Connection`.
 
 ```kotlin
-val con: Publisher<out Connection> = db.config.session.connection
+val db: R2dbcDatabase = ...
+val connection: Connection = db.config.session.getConnection()
 ```
-
-{{< alert color="warning" title="Warning" >}}
-高レベルAPIと低レベルAPIの混在は可能です。
-ただし、Komapperのトランザクション制御下にある場合、低レベルAPIを使ってトランザクションの設定を変更することは推奨されません。
-{{< /alert >}}
