@@ -16,42 +16,41 @@ KomapperはSQLやトランザクションに関するログを出力します。
 
 Komapperが出力するログのカテゴリは以下に示す4つです。
 
-- org.komapper.SQL
-- org.komapper.SQL_WITH_ARGS
-- org.komapper.TRANSACTION
-- org.komapper.OTHER
+- org.komapper.Sql
+- org.komapper.SqlWithArgs
+- org.komapper.Transaction
+- org.komapper.Other
 
-### org.komapper.SQL
+### org.komapper.Sql
 
-このカテゴリのログは次のようなバインド変数である`?`が含まれた形式のSQLでdebugレベルで出力されます。
+このカテゴリのログは次のようなバインド変数である`?`が含まれた形式のSQLでDEBUGレベルで出力されます。
 
 ```sql
 insert into ADDRESS (STREET, VERSION, CREATED_AT, UPDATED_AT) values (?, ?, ?, ?)
 select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION, t0_.CREATED_AT, t0_.UPDATED_AT from ADDRESS as t0_ where t0_.ADDRESS_ID = ?
 ```
 
-### org.komapper.SQL_WITH_ARGS
+### org.komapper.SqlWithArgs
 
-このカテゴリのログは次のようなバインド変数である`?`が実際の引数で置換された形式のSQLでtraceレベルで出力されます。
+このカテゴリのログは次のようなバインド変数である`?`が実際の引数で置換された形式のSQLでTRACEレベルで出力されます。
 
 ```sql
 insert into ADDRESS (STREET, VERSION, CREATED_AT, UPDATED_AT) values ('street A', 0, '2021-07-31T21:23:24.511', '2021-07-31T21:23:24.511')
 select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION, t0_.CREATED_AT, t0_.UPDATED_AT from ADDRESS as t0_ where t0_.ADDRESS_ID = 1
 ```
 
-### org.komapper.TRANSACTION
+### org.komapper.Transaction
 
-このカテゴリのログは次のようなトランザクションの開始やコミットを示すメッセージでtraceレベルで出力されます。
+このカテゴリのログは次のようなトランザクションの開始やコミットを示すメッセージでTRACEレベルで出力されます。
 
 ```sql
-The transaction "83d5c2e5-8d3b-4a45-a5bb-215f846a0327" has begun.
-The transaction "83d5c2e5-8d3b-4a45-a5bb-215f846a0327" has committed.
+Begin: JdbcTransaction(id=81f6e616-9fb2-4dd7-a7c1-0f05ff3adb98, name=JDBC_TEST)
 ```
 
-### org.komapper.OTHER
+### org.komapper.Other
 
 このカテゴリは他のどのカテゴリにも属さないログを表します。
-デフォルトでは利用されていません。
+任意のログレベルで出力されます。
 
 ## LoggerFacadeの利用例 {#loggerfacade}
 
@@ -124,7 +123,7 @@ starterモジュールを使う場合、上記の設定は不要です。
         </encoder>
     </appender>
     
-    <logger name="org.komapper.SQL" level="debug"/>
+    <logger name="org.komapper.Sql" level="debug"/>
 
     <root level="info">
         <appender-ref ref="STDOUT" />
@@ -142,7 +141,7 @@ starterモジュールを使う場合、上記の設定は不要です。
         </encoder>
     </appender>
     
-    <logger name="org.komapper.SQL_WITH_ARGS" level="trace"/>
+    <logger name="org.komapper.SqlWithArgs" level="trace"/>
 
     <root level="info">
         <appender-ref ref="STDOUT" />
