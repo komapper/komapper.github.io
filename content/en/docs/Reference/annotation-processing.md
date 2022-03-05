@@ -3,38 +3,44 @@ title: "Annotation Processing"
 linkTitle: "Annotation Processing"
 weight: 25
 description: >
-  アノテーションプロセッシング
 ---
 
-## 概要 {#overview}
+## Overview {#overview}
 
-Komapperはコンパイル時にエンティティクラスのマッピング定義に付与されたアノテーションを処理し、結果をメタモデルのソースコードとして生成します。
-アノテーションの処理とコードの生成には [Kotlin Symbol Processing API](https://github.com/google/ksp) (KSP)を利用します。
+Komapper uses the [Kotlin Symbol Processing API](https://github.com/google/ksp) (KSP) to 
+process annotations in [mapping definitions]({{< relref "entity-class/#mapping-definition" >}}) and 
+generate the result as metamodel source code at compile-time.
 
-KSPを実行するには、KSPのGradleプラグインの設定と下記のGradleの依存関係の宣言が必要です。
+To run KSP, you need to configure your Gradle build script as follows:
 
 ```kotlin
-val komapperVersion: String by project
+plugins {
+    id("com.google.devtools.ksp") version "1.5.31-1.0.1"
+    kotlin("jvm") version "1.5.31"
+}
+
 dependencies {
+  val komapperVersion = "0.29.0"
   ksp("org.komapper:komapper-processor:$komapperVersion")
 }
 ```
 
-`komapper-processor`モジュールにはKSPを利用したKomapperのアノテーションプロセッサが含まれます。
+The `komapper-processor` module contains the KSP annotation processor.
 
-上記設定後、Gradleのbuildタスクを実行すると`build/generated/ksp/main/kotlin`ディレクトリ以下にコードが生成されます。
+After the above settings, running Gradle's build task will generate code
+under the `build/generated/ksp/main/kotlin` directory.
 
-## オプション {#options}
+## Options {#options}
 
-オプションによりアノテーションプロセッサの挙動を変更できます。
-利用可能なオプションは以下の4つです。
+Options allow you to change the behavior of the annotation processor.
+There are four available options:
 
 - komapper.prefix
 - komapper.suffix
 - komapper.namingStrategy
 - komapper.metaObject
 
-オプションを指定するにはGradleのビルドスクリプトで次のように記述します。
+The options can be specified in the Gradle build script as follows:
 
 ```kotlin
 ksp {
@@ -47,34 +53,37 @@ ksp {
 
 ### komapper.prefix
 
-生成されるメタモデルクラスのプレフィックスです。
-デフォルト値は`_`（アンダースコア）です。
+This option specifies the prefix for the simple name of generated metamodel class. 
+The default value is `_` (underscore).
 
 ### komapper.suffix
 
-生成されるメタモデルクラスのサフィックスです。
-デフォルト値は空文字です。
+This option specifies the suffix for the name of generated metamodel class.
+The default value is an empty string.
 
 ### komapper.namingStrategy
 
-Kotlinのエンティクラスとプロパティからデータベースのテーブルとカラムの名前をどう解決するのかの戦略です。
-値には`implicit`、`lower_snake_case`、`UPPER_SNAKE_CASE`のいずれかを選択できます。
-デフォルト値は`implicit`です。
-解決されたデータベースのテーブルとカラムの名前は生成されるメタモデルのコードの中に含まれます。
-なお、`@KomapperTable`や`@KomapperColumn`で名前が指定される場合この戦略で決定される名前よりも優先されます。
+This option specifies the strategy for how to resolve database table and column names 
+from Kotlin entity classes and properties.
 
-`komapper.namingStrategy`オプションに指定可能な値の定義は次の通りです。
+The resolved names will be included in the generated metamodel code.
+Note that if a name is specified in @KomapperTable or @KomapperColumn, 
+it takes precedence over the name determined by this strategy.
+
+The possible values for the `komapper.namingStrategy` option are defined as follows:
 
 implicit
-: エンティティクラスやプロパティの名前をそのままテーブルやカラムの名前とする。
+: This strategy converts nothing. Entity class and property names are used as-is as table and column names.
 
 lower_snake_case
-: エンティティクラスやプロパティの名前をキャメルケースからスネークケースに変換した上で全て小文字にしテーブルやカラムの名前とする。
+: This strategy converts entity class and property names to snake_case and then to lowercase.
 
 UPPER_SNAKE_CASE
-: エンティティクラスやプロパティの名前をキャメルケースからスネークケースに変換した上で全て大文字にしテーブルやカラムの名前とする。
+: This strategy converts entity class and property names to snake_case and then to UPPERCASE.
+
+The default strategy is `implicit`.
 
 ### komapper.metaObject
 
-メタモデルのインスタンスを拡張プロパティとして提供するobjectを指定します。
-デフォルト値は`org.komapper.core.dsl.Meta`です。
+This option specifies the name of the object that provides metamodel instances as extension properties.
+Default is `org.komapper.core.dsl.Meta`.

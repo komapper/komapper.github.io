@@ -8,19 +8,25 @@ description: >
 
 ## 概要 {#overview}
 
-Komapperはコンパイル時にエンティティクラスのマッピング定義に付与されたアノテーションを処理し、結果をメタモデルのソースコードとして生成します。
+コンパイル時、Komapperは [マッピング定義]({{< relref "entity-class/#mapping-definition" >}}) 内のアノテーションを処理し、
+結果をメタモデルのソースコードとして生成します。
 アノテーションの処理とコードの生成には [Kotlin Symbol Processing API](https://github.com/google/ksp) (KSP)を利用します。
 
-KSPを実行するには、KSPのGradleプラグインの設定と下記のGradleの依存関係の宣言が必要です。
+KSPを実行するためには、Gradleビルドスクリプトを次のように記述します。
 
 ```kotlin
-val komapperVersion: String by project
+plugins {
+  id("com.google.devtools.ksp") version "1.5.31-1.0.1"
+  kotlin("jvm") version "1.5.31"
+}
+
 dependencies {
+  val komapperVersion = "0.29.0"
   ksp("org.komapper:komapper-processor:$komapperVersion")
 }
 ```
 
-`komapper-processor`モジュールにはKSPを利用したKomapperのアノテーションプロセッサが含まれます。
+`komapper-processor`モジュールにはKSPのアノテーションプロセッサが含まれます。
 
 上記設定後、Gradleのbuildタスクを実行すると`build/generated/ksp/main/kotlin`ディレクトリ以下にコードが生成されます。
 
