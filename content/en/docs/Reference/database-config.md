@@ -3,14 +3,13 @@ title: "Database Config"
 linkTitle: "Database Config"
 weight: 12
 description: >
-  設定
 ---
 
-## 概要 {#overview}
+## Overview {#overview}
 
-Databaseインスタンスの生成時にDatabaseConfigインスタンスを与えることで挙動をカスタマイズできます。
+DatabaseConfig can be specified to customize the behavior of the Database instance.
 
-`JdbcDatabase`インスタンスを生成する例です。
+Here is an example of creating a `JdbcDatabase` instance.
 
 ```kotlin
 val dataSource: DataSource = ..
@@ -21,7 +20,7 @@ val config: JdbcDatabaseConfig = object: DefaultJdbcDatabaseConfig(dataSource, d
 val db = JdbcDatabase(config)
 ```
 
-`R2dbcDatabase`インスタンスを生成する例です。
+Here is an example of creating a `R2dbcDatabase` instance.
 
 ```kotlin
 val connectionFactory: ConnectionFactory = ..
@@ -32,91 +31,90 @@ val config: R2dbcDatabaseConfig = object: DefaultR2dbcDatabaseConfig(connectionF
 val db = R2dbcDatabase(config)
 ```
 
-## プロパティ {#properties}
+## Properties {#properties}
 
-下記に説明する`JdbcDatabaseConfig`や`R2dbcDatabaseConfig`のプロパティをオーバーライドしたりサービスローダーの仕組みを使うことで挙動をカスタマイズできます。
+The behavior of the Database instance can be customized by overriding
+the `JdbcDatabaseConfig` and `R2dbcDatabaseConfig` properties described below
+or by using the service loader mechanism.
 
 ### clockProvider
 
-`Clock`のプロバイダーです。
+The `clockProvider` provides the `Clock` object which is used to set timestamps on entity class properties.
 
-プロバイダによって提供された`Clock`は`@KomapperCreatedAt`や`@KomapperUpdatedAt`が付与されたエンティティクラスのプロパティにタイムスタンプを設定する際に利用されます。
+Target entity class properties are those annotated with `@KomapperCreatedAt` or `@KomapperUpdatedAt`.
 
-デフォルトでは、システムデフォルトのゾーンIDを使って現在時刻を生成するプロバイダーを返します。
+By default, this property returns a provider that generates the current time using the system default zone ID.
 
 ### executionOptions
 
-JDBCやR2DBCのデフォルトの実行時オプションです。
-下記の設定ができます。
+Default runtime options for JDBC and R2DBC.
+The following settings are available:
 
 batchSize
-: INSERT、UPDATE、DELETEでバッチ更新を行う際のバッチサイズです。デフォルトは`null`です。クエリオプションでも指定されない場合`10`が使われます。
+: Batch size for batch updates with INSERT, UPDATE, and DELETE.
+Default is `null`.
+If the batch size is not specified even in the query options, `10` is used.
 
 fetchSize
-: SELECT文発行時のフェッチサイズです。デフォルトは`null`でドライバの値を使うことを示します。
+: Fetch size when a SELECT statement is issued.
+Default is `null` to indicate that the driver value should be used.
 
 maxRows
-: SELECT文発行時の最大行数です。デフォルトは`null`でドライバの値を使うことを示します。
+: The maximum number of rows when a SELECT statement is issued.
+Default is `null` to indicate that the driver value should be used.
 
 queryTimeoutSeconds
-: クエリタイムアウトの秒数です。デフォルトは`null`でドライバの値を使うことを示します。
+: Query timeout in seconds. 
+Default is `null` to indicate that the driver value should be used.
 
 suppressLogging
-: SQLのログ出力を抑制するかどうかです。デフォルトは`false`です。
+: Whether to suppress SQL log output.
+Default is false.
 
-これらは全てクエリのオプションで上書きできます。
+All of these can be overridden by the query options.
 
 ### logger
 
-ロガーです。
+The `logger` is an adapter for various logger implementations. 
 
-デフォルトでは、サービスローダーでファクトリを取得しファクトリから利用すべきロガーを生成します。
-サービスローダーでファクトリを取得できない場合、出力先を標準出力とするロガーを返します。
+By default, this property is resolved by the service loader.
+If the service loader cannot resolve the logger, this property returns a logger that uses standard output.
 
-以下のモジュールがサービスローダー対応のファクトリを持ちます。
+The following modules provide logger implementations:
 
 - komapper-slf4j
 
-以下のドキュメントも参照ください。
-
-- [Logging]({{< relref "logging.md" >}})
+See also [Logging]({{< relref "logging.md" >}}).
 
 ### loggerFacade
 
-ロガーのファサードです。
+The `loggerFacade` accepts log output instructions, formats log messages, and sends them to the logger.
+All log output from Komapper goes through this facade.
 
-実行されるSQLやトランザクションに関するログ出力指示を受け付け、ログメッセージをフォーマットし、ロガーへ送ります。
-Komapperから出力されるログはすべてこのファサードを経由します。
+To change the log message or log level, switch the facade implementation.
 
-ログメッセージやログレベルを変更するには、ファサードの実装を切り替えてください。
-
-以下のドキュメントも参照ください。
-
-- [Logging]({{< relref "logging.md" >}})
+See also [Logging]({{< relref "logging.md" >}}).
 
 ### statementInspector
 
-`org.komapper.core.Statement`のインスペクターです。
-実行直前にSQLを変換します。
+The `statementInspector` inspects `org.komapper.core.Statement` just before SQL execution.
 
-デフォルトでは、サービスローダーでファクトリを取得しファクトリから利用すべきインスペクターを生成します。
-サービスローダーでファクトリを取得できない場合、何もしないインスペクターを返します。
+By default, this property is resolved by the service loader.
+If the service loader cannot resolve the logger, this property returns an inspector that does nothing.
 
-以下のモジュールがサービスローダー対応のファクトリを持ちます。
+The following modules provide inspector implementations:
 
 - komapper-sqlcommenter
 
 ### templateStatementBuilder
 
-SQLテンプレートから`org.komapper.core.Statement`を生成するビルダーです。
+The `templateStatementBuilder` is a builder that generates `org.komapper.core.Statement` from SQL templates.
 
-デフォルトでは、サービスローダーでファクトリを取得しファクトリから利用すべきビルダーを生成します。
-サービスローダーでファクトリを取得できない場合、例外をスローします。
+By default, this property is resolved by the service loader.
+If the service loader cannot resolve the logger, this property throws an exception.
 
-以下のモジュールがサービスローダー対応のファクトリを持ちます。
+The following modules provide builder implementations:
 
 - komapper-template
 
-以下のドキュメントも参照ください。
-
-- [TEMPLATE]({{< relref "Query/QueryDsl/template.md" >}})
+See also [TEMPLATE]({{< relref "Query/QueryDsl/template.md" >}}).
