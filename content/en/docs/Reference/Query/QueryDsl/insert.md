@@ -3,19 +3,17 @@ title: "INSERT"
 linkTitle: "INSERT"
 weight: 20
 description: >
-  INSERTクエリ
 ---
 
-## 概要 {#overview}
+## Overview {#overview}
 
-INSERTクエリは`QueryDsl`の`insert`とそれに続く関数を呼び出して構築します。
+The INSERT query is constructed by calling `QueryDsl.insert` and subsequent functions.
 
-クエリ実行時にキーが重複した場合かつ`onDuplicateKeyIgnore`や`onDuplicateKeyUpdate`を適切に呼び出していない場合、
-`org.komapper.core.UniqueConstraintException`がスローされます。
+If a duplicate key is detected during query execution, the `org.komapper.core.UniqueConstraintException` is thrown.
 
 ## single
 
-エンティティ1件を追加するには`single`を呼び出します。
+To add a single entity, call the `single` function:
 
 ```kotlin
 val address: Address = Address(16, "STREET 16", 0)
@@ -25,9 +23,9 @@ insert into ADDRESS (ADDRESS_ID, STREET, VERSION) values (?, ?, ?)
 */
 ```
 
-このクエリを実行した場合の戻り値は追加されたデータを表す新しいエンティティです。
+When the above query is executed, the return value is a new entity representing the added data.
 
-下記のマッピング定義に応じて、発行されるSQLにも新しいエンティティにも適切な値が反映されます。
+Depending on the mapping definitions shown below, both the SQL and the new entity will reflect the appropriate values.
 
 - `@KomapperAutoIncrement`
 - `@KomapperSequence`
@@ -37,7 +35,7 @@ insert into ADDRESS (ADDRESS_ID, STREET, VERSION) values (?, ?, ?)
 
 ## multiple
 
-1文でエンティティ複数件を追加するには`multiple`を呼び出します。
+To add multiple entities in one statement, call the `multiple` function:
 
 ```kotlin
 val query: Query<List<Address>> = QueryDsl.insert(a).multiple(
@@ -50,9 +48,9 @@ insert into ADDRESS (ADDRESS_ID, STREET, VERSION) values (?, ?, ?), (?, ?, ?), (
 */
 ```
 
-このクエリを実行した場合の戻り値は追加されたデータを表す新しいエンティティのリストです。
+When the above query is executed, the return value is a list of new entities representing the added data.
 
-下記のマッピング定義に応じて、発行されるSQLにも新しいエンティティにも適切な値が反映されます。
+Depending on the mapping definitions shown below, both the SQL and the new entity will reflect the appropriate values.
 
 - `@KomapperAutoIncrement`
 - `@KomapperSequence`
@@ -62,7 +60,7 @@ insert into ADDRESS (ADDRESS_ID, STREET, VERSION) values (?, ?, ?), (?, ?, ?), (
 
 ## batch
 
-バッチでエンティティ複数件を追加するには`batch`を呼び出します。
+To add multiple entities in a batch, call the `batch` function.
 
 ```kotlin
 val query: Query<List<Address>> = QueryDsl.insert(a).batch(
@@ -77,9 +75,10 @@ insert into ADDRESS (ADDRESS_ID, STREET, VERSION) values (?, ?, ?)
 */
 ```
 
-このクエリを実行した場合の戻り値は追加されたデータを表す新しいエンティティのリストです。
+When the above query is executed, the return value is a list of new entities representing the added data.
 
-下記のマッピング定義に応じて、発行されるSQLにも新しいエンティティにも適切な値が反映されます。
+Depending on the mapping definitions shown below, both the SQL and the new entity will reflect the appropriate values.
+
 
 - `@KomapperAutoIncrement`
 - `@KomapperSequence`
@@ -89,22 +88,23 @@ insert into ADDRESS (ADDRESS_ID, STREET, VERSION) values (?, ?, ?)
 
 ## onDuplicateKeyIgnore
 
-`onDuplicateKeyIgnore`を呼び出すことでキーが重複した場合のエラーを無視できます。
-`onDuplicateKeyIgnore`には重複チェック対象のキーを指定できます。指定されない場合は主キーが使われます。
+Call the `onDuplicateKeyIgnore` function to ignore errors in case of duplicate keys.
+The key to be checked for duplicates can be specified in the `onDuplicateKeyIgnore` function. 
+If not specified, the primary key is used.
 
 ```kotlin
 val address: Address = ..
 val query: Query<Address?> = QueryDsl.insert(a).onDuplicateKeyIgnore().executeAndGet(address)
 ```
 
-上記クエリに対応するSQLはどのDialectを使うかで異なります。
-例えば、MariaDBのDialectを使う場合は次のようなSQLになります。
+The SQL corresponding to the above query depends on which Dialect is used. 
+For example, if you use MariaDB's Dialect, the SQL would be as follows:
 
 ```sql
 insert ignore into ADDRESS (ADDRESS_ID, STREET, VERSION) values (?, ?, ?)
 ```
 
-PostgreSQLのDialectを使う場合は次のようなSQLになります。
+When using PostgreSQL's Dialect, the SQL would be as follows:
 
 ```sql
 insert into ADDRESS as t0_ (ADDRESS_ID, STREET, VERSION) values (?, ?, ?) on conflict (ADDRESS_ID) do nothing
@@ -112,43 +112,44 @@ insert into ADDRESS as t0_ (ADDRESS_ID, STREET, VERSION) values (?, ?, ?) on con
 
 ### executeAndGet {#onduplicatekeyignore-executeandget}
 
-`onDuplicateKeyIgnore`に続けて`executeAndGet`を呼び出した場合、戻り値は追加されたデータを表すエンティティです。
-キーが重複していた場合は`null`が戻ります。
+If the `executeAndGet` function is called following the `onDuplicateKeyIgnore` function, 
+the return value is an entity representing the added data. 
+If the key is a duplicate, `null` is returned.
 
 ### single {#onduplicatekeyignore-single}
 
-`onDuplicateKeyIgnore`に続けて`single`を呼び出した場合の戻り値はドライバの返す値です。
+If the `single` function is called following the `onDuplicateKeyIgnore` function,
+the return value is driver specific.
 
 ### multiple {#onduplicatekeyignore-multiple}
 
-`onDuplicateKeyIgnore`に続けて`multiple`を呼び出した場合の戻り値はドライバの返す値です。
+If the `multiple` function is called following the `onDuplicateKeyIgnore` function,
+the return value is driver specific.
 
 ### batch {#onduplicatekeyignore-batch}
 
-`onDuplicateKeyIgnore`に続けて`batch`を呼び出した場合の戻り値はドライバの返す値です。
-
-{{< alert color="warning" title="Warning" >}}
-R2DBCではサポートされていません。
-{{< /alert >}}
+If the `batch` function is called following the `onDuplicateKeyIgnore` function,
+the return value is driver specific.
 
 ## onDuplicateKeyUpdate
 
-`onDuplicateKeyUpdate`を呼び出すことでキーが重複した場合に対象行を更新できます。
-`onDuplicateKeyUpdate`には重複チェック対象のキーを指定できます。指定されない場合は主キーが使われます。
+Call the `onDuplicateKeyUpdate` function to update the target row when a key is duplicated.
+The key to be checked for duplicates can be specified in the `onDuplicateKeyUpdate` function.
+If not specified, the primary key is used.
 
 ```kotlin
 val department: Department = ..
 val query: Query<Address> = QueryDsl.insert(d).onDuplicateKeyUpdate().executeAndGet(department)
 ```
 
-上記クエリに対応するSQLはどのDialectを使うかで異なります。
-例えば、MariaDBのDialectを使う場合は次のようなSQLになります。
+The SQL corresponding to the above query depends on which Dialect is used.
+For example, if you use MariaDB's Dialect, the SQL would be as follows:
 
 ```sql
 insert into DEPARTMENT (DEPARTMENT_ID, DEPARTMENT_NO, DEPARTMENT_NAME, LOCATION, VERSION) values (?, ?, ?, ?, ?) on duplicate key update DEPARTMENT_NO = values(DEPARTMENT_NO), DEPARTMENT_NAME = values(DEPARTMENT_NAME), LOCATION = values(LOCATION), VERSION = values(VERSION)
 ```
 
-PostgreSQLのDialectを使う場合は次のようなSQLになります。
+When using PostgreSQL's Dialect, the SQL would be as follows:
 
 ```sql
 insert into DEPARTMENT as t0_ (DEPARTMENT_ID, DEPARTMENT_NO, DEPARTMENT_NAME, LOCATION, VERSION) values (?, ?, ?, ?, ?) on conflict (DEPARTMENT_ID) do update set DEPARTMENT_NO = excluded.DEPARTMENT_NO, DEPARTMENT_NAME = excluded.DEPARTMENT_NAME, LOCATION = excluded.LOCATION, VERSION = excluded.VERSION
@@ -156,31 +157,28 @@ insert into DEPARTMENT as t0_ (DEPARTMENT_ID, DEPARTMENT_NO, DEPARTMENT_NAME, LO
 
 ### executeAndGet {#onduplicatekeyupdate-executeandget}
 
-`onDuplicateKeyUpdate`に続けて`executeAndGet`を呼び出した場合、戻り値は追加もしくは更新されたデータを表すエンティティです。
-
-{{< alert title="Note" >}}
-戻り値を返すために、指定されたキーを使った検索クエリを追加で発行します。
-{{< /alert >}}
+If the `executeAndGet` function is called following onDuplicateKeyUpdate, 
+the return value is an entity representing the data that was added or updated.
 
 ### single {#onduplicatekeyupdate-single}
 
-`onDuplicateKeyUpdate`に続けて`single`を呼び出した場合の戻り値はドライバの返す値です。
+If the `single` function is called following the `onDuplicateKeyUpdate` function,
+the return value is driver specific.
 
 ### multiple {#onduplicatekeyupdate-multiple}
 
-`onDuplicateKeyUpdate`に続けて`multiple`を呼び出した場合の戻り値はドライバの返す値です。
+If the `single` function is called following the `multiple` function,
+the return value is driver specific.
 
 ### batch {#onduplicatekeyupdate-batch}
 
-`onDuplicateKeyUpdate`に続けて`batch`を呼び出した場合の戻り値はドライバの返す値です。
-
-{{< alert color="warning" title="Warning" >}}
-R2DBCではサポートされていません。
-{{< /alert >}}
+If the `single` function is called following the `batch` function,
+the return value is driver specific.
 
 ### set {#onduplicatekeyupdate-set}
 
-`onDuplicateKeyUpdate`の呼び出し後、他の関数を呼ぶ前に`set`を使って更新対象のカラムに特定の値を設定できます。
+After calling the `onDuplicateKeyUpdate` function and before calling other functions,
+you can call the `set` function to set specific values to the columns to be updated:
 
 ```kotlin
 val department: Department = ..
@@ -190,31 +188,30 @@ val query = QueryDsl.insert(d).onDuplicateKeyUpdate().set { excluded ->
 }.single(department)
 ```
 
-`set`関数に渡すラムダ式には`excluded`パラメータがあります。
-`excluded`は、追加しようとしているエンティティのメタモデルを表します。
-したがって、`excluded`の利用により追加しようとしているデータに基づいた更新を実現できます。
+The `set` function accepts the lambda expression whose parameter is `excluded`.
+The `excluded` represents the metamodel of the entity being added.
+Therefore, the use of excluded allows for updates based on the data being added.
 
-PostgreSQLのDialectを使う場合、上記のクエリは次のようなSQLとして発行されます。
+When using PostgreSQL's Dialect, the above query generates the following SQL:
 
 ```sql
 insert into DEPARTMENT as t0_ (DEPARTMENT_ID, DEPARTMENT_NO, DEPARTMENT_NAME, LOCATION, VERSION) values (?, ?, ?, ?, ?) on conflict (DEPARTMENT_ID) do update set DEPARTMENT_NAME = ?, LOCATION = (concat(t0_.LOCATION, (concat(?, excluded.LOCATION))))
 ```
 
-MySQLのDialectを使う場合、上記のクエリは次のようなSQLとして発行されます。
+When using MySQL's Dialect, the above query generates the following SQL:
 
 ```sql
 insert into DEPARTMENT (DEPARTMENT_ID, DEPARTMENT_NO, DEPARTMENT_NAME, LOCATION, VERSION) values (?, ?, ?, ?, ?) as excluded on duplicate key update DEPARTMENT_NAME = ?, LOCATION = (concat(DEPARTMENT.LOCATION, (concat(?, excluded.LOCATION))))
 ```
 
 {{< alert color="warning" title="Warning" >}}
-MariaDBのDialectではサポートされていません。
+Not supported by MariaDB Dialect.
 {{< /alert >}}
 
 ## values
 
-プロパティごとの値を設定して1件を追加するには`values`関数にラムダ式を渡します。
-
-ラムダ式の中では`eq`関数を使って値を設定できます。
+To set a value for each property and add one row, pass a lambda expression to the `values` function.
+Within the lambda expression, values can be set to properties using the `eq` function:
 
 ```kotlin
 val query: Query<Pair<Int, Int?>> = QueryDsl.insert(a).values {
@@ -227,7 +224,7 @@ insert into ADDRESS (ADDRESS_ID, STREET, VERSION) values (?, ?, ?)
 */
 ```
 
-`eqIfNotNull`を使って値が`null`でない場合にのみ値を設定することもできます。
+To set a value only if the value is not null, use the `eqIfNotNull` function:
 
 ```kotlin
 val query: Query<Pair<Int, Int?>> = QueryDsl.insert(a).values {
@@ -237,22 +234,24 @@ val query: Query<Pair<Int, Int?>> = QueryDsl.insert(a).values {
 }
 ```
 
-クエリを実行した場合の戻り値は追加された件数と生成されたIDの`Pair`です。
-IDはマッピング定義に`@KomapperAutoIncrement`や`@KomapperSequence`が注釈されている場合にのみ返されます。
+When the above query is executed, the return value is a `Pair` of the number of rows added and IDs generated.
+IDs are returned only if `@KomapperAutoIncrement` or `@KomapperSequence` is annotated in the mapping definition.
 
-以下のマッピング定義を持つプロパティについて明示的に`eq`を呼び出さない場合、発行されるSQLに自動で値が設定されます。
-明示的に`eq`を呼び出した場合は明示した値が優先されます。
+If you do not explicitly call the `eq` function for properties with the following mapping definitions
+then the value is automatically set in the generated SQL:
 
 - `@KomapperSequence`
 - `@KomapperVersion`
 - `@KomapperCreatedAt`
 - `@KomapperUpdatedAt`
 
-`@KomapperAutoIncrement`の定義は常に有効です。明示的に値を`eq`した場合、無視されます。
+If you explicitly call the `eq` function, the explicit value takes precedence.
+
+The definition of `KomapperAutoIncrement` cannot be disabled with an explicit value.
 
 ## select
 
-検索結果を追加するには`select`を呼び出します。
+To add search results, call the `select` function.
 
 ```kotlin
 val aa = Meta.address.clone(table = "ADDRESS_ARCHIVE")
@@ -264,10 +263,10 @@ insert into ADDRESS_ARCHIVE (ADDRESS_ID, STREET, VERSION) select t1_.ADDRESS_ID,
 */
 ```
 
-クエリを実行した場合の戻り値は追加された件数と生成されるIDのリストの`Pair`です。
-IDはエンティティクラスのマッピング定義に`@KomapperAutoIncrement`が注釈されている場合にのみ生成されます。
+When the above query is executed, the return value is a Pair of the number of rows added and a list of IDs generated.
+IDs are generated only if `@KomapperAutoIncrement` is annotated in the entity class mapping definition.
 
-以下のマッピング定義は考慮されません。
+The following mapping definitions are not considered:
 
 - `@KomapperSequence`
 - `@KomapperVersion`
@@ -276,9 +275,9 @@ IDはエンティティクラスのマッピング定義に`@KomapperAutoIncreme
 
 ## options
 
-クエリの挙動をカスタマイズするには`options`を呼び出します。
-ラムダ式のパラメータはデフォルトのオプションを表します。
-変更したいプロパティを指定して`copy`メソッドを呼び出してください。
+To customize the behavior of the query, call the `options` function.
+The `options` function accept a lambda expression whose parameter represents default options.
+Call the `copy` function on the parameter to change its properties.
 
 ```kotlin
 val address: Address = Address(16, "STREET 16", 0)
@@ -289,19 +288,22 @@ val query: Query<Address> = QueryDsl.insert(a).single(address).options {
 }
 ```
 
-指定可能なオプションには以下のものがあります。
+The options that can be specified are as follows:
 
 batchSize
-: バッチサイズです。デフォルトは`null`です。
+: Default is `null`.
 
 disableSequenceAssignment
-: IDにシーケンスで生成した値をアサインすることを無効化かどうかです。デフォルトは`false`です。
+: Whether to disable the assignment of sequence-generated values to IDs. Default is `false`.
 
 queryTimeoutSeconds
-: クエリタイムアウトの秒数です。デフォルトは`null`でドライバの値を使うことを示します。
+: Default is `null` to indicate that the driver value should be used.
+
+returnGeneratedKeys
+: Whether to return the auto-incremented ID value. Default is `true`.
 
 suppressLogging
-: SQLのログ出力を抑制するかどうかです。デフォルトは`false`です。
+: Whether to suppress SQL log output. Default is `false`.
 
-[executionOptions]({{< relref "../../database-config/#executionoptions" >}})
-の同名プロパティよりもこちらに明示的に設定した値が優先的に利用されます。
+Properties explicitly set here will be used in preference to properties with the same name that exist
+in [executionOptions]({{< relref "../../database-config/#executionoptions" >}}).

@@ -10,8 +10,7 @@ description: >
 
 INSERTクエリは`QueryDsl`の`insert`とそれに続く関数を呼び出して構築します。
 
-クエリ実行時にキーが重複した場合かつ`onDuplicateKeyIgnore`や`onDuplicateKeyUpdate`を適切に呼び出していない場合、
-`org.komapper.core.UniqueConstraintException`がスローされます。
+クエリ実行時にキーが重複した場合、`org.komapper.core.UniqueConstraintException`がスローされます。
 
 ## single
 
@@ -153,10 +152,6 @@ insert into DEPARTMENT as t0_ (DEPARTMENT_ID, DEPARTMENT_NO, DEPARTMENT_NAME, LO
 ### executeAndGet {#onduplicatekeyupdate-executeandget}
 
 `onDuplicateKeyUpdate`に続けて`executeAndGet`を呼び出した場合、戻り値は追加もしくは更新されたデータを表すエンティティです。
-
-{{< alert title="Note" >}}
-戻り値を返すために、指定されたキーを使った検索クエリを追加で発行します。
-{{< /alert >}}
 
 ### single {#onduplicatekeyupdate-single}
 
