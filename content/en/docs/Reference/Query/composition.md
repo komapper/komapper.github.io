@@ -3,29 +3,28 @@ title: "Composition"
 linkTitle: "Composition"
 weight: 110
 description: >
-  クエリの合成
 ---
 
-## 概要 {#overview}
+## Overview {#overview}
 
-クエリとその構成要素である宣言は合成をサポートします。
+Queries support composition.
 
-## クエリ {#query}
+## Composition functions {#composition-functions}
 
-Komapperにおいて、クエリは以下のクラスのいずれかもしくは両方で表現されます。
+In Komapper, a query is represented by one or both of the following classes.
 
 org.komapper.core.dsl.query.Query<T>
-: `JdbcDatabase`もしくは`R2dbcDatabase`インスタンスを介して実行するとデータベースにアクセスし`T`型の値を返すクエリ。
+: A query that returns the value of type `T`
 
 org.komapper.core.dsl.query.FlowQuery<T>
-: `R2dbcDatabase`インスタンスを介して実行すると`kotlinx.coroutines.flow.Flow<T>`型の値を返すクエリ。データベースアクセスは`Flow`が`collect`されたときに初めて行われます。
+: A query that returns the value of type `kotlinx.coroutines.flow.Flow<T>`
 
-これらのうち、合成をサポートしているのは`Query<T>`のみです。
-下記では、`Query<T>`に対して実行できる合成関数を説明します。
+Of these, only `Query<T>` supports composition.
+The following sections describe the composite functions that can be performed on `Query<T>`.
 
 ### andThen {#query-composition-andthen}
 
-`andThen`関数を使うと、まとめて実行して最後の結果を返すクエリを構築できます。
+The `andThen` functions construct a query that runs together and returns the last result:
 
 ```kotlin
 val q1: Query<Address> = QueryDsl.insert(a).single(Address(16, "STREET 16", 0))
@@ -42,7 +41,7 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADD
 
 ### map {#query-composition-map}
 
-`map`関数を使うと、クエリ結果に変更を加えるクエリを構築できます。
+The `map` function constructs a query that makes changes to the query results:
 
 ```kotlin
 val query: Query<List<Address>> = QueryDsl.from(a).map { 
@@ -55,7 +54,7 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_
 
 ### zip {#query-composition-zip}
 
-`map`関数を使うと、2つのクエリ結果を`Pair`型で返すクエリを構築できます。
+The `zip` function constructs a query that returns two query results as `Pair`.
 
 ```kotlin
 val q1 = QueryDsl.insert(a).single(Address(16, "STREET 16", 0))
@@ -69,7 +68,8 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_
 
 ### flatMap {#query-composition-flatmap}
 
-`flatMap`関数を使うと、1番目のクエリの実行結果を受け取って2番目のクエリを実行し2番目の結果を返すクエリを構築できます。
+The `flatMap` function constructs a query that executes the second query using the result of the first query 
+and returns the result of the second query.
 
 ```kotlin
 val q1: Query<Address> = QueryDsl.insert(a).single(Address(16, "STREET 16", 0)) // 1st query
@@ -85,7 +85,8 @@ select t0_.EMPLOYEE_ID, t0_.EMPLOYEE_NO, t0_.EMPLOYEE_NAME, t0_.MANAGER_ID, t0_.
 
 ### flatZip {#query-composition-flatzip}
 
-`flatZip`関数を使うと、1番目のクエリの実行結果を受け取って2番目のクエリを実行し1番目と2番目の結果を`Pair`型で返すクエリを構築できます。
+The `flatZip` function constructs a query that executes the second query using the result of first query and 
+returns the two query results as `Pair`.
 
 ```kotlin
 val q1: Query<Address> = QueryDsl.insert(a).single(Address(16, "STREET 16", 0)) // 1st query

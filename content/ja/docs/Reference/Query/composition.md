@@ -8,9 +8,9 @@ description: >
 
 ## 概要 {#overview}
 
-クエリとその構成要素である宣言は合成をサポートします。
+クエリは合成をサポートします。
 
-## クエリ {#query}
+## 合成関数 {#composition-functions}
 
 Komapperにおいて、クエリは以下のクラスのいずれかもしくは両方で表現されます。
 
@@ -55,7 +55,7 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_
 
 ### zip {#query-composition-zip}
 
-`map`関数を使うと、2つのクエリ結果を`Pair`型で返すクエリを構築できます。
+`zip`関数を使うと、2つのクエリ結果を`Pair`型で返すクエリを構築できます。
 
 ```kotlin
 val q1 = QueryDsl.insert(a).single(Address(16, "STREET 16", 0))
