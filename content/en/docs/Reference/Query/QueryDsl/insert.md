@@ -9,7 +9,8 @@ description: >
 
 The INSERT query is constructed by calling `QueryDsl.insert` and subsequent functions.
 
-If a duplicate key is detected during query execution, the `org.komapper.core.UniqueConstraintException` is thrown.
+If a duplicate key is detected during INSERT query execution, 
+the `org.komapper.core.UniqueConstraintException` is thrown.
 
 ## single
 
@@ -245,7 +246,7 @@ then the value is automatically set in the generated SQL:
 - `@KomapperCreatedAt`
 - `@KomapperUpdatedAt`
 
-If you explicitly call the `eq` function, the explicit value takes precedence.
+If you explicitly call the `eq` function for those properties, the explicit value takes precedence.
 
 The definition of `KomapperAutoIncrement` cannot be disabled with an explicit value.
 

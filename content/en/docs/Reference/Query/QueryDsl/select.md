@@ -496,16 +496,16 @@ escapeSequence
 : Escape sequence specified for the LIKE predicate. The default is `null` to indicate the use of Dialect values.
 
 fetchSize
-: Default is null to indicate that the driver value should be used.
+: Default is `null` to indicate that the driver value should be used.
 
 maxRows
-: Default is null to indicate use of the driver's value.
+: Default is `null` to indicate use of the driver's value.
 
 queryTimeoutSeconds
-: Default is null to indicate that the driver value should be used.
+: Default is `null` to indicate that the driver value should be used.
 
 suppressLogging
-: Whether to suppress SQL log output. Default is false.
+: Whether to suppress SQL log output. Default is `false`.
 
 Properties explicitly set here will be used in preference to properties with the same name that exist 
 in [executionOptions]({{< relref "../../database-config/#executionoptions" >}}).

@@ -3,18 +3,18 @@ title: "UPDATE"
 linkTitle: "UPDATE"
 weight: 30
 description: >
-  UPDATEクエリ
 ---
 
-## 概要 {#overview}
+## Overview {#overview}
 
-UPDATEクエリは`QueryDsl`の`update`とそれに続く関数を呼び出して構築します。
+The UPDATE query is constructed by calling `QueryDsl.update` and subsequent functions.
 
-クエリ実行時にキーが重複した場合、`org.komapper.core.UniqueConstraintException`がスローされます。
+If a duplicate key is detected during UPDATE query execution, 
+the `org.komapper.core.UniqueConstraintException` is thrown.
 
 ## single {#single}
 
-エンティティ1件を更新するには`single`を呼び出します。
+To update a single entity, call the `single` function:
 
 ```kotlin
 val address: Address = ..
@@ -24,19 +24,20 @@ update ADDRESS set STREET = ?, VERSION = ? + 1 where ADDRESS_ID = ? and VERSION 
 */
 ```
 
-このクエリを実行した場合の戻り値は追加されたデータを表す新しいエンティティです。
+When the above query is executed, the return value is a new entity representing the updated data.
 
-下記のマッピング定義に応じて、発行されるSQLにも新しいエンティティにも適切な値が反映されます。
+Depending on the mapping definitions shown below, both the SQL and the new entity will reflect the appropriate values.
 
 - `@KomapperId`
 - `@KomapperVersion`
 - `@KomapperUpdatedAt`
 
-クエリ実行時に楽観的排他制御が失敗した場合、`org.komapper.core.OptimisticLockException`がスローされます。
+If optimistic locking fails during query execution, 
+the `org.komapper.core.OptimisticLockException` is thrown.
 
 ## batch {#batch}
 
-バッチでエンティティ複数件を更新するには`batch`を呼び出します。
+To update multiple entities in a batch, call the `batch` function:
 
 ```kotlin
 val address1: Address = ..
@@ -50,20 +51,20 @@ update ADDRESS set STREET = ?, VERSION = ? + 1 where ADDRESS_ID = ? and VERSION 
 */
 ```
 
-このクエリを実行した場合の戻り値は追加されたデータを表す新しいエンティティのリストです。
+When the above query is executed, the return value is a list of new entities representing the updated data.
 
-下記のマッピング定義に応じて、発行されるSQLにも新しいエンティティにも適切な値が反映されます。
+Depending on the mapping definitions shown below, both the SQL and the new entities will reflect the appropriate values.
 
 - `@KomapperVersion`
 - `@KomapperUpdatedAt`
 
-クエリ実行時に楽観的排他制御が失敗した場合、`org.komapper.core.OptimisticLockException`がスローされます。
+If optimistic locking fails during query execution,
+the `org.komapper.core.OptimisticLockException` is thrown.
 
 ## set {#set}
 
-任意のプロパティに更新データをセットするには`set`関数にラムダ式を渡します。
-
-ラムダ式の中では`eq`関数を使って値を設定できます。
+To set a value to specific property, pass a lambda expression to the `set` function.
+Within the lambda expression, values can be set to properties using the `eq` function:
 
 ```kotlin
 val query: Query<Int> = QueryDsl.update(a).set {
@@ -76,7 +77,7 @@ update ADDRESS as t0_ set STREET = ? where t0_.ADDRESS_ID = ?
 */
 ```
 
-`eqIfNotNull`を使って値が`null`でない場合にのみ値を設定することもできます。
+To set a value only if the value is not null, use the `eqIfNotNull` function:
 
 ```kotlin
 val query: Query<Int> = QueryDsl.update(e).set {
@@ -87,20 +88,34 @@ val query: Query<Int> = QueryDsl.update(e).set {
 }
 ```
 
-これらのクエリを実行した場合の戻り値は更新された件数です。
+When the above query is executed, the return value is the number of updated rows.
 
-以下のマッピング定義を持つプロパティについて明示的に`eq`を呼び出さない場合、発行されるSQLに自動で値が設定されます。
-明示的に`eq`を呼び出した場合は明示した値が優先されます。
+If you do not explicitly call the `eq` function for properties with the following mapping definitions
+then the value is automatically set in the generated SQL:
 
 - `@KomapperVersion`
 - `@KomapperUpdatedAt`
 
+If you explicitly call the `eq` function for those properties, the explicit value takes precedence.
+
 ## where {#update-where}
 
-任意の条件にマッチする行を更新するには`where`を呼び出します。
+To update rows that match specific criteria, call the `where` function:
 
-デフォルトではWHERE句の指定は必須でありWHERE句が指定されない場合は例外が発生します。
-意図的に全件更新を認める場合は`options`を呼び出して`allowEmptyWhereClause`に`true`を設定します。
+```kotlin
+val query: Query<Int> = QueryDsl.update(a).set {
+  a.street eq "STREET 16"
+}.where {
+  a.addressId eq 1
+}
+/*
+update ADDRESS as t0_ set STREET = ? where t0_.ADDRESS_ID = ?
+*/
+```
+
+By default, an exception is thrown if a WHERE clause is missing. 
+To intentionally allow updating of all rows, call the `options` function and 
+set the `allowEmptyWhereClause` property to true.
 
 ```kotlin
 val query: Query<Int> = QueryDsl.update(e).set {
@@ -110,13 +125,13 @@ val query: Query<Int> = QueryDsl.update(e).set {
 }
 ```
 
-このクエリを実行した場合の戻り値は更新された件数です。
+When the above query is executed, the return value is the number of updated rows.
 
 ## options
 
-クエリの挙動をカスタマイズするには`options`を呼び出します。
-ラムダ式のパラメータはデフォルトのオプションを表します。
-変更したいプロパティを指定して`copy`メソッドを呼び出してください。
+To customize the behavior of the query, call the `options` function.
+The `options` function accept a lambda expression whose parameter represents default options.
+Call the `copy` function on the parameter to change its properties.
 
 ```kotlin
 val address: Address = ..
@@ -127,28 +142,31 @@ val query: Query<Address> = QueryDsl.update(a).single(address).options {
 }
 ```
 
-指定可能なオプションには以下のものがあります。
+The options that can be specified are as follows:
 
 allowEmptyWhereClause
-: 空のWHERE句を認めるかどうかです。デフォルトは`false`です。
+: Whether empty WHERE clauses are allowed or not. Default is `false`.
 
 escapeSequence
-: LIKE句に指定されるエスケープシーケンスです。デフォルトは`null`で`Dialect`の値を使うことを示します。
+: Escape sequence specified for the LIKE predicate. The default is `null` to indicate the use of Dialect values.
 
 batchSize
-: バッチサイズです。デフォルトは`null`です。
+: Default is `null`.
 
 disableOptimisticLock
-: 楽観的ロックを無効化するかどうかです。デフォルトは`false`です。この値が`true`のときWHERE句にバージョン番号が含まれません。
+: Whether to disable optimistic locking.
+Default is `false`.
+When this value is `true`, the version number is not included in the WHERE clause.
 
 queryTimeoutSeconds
-: クエリタイムアウトの秒数です。デフォルトは`null`でドライバの値を使うことを示します。
+: Default is null to indicate that the driver value should be used.
 
 suppressLogging
-: SQLのログ出力を抑制するかどうかです。デフォルトは`false`です。
+: Whether to suppress SQL log output. Default is `false`.
 
 suppressOptimisticLockException
-: 楽観的ロックの取得に失敗した場合に`OptimisticLockException`のスローを抑制するかどうかです。デフォルトは`false`です。
+: Whether to suppress the throwing of `OptimisticLockException` if an attempt to acquire an optimistic lock fails.
+Default is `false`.
 
-[executionOptions]({{< relref "../../database-config/#executionoptions" >}})
-の同名プロパティよりもこちらに明示的に設定した値が優先的に利用されます。
+Properties explicitly set here will be used in preference to properties with the same name that exist
+in [executionOptions]({{< relref "../../database-config/#executionoptions" >}}).

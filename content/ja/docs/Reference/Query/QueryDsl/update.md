@@ -24,7 +24,7 @@ update ADDRESS set STREET = ?, VERSION = ? + 1 where ADDRESS_ID = ? and VERSION 
 */
 ```
 
-このクエリを実行した場合の戻り値は追加されたデータを表す新しいエンティティです。
+このクエリを実行した場合の戻り値は更新されたデータを表す新しいエンティティです。
 
 下記のマッピング定義に応じて、発行されるSQLにも新しいエンティティにも適切な値が反映されます。
 
@@ -50,7 +50,7 @@ update ADDRESS set STREET = ?, VERSION = ? + 1 where ADDRESS_ID = ? and VERSION 
 */
 ```
 
-このクエリを実行した場合の戻り値は追加されたデータを表す新しいエンティティのリストです。
+このクエリを実行した場合の戻り値は更新されたデータを表す新しいエンティティのリストです。
 
 下記のマッピング定義に応じて、発行されるSQLにも新しいエンティティにも適切な値が反映されます。
 
@@ -98,6 +98,17 @@ val query: Query<Int> = QueryDsl.update(e).set {
 ## where {#update-where}
 
 任意の条件にマッチする行を更新するには`where`を呼び出します。
+
+```kotlin
+val query: Query<Int> = QueryDsl.update(a).set {
+  a.street eq "STREET 16"
+}.where {
+  a.addressId eq 1
+}
+/*
+update ADDRESS as t0_ set STREET = ? where t0_.ADDRESS_ID = ?
+*/
+```
 
 デフォルトではWHERE句の指定は必須でありWHERE句が指定されない場合は例外が発生します。
 意図的に全件更新を認める場合は`options`を呼び出して`allowEmptyWhereClause`に`true`を設定します。
