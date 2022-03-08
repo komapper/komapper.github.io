@@ -8,11 +8,11 @@ description: >
 
 ## 概要 {#overview}
 
-データベースへ接続することなくクエリで構築されるSQLを確認できます。
+データベースへ接続することなくクエリから生成されるSQLを確認できます。
 
 ## dryRun
 
-クエリに対して`dryRun`関数を呼び出すと、クエリによって構築されるSQLやクエリにバインドされた引数を確認できます。
+クエリに対して`dryRun`関数を呼び出すと、クエリによって生成されるSQLやクエリにバインドされた引数を確認できます。
 
 ```kotlin
 val query: Query<List<Address>> = QueryDsl.from(a).where { a.addressId eq 1 }
@@ -35,16 +35,16 @@ DryRunResult(
 `DryRunResult`クラスのプロパティの意味は次の通りです。
 
 sql
-: クエリから構築されるSQL。バインド変数は`?`で表現される。例外が発生した場合はSQLではなく例外のメッセージを表す。
+: クエリから生成されるSQL。バインド変数は`?`で表現される。例外が発生した場合はSQLではなく例外のメッセージを表す。
 
 sqlWithArgs
-: クエリから構築される引数付きのSQL。バインド変数は引数の文字列表現で置換されている。例外が発生した場合はSQLではなく例外のメッセージを表す。
+: クエリから生成される引数付きのSQL。バインド変数は引数の文字列表現で置換されている。例外が発生した場合はSQLではなく例外のメッセージを表す。
 
 args
 : 引数の値と型のペア。
 
 throwable
-: クエリの構築にスローされた例外。例外が発生しなかった場合は`null`。
+: クエリの生成中にスローされた例外。例外が発生しなかった場合は`null`。
 
 description
 : `DryRunResult`のインスタンスに対する説明。
@@ -61,7 +61,16 @@ val result: DryRunResult = query.dryRun(database.config)
 println(result)
 ```
 
-### クエリ構築途中のデバッグ {#dryrun-while-building-query}
+もしくは、`Database`インスタンスの`dryRun`関数を呼び出してください。
+
+```kotlin
+val database: JdbcDatabase = ...
+val query: Query<List<Address>> = QueryDsl.from(a).where { a.addressId eq 1 }
+val result: DryRunResult = database.dryRun(query)
+println(result)
+```
+
+### クエリ構築途中のデバッグ {#dryrun-during-query-construction}
 
 `also`関数と組み合わせれば構築途中のクエリ情報を確認できます。
 

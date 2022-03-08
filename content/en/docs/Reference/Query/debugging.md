@@ -3,16 +3,16 @@ title: "Debugging"
 linkTitle: "Debugging"
 weight: 120
 description: >
-  クエリのデバッグ
 ---
 
-## 概要 {#overview}
+## Overview {#overview}
 
-データベースへ接続することなくクエリで構築されるSQLを確認できます。
+You can see the SQL generated from a `Query` without having to connect to the database.
 
 ## dryRun
 
-クエリに対して`dryRun`関数を呼び出すと、クエリによって構築されるSQLやクエリにバインドされた引数を確認できます。
+Calling the `dryRun` function on a `Query` allows you 
+to see the SQL and the arguments bound to the query:
 
 ```kotlin
 val query: Query<List<Address>> = QueryDsl.from(a).where { a.addressId eq 1 }
@@ -20,7 +20,7 @@ val result: DryRunResult = query.dryRun()
 println(result)
 ```
 
-上記のコードの出力結果は以下の通りです（見やすさのため改行を入れています）。
+The output result of the above code is as follows (line breaks are inserted for readability):
 
 ```sh
 DryRunResult(
@@ -32,27 +32,32 @@ DryRunResult(
 )
 ```
 
-`DryRunResult`クラスのプロパティの意味は次の通りです。
+The meaning of the properties of the `DryRunResult` class is as follows:
 
 sql
-: クエリから構築されるSQL。バインド変数は`?`で表現される。例外が発生した場合はSQLではなく例外のメッセージを表す。
+: The SQL generated from the query.
+Bind variables are represented by `?`.
+If an exception occurs, the exception message is expressed instead of SQL.
 
 sqlWithArgs
-: クエリから構築される引数付きのSQL。バインド変数は引数の文字列表現で置換されている。例外が発生した場合はSQLではなく例外のメッセージを表す。
+: The SQL with arguments generated from the query.
+Bind variables are replaced by string representations of the arguments.
+If an exception occurs, the exception message is expressed instead of SQL.
 
 args
-: 引数の値と型のペア。
+: Argument value/type pairs.
 
 throwable
-: クエリの構築にスローされた例外。例外が発生しなかった場合は`null`。
+: Exception thrown during SQL generation. If no exception was thrown, `null`.
 
 description
-: `DryRunResult`のインスタンスに対する説明。
+: Description for the instance of `DryRunResult`.
 
-### Dialectの利用 {#dryrun-with-dialect}
+### Using Dialect {#dryrun-with-dialect}
 
-引数なしの`dryRun`関数は、接続先データベースの [Dialect]({{< relref "../dialect.md" >}}) を考慮しない結果を返します。
-Dialectを考慮した結果を取得したい場合は`DatabaseConfig`インスタンスを渡してください。
+The `dryRun` function with no arguments returns a result without considering 
+the [Dialect]({{< relref "../dialect.md" >}}) of the destination database.
+If you want to get the result considering Dialect, pass a `DatabaseConfig` instance.
 
 ```kotlin
 val database: JdbcDatabase = ...
@@ -61,25 +66,34 @@ val result: DryRunResult = query.dryRun(database.config)
 println(result)
 ```
 
-### クエリ構築途中のデバッグ {#dryrun-while-building-query}
+Or call the `dryRun` function of the `Database` instance.
 
-`also`関数と組み合わせれば構築途中のクエリ情報を確認できます。
+```kotlin
+val database: JdbcDatabase = ...
+val query: Query<List<Address>> = QueryDsl.from(a).where { a.addressId eq 1 }
+val result: DryRunResult = database.dryRun(query)
+println(result)
+```
+
+### Debugging during query construction {#dryrun-during-query-construction}
+
+Combined with the `also` function, you can check query information during the construction process.
 
 ```kotlin
 val query: Query<List<Address>> = QueryDsl.from(a)
-  .also {
-    println("1:" + it.dryRun().sql)
-  }.where {
-    a.addressId eq 1
-  }.also {
-    println("2:" + it.dryRun().sql)
-  }.orderBy(a.addressId)
-  .also {
-    println("3:" + it.dryRun().sql)
-  }
+    .also {
+        println("1:" + it.dryRun().sql)
+    }.where {
+        a.addressId eq 1
+    }.also {
+        println("2:" + it.dryRun().sql)
+    }.orderBy(a.addressId)
+    .also {
+        println("3:" + it.dryRun().sql)
+    }
 ```
 
-上記コードの実行結果は以下の通りです。
+The results of executing the above code are as follows:
 
 ```sh
 1:select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_
