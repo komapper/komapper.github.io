@@ -108,10 +108,10 @@ The following modules provide inspector implementations:
 
 ### templateStatementBuilder
 
-The `templateStatementBuilder` is a builder that generates `org.komapper.core.Statement` from SQL templates.
+The `templateStatementBuilder` is a builder that constructs `org.komapper.core.Statement` from SQL templates.
 
 By default, this property is resolved by the service loader.
-If the service loader cannot resolve the logger, this property throws an exception.
+If the service loader cannot resolve the builder, this property throws an exception.
 
 The following modules provide builder implementations:
 
