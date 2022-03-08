@@ -3,16 +3,15 @@ title: "DELETE"
 linkTitle: "DELETE"
 weight: 40
 description: >
-  DELETEクエリ
 ---
 
-## 概要 {#overview}
+## Overview {#overview}
 
-DELETEクエリは`QueryDsl`の`delete`とそれに続く関数を呼び出して構築します。
+The DELETE query is constructed by calling `QueryDsl.delete` and subsequent functions.
 
 ## single
 
-エンティティ1件を削除するには`single`を呼び出します。
+To delete a single entity, call the `single` function:
 
 ```kotlin
 val address: Address = ..
@@ -22,16 +21,17 @@ delete from ADDRESS as t0_ where t0_.ADDRESS_ID = ? and t0_.VERSION = ?
 */
 ```
 
-下記のマッピング定義に応じて、発行されるSQLに適切な値が反映されます。
+Depending on the mapping definitions shown below, the SQL will reflect the appropriate values.
 
 - `@KomapperId`
 - `@KomapperVersion`
 
-クエリ実行時に楽観的排他制御が失敗した場合、`org.komapper.core.OptimisticLockException`がスローされます。
+If optimistic locking fails during query execution,
+the `org.komapper.core.OptimisticLockException` is thrown.
 
 ## batch
 
-バッチでエンティティ複数件を削除するには`batch`を呼び出します。
+To delete multiple entities in a batch, call the `batch` function:
 
 ```kotlin
 val address1: Address = ..
@@ -45,16 +45,17 @@ delete from ADDRESS as t0_ where t0_.ADDRESS_ID = ? and t0_.VERSION = ?
 */
 ```
 
-下記のマッピング定義に応じて、発行されるSQLに適切な値が反映されます。
+Depending on the mapping definitions shown below, the SQL will reflect the appropriate values.
 
 - `@KomapperId`
 - `@KomapperVersion`
 
-クエリ実行時に楽観的排他制御が失敗した場合、`org.komapper.core.OptimisticLockException`がスローされます。
+If optimistic locking fails during query execution,
+the `org.komapper.core.OptimisticLockException` is thrown.
 
 ## all
 
-全件を削除するには`all`を呼び出します。
+To delete all rows, call the `all` function:
 
 ```kotlin
 val query: Query<Int> = QueryDsl.delete(e).all().options { it.copy(allowEmptyWhereClause = true) }
@@ -63,13 +64,14 @@ delete from EMPLOYEE as t0_
 */
 ```
 
-`options`を呼び出して`allowEmptyWhereClause`に`true`を設定する必要があります。
+To allow deleting of all rows, you have to call the `options` function and
+set the `allowEmptyWhereClause` property to true.
 
-このクエリを実行した場合の戻り値は削除された件数です。
+When the above query is executed, the return value is the number of deleted rows.
 
 ## where
 
-任意の条件にマッチする行を削除するには`where`を呼び出します。
+To delete rows that match specific criteria, call the `where` function:
 
 ```kotlin
 val query: Query<Int> = QueryDsl.delete(a).where { a.addressId eq 15 }
@@ -78,8 +80,9 @@ delete from ADDRESS as t0_ where t0_.ADDRESS_ID = ?
 */
 ```
 
-デフォルトではWHERE句の指定は必須です。もし`where`のブロック内で条件が指定されない場合は例外が発生します。
-意図的に全件削除を認めたい場合は`options`を呼び出して`allowEmptyWhereClause`に`true`を設定します。
+By default, an exception is thrown if a WHERE clause is missing.
+To intentionally allow deleting of all rows, call the `options` function and
+set the `allowEmptyWhereClause` property to true:
 
 ```kotlin
 val query: Query<Int> = QueryDsl.delete(e).where {}.options { it.copy(allowEmptyWhereClause = true) }
@@ -88,13 +91,13 @@ delete from EMPLOYEE as t0_
 */
 ```
 
-このクエリを実行した場合の戻り値は削除された件数です。
+When the above query is executed, the return value is the number of deleted rows.
 
 ## options
 
-クエリの挙動をカスタマイズするには`options`を呼び出します。
-ラムダ式のパラメータはデフォルトのオプションを表します。
-変更したいプロパティを指定して`copy`メソッドを呼び出してください。
+To customize the behavior of the query, call the `options` function.
+The `options` function accept a lambda expression whose parameter represents default options.
+Call the `copy` function on the parameter to change its properties:
 
 ```kotlin
 val address: Address = ..
@@ -105,28 +108,31 @@ val query: Query<Unit> = QueryDsl.delete(a).single(address).options {
 }
 ```
 
-指定可能なオプションには以下のものがあります。
+The options that can be specified are as follows:
 
 allowEmptyWhereClause
-: 空のWHERE句を認めるかどうかです。デフォルトは`false`です。
+: Whether empty WHERE clauses are allowed or not. Default is `false`.
 
 escapeSequence
-: LIKE句に指定されるエスケープシーケンスです。デフォルトは`null`で`Dialect`の値を使うことを示します。
+: Escape sequence specified for the LIKE predicate. The default is `null` to indicate the use of Dialect values.
 
 batchSize
-: バッチサイズです。デフォルトは`null`です。
+: Default is `null`.
 
 disableOptimisticLock
-: 楽観的ロックを無効化するかどうかです。デフォルトは`false`です。この値が`true`のときWHERE句にバージョン番号が含まれません。
+: Whether to disable optimistic locking.
+Default is `false`.
+When this value is `true`, the version number is not included in the WHERE clause.
 
 queryTimeoutSeconds
-: クエリタイムアウトの秒数です。デフォルトは`null`でドライバの値を使うことを示します。
+: Default is null to indicate that the driver value should be used.
 
 suppressLogging
-: SQLのログ出力を抑制するかどうかです。デフォルトは`false`です。
+: Whether to suppress SQL log output. Default is `false`.
 
 suppressOptimisticLockException
-: 楽観的ロックの取得に失敗した場合に`OptimisticLockException`のスローを抑制するかどうかです。デフォルトは`false`です。
+: Whether to suppress the throwing of `OptimisticLockException` if an attempt to acquire an optimistic lock fails.
+Default is `false`.
 
-[executionOptions]({{< relref "../../database-config/#executionoptions" >}})
-の同名プロパティよりもこちらに明示的に設定した値が優先的に利用されます。
+Properties explicitly set here will be used in preference to properties with the same name that exist
+in [executionOptions]({{< relref "../../database-config/#executionoptions" >}}).

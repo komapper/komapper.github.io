@@ -115,7 +115,7 @@ update ADDRESS as t0_ set STREET = ? where t0_.ADDRESS_ID = ?
 
 By default, an exception is thrown if a WHERE clause is missing. 
 To intentionally allow updating of all rows, call the `options` function and 
-set the `allowEmptyWhereClause` property to true.
+set the `allowEmptyWhereClause` property to true:
 
 ```kotlin
 val query: Query<Int> = QueryDsl.update(e).set {
@@ -131,7 +131,7 @@ When the above query is executed, the return value is the number of updated rows
 
 To customize the behavior of the query, call the `options` function.
 The `options` function accept a lambda expression whose parameter represents default options.
-Call the `copy` function on the parameter to change its properties.
+Call the `copy` function on the parameter to change its properties:
 
 ```kotlin
 val address: Address = ..
