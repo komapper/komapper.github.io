@@ -356,7 +356,7 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADD
 
 ## firstOrNull
 
-To indicate that the query returns first row or null, call the `firstOrNull` function at the end:
+To indicate that the query returns first row or `null`, call the `firstOrNull` function at the end:
 
 ```kotlin
 val query: Query<Address?> = QueryDsl.from(a).where { a.addressId eq 1 }.firstOrNull()
@@ -364,6 +364,32 @@ val query: Query<Address?> = QueryDsl.from(a).where { a.addressId eq 1 }.firstOr
 select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADDRESS_ID = ?
 */
 ```
+
+The `firstOrNull` function returns `null` if the query result is empty.
+
+## single
+
+To indicate that the query returns absolutely single row, call the `single` function at the end:
+
+```kotlin
+val query: Query<Address> = QueryDsl.from(a).where { a.addressId eq 1 }.single()
+/*
+select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADDRESS_ID = ?
+*/
+```
+
+## singleOrNull
+
+To indicate that the query returns single row or `null`, call the `singleOrNull` function at the end:
+
+```kotlin
+val query: Query<Address?> = QueryDsl.from(a).where { a.addressId eq 1 }.singleOrNull()
+/*
+select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADDRESS_ID = ?
+*/
+```
+
+The `singleOrNull` function returns `null` if the query result is empty or has more than one row.
 
 ## collect
 

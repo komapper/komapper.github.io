@@ -343,7 +343,7 @@ val query: Query<List<Pair<Int?, String?>>> = (q1 union q2 union q3).orderBy("ID
 
 ## first
 
-1件を返却するクエリであることを示すには最後に`first`を呼び出します。
+最初の1件を返却するクエリであることを示すには最後に`first`を呼び出します。
 
 ```kotlin
 val query: Query<Address> = QueryDsl.from(a).where { a.addressId eq 1 }.first()
@@ -354,7 +354,7 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADD
 
 ## firstOrNull
 
-1件もしくは0件の場合に`null`を返却するクエリであることを示すには最後に`firstOrNull`を呼び出します。
+最初の1件もしくは`null`を返却するクエリであることを示すには最後に`firstOrNull`を呼び出します。
 
 ```kotlin
 val query: Query<Address?> = QueryDsl.from(a).where { a.addressId eq 1 }.firstOrNull()
@@ -362,6 +362,32 @@ val query: Query<Address?> = QueryDsl.from(a).where { a.addressId eq 1 }.firstOr
 select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADDRESS_ID = ?
 */
 ```
+
+`firstOrNull`関数は、クエリの結果が空の場合に`null`を返します。
+
+## single
+
+必ず1件を返却するクエリであることを示すには最後に`single`を呼び出します。
+
+```kotlin
+val query: Query<Address> = QueryDsl.from(a).where { a.addressId eq 1 }.single()
+/*
+select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADDRESS_ID = ?
+*/
+```
+
+## singleOrNull
+
+1件もしくは`null`を返却するクエリであることを示すには最後に`singleOrNull`を呼び出します。
+
+```kotlin
+val query: Query<Address?> = QueryDsl.from(a).where { a.addressId eq 1 }.singleOrNull()
+/*
+select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADDRESS_ID = ?
+*/
+```
+
+`singleOrNull`関数は、クエリの結果が空もしくは2件以上の行を持つ場合に`null`を返します。
 
 ## collect
 
