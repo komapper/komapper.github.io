@@ -12,9 +12,9 @@ Komapperではクエリの構築と実行は分離されています。
 クエリの構築は各種のDSLが担い、実行はJDBCやR2DBCを表す [Database]({{< relref "../database.md" >}}) インスタンスが担います。
 
 ```kotlin
-// create a query
+// construct a query
 val query: Query<List<Address>> = QueryDsl.from(a)
-// run the query
+// execute the query
 val result: List<Address> = db.runQuery { query }
 ```
 
