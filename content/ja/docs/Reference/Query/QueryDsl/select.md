@@ -336,8 +336,9 @@ val query: Query<List<Pair<Int?, String?>>> = (q1 union q2 union q3).orderBy("ID
 ```
 
 {{< alert title="Note" >}}
-`union`以外のセット演算子では、`unionAll`、`except`、`intersect`が利用できます。
-ただし、データベースがサポートしていない場合、SQLを発行した時点で例外が発生します。
+`union`に加え、`unionAll`、`except`、`intersect`といった関数をセット演算子として利用できます。
+ただし、[Dialect]({{< relref "../../dialect.md" >}}) がサポートしていない場合、
+クエリを実行した時点で`UnsupportedOperationException`がスローされます。
 {{< /alert >}}
 
 ## first
