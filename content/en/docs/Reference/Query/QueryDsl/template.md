@@ -162,7 +162,7 @@ escapeSequence
 : LIKE句に指定されるエスケープシーケンスです。デフォルトは`null`で`Dialect`の値を使うことを示します。
 
 queryTimeoutSeconds
-: クエリタイムアウトの秒数です。デフォルトは`null`でドライバの値を使うことを示します。
+: Query timeout in seconds. Default is `null` to indicate that the driver value should be used.
 
 suppressLogging
 : SQLのログ出力を抑制するかどうかです。デフォルトは`false`です。

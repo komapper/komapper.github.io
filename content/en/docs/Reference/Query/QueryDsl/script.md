@@ -3,18 +3,20 @@ title: "SCRIPT"
 linkTitle: "SCRIPT"
 weight: 60
 description: >
-  任意のSQLスクリプトを表すクエリ
 ---
 
-## 概要 {#overview}
+## Overview {#overview}
 
-SCRIPTクエリは任意のSQLスクリプトを表します。
+The SCRIPT query executes any SQL script.
 
-## execute
+The SCRIPT query is constructed by calling `QueryDsl.executeScript` and subsequent functions.
 
-実行したいSQLスクリプトを`executeScript`に渡します。
+If a duplicate key is detected during SCRIPT query execution,
+the `org.komapper.core.UniqueConstraintException` is thrown.
 
-クエリ実行時にキーが重複した場合、`org.komapper.core.UniqueConstraintException`がスローされます。
+## executeScript
+
+To execute an SQL script, call the `executeScript` function:
 
 ```kotlin
 val query: Query<Unit> = QueryDsl.executeScript("""
@@ -26,9 +28,9 @@ val query: Query<Unit> = QueryDsl.executeScript("""
 
 ## options
 
-クエリの挙動をカスタマイズするには`options`を呼び出します。
-ラムダ式のパラメータはデフォルトのオプションを表します。
-変更したいプロパティを指定して`copy`メソッドを呼び出してください。
+To customize the behavior of the query, call the `options` function.
+The `options` function accept a lambda expression whose parameter represents default options.
+Call the `copy` function on the parameter to change its properties:
 
 ```kotlin
 val query: Query<Unit> = QueryDsl.executeScript("""
@@ -42,16 +44,16 @@ val query: Query<Unit> = QueryDsl.executeScript("""
 }
 ```
 
-指定可能なオプションには以下のものがあります。
+The options that can be specified are as follows:
 
 queryTimeoutSeconds
-: クエリタイムアウトの秒数です。デフォルトは`null`でドライバの値を使うことを示します。
+: Query timeout in seconds. Default is `null` to indicate that the driver value should be used.
 
 suppressLogging
-: SQLのログ出力を抑制するかどうかです。デフォルトは`false`です。
+: Whether to suppress SQL log output. Default is `false`.
 
 separator
-: SQLステートメントの区切り文字です。デフォルトは`;`です。
+: The separator of the SQL statement. Default is `;`.
 
-[executionOptions]({{< relref "../../database-config/#executionoptions" >}})
-の同名プロパティよりもこちらに明示的に設定した値が優先的に利用されます。
+Properties explicitly set here will be used in preference to properties with the same name that exist
+in [executionOptions]({{< relref "../../database-config/#executionoptions" >}}).

@@ -159,7 +159,7 @@ Default is `false`.
 When this value is `true`, the version number is not included in the WHERE clause.
 
 queryTimeoutSeconds
-: Default is null to indicate that the driver value should be used.
+: Query timeout in seconds. Default is `null` to indicate that the driver value should be used.
 
 suppressLogging
 : Whether to suppress SQL log output. Default is `false`.

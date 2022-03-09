@@ -298,7 +298,7 @@ disableSequenceAssignment
 : Whether to disable the assignment of sequence-generated values to IDs. Default is `false`.
 
 queryTimeoutSeconds
-: Default is `null` to indicate that the driver value should be used.
+: Query timeout in seconds. Default is `null` to indicate that the driver value should be used.
 
 returnGeneratedKeys
 : Whether to return the auto-incremented ID value. Default is `true`.

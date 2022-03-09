@@ -10,7 +10,7 @@ description: >
 
 SCRIPTクエリは任意のSQLスクリプトを表します。
 
-## execute
+## executeScript
 
 実行したいSQLスクリプトを`executeScript`に渡します。
 

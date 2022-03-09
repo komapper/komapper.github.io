@@ -502,7 +502,7 @@ maxRows
 : Default is `null` to indicate use of the driver's value.
 
 queryTimeoutSeconds
-: Default is `null` to indicate that the driver value should be used.
+: Query timeout in seconds. Default is `null` to indicate that the driver value should be used.
 
 suppressLogging
 : Whether to suppress SQL log output. Default is `false`.
