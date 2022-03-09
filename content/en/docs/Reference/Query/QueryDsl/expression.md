@@ -3,54 +3,54 @@ title: "Expression"
 linkTitle: "Expression"
 weight: 200
 description: >
-  クエリの構成要素である式
 ---
 
-## 概要 {#overview}
+## Overview {#overview}
 
-本ページは以下の節から成ります。
+This page covers the components of an expression, including declarations, operators, and functions.
 
-- [宣言]({{< relref "#declaration" >}})
-- [比較演算子]({{< relref "#comparison-operator" >}})
-- [論理演算子]({{< relref "#logical-operator" >}})
-- [算術演算子]({{< relref "#arithmetic-operator" >}})
-- [集約関数]({{< relref "#aggregate-function" >}})
-- [文字列関数]({{< relref "#string-function" >}})
-- [CASE式]({{< relref "#case-expression" >}})
-- [スカラサブクエリ]({{< relref "#scalar-subquery" >}})
-- [リテラル]({{< relref "#literal" >}})
+- [Declarations]({{< relref "#declaration" >}})
+- [Comparison operators]({{< relref "#comparison-operator" >}})
+- [Logical operators]({{< relref "#logical-operator" >}})
+- [Arithmetic operators]({{< relref "#arithmetic-operator" >}})
+- [Aggregate functions]({{< relref "#aggregate-function" >}})
+- [String functions]({{< relref "#string-function" >}})
+- [CASE expressions]({{< relref "#case-expression" >}})
+- [Scalar subqueries]({{< relref "#scalar-subquery" >}})
+- [literals]({{< relref "#literal" >}})
 
-## 宣言 {#declaration}
+## Declarations {#declaration}
 
-Query DSLでは、例えば`where`関数に検索条件を表すラムダ式を渡せます。
+In the Query DSL, for example, you can pass a lambda expression representing
+the search criteria to the `where` function.
 
 ```kotlin
 QueryDsl.from(a).where { a.addressId eq 1 }
 ```
 
-KomapperではこのようなSQLの句に対応するようなラムダ式のことを宣言と呼びます。
-宣言は全てtypealiasとして`org.komapper.core.dsl.expression`パッケージに定義されています。
+We call such lambda expressions declarations.
+All declarations are defined as typealias in the `org.komapper.core.dsl.expression` package.
 
-Assignment宣言
-: VALUES句に相当する`values`関数やSET句に相当する`set`関数が受け取るラムダ式。typealiasは`AssignmentDeclaration`。
+AssignmentDeclaration
+: Used with the `values` and `set` functions.
 
-Having宣言
-: HAVING句に対応する`having`関数が受け取るラムダ式。typealiasは`HavingDeclaration`。
+HavingDeclaration
+: Used with the `having` function.
 
-On宣言
-: ON句に対応する`on`関数が受け取るラムダ式。typealiasは`OnDeclaration`。
+OnDeclaration
+: Used with the `on` function.
 
-When宣言
-: WHEN句に対応する`When`関数が受け取るラムダ式。typealiasは`WhenDeclaration`。
+WhenDeclaration
+: Used with the `When` function.
 
-Where宣言
-: WHERE句に対応する`where`関数が受け取るラムダ式。typealiasは`WhereDeclaration`。
+WhereDeclaration
+: Used with the `where` function.
 
-これらの宣言は下記に示すように合成が可能です。
+These declarations are composable.
 
 ### plus {#declaration-composition-plus}
 
-`+`演算子を使うと、被演算子の宣言内部に持つ式を順番に実行するような新たな宣言を構築できます。
+The `+` operator constructs a new declaration that executes its operands in sequence:
 
 ```kotlin
 val w1: WhereDeclaration = {
@@ -67,11 +67,11 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADD
 */
 ```
 
-`+`演算子はすべての宣言で利用できます。
+The `+` operator is available in all declarations.
 
 ### and {#declaration-composition-and}
 
-`and`関数を使うと、宣言を`and`演算子で連結する新たな宣言を構築できます。
+The `and` function constructs a new declaration that concatenates its receiver and argument with the AND predicate:
 
 ```kotlin
 val w1: WhereDeclaration = {
@@ -89,11 +89,11 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADD
 */
 ```
 
-`and`関数は、Having、When、Whereの宣言に対して適用できます。
+The `and` function can be applied to Having, When, and Where declarations.
 
 ### or {#declaration-composition-or}
 
-`or`関数を使うと、宣言を`or`演算子で連結する新たな宣言を構築できます。
+The `or` function constructs a new declaration that concatenates its receiver and argument with the OR predicate:
 
 ```kotlin
 val w1: WhereDeclaration = {
@@ -111,21 +111,21 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADD
 */
 ```
 
-`or`関数は、Having、When、Whereの宣言に対して適用できます。
+The `or` function can be applied to Having, When, and Where declarations.
 
+## Comparison operators {#comparison-operator}
 
-## 比較演算子 {#comparison-operator}
+Comparison operators are available in the Having, On, When, and Where [Declarations]({{< relref "#declaration" >}}).
 
-Having、On、When、Whereの [宣言]({{< relref "#declaration" >}}) の中で利用できます。
-
-演算子の引数に`null`を渡した場合その演算子は評価されません。つまりSQLに変換されません。
+If `null` is passed as an argument to a comparison operator, the operator is not evaluated.
+That is, the corresponding SQL will not be generated:
 
 ```kotlin
 val nullable: Int? = null
 val query = QueryDsl.from(a).where { a.addressId eq nullable }
 ```
 
-したがって、上記の`query`が実行された場合は次のSQLが発行されます。
+Thus, when the above `query` is executed, the following SQL will be issued:
 
 ```sql
 select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_
@@ -302,7 +302,7 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADD
 */
 ```
 
-サブクエリも使えます。
+The `inList` operator also accepts a subquery.
 
 ```kotlin
 QueryDsl.from(e).where {
@@ -328,7 +328,7 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADD
 */
 ```
 
-サブクエリも使えます。
+The `notInList` operator also accepts a subquery.
 
 ```kotlin
 QueryDsl.from(e).where {
@@ -353,7 +353,7 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where (t0_.AD
 */
 ```
 
-サブクエリも使えます。
+The `inList2` operator also accepts a subquery.
 
 ```kotlin
 QueryDsl.from(e).where {
@@ -379,7 +379,7 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where (t0_.AD
 */
 ```
 
-サブクエリも使えます。
+The `notInList2` operator also accepts a subquery.
 
 ```kotlin
 QueryDsl.from(e).where {
@@ -427,13 +427,13 @@ select t0_.EMPLOYEE_ID, t0_.EMPLOYEE_NO, t0_.EMPLOYEE_NAME, t0_.MANAGER_ID, t0_.
 */
 ```
 
-## 論理演算子 {#logical-operator}
+## Logical operators {#logical-operator}
 
-Having、On、When、Whereの [宣言]({{< relref "#declaration" >}}) の中で利用できます。
+Logical operators are available in the Having, On, When, and Where [Declarations]({{< relref "#declaration" >}}).
 
 ### and {#logical-operator-and}
 
-宣言の中で式を並べるとAND演算子で連結されます。
+Expressions in the declaration are implicitly concatenated using the AND operator.
 
 ```kotlin
 QueryDsl.from(a).where {
@@ -446,7 +446,7 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADD
 */
 ```
 
-明示的にAND演算子を使いたい場合は`and`関数にラムダ式を渡します。
+To explicitly concatenate expression using the AND operator, pass a lambda expression to the `and` function.
 
 ```kotlin
 QueryDsl.from(a).where {
@@ -463,7 +463,7 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADD
 
 ### or {#logical-operator-or}
 
-OR演算子で連結したい場合は`or`関数にラムダ式を渡します。
+To concatenate expressions using the OR operator, pass a lambda expression to the `or` function.
 
 ```kotlin
 QueryDsl.from(a).where {
@@ -480,7 +480,7 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADD
 
 ### not {#logical-operator-not}
 
-NOT演算子を使うには`not`関数にラムダ式を渡します。
+To use the NOT operator, pass a lambda expression to the `not` function.
 
 ```kotlin
 QueryDsl.from(a).where {
@@ -494,9 +494,9 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADD
 */
 ```
 
-## 算術演算子 {#arithmetic-operator}
+## Arithmetic operators {#arithmetic-operator}
 
-以下の演算子が使えます。
+The following operators are available as arithmetic operators:
 
 - `+`
 - `-`
@@ -504,9 +504,9 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ where t0_.ADD
 - `/`
 - `%`
 
-これらの演算子は`org.komapper.core.dsl.operator`に定義されています。
+These operators are defined in `org.komapper.core.dsl.operator`.
 
-`+`演算子を使った例を次に示します。
+The following is an example of using the `+` operator:
 
 ```kotlin
 QueryDsl.update(a).set {
@@ -519,9 +519,9 @@ update ADDRESS as t0_ set VERSION = (t0_.VERSION + ?) where t0_.ADDRESS_ID = ?
 */
 ```
 
-## 文字列関数 {#string-function}
+## String functions {#string-function}
 
-次の関数が使えます。
+The following functions are available as string functions:
 
 - concat
 - substring
@@ -531,9 +531,9 @@ update ADDRESS as t0_ set VERSION = (t0_.VERSION + ?) where t0_.ADDRESS_ID = ?
 - ltrim
 - rtrim
 
-これらの関数は`org.komapper.core.dsl.operator`に定義されています。
+These functions are defined in `org.komapper.core.dsl.operator`.
 
-`concat`関数を使った例を次に示します。
+The following is an example of using the `concat` function:
 
 ```kotlin
 QueryDsl.update(a).set {
@@ -546,9 +546,9 @@ update ADDRESS as t0_ set STREET = (concat((concat(?, t0_.STREET)), ?)) where t0
 */
 ```
 
-## 集約関数 {#aggregate-function}
+## Aggregate functions {#aggregate-function}
 
-次の関数が使えます。
+The following functions are available as aggregate functions:
 
 - avg
 - count
@@ -556,9 +556,9 @@ update ADDRESS as t0_ set STREET = (concat((concat(?, t0_.STREET)), ?)) where t0
 - max
 - min
 
-これらの関数は`org.komapper.core.dsl.operator`に定義されています。
+These functions are defined in `org.komapper.core.dsl.operator`.
 
-呼び出して得られる式は`having`や`select`で使われることを想定しています。
+The expression obtained by the aggregate function call is intended to be used with the `having` or `select` function:
 
 ```kotlin
 QueryDsl.from(e)
@@ -584,7 +584,7 @@ select avg(t0_.ADDRESS_ID) from ADDRESS as t0_
 
 ### count {#aggregate-function-count}
 
-SQLの`count(*)`に変換するには`count`関数を引数なしで呼び出します。
+To generate a SQL `count(*)`, call the `count` function with no arguments:
 
 ```kotlin
 QueryDsl.from(a).select(count())
@@ -593,7 +593,7 @@ select count(*) from ADDRESS as t0_
 */
 ```
 
-`count`関数をカラムを指定して呼び出すこともできます。
+It is possible to pass a metamodel property to the `count` function:
 
 ```kotlin
 QueryDsl.from(a).select(count(a.street))
@@ -629,9 +629,9 @@ select min(t0_.ADDRESS_ID) from ADDRESS as t0_
 */
 ```
 
-## CASE式 {#case-expression}
+## CASE expressions {#case-expression}
 
-CASE式を使うには`case`を呼び出します。
+To use a CASE expression, call the `case` function:
 
 ```kotlin
 val caseExpression = case(
@@ -653,9 +653,10 @@ select t0_.street, case when t0_.street = ? and t0_.address_id > ? then 'HIT' el
 */
 ```
 
-## スカラサブクエリ {#scalar-subquery}
+## Scalar subqueries {#scalar-subquery}
 
-集約関数を使ってスカラを返すクエリはサブクエリとして他のクエリの`select`関数に渡せます。
+A query that returns a scalar using an aggregate function is a scalar subquery.
+The scalar subquery can be passed to the `select` function of another query:
 
 ```kotlin
 val subquery = QueryDsl.from(e).where { d.departmentId eq e.departmentId }.select(count())
@@ -667,20 +668,20 @@ select t0_.department_name, (select count(*) from employee as t1_ where t0_.depa
 */
 ```
 
-## リテラル {#literal}
+## Literals {#literal}
 
-バインド変数を介さず直接値をリテラルとしてSQLに埋め込みたい場合は`literal`を呼び出します。
+To embed a value directly into SQL as a literal without binding variable, call the `literal` function.
 
-`literal`関数は`org.komapper.core.dsl.operator`に定義されています。
+These functions are defined in `org.komapper.core.dsl.operator`.
 
-`literal`関数がサポートする引数の型は以下のものです。
+The `literal` function supports the following argument types:
 
 - Boolean
 - Int
 - Long
 - String
 
-使用例です。
+Here is an example of literal function usage:
 
 ```kotlin
 QueryDsl.insert(a).values {
