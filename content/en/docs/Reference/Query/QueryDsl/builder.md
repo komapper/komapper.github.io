@@ -3,18 +3,17 @@ title: "Builder"
 linkTitle: "Builder"
 weight: 300
 description: >
-  クエリのビルダー
 ---
 
-## 概要 {#overview}
+## Overview {#overview}
 
-`QueryDsl`で構築可能なクエリ全体の一部を部品として定義し、それらを組み立てることで1つのクエリを構築できます。
-部品を定義する関数をビルダーと呼びます。
-ビルダー関数はすべて`org.komapper.core.dsl.query`に定義されます。
+A function that builds part of a query is called a builder.
+
+All builder functions are defined in `org.komapper.core.dsl.query`.
 
 ## where
 
-Where宣言を組み立てるビルダーです。
+The `where` function builds a Where declaration.
 
 ```kotlin
 val salaryWhere = where {
@@ -25,7 +24,7 @@ val query: Query<List<Employee>> = QueryDsl.from(e).where(salaryWhere)
 
 ## on
 
-On宣言を組み立てるビルダーです。
+The `on` function builds a On declaration.
 
 ```kotlin
 val departmentIdOn = on {
@@ -36,7 +35,7 @@ val query: Query<List<Employee>> = QueryDsl.from(e).innerJoin(d, departmentIdOn)
 
 ## having
 
-Having宣言を組み立てるビルダーです。
+The `having` function builds a Having declaration.
 
 ```kotlin
 val countHaving = having {
@@ -50,7 +49,7 @@ val query: Query<List<Int?>> = QueryDsl.from(e)
 
 ## set
 
-Assignment宣言を組み立てるビルダーです。
+The `set` function builds an Assignment declaration.
 
 ```kotlin
 val addressAssignment = set(a) {
@@ -61,12 +60,12 @@ val query: Query<Int> = QueryDsl.update(a).set(addressAssignment).where {
 }
 ```
 
-## value
+## values
 
-Assignment宣言を組み立てるビルダーです。
+The `values` function builds an Assignment declaration.
 
 ```kotlin
-val addressAssignment = set(a) {
+val addressAssignment = values(a) {
     a.street eq "STREET 16"
 }
 val query: Query<Pair<Int, Int?>> = QueryDsl.insert(a).values(addressAssignment)
@@ -74,9 +73,9 @@ val query: Query<Pair<Int, Int?>> = QueryDsl.insert(a).values(addressAssignment)
 
 ## join
 
-Join要素を組み立てるビルダーです。
+The `join` function builds a Join element.
 
-`join`関数により得られた値は、クエリの`innerJoin`や`leftJoin`の関数に渡せます。
+The Join element can be passed to the `innerJoin` or `leftJoin` functions:
 
 ```kotlin
 val departmentJoin = join(d) {
@@ -89,7 +88,7 @@ val query2: Query<List<Employee>> = QueryDsl.from(e).leftJoin(departmentJoin)
 
 ## groupBy
 
-GroupBy要素を組み立てるビルダーです。
+The `groupBy` function builds a list of column expressions.
 
 ```kotlin
 val groupByDepartmentId = groupBy(e.departmentId)
@@ -103,10 +102,10 @@ val query: Query<List<Int?>> = QueryDsl.from(e)
 
 ## orderBy
 
-OrderBy要素を組み立てるビルダーです。
+The `orderBy` function builds a list of sort expressions.
 
 ```kotlin
-val orderBySalaryAndNo = orderBy( e.salary, e.employeeNo)
+val orderBySalaryAndNo = orderBy(e.salary, e.employeeNo)
 val query: Query<List<Employee>> = QueryDsl.from(e).orderBy(orderBySalaryAndNo)
 ```
 

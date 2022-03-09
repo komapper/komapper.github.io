@@ -61,7 +61,7 @@ val query: Query<Int> = QueryDsl.update(a).set(addressAssignment).where {
 }
 ```
 
-## value
+## values
 
 Assignment宣言を組み立てるビルダーです。
 
