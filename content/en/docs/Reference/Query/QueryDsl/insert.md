@@ -278,7 +278,7 @@ The following mapping definitions are not considered:
 
 To customize the behavior of the query, call the `options` function.
 The `options` function accept a lambda expression whose parameter represents default options.
-Call the `copy` function on the parameter to change its properties.
+Call the `copy` function on the parameter to change its properties:
 
 ```kotlin
 val address: Address = Address(16, "STREET 16", 0)
