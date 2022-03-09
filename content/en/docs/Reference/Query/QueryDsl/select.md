@@ -489,7 +489,7 @@ val query: Query<List<Address>> = QueryDsl.from(a).options {
 
 The options that can be specified are as follows:
 
-allowEmptyWhereClause
+allowMissingWhereClause
 : Whether an empty WHERE clause is allowed or not. Default is `true`.
 
 escapeSequence

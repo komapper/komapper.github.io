@@ -57,13 +57,13 @@ delete from ADDRESS as t0_ where t0_.ADDRESS_ID = ? and t0_.VERSION = ?
 全件を削除するには`all`を呼び出します。
 
 ```kotlin
-val query: Query<Int> = QueryDsl.delete(e).all().options { it.copy(allowEmptyWhereClause = true) }
+val query: Query<Int> = QueryDsl.delete(e).all().options { it.copy(allowMissingWhereClause = true) }
 /*
 delete from EMPLOYEE as t0_
 */
 ```
 
-`options`を呼び出して`allowEmptyWhereClause`に`true`を設定する必要があります。
+`options`を呼び出して`allowMissingWhereClause`に`true`を設定する必要があります。
 
 このクエリを実行した場合の戻り値は削除された件数です。
 
@@ -79,10 +79,10 @@ delete from ADDRESS as t0_ where t0_.ADDRESS_ID = ?
 ```
 
 デフォルトではWHERE句の指定は必須です。もし`where`のブロック内で条件が指定されない場合は例外が発生します。
-意図的に全件削除を認めたい場合は`options`を呼び出して`allowEmptyWhereClause`に`true`を設定します。
+意図的に全件削除を認めたい場合は`options`を呼び出して`allowMissingWhereClause`に`true`を設定します。
 
 ```kotlin
-val query: Query<Int> = QueryDsl.delete(e).where {}.options { it.copy(allowEmptyWhereClause = true) }
+val query: Query<Int> = QueryDsl.delete(e).where {}.options { it.copy(allowMissingWhereClause = true) }
 /*
 delete from EMPLOYEE as t0_
 */
@@ -107,7 +107,7 @@ val query: Query<Unit> = QueryDsl.delete(a).single(address).options {
 
 指定可能なオプションには以下のものがあります。
 
-allowEmptyWhereClause
+allowMissingWhereClause
 : 空のWHERE句を認めるかどうかです。デフォルトは`false`です。
 
 escapeSequence

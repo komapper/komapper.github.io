@@ -58,14 +58,14 @@ the `org.komapper.core.OptimisticLockException` is thrown.
 To delete all rows, call the `all` function:
 
 ```kotlin
-val query: Query<Int> = QueryDsl.delete(e).all().options { it.copy(allowEmptyWhereClause = true) }
+val query: Query<Int> = QueryDsl.delete(e).all().options { it.copy(allowMissingWhereClause = true) }
 /*
 delete from EMPLOYEE as t0_
 */
 ```
 
 To allow deleting of all rows, you have to call the `options` function and
-set the `allowEmptyWhereClause` property to true.
+set the `allowMissingWhereClause` property to true.
 
 When the above query is executed, the return value is the number of deleted rows.
 
@@ -82,10 +82,10 @@ delete from ADDRESS as t0_ where t0_.ADDRESS_ID = ?
 
 By default, an exception is thrown if a WHERE clause is missing.
 To intentionally allow deleting of all rows, call the `options` function and
-set the `allowEmptyWhereClause` property to true:
+set the `allowMissingWhereClause` property to true:
 
 ```kotlin
-val query: Query<Int> = QueryDsl.delete(e).where {}.options { it.copy(allowEmptyWhereClause = true) }
+val query: Query<Int> = QueryDsl.delete(e).where {}.options { it.copy(allowMissingWhereClause = true) }
 /*
 delete from EMPLOYEE as t0_
 */
@@ -110,7 +110,7 @@ val query: Query<Unit> = QueryDsl.delete(a).single(address).options {
 
 The options that can be specified are as follows:
 
-allowEmptyWhereClause
+allowMissingWhereClause
 : Whether empty WHERE clauses are allowed or not. Default is `false`.
 
 escapeSequence

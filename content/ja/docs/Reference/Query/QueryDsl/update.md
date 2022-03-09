@@ -111,13 +111,13 @@ update ADDRESS as t0_ set STREET = ? where t0_.ADDRESS_ID = ?
 ```
 
 デフォルトではWHERE句の指定は必須でありWHERE句が指定されない場合は例外が発生します。
-意図的に全件更新を認める場合は`options`を呼び出して`allowEmptyWhereClause`に`true`を設定します。
+意図的に全件更新を認める場合は`options`を呼び出して`allowMissingWhereClause`に`true`を設定します。
 
 ```kotlin
 val query: Query<Int> = QueryDsl.update(e).set {
     e.employeeName eq "ABC"
 }.options { 
-    it.copy(allowEmptyWhereClause = true)
+    it.copy(allowMissingWhereClause = true)
 }
 ```
 
@@ -140,7 +140,7 @@ val query: Query<Address> = QueryDsl.update(a).single(address).options {
 
 指定可能なオプションには以下のものがあります。
 
-allowEmptyWhereClause
+allowMissingWhereClause
 : 空のWHERE句を認めるかどうかです。デフォルトは`false`です。
 
 escapeSequence

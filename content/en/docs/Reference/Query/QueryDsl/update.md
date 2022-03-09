@@ -115,13 +115,13 @@ update ADDRESS as t0_ set STREET = ? where t0_.ADDRESS_ID = ?
 
 By default, an exception is thrown if a WHERE clause is missing. 
 To intentionally allow updating of all rows, call the `options` function and 
-set the `allowEmptyWhereClause` property to true:
+set the `allowMissingWhereClause` property to true:
 
 ```kotlin
 val query: Query<Int> = QueryDsl.update(e).set {
     e.employeeName eq "ABC"
 }.options { 
-    it.copy(allowEmptyWhereClause = true)
+    it.copy(allowMissingWhereClause = true)
 }
 ```
 
@@ -144,7 +144,7 @@ val query: Query<Address> = QueryDsl.update(a).single(address).options {
 
 The options that can be specified are as follows:
 
-allowEmptyWhereClause
+allowMissingWhereClause
 : Whether empty WHERE clauses are allowed or not. Default is `false`.
 
 escapeSequence
