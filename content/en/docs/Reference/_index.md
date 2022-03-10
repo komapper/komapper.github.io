@@ -2,5 +2,5 @@
 title: "Reference"
 linkTitle: "Reference"
 weight: 4
-description: >
+description: More about Komapper features
 ---
