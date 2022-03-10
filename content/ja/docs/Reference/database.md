@@ -1,9 +1,7 @@
 ---
-title: "Database"
-linkTitle: "Database"
+title: "データベース"
 weight: 10
 description: >
-  データベース
 ---
 
 ## 概要 {#overview}
@@ -46,9 +44,7 @@ val db: JdbcDatabase = JdbcDatabase(
 )
 ```
 
-以下のドキュメントも参照ください。
-
-- [Dialect]({{< relref "Dialect" >}})
+[ダイアレクト]({{< relref "Dialect" >}})も参照ください。
 
 ### R2DBCを使う場合 {#instantiation-for-r2dbc}
 
@@ -82,9 +78,7 @@ val db: R2dbcDatabase = R2dbcDatabase(
 )
 ```
 
-以下のドキュメントも参照ください。
-
-- [Dialect]({{< relref "dialect.md" >}})
+[ダイアレクト]({{< relref "dialect.md" >}})も参照ください。
 
 ## Databaseインスタンスの利用 {#usage}
 
@@ -99,7 +93,7 @@ db.withTransaction {
 }
 ```
 
-詳細は [Transaction]({{< relref "transaction.md" >}}) を参照ください。
+詳細は [トランザクション]({{< relref "transaction.md" >}}) を参照ください。
 
 ### クエリの実行 {#query-execution}
 
@@ -121,11 +115,11 @@ val flow: Flow<Address> = db.flowQuery(query)
 
 データベースへのアクセスは`flowQuery`関数から返される`Flow`インスタンスを利用したときに初めて行われます。
 
-クエリの構築については [Query]({{< relref "query.md" >}}) を参照ください。
+クエリの構築については [クエリ]({{< relref "query.md" >}}) を参照ください。
 
 ### 低レベルAPIの実行 {#low-level-api-execution}
 
-[Query]({{< relref "query.md" >}}) APIが要件に合わない場合、低レベルAPIを直接利用できます。
+[クエリ]({{< relref "query.md" >}}) APIが要件に合わない場合、低レベルAPIを直接利用できます。
 
 JDBCのAPIを直接利用するには、`JdbcDatabase`インスタンスからいくつかのプロパティを呼び出して`java.sql.Connection`を取得します。
 

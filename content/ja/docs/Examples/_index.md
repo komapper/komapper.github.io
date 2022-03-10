@@ -1,6 +1,6 @@
 ---
-title: "Examples"
-linkTitle: "Examples"
+title: "サンプルアプリケーション"
+linkTitle: "サンプルアプリ"
 weight: 3
 description: >
   いくつかのサンプルアプリケーション

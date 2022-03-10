@@ -1,9 +1,8 @@
 ---
-title: "Composition"
-linkTitle: "Composition"
+title: "クエリの合成"
+linkTitle: "合成"
 weight: 110
 description: >
-  クエリの合成
 ---
 
 ## 概要 {#overview}

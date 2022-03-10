@@ -1,9 +1,8 @@
 ---
-title: "Database Config"
-linkTitle: "Database Config"
+title: "データベースの設定"
+linkTitle: "設定"
 weight: 12
 description: >
-  設定
 ---
 
 ## 概要 {#overview}
@@ -77,9 +76,7 @@ suppressLogging
 
 - komapper-slf4j
 
-以下のドキュメントも参照ください。
-
-- [Logging]({{< relref "logging.md" >}})
+[ロギング]({{< relref "logging.md" >}})も参照ください。
 
 ### loggerFacade
 
@@ -90,9 +87,7 @@ Komapperから出力されるログはすべてこのファサードを経由し
 
 ログメッセージやログレベルを変更するには、ファサードの実装を切り替えてください。
 
-以下のドキュメントも参照ください。
-
-- [Logging]({{< relref "logging.md" >}})
+[ロギング]({{< relref "logging.md" >}})も参照ください。
 
 ### statementInspector
 
@@ -117,6 +112,4 @@ SQLテンプレートから`org.komapper.core.Statement`を生成するビルダ
 
 - komapper-template
 
-以下のドキュメントも参照ください。
-
-- [TEMPLATE]({{< relref "Query/QueryDsl/template.md" >}})
+[Templateクエリ]({{< relref "Query/QueryDsl/template.md" >}})も参照ください。

@@ -1,6 +1,6 @@
 ---
-title: "Contribution Guidelines"
-linkTitle: "Contribution Guidelines"
+title: "貢献ガイドライン"
+linkTitle: "貢献ガイドライン"
 weight: 500
 description: >
   Komapperへ貢献する方法

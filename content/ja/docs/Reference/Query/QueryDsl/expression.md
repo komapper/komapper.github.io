@@ -1,9 +1,8 @@
 ---
-title: "Expression"
-linkTitle: "Expression"
+title: "クエリの式"
+linkTitle: "式"
 weight: 200
 description: >
-  クエリの構成要素である式
 ---
 
 ## 概要 {#overview}

@@ -1,6 +1,6 @@
 ---
-title: "SCHEMA"
-linkTitle: "SCHEMA"
+title: "Schemaクエリ"
+linkTitle: "Schema"
 weight: 60
 description: >
   テーブルの作成や削除のためのクエリ

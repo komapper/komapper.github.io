@@ -1,9 +1,8 @@
 ---
-title: "Builder"
-linkTitle: "Builder"
+title: "クエリビルダー"
+linkTitle: "ビルダー"
 weight: 300
 description: >
-  クエリのビルダー
 ---
 
 ## 概要 {#overview}

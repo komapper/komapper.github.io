@@ -1,9 +1,7 @@
 ---
-title: "Transaction"
-linkTitle: "Transaction"
+title: "トランザクション"
 weight: 40
 description: >
-  トランザクション
 ---
 
 ## 概要 {#overview}

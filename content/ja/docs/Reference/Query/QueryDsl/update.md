@@ -1,6 +1,6 @@
 ---
-title: "UPDATE"
-linkTitle: "UPDATE"
+title: "Updateクエリ"
+linkTitle: "Update"
 weight: 30
 description: >
   UPDATEクエリ

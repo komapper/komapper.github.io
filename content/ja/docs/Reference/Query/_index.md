@@ -1,8 +1,6 @@
 ---
-title: "Query"
-linkTitle: "Query"
+title: "クエリ"
 weight: 30
 description: >
-  クエリ
 ---
 

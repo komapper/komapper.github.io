@@ -1,6 +1,6 @@
 ---
-title: "TEMPLATE"
-linkTitle: "TEMPLATE"
+title: "Templateクエリ"
+linkTitle: "Template"
 weight: 50
 description: >
   SQLテンプレートを利用するクエリ
@@ -21,7 +21,7 @@ dependencies {
 ```
 
 {{< alert title="Note" >}}
-すべての [Starter]({{< relref "../../Starter" >}}) は上記の設定を含んでいます。
+すべての [スターター]({{< relref "../../Starter" >}}) は上記の設定を含んでいます。
 したがって、Starterを使う場合には上記の設定は不要です。
 {{< /alert >}}
 

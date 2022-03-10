@@ -1,6 +1,6 @@
 ---
-title: "Overview"
-linkTitle: "Overview"
+title: "概要"
+linkTitle: "概要"
 weight: 1
 description: >
   サーバーサイドKotlinのためのORMライブラリ
@@ -131,9 +131,9 @@ val query = QueryDsl.from(a).where { a.street eq "STREET 101" }.orderBy(a.id)
 ```
 
 アノテーションを使ったマッピングに関する詳細は
-[Entity Class]({{< relref "../Reference/entity-class" >}}) を、
+[エンティティクラス]({{< relref "../Reference/entity-class" >}}) を、
 コンパイル時のアノテーション処理に関する詳細は
-[Annotation Processing]({{< relref "../Reference/annotation-processing" >}}) を参照ください。
+[アノテーションプロセッシング]({{< relref "../Reference/annotation-processing" >}}) を参照ください。
 
 ### 不変で合成可能なクエリ {#immutable-and-composable-queries}
 
@@ -163,7 +163,7 @@ val (list4, list5) = db.runQuery { query4 }
 `where`関数などを使って既存のクエリを基に他のクエリを作るだけでなく、
 `zip`関数などを使って複数のクエリを単一のクエリに合成することもできます。
 
-クエリの合成に関する詳細は [Composition]({{< relref "../Reference/Query/composition" >}}) を参照ください。
+詳細は [クエリの合成]({{< relref "../Reference/Query/composition" >}}) を参照ください。
 
 ### Value Classのサポート {#support-for-kotlin-value-classes}
 
@@ -206,10 +206,10 @@ dependencies {
 動作する完全なコードについては [komapper-examples](https://github.com/komapper/komapper-examples)
 リポジトリ直下のspring-boot-jdbcとspring-boot-r2dbcのプロジェクトを参照ください。
 
-関連情報として [Starter]({{< relref "../Reference/Starter" >}}) も参照ください。
+関連情報として [スターター]({{< relref "../Reference/Starter" >}}) も参照ください。
 
 ## 次に見るべきドキュメント {#where-should-i-go-next}
 
-* [Quickstart]({{< relref "../Quickstart" >}})
-* [Examples]({{< relref "../Examples" >}})
+* [クイックスタート]({{< relref "../Quickstart" >}})
+* [サンプルアプリケーション]({{< relref "../Examples" >}})
 

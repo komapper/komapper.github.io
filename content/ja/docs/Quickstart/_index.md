@@ -1,6 +1,6 @@
 ---
-title: "Quickstart"
-linkTitle: "Quickstart"
+title: "クイックスタート"
+linkTitle: "クイックスタート"
 weight: 2
 description: >
   最小構成でKomapperを動かす

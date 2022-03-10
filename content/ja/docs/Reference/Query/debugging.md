@@ -1,9 +1,8 @@
 ---
-title: "Debugging"
-linkTitle: "Debugging"
+title: "クエリのデバッグ"
+linkTitle: "デバッグ"
 weight: 120
 description: >
-  クエリのデバッグ
 ---
 
 ## 概要 {#overview}
@@ -51,7 +50,7 @@ description
 
 ### Dialectの利用 {#dryrun-with-dialect}
 
-引数なしの`dryRun`関数は、接続先データベースの [Dialect]({{< relref "../dialect.md" >}}) を考慮しない結果を返します。
+引数なしの`dryRun`関数は、接続先データベースの [ダイアレクト]({{< relref "../dialect.md" >}}) を考慮しない結果を返します。
 Dialectを考慮した結果を取得したい場合は`DatabaseConfig`インスタンスを渡してください。
 
 ```kotlin

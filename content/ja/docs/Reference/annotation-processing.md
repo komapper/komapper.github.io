@@ -1,9 +1,8 @@
 ---
-title: "Annotation Processing"
-linkTitle: "Annotation Processing"
+title: "アノテーションプロセッシング"
+linkTitle: "プロセッシング"
 weight: 25
 description: >
-  アノテーションプロセッシング
 ---
 
 ## 概要 {#overview}

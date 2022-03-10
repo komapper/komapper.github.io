@@ -1,9 +1,8 @@
 ---
-title: "SELECT"
-linkTitle: "SELECT"
+title: "Selectクエリ"
+linkTitle: "Select"
 weight: 10
 description: >
-  SELECTクエリ
 ---
 
 ## 概要 {#overview}
@@ -90,7 +89,7 @@ select t0_.address_id, t0_.street, t0_.version from address as t0_ where t0_.add
 
 
 {{< alert color="warning" title="Warning" >}}
-利用している [Dialect]({{< relref "../../dialect.md" >}}) がLockオプションをサポートしない場合、
+利用している [ダイアレクト]({{< relref "../../dialect.md" >}}) がLockオプションをサポートしない場合、
 クエリの実行時に`UnsupportedOperationException`がスローされます。
 {{< /alert >}}
 
@@ -115,7 +114,7 @@ select t0_.address_id, t0_.street, t0_.version from address as t0_ inner join em
 ```
 
 {{< alert color="warning" title="Warning" >}}
-利用している [Dialect]({{< relref "../../dialect.md" >}}) がLock対象のテーブル指定をサポートしない場合、
+利用している [ダイアレクト]({{< relref "../../dialect.md" >}}) がLock対象のテーブル指定をサポートしない場合、
 クエリの実行時に`UnsupportedOperationException`がスローされます。
 {{< /alert >}}
 
@@ -337,7 +336,7 @@ val query: Query<List<Pair<Int?, String?>>> = (q1 union q2 union q3).orderBy("ID
 
 {{< alert title="Note" >}}
 `union`に加え、`unionAll`、`except`、`intersect`といった関数をセット演算子として利用できます。
-ただし、[Dialect]({{< relref "../../dialect.md" >}}) がサポートしていない場合、
+ただし、[ダイアレクト]({{< relref "../../dialect.md" >}}) がサポートしていない場合、
 クエリを実行した時点で`UnsupportedOperationException`がスローされます。
 {{< /alert >}}
 

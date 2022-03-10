@@ -1,9 +1,7 @@
 ---
-title: "Logging"
-linkTitle: "Logging"
+title: "ロギング"
 weight: 50
 description: >
-  ロギング
 ---
 
 ## 概要 {#overview}

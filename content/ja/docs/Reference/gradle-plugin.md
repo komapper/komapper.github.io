@@ -1,9 +1,7 @@
 ---
-title: "Gradle Plugin"
-linkTitle: "Gradle Plugin"
+title: "Gradleプラグイン"
 weight: 200
 description: >
-  Gradleプラグイン
 ---
 
 ## 概要 {#overview}
@@ -14,7 +12,7 @@ Komapperが提供するGradleプラグインは、
 - エンティティクラス
 - マッピング定義
 
-エンティティクラスやマッピング定義については [Entity Class]({{< relref "entity-class" >}}) を参照ください。
+エンティティクラスやマッピング定義については [エンティティクラス]({{< relref "entity-class" >}}) を参照ください。
 
 {{< alert title="Note" >}}
 Gradleプラグインの利用は必須ではありません。
@@ -80,7 +78,7 @@ $ ./gradlew komapperGenerator
 $ ./gradlew komapperPostgresqlGenerator
 ```
 
-[Examples]({{< relref "../Examples#codegen" >}}) も参考にしてください。
+[サンプルアプリケーション]({{< relref "../Examples#codegen" >}}) も参考にしてください。
 
 ## パラメータ一覧 {#parameter-list}
 

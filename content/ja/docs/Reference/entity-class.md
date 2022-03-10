@@ -1,9 +1,8 @@
 ---
-title: "Entity Class"
-linkTitle: "Entity Class"
+title: "エンティティクラス"
+linkTitle: "エンティティ"
 weight: 20
 description: >
-  エンティティクラス
 ---
 
 ## 概要 {#overview}
@@ -48,7 +47,7 @@ data class Address(
 )
 ```
 
-プロパティの型（Kotlinの型）とカラムの型（データベースの型）の対応関係は [Dialect]({{< relref "Dialect" >}}) で定義されます。
+プロパティの型（Kotlinの型）とカラムの型（データベースの型）の対応関係は [ダイアレクト]({{< relref "Dialect" >}}) で定義されます。
 
 ## マッピング定義 {#mapping-definition}
 
@@ -333,9 +332,8 @@ data class AddressDef(
 `alwaysQuote`プロパティに`true`を設定すると生成されるSQLの識別子が引用符で囲まれます。
 
 このアノテーションでテーブルの名前を指定しない場合、アノテーション処理の`komapper.namingStrategy`オプションに従って名前が解決されます。
-以下のドキュメントも参照ください。
 
-- [オプション]({{< relref "annotation-processing#options" >}})
+[アノテーションプロセッシングのオプション]({{< relref "annotation-processing#options" >}})も参照ください。
 
 ## プロパティに付与するアノテーション一覧 {#annotation-list-for-property}
 
@@ -387,8 +385,8 @@ val id: Int
 楽観的排他制御に使われるバージョン番号であることを表します。
 
 このアノテーションを付与すると、
-[UPDATE]({{< relref "query/QueryDsl/update" >}})や
-[DELETE]({{< relref "query/QueryDsl/delete" >}})で楽観的排他制御が行われます。
+[Updateクエリ]({{< relref "query/QueryDsl/update" >}})や
+[Deleteクエリ]({{< relref "query/QueryDsl/delete" >}})で楽観的排他制御が行われます。
 
 このアノテーションを付与するプロパティの型は次のいずれかでなければいけません。
 
@@ -402,7 +400,7 @@ val id: Int
 生成時のタイムスタンプであることを表します。
 
 このアノテーションを付与すると、
-[INSERT]({{< relref "query/QueryDsl/insert" >}})にてタイムスタンプがプロパティに設定されます。
+[Insertクエリ]({{< relref "query/QueryDsl/insert" >}})にてタイムスタンプがプロパティに設定されます。
 
 このアノテーションを付与するプロパティの型は次のいずれかでなければいけません。
 
@@ -415,8 +413,8 @@ val id: Int
 更新時のタイムスタンプであることを表します。
 
 このアノテーションを付与すると、
-[INSERT]({{< relref "query/QueryDsl/insert" >}})と
-[UPDATE]({{< relref "query/QueryDsl/update" >}})にてタイムスタンプがプロパティに設定されます。
+[Insertクエリ]({{< relref "query/QueryDsl/insert" >}})と
+[Updateクエリ]({{< relref "query/QueryDsl/update" >}})にてタイムスタンプがプロパティに設定されます。
 
 このアノテーションを付与するプロパティの型は次のいずれかでなければいけません。
 
@@ -438,9 +436,8 @@ val id: Nothing
 `masking`プロパティに`true`を設定すると、 ログの中で対応するデータがマスキングされます。
 
 このアノテーションでカラムの名前を指定しない場合、アノテーション処理の`komapper.namingStrategy`オプションに従って名前が解決されます。
-以下のドキュメントも参照ください。
 
-- [オプション]({{< relref "annotation-processing#options" >}})
+[アノテーションプロセッシングのオプション]({{< relref "annotation-processing#options" >}})も参照ください。
 
 ### @KomapperIgnore
 

@@ -1,9 +1,7 @@
 ---
-title: "Starter"
-linkTitle: "Starter"
+title: "スターター"
 weight: 100
 description: >
-  スターター
 ---
 
 ## 概要 {#overview}

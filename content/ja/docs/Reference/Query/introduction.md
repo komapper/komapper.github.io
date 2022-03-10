@@ -1,15 +1,14 @@
 ---
-title: "Introduction"
-linkTitle: "Introduction"
+title: "クエリの紹介"
+linkTitle: "紹介"
 weight: 1
 description: >
-  クエリの紹介
 ---
 
 ## 概要 {#overview}
 
 Komapperではクエリの構築と実行は分離されています。
-クエリの構築は各種のDSLが担い、実行はJDBCやR2DBCを表す [Database]({{< relref "../database.md" >}}) インスタンスが担います。
+クエリの構築は各種のDSLが担い、実行はJDBCやR2DBCを表す [データベース]({{< relref "../database.md" >}}) インスタンスが担います。
 
 ```kotlin
 // construct a query
@@ -24,15 +23,15 @@ val result: List<Address> = db.runQuery { query }
 
 複数のクエリを1つのクエリに合成する方法については下記のページを参照ください。
 
-- [Composition]({{< relref "composition.md" >}})
+- [クエリの合成]({{< relref "composition.md" >}})
 
 クエリのデバッグの仕方については下記のページを参照ください。
 
-- [Debugging]({{< relref "debugging.md" >}})
+- [クエリのデバッグ]({{< relref "debugging.md" >}})
 
 ## 前提条件 {#prerequisites}
 
-[Query]({{< relref "../Query" >}}) の下位ページでは、下記のエンティティ定義、マッピング定義、変数が存在することを前提に説明をします。
+[クエリ]({{< relref "../Query" >}}) の下位ページでは、下記のエンティティ定義、マッピング定義、変数が存在することを前提に説明をします。
 
 ```kotlin
 data class Address(

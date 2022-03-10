@@ -1,9 +1,7 @@
 ---
-title: "Dialect"
-linkTitle: "Dialect"
+title: "ダイアレクト"
 weight: 15
 description: >
-  方言
 ---
 
 ## 概要 {#overview}

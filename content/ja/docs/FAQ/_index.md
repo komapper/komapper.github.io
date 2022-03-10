@@ -22,7 +22,7 @@ Java 11 以上のバージョンです。
 
 Gradle 7.2 以上のバージョンです。
 
-Komapperが提供する [Gradle Plugin]({{< relref "../Reference/gradle-plugin" >}}) を使わない場合、
+Komapperが提供する [Gradleプラグイン]({{< relref "../Reference/gradle-plugin" >}}) を使わない場合、
 より小さいバージョンでも動作します。
 しかし、その場合であっても、 [KSP](https://github.com/google/ksp) がサポートするGradleのバージョン以上でなければいけません。
 
