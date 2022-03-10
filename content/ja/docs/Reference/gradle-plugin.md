@@ -12,7 +12,7 @@ Komapperが提供するGradleプラグインは、
 データベースのメタデータから次の2種類のKotlinソースコードを生成します。
 
 - エンティティクラス
-- エンティティクラスのマッピング定義
+- マッピング定義
 
 エンティティクラスやマッピング定義については [Entity Class]({{< relref "entity-class" >}}) を参照ください。
 
@@ -21,13 +21,13 @@ Gradleプラグインの利用は必須ではありません。
 データベース上にテーブル定義がすでに存在する場合に利用を検討ください。
 {{< /alert >}}
 
-## 利用方法 {#usage}
+## 利用方法 {#how-to-use}
 
-プラグインの最新版はGradleプラグインのポータルのサイトで確認できます。
+プラグインの最新版は 
+[Gradleプラグインのポータルのサイト](https://plugins.gradle.org/plugin/org.komapper.gradle) 
+で確認できます。
 
-- https://plugins.gradle.org/plugin/org.komapper.gradle
-
-下記のコードはプラグインを利用したgradle.ktsファイルの例（抜粋）です。
+下記のコードはプラグインを利用したGradleビルドスクリプトの例です。
 
 ```kotlin
 buildscript {
@@ -49,30 +49,26 @@ plugins {
 
 // Komapperプラグインに関する設定を行う
 komapper {
-    // Komapperプラグインの中でもコード生成に関するプラグインの利用を示す
     generators {
         // 利用するデータベースごとにregisterブロックに適当な名前をつけてブロック内に設定を記述する
         register("postgresql") {
             val initScript = file("src/main/resources/init_postgresql.sql")
-            // JDBCパラメータの設定。Testcontainers上のPostgreSQLを利用する。
+            // JDBCパラメータの設定。Testcontainers上のPostgreSQLを利用する
             jdbc {
                 driver.set("org.testcontainers.jdbc.ContainerDatabaseDriver")
                 url = "jdbc:tc:postgresql:13.3:///test?TC_INITSCRIPT=file:${initScript.absolutePath}",
                 user = "test",
                 password = "test"
             }
-            // packageNameパラメータの設定
             packageName.set("org.komapper.example.postgresql")
-            // overwriteEntitiesパラメータの設定
             overwriteEntities.set(true)
-            // overwriteDefinitionsパラメータの設定
             overwriteDefinitions.set(true)
         }
     }
 }
 ```
 
-上記の設定をした上で下記のコマンドを実行するとコードを生成できます。
+上記の設定をした上で下記のコマンドを実行するとエンティティクラスやマッピング定義のコードを生成できます。
 
 ```sh
 $ ./gradlew komapperGenerator
@@ -94,13 +90,13 @@ $ ./gradlew komapperPostgresqlGenerator
 
 JDBCドライバのクラス名を表します。
 
-設定必須です。
+<span class="-text-red">設定必須</span>です。
 
 ### jdbc.url
 
 JDBCのURLを表します。
 
-設定必須です。
+<span class="-text-red">設定必須</span>です。
 
 ### jdbc.user
 
@@ -112,72 +108,65 @@ JDBCのパスワードを表します。
 
 ### catalog
 
-接続先データベースのカタログです。
+データベースのメタデータ取得に使われるカタログです。
 
-設定は必須ではありません。
-
-`java.sql.DatabaseMetaData#getTables`メソッドの同名のパラメータに渡されます。
+この値はパラメータとして
+[DatabaseMetaData#getTables](https://docs.oracle.com/en/java/javase/11/docs/api/java.sql/java/sql/DatabaseMetaData.html#getTables(java.lang.String,java.lang.String,java.lang.String,java.lang.String%5B%5D))
+メソッドに渡されます。
 
 ### schemaPattern
 
-接続先データベースの読み込み対象スキーマです。
+データベースのメタデータ取得に使われるスキーマのパターンです。
 
 `SALES%`のようにLIKE述語と同様の記述ができます。
 
-設定は必須ではありません。
-
-`java.sql.DatabaseMetaData#getTables`メソッドの同名のパラメータに渡されます。
+この値はパラメータとして
+[DatabaseMetaData#getTables](https://docs.oracle.com/en/java/javase/11/docs/api/java.sql/java/sql/DatabaseMetaData.html#getTables(java.lang.String,java.lang.String,java.lang.String,java.lang.String%5B%5D))
+メソッドに渡されます。
 
 ### tableNamePattern
 
-接続先データベースの読み込み対象テーブルです。
+データベースのメタデータ取得に使われるテーブルのパターンです。
 
 `JOB%`のようにLIKE述語と同様の記述ができます。
 
-設定は必須ではありません。
-
-`java.sql.DatabaseMetaData#getTables`メソッドの同名のパラメータに渡されます。
+この値はパラメータとして
+[DatabaseMetaData#getTables](https://docs.oracle.com/en/java/javase/11/docs/api/java.sql/java/sql/DatabaseMetaData.html#getTables(java.lang.String,java.lang.String,java.lang.String,java.lang.String%5B%5D))
+メソッドに渡されます。
 
 ### tableTypes
 
-接続先のテーブルのタイプです。
+データベースのメタデータ取得に使われるテーブルタイプです。
 
-設定は必須ではありません。
-
-デフォルトの値は`TABLE`のみを含んだ`List`です。
-`List`は以下のような値を含むことができます。
+デフォルトの値は`TABLE`のみを含んだリストです。
+このパラメータは以下のような値を含むことができます。
 
 - TABLE
 - VIEW
-- SYSTEM TABLE
-- GLOBAL TEMPORARY
-- LOCAL TEMPORARY
-- ALIAS
-- SYNONYM
 
-`java.sql.DatabaseMetaData#getTables`メソッドの同名のパラメータに渡されます。
+この値はパラメータとして
+[DatabaseMetaData#getTables](https://docs.oracle.com/en/java/javase/11/docs/api/java.sql/java/sql/DatabaseMetaData.html#getTables(java.lang.String,java.lang.String,java.lang.String,java.lang.String%5B%5D))
+メソッドに渡されます。
 
 ### destinationDir
 
 生成されるKotlinソースコードの出力先です。
 
+デフォルトの値は`src/main/kotlin`です。
+
+{{< alert title="Note" >}}
 エンティティクラスのソースコードは`entities.kt`、マッピング定義のソースコードは`entityDefinitions.kt`というファイル名で出力されます。
 
-設定は必須ではありません。
-
-デフォルトの値は`src/main/kotlin`です。
+これらのファイル名は変更できません。
+{{< /alert >}}
 
 ### packageName
 
 生成されるエンティティクラスやマッピング定義クラスのパッケージ名です。
 
-設定は必須ではありません。
-
 ### prefix
 
-生成されるエンティティクラス名のプレフィックスです。
-
-設定は必須ではありません。
+生成されるエンティティクラスの単純名のプレフィックスです。
 
 デフォルトの値は空文字です。
 
@@ -185,15 +174,11 @@ JDBCのパスワードを表します。
 
 生成されるエンティティクラス名のサフィックスです。
 
-設定は必須ではありません。
-
 デフォルトの値は空文字です。
 
 ### overwriteEntities
 
 生成されるエンティティクラスのソースコードを上書きするかどうかを表します。
-
-設定は必須ではありません。
 
 デフォルトの値は`false`です。
 
@@ -201,15 +186,11 @@ JDBCのパスワードを表します。
 
 生成されるマッピング定義のソースコードを上書きするかどうかを表します。
 
-設定は必須ではありません。
-
 デフォルトの値は`false`です。
 
 ### declareAsNullable
 
 生成されるエンティティクラスの全プロパティをNULL許容型として宣言するかどうかを表します。
-
-設定は必須ではありません。
 
 デフォルトの値は`false`です。
 この値が`false`の場合、 NULL許容型として宣言するかどうかはプロパティごとにデータベースのメタデータから判定します。
@@ -218,15 +199,11 @@ JDBCのパスワードを表します。
 
 生成されるマッピング定義でカタログ名を明示するかどうかを表します。
 
-設定は必須ではありません。
-
 デフォルトの値は`false`です。
 
 ### useSchema
 
 生成されるマッピング定義でスキーマ名を明示するかどうかを表します。
-
-設定は必須ではありません。
 
 デフォルトの値は`false`です。
 
@@ -234,15 +211,11 @@ JDBCのパスワードを表します。
 
 生成されるエンティティクラスのプロパティの型を決定するリゾルバです。
 
-`org.komapper.codegen.PropertyTypeResolver`のインスタンスを設定してください。
-
-`PropertyTypeResolver.of()`とすることでデフォルトのインスタンスを生成できます。
+デフォルト値は`org.komapper.codegen.PropertyTypeResolver.of()`です。
 
 ### enquote
 
-SQLの識別子を引用符で囲むことを行う関数です
+SQLの識別子を引用符で囲むことを行う関数です。
 
-`org.komapper.codegen.Enquote`のインスタンスを設定してください。
-
-`Enquote.of()`とすることでデフォルトのインスタンスを生成できます。
+デフォルト値は`org.komapper.codegen.Enquote.of()`です。
 
