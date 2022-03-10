@@ -3,15 +3,14 @@ title: "TEMPLATE"
 linkTitle: "TEMPLATE"
 weight: 50
 description: >
-  SQLテンプレートを利用するクエリ
 ---
 
-## 概要 {#overview}
+## Overview {#overview}
 
-TEMPLATEクエリはSQLテンプレートを利用して構築します。
+TEMPLATE queries are constructed using SQL templates.
 
-TEMPLATEクエリはコアのモジュールには含まれないオプション機能です。
-利用するにはGradleの依存関係に次のような宣言が必要です。
+The TEMPLATE query is an optional feature not included in the core module.
+To use it, the following dependency declaration must be included in your Gradle build script:
 
 ```kotlin
 val komapperVersion: String by project
@@ -21,163 +20,141 @@ dependencies {
 ```
 
 {{< alert title="Note" >}}
-すべての [Starter]({{< relref "../../Starter" >}}) は上記の設定を含んでいます。
-したがって、Starterを使う場合には上記の設定は不要です。
+The above dependency declaration is not necessary when using [Starters]({{< relref "../../Starter" >}}).
 {{< /alert >}}
 
 {{< alert title="Note" >}}
-`komapper-template`モジュールは内部でリフレクションを使います。
+The `komapper-template` module uses reflection internally.
 {{< /alert >}}
 
 ## fromTemplate
 
-検索を実施するには`fromTemplate`関数に [SQLテンプレート]({{< relref "#sql-template" >}})、`bind`関数にSQLテンプレート内で利用したいデータを渡します。
-SQLテンプレート内の各種ディレクティブではデータのpublicなメンバを参照できます。
-検索結果を任意の型に変換するために`select`関数にラムダ式を渡します。
-
-```kotlin
-data class Condition(val street: String)
-
-val sql = "select * from ADDRESS where street = /*street*/'test'"
-val data = Condition("STREET 10")
-val query: Query<List<Address>> = QueryDsl.fromTemplate(sql).bind(data).select { row: Row ->
-    Address(
-        row.asInt("address_id")!!,
-        row.asString("street")!!,
-        row.asInt("version")!!
-    )
-}
-```
-
-上述の例では`bind`関数に`Condition`クラスのインスタンスを渡していますが、代わりにobject式を渡すこともできます。
+To issue a SELECT statement, call the `fromTemplate`, `bind`, and `select` functions as follows:
 
 ```kotlin
 val sql = "select * from ADDRESS where street = /*street*/'test'"
-val query: Query<List<Address>> = QueryDsl.fromTemplate(sql).bind(
-    object {
-        val street = "STREET 10"
+val query: Query<List<Address>> = QueryDsl.fromTemplate(sql)
+    .bind("street", "STREET 10")
+    .select { row: Row ->
+        Address(
+            row.asInt("address_id")!!,
+            row.asString("street")!!,
+            row.asInt("version")!!
+        )
     }
-).select { row: Row ->
-    Address(
-        row.asInt("address_id")!!,
-        row.asString("street")!!,
-        row.asInt("version")!!
-    )
-}
 ```
 
-`select`関数に渡すラムダ式に登場する`Row`は`java.sql.ResultSet`や`io.r2dbc.spi.Row`の薄いラッパーです。
-カラムのラベル名やインデックスで値を取得する関数を持ちます。
-なお、インデックスは0から始まります。
+The `fromTemplate` function accepts a string of [SQL template]({{< relref "#sql-template" >}}).
+
+The `bind` function binds a value to a [bind variable directive]({{< relref "#sql-template-bind-variable-directive" >}}).
+
+The `select` function converts a `Row` to any type using the given lambda expression.
+`Row` is a thin wrapper around `java.sql.ResultSet` and `io.r2dbc.spi.Row`.
+It has functions to retrieve values by column label or index.
+Note that the index starts from 0.
 
 ### options {#select-options}
 
-クエリの挙動をカスタマイズするには`options`を呼び出します。
-ラムダ式のパラメータはデフォルトのオプションを表します。
-変更したいプロパティを指定して`copy`メソッドを呼び出してください。
+To customize the behavior of the query, call the `options` function.
+The `options` function accept a lambda expression whose parameter represents default options.
+Call the `copy` function on the parameter to change its properties:
 
 ```kotlin
 val sql = "select * from ADDRESS where street = /*street*/'test'"
-val query: Query<List<Address>> = QueryDsl.fromTemplate(sql).options {
-  it.copty(
-    fetchSize = 100,
-    queryTimeoutSeconds = 5
-  )
-}.bind(
-  object {
-    val street = "STREET 10"
-  }
-).select { row: Row ->
-  Address(
-    row.asInt("address_id")!!,
-    row.asString("street")!!,
-    row.asInt("version")!!
-  )
-}
+val query: Query<List<Address>> = QueryDsl.fromTemplate(sql)
+    .options {
+        it.copty(
+            fetchSize = 100,
+            queryTimeoutSeconds = 5
+        )
+    }
+    .bind("street", "STREET 10")
+    .select { row: Row ->
+        Address(
+            row.asInt("address_id")!!,
+            row.asString("street")!!,
+            row.asInt("version")!!
+        )
+    }
 ```
 
-指定可能なオプションには以下のものがあります。
+The options that can be specified are as follows:
 
 escapeSequence
-: LIKE句に指定されるエスケープシーケンスです。デフォルトは`null`で`Dialect`の値を使うことを示します。
+: Escape sequence specified for the LIKE predicate. The default is `null` to indicate the use of Dialect values.
 
 fetchSize
-: フェッチサイズです。デフォルトは`null`でドライバの値を使うことを示します。
+: Default is `null` to indicate that the driver value should be used.
 
 maxRows
-: 最大行数です。デフォルトは`null`でドライバの値を使うことを示します。
-
-queryTimeoutSeconds
-: クエリタイムアウトの秒数です。デフォルトは`null`でドライバの値を使うことを示します。
-
-suppressLogging
-: SQLのログ出力を抑制するかどうかです。デフォルトは`false`です。
-
-[executionOptions]({{< relref "../../database-config/#executionoptions" >}})
-の同名プロパティよりもこちらに明示的に設定した値が優先的に利用されます。
-
-## executeTemplate
-
-更新系のDMLを実行するには`executeTemplate`関数に [SQLテンプレート]({{< relref "#sql-template" >}})、`bind`関数にSQLテンプレート内で利用したいデータを渡します。
-SQLテンプレート内の各種ディレクティブではデータのpublicなメンバを参照できます。
-
-クエリ実行時にキーが重複した場合、`org.komapper.core.UniqueConstraintException`がスローされます。
-
-```kotlin
-data class Condition(val id: Int, val street: String)
-
-val sql = "update ADDRESS set street = /*street*/'' where address_id = /*id*/0"
-val data = Condition(15, "NY street")
-val query = Query<Int> = QueryDsl.executeTemplate(sql).bind(data)
-```
-
-上述の例では`bind`関数に`Condition`クラスのインスタンスを渡していますが、代わりにobject式を渡すこともできます。
-
-```kotlin
-val sql = "update ADDRESS set street = /*street*/'' where address_id = /*id*/0"
-val query = Query<Int> = QueryDsl.executeTemplate(sql).bind( object { id = 15, street = "NY street" } )
-```
-
-### options {#execute-options}
-
-クエリの挙動をカスタマイズするには`options`を呼び出します。
-ラムダ式のパラメータはデフォルトのオプションを表します。
-変更したいプロパティを指定して`copy`メソッドを呼び出してください。
-
-```kotlin
-data class Condition(val id: Int, val street: String)
-
-val sql = "update ADDRESS set street = /*street*/'' where address_id = /*id*/0"
-val data = Condition(15, "NY street")
-val query = Query<Int> = QueryDsl.executeTemplate(sql).bind(data).options {
-    it.copty(
-      queryTimeoutSeconds = 5
-    )
-}
-```
-
-指定可能なオプションには以下のものがあります。
-
-escapeSequence
-: LIKE句に指定されるエスケープシーケンスです。デフォルトは`null`で`Dialect`の値を使うことを示します。
+: Default is `null` to indicate use of the driver's value.
 
 queryTimeoutSeconds
 : Query timeout in seconds. Default is `null` to indicate that the driver value should be used.
 
 suppressLogging
-: SQLのログ出力を抑制するかどうかです。デフォルトは`false`です。
+: Whether to suppress SQL log output. Default is `false`.
 
-[executionOptions]({{< relref "../../database-config/#executionoptions" >}})
-の同名プロパティよりもこちらに明示的に設定した値が優先的に利用されます。
+Properties explicitly set here will be used in preference to properties with the same name that exist
+in [executionOptions]({{< relref "../../database-config/#executionoptions" >}}).
 
-## SQLテンプレート  {#sql-template}
+## executeTemplate
 
-Komapperが提供するSQLテンプレートはいわゆる2-Way-SQL対応のテンプレートです。
-バインド変数や条件分岐に関する記述をSQLコメントで表現するため、
-テンプレートをアプリケーションで利用できるだけでなく、[pgAdmin](https://www.pgadmin.org/)
-など一般的なSQLツールでも実行できます。
+To issue a DML(Data Manipulation Language) statement, call the `executeTemplate` and `bind` functions as follows:
 
-例えば条件分岐とバインド変数を含んだSQLテンプレートは次のようになります。
+```kotlin
+val sql = "update ADDRESS set street = /*street*/'' where address_id = /*id*/0"
+val query: Query<Int> = QueryDsl.executeTemplate(sql)
+    .bind("id", 15)
+    .bind("street", "NY street")
+```
+
+The `executeTemplate` function accepts a string of [SQL template]({{< relref "#sql-template" >}}).
+
+The `bind` function binds a value to a [bind variable directive]({{< relref "#sql-template-bind-variable-directive" >}}).
+
+If a duplicate key is detected during query execution,
+the `org.komapper.core.UniqueConstraintException` is thrown.
+
+### options {#execute-options}
+
+To customize the behavior of the query, call the `options` function.
+The `options` function accept a lambda expression whose parameter represents default options.
+Call the `copy` function on the parameter to change its properties:
+
+```kotlin
+val sql = "update ADDRESS set street = /*street*/'' where address_id = /*id*/0"
+val query = Query<Int> = QueryDsl.executeTemplate(sql)
+    .bind("id", 15)
+    .bind("street", "NY street")
+    .options {
+        it.copty(
+            queryTimeoutSeconds = 5
+        )
+    }
+```
+
+The options that can be specified are as follows:
+
+escapeSequence
+: Escape sequence specified for the LIKE predicate. The default is `null` to indicate the use of Dialect values.
+
+queryTimeoutSeconds
+: Query timeout in seconds. Default is `null` to indicate that the driver value should be used.
+
+suppressLogging
+: Whether to suppress SQL log output. Default is `false`.
+
+Properties explicitly set here will be used in preference to properties with the same name that exist
+in [executionOptions]({{< relref "../../database-config/#executionoptions" >}}).
+
+## SQL templates  {#sql-template}
+
+In SQL template, directives such as bind variables and conditional branches are expressed as SQL comments.
+Therefore, you can paste a string from the SQL template into a tool
+such as [pgAdmin](https://www.pgadmin.org/) to execute it.
+
+For example, an SQL template containing a conditional branch and a bind variable is written as follows:
 
 ```sql
 select name, age from person where
@@ -187,25 +164,30 @@ select name, age from person where
 order by name
 ```
 
-上記のテンプレートはアプリケーション上で`name != null`が真と評価されるとき次のSQLに変換されます。
+In the above SQL template, if `name != null` is true, the following SQL is generated:
 
 ```sql
 select name, age from person where name = ? order by name
 ```
 
-`name != null`が偽と評価されるとき次のSQLに変換されます。
+Conversely, if `name != null` is false, the following SQL is generated:
 
 ```sql
 select name, age from person order by name
 ```
 
 {{< alert title="Note" >}}
-上述の例で`name != null`が偽と評価されるとき最終的にSQLに`where`キーワードが含まれていないことに気づいたでしょうか？
-KomapperのSQLテンプレートは、WHERE句、HAVING句、GROUP BY句、ORDER BY句の内側にSQLの要素が1つも含まれない場合その句を表すキーワードを出力しません。
-したがって、不正なSQLが生成されることを防ぐために`1 = 1`を必ずWHERE句に含めるなどの対応は不要です。
+In the example above, did you notice that if `name != null` is false, 
+the generated SQL does not contain a WHERE clause?
+
+The SQL template does not output WHERE, HAVING, GROUP BY, or ORDER BY clauses
+if they do not have any SQL identifiers or keywords.
+
+Thus, there is no need to always include `1 = 1` in the WHERE clause 
+to prevent incorrect SQL from being generated:
 
 ```kotlin
-select name, age from person where 1 = 1  // このような対応は不要
+select name, age from person where 1 = 1  // unnecessary
 /*%if name != null*/
   and name = /*name*/'test'
 /*%end*/
@@ -213,74 +195,95 @@ order by name
 ```
 {{< /alert >}}
 
+### Bind variable directives  {#sql-template-bind-variable-directive}
 
-### バインド変数ディレクティブ  {#sql-template-bind-variable-directive}
+To represent bind variables, use bind variable directives.
 
-バインド変数は`/*expression*/`のように`/*`と`*/`で囲んで表します。
-`expression`には任意の値を返す式が入ります。
+Bind variable directives are simple SQL comments enclosed in `/*` and `*/`.
+They require test data immediately after the directive.
 
-次の`'test'`のようにディレクティブの直後にはテスト用の値が必須です。
+In the following example, `/*name*/` is the bind variable directive, 
+and the following `'test'` is the test data:
 
 ```sql
 where name = /*name*/'test'
 ```
 
-最終的にはテスト用の値は取り除かれ上述のテンプレートは次のようなSQLに変換されます。
-`/*name*/`は`?`に置換され、`?`には`name`が返す値がバインドされます。
+Test data exists only to preserve correct SQL syntax. It is not used by the application.
+In the process of parsing the template, test data is removed and bind variables are resolved.
+Finally, the above template is converted to SQL as follows:
 
 ```sql
 where name = ?
 ```
 
-IN句にバインドするには`expression`は`Iterable`型の値でなければいけません。
+To bind a value to an IN clause, the bound value must be `kotlin.collections.Iterable`.
+In the following example, `names` is `Iterable<String>`, and the following `('a', 'b')` is the test data:
 
 ```sql
 where name in /*names*/('a', 'b')
 ```
 
-IN句にタプル形式で値をバインドするには`expression`を`Iterable<Pair>`型や`Iterable<Triple>`型の値にします。
+To bind a `Pair` value to an IN clause, the bound value must be `kotlin.collections.Iterable<Pair>`
+In the following example, `pairs` is `Iterable<Pair<String, String>>`, 
+and the following `(('a', 'b'), ('c', 'd'))` is the test data:
 
 ```sql
 where (name, age) in /*pairs*/(('a', 'b'), ('c', 'd'))
 ```
 
-### リテラル変数ディレクティブ {#sql-template-literal-variable-directive}
+### Literal variable directives {#sql-template-literal-variable-directive}
 
-リテラル変数は`/*^expression*/`のように`/*^`と`*/`で囲んで表します。
-`expression`には任意の値を返す式が入ります。
+To represent literals, use literal variable directives.
 
-次の`'test'`のようにディレクティブの直後にはテスト用の値が必須です。
+Literal variable directives are SQL comments enclosed in `/*^` and `*/`.
+They require test data immediately after the directive.
+
+In the following example, `/*^myLiteral*/` is the literal variable directive,
+and the following `'test'` is the test data:
 
 ```sql
-where name = /*^name*/'test'
+where name = /*^myLiteral*/'test'
 ```
 
-最終的にはテスト用の値は取り除かれ上述のテンプレートは次のようなSQLに変換されます。
-`/*^name*/`は`name`が返す値（この例では`"abc"`）のリテラル表現（`'abc'`）で置換されます。
+Test data exists only to preserve correct SQL syntax. It is not used by the application.
+In the process of parsing the template, test data is removed and literal variables are resolved.
+Finally, the above template is converted to SQL as follows:
 
 ```sql
 where name = 'abc'
 ```
 
-### 埋め込み変数ディレクティブ {#sql-template-embedded-variable-directive}
+### Embedded variable directives {#sql-template-embedded-variable-directive}
 
-埋め込み変数は`/*#expression*/`のように`/*#`と`*/`で囲んで表します。
-`expression`には任意の値を返す式が入ります。
+To embed sql fragments, use embedded variable directives.
+
+Embedded variable directives are SQL comments enclosed in `/*#` and `*/`.
+Unlike other variable directives, they do not require test data immediately after the directive.
+
+In the following example, `/*# orderBy */` is the embedded variable directive:
 
 ```sql
 select name, age from person where age > 1 /*# orderBy */
 ```
 
-上述の`orderBy`の式が`"order by name"`という文字列を返す場合、最終的なSQLは次のように変換されます。
+In the example above, if the `orderBy` expression evaluates to `order by name`, 
+the template is converted to the following SQL:
 
 ```sql
 select name, age from person where age > 1 order by name
 ```
 
-### ifディレクティブ {#sql-template-if-directive}
+### if directives {#sql-template-if-directive}
 
-ifの条件分岐は`/*%if expression*/`で始めて`/*%end*/`で終わります。
-`expression`には真偽値を返す式が入ります。
+To start conditional branching, use if directives.
+
+If directives are SQL comments enclosed in `/*%if` and `*/`.
+
+A conditional branch must begin with an if directive and 
+end with an [end directive]({{< relref "#sql-template-end-directive" >}}).
+
+In the following example, `/*%if name != null*/` is the if directive:
 
 ```kotlin
 /*%if name != null*/
@@ -288,7 +291,7 @@ ifの条件分岐は`/*%if expression*/`で始めて`/*%end*/`で終わります
 /*%end*/
 ```
 
-`/*%if expression*/`と`/*%end*/`の間に`/*%else*/`を入れることもできます。
+You can also put an else directive between an if directive and an end directive:
 
 ```kotlin
 /*%if name != null*/
@@ -298,12 +301,16 @@ ifの条件分岐は`/*%if expression*/`で始めて`/*%end*/`で終わります
 /*%end*/
 ```
 
-### forディレクティブ {#sql-template-for-directive}
+### for directives {#sql-template-for-directive}
 
-forを使ったループは`/*%for identifier in expression */`で始めて`/*%end*/`で終わります。
-`expression`には`Iterable`を返す式が入り`identifier`は`Iterable`のそれぞれの要素を表す識別子となります。
-forのループの中では`identifier`に`_has_next`のプレフィックをつけた識別子が利用可能になります。
-これは次の繰り返し要素が存在するかどうかを表す真偽値を返します。
+To start loop processing, use for directives.
+
+For directives are SQL comments enclosed in `/*%for` and `*/`.
+
+A loop process must begin with a for directive and
+end with an [end directive]({{< relref "#sql-template-end-directive" >}}).
+
+In the following example, `/*%for name in names */` is the for directive:
 
 ```sql
 /*%for name in names */
@@ -314,19 +321,33 @@ employee_name like /* name */'hoge'
 /*%end*/
 ```
 
-### 式 {#sql-template-expression}
+In the `/*%for name in names */` directive, the `names` express an `Iterable` object 
+and the `name` is an identifier for each element of the `Iterable` object.
 
-ディレクティブ内で参照される式の中では以下の機能がサポートされています。
+Between the for and end directives, a special variable is available.
+The special variable returns a boolean value indicating whether the next iteration should be executed.
+The name of the special variable is a concatenation of the identifier and `_has_next`.
+In the above example, the name of the special variable is `name_has_next`.
 
-- 演算子の実行
-- プロパティアクセス
-- 関数呼び出し
-- クラス参照
-- 拡張プロパティや拡張関数の利用
+### end directive {#sql-template-end-directive}
 
-#### 演算子 {#sql-template-expression-operator}
+To end conditional branching and loop processing, use end directives.
 
-次の演算子がサポートされています。意味はKotlinの演算子と同じです。
+End directives are SQL comments expressed as `/*%end*/`.
+
+### Expressions {#sql-template-expression}
+
+Expressions in the directives can perform the following:
+
+- Execution of operators
+- Property access
+- Function call
+- Class reference
+- Use of extension properties and functions
+
+#### Operators {#sql-template-expression-operator}
+
+The following operators are supported. Semantics are the same as for operators in Kotlin:
 
 - `==`
 - `!=`
@@ -338,7 +359,7 @@ employee_name like /* name */'hoge'
 - `&&`
 - `||`
 
-次のように利用できます。
+These can be used as follows:
 
 ```kotlin
 /*%if name != null && name.length > 0 */
@@ -348,9 +369,9 @@ employee_name like /* name */'hoge'
 /*%end*/
 ```
 
-#### プロパティアクセス {#sql-template-expression-property-access}
+#### Property accesses {#sql-template-expression-property-access}
 
-`.`や`?.`を使ってプロパティにアクセスできます。`?.`はKotlinのsafe call operatorと同じ挙動をします。
+To access properties, use `.` or `?.` as follows:
 
 ```kotlin
 /*%if person?.name != null */
@@ -360,9 +381,12 @@ employee_name like /* name */'hoge'
 /*%end*/
 ```
 
-#### 関数呼び出し {#sql-template-expression-function-invocation}
+`?.` is equivalent to the safe call operator of Kotlin.
 
-関数を呼び出せます。
+
+#### Function calls {#sql-template-expression-function-invocation}
+
+Functions can be called as follows:
 
 ```kotlin
 /*%if isValid(name) */
@@ -372,10 +396,12 @@ employee_name like /* name */'hoge'
 /*%end*/
 ```
 
-#### クラス参照 {#sql-template-expression-class-reference}
+#### Class references {#sql-template-expression-class-reference}
 
-`@クラスの完全修飾名@`という記法でクラスを参照できます。
-例えば`example.Direction`というenum classに`WEST`という要素がある場合、次のように参照できます。
+You can refer to a class by using the notation `@fully qualified name of the class@`.
+
+For example, if the `example.Direction` enum class has an element named `WEST`, 
+it can be referenced as follows:
 
 ```kotlin
 /*%if direction == @example.Direction@.WEST */
@@ -383,9 +409,9 @@ employee_name like /* name */'hoge'
 /*%end*/
 ```
 
-#### 拡張プロパティと拡張関数 {#sql-template-expression-extensions}
+#### Extension properties and functions {#sql-template-expression-extensions}
 
-Kotlinが提供する以下の拡張プロパティと拡張関数をデフォルトで利用できます。
+The following extension properties and functions provided by Kotlin are available by default:
 
 - `val CharSequence.lastIndex: Int`
 - `fun CharSequence.isBlank(): Boolean`
@@ -405,20 +431,27 @@ Kotlinが提供する以下の拡張プロパティと拡張関数をデフォ�
 /*%end*/
 ```
 
-また、Komapperが定義する以下の拡張関数も利用できます。
+The following extension functions defined by Komapper are also available:
 
 - `fun String?.asPrefix(): String?`
 - `fun String?.asInfix(): String?`
 - `fun String?.asSuffix(): String?`
 - `fun String?.escape(): String?`
 
-例えば、asPrefix()を呼び出すと`"hello"`という文字列が`"hello%"`となり前方一致検索で利用できるようになります。
+For example, if you call the `asPrefix` function, 
+the string `"hello"` becomes `"hello%"` and can be used in a prefix search:
 
 ```kotlin
 where name like /*name.asPrefix()*/
 ```
 
-同様に`asInfix()`を呼び出すと中間一致検索用の文字列に変換し、`asSuffix()`を呼び出すと後方一致検索用の文字列に変換します。
+Similarly, calling the `asInfix` function converts it to a string for an infix search, 
+and calling the `asSuffix` function converts it to a string for a suffix search.
 
-`escape()`は特別な文字をエスケープします。例えば、`"he%llo_"`という文字列を`"he\%llo\_"`のような文字列に変換します。
-なお、`asPrefix()`、`asInfix()`、`asSuffix()`は内部でエスケープ処理を実行するので別途`escape()`を呼び出す必要はありません。
+The `escape` function escapes special characters.
+For example, it converts a string `"he%llo_"` into a string like `"he\%llo\_"`.
+
+{{< alert title="Note" >}}
+The `asPrefix`, `asInfix`, and `asSuffix` functions perform escaping internally,
+so there is no need to call the `escape` function in addition.
+{{< /alert >}}

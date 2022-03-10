@@ -8,7 +8,7 @@ description: >
 
 ## 概要 {#overview}
 
-TEMPLATEクエリはSQLテンプレートを利用して構築します。
+TEMPLATEクエリはSQLテンプレートを利用して構築するクエリです。
 
 TEMPLATEクエリはコアのモジュールには含まれないオプション機能です。
 利用するにはGradleの依存関係に次のような宣言が必要です。
@@ -31,38 +31,19 @@ dependencies {
 
 ## fromTemplate
 
-検索を実施するには`fromTemplate`関数に [SQLテンプレート]({{< relref "#sql-template" >}})、`bind`関数にSQLテンプレート内で利用したいデータを渡します。
-SQLテンプレート内の各種ディレクティブではデータのpublicなメンバを参照できます。
-検索結果を任意の型に変換するために`select`関数にラムダ式を渡します。
-
-```kotlin
-data class Condition(val street: String)
-
-val sql = "select * from ADDRESS where street = /*street*/'test'"
-val data = Condition("STREET 10")
-val query: Query<List<Address>> = QueryDsl.fromTemplate(sql).bind(data).select { row: Row ->
-    Address(
-        row.asInt("address_id")!!,
-        row.asString("street")!!,
-        row.asInt("version")!!
-    )
-}
-```
-
-上述の例では`bind`関数に`Condition`クラスのインスタンスを渡していますが、代わりにobject式を渡すこともできます。
+検索を実施するには`fromTemplate`関数に [SQLテンプレート]({{< relref "#sql-template" >}})、`bind`関数にデータを渡します。
+検索結果を任意の型に変換するために、`select`関数にラムダ式を渡します。
 
 ```kotlin
 val sql = "select * from ADDRESS where street = /*street*/'test'"
-val query: Query<List<Address>> = QueryDsl.fromTemplate(sql).bind(
-    object {
-        val street = "STREET 10"
-    }
-).select { row: Row ->
-    Address(
-        row.asInt("address_id")!!,
-        row.asString("street")!!,
-        row.asInt("version")!!
-    )
+val query: Query<List<Address>> = QueryDsl.fromTemplate(sql)
+    .bind("street", "STREET 10")
+    .select { row: Row -> 
+        Address(
+            row.asInt("address_id")!!,
+            row.asString("street")!!,
+            row.asInt("version")!!
+        )
 }
 ```
 
@@ -78,21 +59,20 @@ val query: Query<List<Address>> = QueryDsl.fromTemplate(sql).bind(
 
 ```kotlin
 val sql = "select * from ADDRESS where street = /*street*/'test'"
-val query: Query<List<Address>> = QueryDsl.fromTemplate(sql).options {
-  it.copty(
-    fetchSize = 100,
-    queryTimeoutSeconds = 5
-  )
-}.bind(
-  object {
-    val street = "STREET 10"
+val query: Query<List<Address>> = QueryDsl.fromTemplate(sql)
+  .options {
+    it.copty(
+      fetchSize = 100,
+      queryTimeoutSeconds = 5
+    )
   }
-).select { row: Row ->
-  Address(
-    row.asInt("address_id")!!,
-    row.asString("street")!!,
-    row.asInt("version")!!
-  )
+  .bind("street", "STREET 10")
+  .select { row: Row ->
+    Address(
+      row.asInt("address_id")!!,
+      row.asString("street")!!,
+      row.asInt("version")!!
+    )
 }
 ```
 
@@ -118,24 +98,15 @@ suppressLogging
 
 ## executeTemplate
 
-更新系のDMLを実行するには`executeTemplate`関数に [SQLテンプレート]({{< relref "#sql-template" >}})、`bind`関数にSQLテンプレート内で利用したいデータを渡します。
-SQLテンプレート内の各種ディレクティブではデータのpublicなメンバを参照できます。
+更新系のDMLを実行するには`executeTemplate`関数に [SQLテンプレート]({{< relref "#sql-template" >}})、`bind`関数にデータを渡します。
 
 クエリ実行時にキーが重複した場合、`org.komapper.core.UniqueConstraintException`がスローされます。
 
 ```kotlin
-data class Condition(val id: Int, val street: String)
-
 val sql = "update ADDRESS set street = /*street*/'' where address_id = /*id*/0"
-val data = Condition(15, "NY street")
-val query = Query<Int> = QueryDsl.executeTemplate(sql).bind(data)
-```
-
-上述の例では`bind`関数に`Condition`クラスのインスタンスを渡していますが、代わりにobject式を渡すこともできます。
-
-```kotlin
-val sql = "update ADDRESS set street = /*street*/'' where address_id = /*id*/0"
-val query = Query<Int> = QueryDsl.executeTemplate(sql).bind( object { id = 15, street = "NY street" } )
+val query: Query<Int> = QueryDsl.executeTemplate(sql)
+    .bind("id", 15)
+    .bind("street", "NY street")
 ```
 
 ### options {#execute-options}
@@ -145,11 +116,11 @@ val query = Query<Int> = QueryDsl.executeTemplate(sql).bind( object { id = 15, s
 変更したいプロパティを指定して`copy`メソッドを呼び出してください。
 
 ```kotlin
-data class Condition(val id: Int, val street: String)
-
 val sql = "update ADDRESS set street = /*street*/'' where address_id = /*id*/0"
-val data = Condition(15, "NY street")
-val query = Query<Int> = QueryDsl.executeTemplate(sql).bind(data).options {
+val query = Query<Int> = QueryDsl.executeTemplate(sql)
+  .bind("id", 15)
+  .bind("street", "NY street")
+  .options {
     it.copty(
       queryTimeoutSeconds = 5
     )
@@ -314,6 +285,12 @@ employee_name like /* name */'hoge'
 /*%end*/
 ```
 
+### endディレクティブ {#sql-template-end-directive}
+
+条件分岐やループ処理を終了するには、endディレクティブを使います。
+
+endディレクティブは`/*%end*/`というSQLコメントで表現されます。
+
 ### 式 {#sql-template-expression}
 
 ディレクティブ内で参照される式の中では以下の機能がサポートされています。
@@ -421,4 +398,7 @@ where name like /*name.asPrefix()*/
 同様に`asInfix()`を呼び出すと中間一致検索用の文字列に変換し、`asSuffix()`を呼び出すと後方一致検索用の文字列に変換します。
 
 `escape()`は特別な文字をエスケープします。例えば、`"he%llo_"`という文字列を`"he\%llo\_"`のような文字列に変換します。
-なお、`asPrefix()`、`asInfix()`、`asSuffix()`は内部でエスケープ処理を実行するので別途`escape()`を呼び出す必要はありません。
+
+{{< alert title="Note" >}}
+`asPrefix()`、`asInfix()`、`asSuffix()`は内部でエスケープ処理を実行するので別途`escape()`を呼び出す必要はありません。
+{{< /alert >}}
