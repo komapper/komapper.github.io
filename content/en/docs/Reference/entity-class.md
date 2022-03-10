@@ -1,6 +1,5 @@
 ---
-title: "Entity Class"
-linkTitle: "Entity Class"
+title: "Entity Classes"
 weight: 20
 description: >
 ---
@@ -49,7 +48,7 @@ data class Address(
 ```
 
 The mapping between property types (Kotlin types) and 
-column types (database types) is defined by [Dialect]({{< relref "Dialect" >}}).
+column types (database types) is defined by [Dialects]({{< relref "dialect.md" >}}).
 
 ## Mapping definition {#mapping-definition}
 

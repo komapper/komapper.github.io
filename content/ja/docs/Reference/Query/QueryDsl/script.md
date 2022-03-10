@@ -1,6 +1,6 @@
 ---
-title: "Scriptクエリ"
-linkTitle: "Script"
+title: "SCRIPTクエリ"
+linkTitle: "SCRIPT"
 weight: 60
 description: >
   任意のSQLスクリプトを表すクエリ

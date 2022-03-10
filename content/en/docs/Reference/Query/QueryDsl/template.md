@@ -1,5 +1,5 @@
 ---
-title: "TEMPLATE"
+title: "TEMPLATE Query"
 linkTitle: "TEMPLATE"
 weight: 50
 description: >

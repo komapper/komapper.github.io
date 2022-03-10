@@ -1,6 +1,5 @@
 ---
 title: "Logging"
-linkTitle: "Logging"
 weight: 50
 description: >
 ---

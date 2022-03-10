@@ -2,7 +2,7 @@
 title: "クエリビルダー"
 linkTitle: "ビルダー"
 weight: 300
-description: >
+description: クエリの部品を組み立てるAPI
 ---
 
 ## 概要 {#overview}

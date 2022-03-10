@@ -115,11 +115,11 @@ val flow: Flow<Address> = db.flowQuery(query)
 
 データベースへのアクセスは`flowQuery`関数から返される`Flow`インスタンスを利用したときに初めて行われます。
 
-クエリの構築については [クエリ]({{< relref "query.md" >}}) を参照ください。
+クエリの構築については [クエリ]({{< relref "Query" >}}) を参照ください。
 
 ### 低レベルAPIの実行 {#low-level-api-execution}
 
-[クエリ]({{< relref "query.md" >}}) APIが要件に合わない場合、低レベルAPIを直接利用できます。
+[Query DSL]({{< relref "Query/QueryDSL" >}}) のAPIが要件に合わない場合、低レベルAPIを直接利用できます。
 
 JDBCのAPIを直接利用するには、`JdbcDatabase`インスタンスからいくつかのプロパティを呼び出して`java.sql.Connection`を取得します。
 

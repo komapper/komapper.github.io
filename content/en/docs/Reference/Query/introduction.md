@@ -1,5 +1,5 @@
 ---
-title: "Introduction"
+title: "Query Introduction"
 linkTitle: "Introduction"
 weight: 1
 description: >
@@ -20,7 +20,7 @@ val result: List<Address> = db.runQuery { query }
 
 ## Prerequisites {#prerequisites}
 
-The pages under [Query]({{< relref "../Query" >}}) assume that
+The pages under [Queries]({{< relref "../Query" >}}) assume that
 the following entity definitions, mapping definitions, and variables exist.
 
 ```kotlin

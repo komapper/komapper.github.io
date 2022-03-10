@@ -1,6 +1,5 @@
 ---
 title: "Gradle Plugin"
-linkTitle: "Gradle Plugin"
 weight: 200
 description: >
 ---
@@ -13,7 +12,7 @@ Kotlin source code from database metadata:
 - Entity classes
 - Mapping definitions
 
-See [Entity Class]({{< relref "entity-class" >}}) for entity classes and mapping definitions.
+See [Entity Classes]({{< relref "entity-class" >}}) for entity classes and mapping definitions.
 
 {{< alert title="Note" >}}
 Use of this Gradle plugin is not required. 

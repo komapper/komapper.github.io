@@ -1,6 +1,5 @@
 ---
-title: "Starter"
-linkTitle: "Starter"
+title: "Starters"
 weight: 100
 description: >
 ---

@@ -1,5 +1,5 @@
 ---
-title: "Composition"
+title: "Query Composition"
 linkTitle: "Composition"
 weight: 110
 description: >

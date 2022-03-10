@@ -1,6 +1,6 @@
 ---
-title: "Selectクエリ"
-linkTitle: "Select"
+title: "SELECTクエリ"
+linkTitle: "SELECT"
 weight: 10
 description: >
 ---

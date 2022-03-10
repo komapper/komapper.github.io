@@ -6,10 +6,11 @@ description: >
 
 ## 概要 {#overview}
 
-方言はデータベースやドライバの差異を吸収します。
-方言の代表的な機能はKotlinとデータベースの型の対応関係を解決することです。
+ダイアレクトはデータベースやドライバの差異を吸収します。
+ダイアレクトの代表的な機能はKotlinとデータベースの型の対応関係を解決することです。
 
-方言を表すクラスは個別のモジュール（Artifact）に含まれており、どのモジュールを利用するかは接続先データベースや接続タイプに合わせて選択する必要があります。
+ダイアレクトを表すクラスは個別のモジュール（Artifact）に含まれており、
+どのモジュールを利用するかは接続先データベースや接続タイプに合わせて選択する必要があります。
 
 | Database           | Type  |            Artifact ID            |     Dialect Class      |
 |--------------------|:-----:|:---------------------------------:|:----------------------:|
@@ -24,7 +25,7 @@ description: >
 | SQL Server         | JDBC  |  komapper-dialect-sqlserver-jdbc  |  JdbcSqlServerDialect  |
 | SQL Server         | R2DBC | komapper-dialect-sqlserver-r2dbc  | R2dbcSqlServerDialect  |
 
-方言を利用するにはGradleの依存関係の宣言の中で上述のArtifact IDを記述します。
+ダイアレクトを利用するにはGradleの依存関係の宣言の中で上述のArtifact IDを記述します。
 
 ```kotlin
 val komapperVersion: String by project

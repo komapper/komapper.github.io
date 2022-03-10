@@ -1,6 +1,6 @@
 ---
-title: "Deleteクエリ"
-linkTitle: "Delete"
+title: "DELETEクエリ"
+linkTitle: "DELETE"
 weight: 40
 description: >
 ---

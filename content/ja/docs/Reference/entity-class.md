@@ -1,6 +1,5 @@
 ---
 title: "エンティティクラス"
-linkTitle: "エンティティ"
 weight: 20
 description: >
 ---

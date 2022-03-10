@@ -1,6 +1,5 @@
 ---
-title: "クエリの紹介"
-linkTitle: "紹介"
+title: "はじめに"
 weight: 1
 description: >
 ---

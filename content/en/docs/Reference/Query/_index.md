@@ -1,6 +1,5 @@
 ---
-title: "Query"
-linkTitle: "Query"
+title: "Queries"
 weight: 30
 description: >
 ---

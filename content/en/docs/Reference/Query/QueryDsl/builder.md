@@ -1,6 +1,6 @@
 ---
-title: "Builder"
-linkTitle: "Builder"
+title: "Query Builders"
+linkTitle: "Builders"
 weight: 300
 description: >
 ---

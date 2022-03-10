@@ -1,6 +1,5 @@
 ---
 title: "Database Config"
-linkTitle: "Database Config"
 weight: 12
 description: >
 ---

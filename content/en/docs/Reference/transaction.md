@@ -1,6 +1,5 @@
 ---
 title: "Transaction"
-linkTitle: "Transaction"
 weight: 40
 description: >
 ---

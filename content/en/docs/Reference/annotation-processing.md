@@ -1,6 +1,5 @@
 ---
 title: "Annotation Processing"
-linkTitle: "Annotation Processing"
 weight: 25
 description: >
 ---

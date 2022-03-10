@@ -1,5 +1,5 @@
 ---
-title: "Debugging"
+title: "Query Debugging"
 linkTitle: "Debugging"
 weight: 120
 description: >

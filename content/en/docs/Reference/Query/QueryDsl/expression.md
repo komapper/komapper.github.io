@@ -1,6 +1,6 @@
 ---
-title: "Expression"
-linkTitle: "Expression"
+title: "Query Expressions"
+linkTitle: "Expressions"
 weight: 200
 description: >
 ---

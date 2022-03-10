@@ -1,5 +1,5 @@
 ---
-title: "SCHEMA"
+title: "SCHEMA Query"
 linkTitle: "SCHEMA"
 weight: 60
 description: >

@@ -1,6 +1,5 @@
 ---
-title: "Dialect"
-linkTitle: "Dialect"
+title: "Dialects"
 weight: 15
 description: >
 ---

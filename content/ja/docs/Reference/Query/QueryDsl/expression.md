@@ -2,7 +2,7 @@
 title: "クエリの式"
 linkTitle: "式"
 weight: 200
-description: >
+description: クエリの構成要素を成す式
 ---
 
 ## 概要 {#overview}

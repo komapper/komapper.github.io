@@ -1,6 +1,5 @@
 ---
-title: "Database"
-linkTitle: "Database"
+title: "Databases"
 weight: 10
 description: >
 ---
@@ -45,7 +44,7 @@ val db: JdbcDatabase = JdbcDatabase(
 )
 ```
 
-See also [Dialect]({{< relref "Dialect" >}}).
+See also [Dialects]({{< relref "dialect.md" >}}).
 
 ### When using R2DBC {#instantiation-for-r2dbc}
 
@@ -118,11 +117,11 @@ val flow: Flow<Address> = db.flow(query)
 
 Database access is made only when the `flow` instance is collected.
 
-See [Query]({{< relref "query.md" >}}) for information on building queries.
+See [Queries]({{< relref "Query" >}}) for information on building queries.
 
 ### Low-level API execution {#low-level-api-execution}
 
-If the [Query]({{< relref "query.md" >}}) API does not meet your requirements,
+If the [Query DSL]({{< relref "Query/QueryDsl" >}}) API does not meet your requirements,
 the Low-level APIs are available.
 
 To use the JDBC API directly, call `db.config.session.getConnection()` to get `java.sql.Connection`.

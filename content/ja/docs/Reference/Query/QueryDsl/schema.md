@@ -1,9 +1,9 @@
 ---
-title: "Schemaクエリ"
-linkTitle: "Schema"
+title: "SCHEMAクエリ"
+linkTitle: "SCHEMA"
 weight: 60
 description: >
-  テーブルの作成や削除のためのクエリ
+  テーブルスキーマの作成や削除のためのクエリ
 ---
 
 ## 概要 {#overview}

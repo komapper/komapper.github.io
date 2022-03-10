@@ -1,5 +1,5 @@
 ---
-title: "SCRIPT"
+title: "SCRIPT Query"
 linkTitle: "SCRIPT"
 weight: 60
 description: >

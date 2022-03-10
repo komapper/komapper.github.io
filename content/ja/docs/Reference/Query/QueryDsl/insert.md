@@ -1,6 +1,6 @@
 ---
-title: "Insertクエリ"
-linkTitle: "Insert"
+title: "INSERTクエリ"
+linkTitle: "INSERT"
 weight: 20
 description: >
 ---
