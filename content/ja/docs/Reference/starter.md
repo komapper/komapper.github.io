@@ -11,10 +11,6 @@ description: >
 Starterモジュールを使うとKomapperを使ったプロジェクトを簡単に始められます。
 Starterモジュールにはいくつかの種類があります。
 
-{{< alert title="Note" >}}
-必要最低限の依存ライブラリで動作させたい場合はStarterライブラリを用いない方が良いでしょう。
-{{< /alert >}}
-
 ## シンプルなスターター {#simple-starter}
 
 ### komapper-starter-jdbc

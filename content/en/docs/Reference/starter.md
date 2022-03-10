@@ -3,24 +3,19 @@ title: "Starter"
 linkTitle: "Starter"
 weight: 100
 description: >
-  スターター
 ---
 
-## 概要 {#overview}
+## Overview {#overview}
 
-Starterモジュールを使うとKomapperを使ったプロジェクトを簡単に始められます。
-Starterモジュールにはいくつかの種類があります。
+The Starter module makes it easy to start a project using Komapper.
+There are several types of starter modules.
 
-{{< alert title="Note" >}}
-必要最低限の依存ライブラリで動作させたい場合はStarterライブラリを用いない方が良いでしょう。
-{{< /alert >}}
-
-## シンプルなスターター {#simple-starter}
+## Simple starter {#simple-starter}
 
 ### komapper-starter-jdbc
 
-このスターターはKomapperをJDBCと組み合わせて動かすのに必要かつ便利なライブラリを含みます。
-利用するにはGradleの依存関係の宣言で次のように記述します。
+This starter includes all the necessary and useful libraries to run Komapper with JDBC.
+To use it, you must include the following in your Gradle dependency declaration:
 
 ```kotlin
 val komapperVersion: String by project
@@ -31,8 +26,8 @@ dependencies {
 
 ### komapper-starter-r2dbc
 
-このスターターはKomapperをR2DBCと組み合わせて動かすのに必要かつ便利なライブラリを含みます。
-利用するにはGradleの依存関係の宣言で次のように記述します。
+This starter includes all the necessary and useful libraries to run Komapper with R2DBC.
+To use it, you must include the following in your Gradle dependency declaration:
 
 ```kotlin
 val komapperVersion: String by project
@@ -41,12 +36,13 @@ dependencies {
 }
 ```
 
-## Spring Boot連携のためのスターター {#spring-boot-starter}
+## Spring Boot starter {#spring-boot-starter}
 
 ### komapper-spring-boot-starter-jdbc
 
-このスターターはKomapperをJDBCと組み合わせてSpring Boot上で動かすのに必要かつ便利なライブラリを含みます。
-利用するにはGradleの依存関係の宣言で次のように記述します。
+This starter includes all the necessary and useful libraries to 
+run Komapper on Spring Boot in combination with JDBC.
+To use it, you must include the following in your Gradle dependency declaration:
 
 ```kotlin
 val komapperVersion: String by project
@@ -55,8 +51,9 @@ dependencies {
 }
 ```
 
-このスターターを使う上で特別な設定は不要です。
-Spring Bootの仕様に従ってJDBCの接続文字列をapplication.propertiesに記述すれば動きます。
+No special configuration is required to use this starter.
+Just write the JDBC connection string in your application.properties 
+according to the Spring Boot specification.
 
 ```
 spring.datasource.url=jdbc:h2:mem:example-spring-boot;DB_CLOSE_DELAY=-1
@@ -64,8 +61,9 @@ spring.datasource.url=jdbc:h2:mem:example-spring-boot;DB_CLOSE_DELAY=-1
 
 ### komapper-spring-boot-starter-r2dbc
 
-このスターターはKomapperをR2DBCと組み合わせてSpring Boot上で動かすのに必要かつ便利なライブラリを含みます。
-利用するにはGradleの依存関係の宣言で次のように記述します。
+This starter includes all the necessary and useful libraries to
+run Komapper on Spring Boot in combination with R2DBC.
+To use it, you must include the following in your Gradle dependency declaration:
 
 ```kotlin
 val komapperVersion: String by project
@@ -74,8 +72,9 @@ dependencies {
 }
 ```
 
-このスターターを使う上で特別な設定は不要です。
-Spring Bootの仕様に従ってR2DBCの接続文字列をapplication.propertiesに記述すれば動きます。
+No special configuration is required to use this starter.
+Just write the R2DBC connection string in your application.properties
+according to the Spring Boot specification.
 
 ```
 spring.r2dbc.url=r2dbc:h2:mem:///example;DB_CLOSE_DELAY=-1
