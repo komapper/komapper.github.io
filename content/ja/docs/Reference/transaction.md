@@ -28,7 +28,7 @@ val db = JdbcDatabase("jdbc:h2:mem:example;DB_CLOSE_DELAY=-1")
 val db = R2dbcDatabase("r2dbc:h2:mem:///example;DB_CLOSE_DELAY=-1")
 ```
 
-### 開始と終了 {#begin-and-end}
+### トランザクションの開始と終了 {#beginning-and-ending}
 
 `db`に定義された`withTransaction`関数の呼び出すことでトランザクションを開始できます。
 
@@ -38,8 +38,7 @@ db.withTransaction {
 }
 ```
 
-`withTransaction`拡張関数にはトランザクション属性とトランザクションプロパティを指定できます。
-下記のコードはJDBC版の`withTransaction`拡張関数の利用例です。
+`withTransaction`関数にはトランザクション属性とトランザクションプロパティを指定できます。
 
 ```kotlin
 db.withTransaction(
@@ -49,10 +48,29 @@ db.withTransaction(
 }
 ```
 
-トランザクション属性を指定しない場合、トンランザクションがなければ作成しすでに存在すればそのトランザクションに参加します。
+トランザクション属性は以下の2種類のいずれかを指定できます。
 
-トランザクションプロパティには、トランザクション分離レベル、トランザクションの名前、ReadOnlyとするかどうかなどさまざまなプロパティを設定できます。
-複数のプロパティを表すには`+`演算子で合成してください。
+REQUIRED
+: 現在のトランザクションをサポートし、存在しない場合は新しいトランザクションを作成する
+
+REQUIRES_NEW
+: 新しいトランザクションを作成し、現在のトランザクションが存在する場合はそれを一時停止する
+
+トランザクションプロパティは、様々なプロパティ要素を含むことができます。
+
+IsolationLevel
+: トランザクション分離レベル
+
+LockWaitTime
+: ロック待機時間
+
+Name
+: トランザクションの名前
+
+ReadOnly
+: トランザクションをリードオンリーモードで開始するかどうか
+
+複数のトランザクションプロパティ要素を `+`演算子で1つのトランザクションプロパティにまとめることができます。
 
 ```kotlin
 val property = TransactionProperty.IsolationLevel.SERIALIZABLE + TransactionProperty.Name("myTx") + TransactionProperty.ReadOnly(true)
@@ -91,7 +109,7 @@ db.withTransaction { tx ->
 }
 ```
 
-### 新規トランザクションの開始と終了 {#begin-and-end-of-new-transaction}
+### 新規トランザクションの開始と終了 {#beginning-and-ending-new-transaction}
 
 すでに開始されたトランザクションの中で別のトランザクションを新しく開始するには`requiresNew`関数を呼び出します。
 
@@ -126,26 +144,30 @@ db.withTransaction { tx ->
 
 ロールバックの条件に合致しない場合コミットされます。
 
-## トランザクションを表すFlow {#transactional-flow}
+## トランザクショナルなFlow {#transactional-flow}
 
-R2DBCを利用している場合、`withTransaction`の代わりに`flowTransaction`を使うことでトランザクションを表現する`Flow`を構築できます。
+`R2dbcDatabase`のみがトランザクションを表す`Flow`を構築するための`flowTransaction`関数を提供します。
 
 ```kotlin
 val db = R2dbcDatabase("r2dbc:h2:mem:///example;DB_CLOSE_DELAY=-1")
+
 val transactionalFlow: Flow<Address> = db.flowTransaction {
-    val a = Meta.address
-    val address = db.runQuery {
-        QueryDsl.from(a).where { a.addressId eq 15 }.first()
-    }
-    db.runQuery { 
-        QueryDsl.update(a).single(address.copy(street = "TOKYO")) 
-    }
-    val addressFlow = db.flowQuery { 
-        QueryDsl.from(a).orderBy(a.addressId)
-    }
-    emitAll(addressFlow)
+  val a = Meta.address
+  val address = db.runQuery {
+    QueryDsl.from(a).where { a.addressId eq 15 }.first()
+  }
+  db.runQuery {
+    QueryDsl.update(a).single(address.copy(street = "TOKYO"))
+  }
+  val addressFlow = db.flowQuery {
+    QueryDsl.from(a).orderBy(a.addressId)
+  }
+  emitAll(addressFlow)
 }
+
+// Transaction is executed
+val list = transactionalFlow.toList()
 ```
 
-上記の例では、`transactionalFlow`を構築しているだけであってまだ実行はされていません。
-`transactionalFlow`を`collect`する際に初めてトランザクションが実行されます
+上記の例では、`flowTransaction`の呼び出しは`Flow`を構築しているだけです。
+トランザクションは`transactionalFlow`を実際に使う際に初めて実行されます。

@@ -3,55 +3,23 @@ title: "Transaction"
 linkTitle: "Transaction"
 weight: 40
 description: >
-  トランザクション
 ---
 
-## 概要 {#overview}
+## Overview {#overview}
 
-KomapperはJDBCやR2DBCのConnectionが持つトランザクション機能をラップした高レベルAPIを提供します。
-
-{{< alert color="warning" title="Warning" >}}
-Spring Frameworkなどトランザクション機能を提供するフレームワークと組み合わせてKomapperを使う場合
-このページで説明するAPIを使ってはいけません。
-{{< /alert >}}
-
-このAPIを使うには専用のモジュールをGradleの依存関係に宣言します。
-
-JDBCを使う場合は次のようにkomapper-tx-jdbcを宣言します。
-
-```kotlin
-val komapperVersion: String by project
-
-dependencies { 
-    implementation("org.komapper:komapper-tx-jdbc:$komapperVersion")
-}
-```
-
-R2DBCを使う場合は次のようにkomapper-tx-r2dbcを宣言します。
-
-```kotlin
-val komapperVersion: String by project
-
-dependencies {
-    implementation("org.komapper:komapper-tx-r2dbc:$komapperVersion")
-}
-```
+Komapper provides a High-level API for transaction management.
 
 {{< alert title="Note" >}}
-Komapperが提供するkomapper-starter-jdbcやkomapper-starter-r2dbcモジュールは上述の設定を含んでいます。
-したがって、これらのstarterモジュールを使う場合上述の設定は不要です。
+When Komapper is combined with Spring Framework or Quarkus, 
+this API works with the Spring Framework and Quarkus transaction managers.
 {{< /alert >}}
 
-{{< alert title="Note" >}}
-上述のトランザクション用モジュールを依存関係に宣言する場合、全てのデータベースアクセスはトランザクション内で実行する必要があります。
-{{< /alert >}}
+## Transaction control {#transaction-control}
 
-## トランザクションの制御 {#transaction-control}
-
-Komapperが提供するトランザクション制御のためのAPIはJDBC版とR2DBC版で異なりますが見た目上のインターフェースは統一されています。
-ここでは明らかに異なる部分を除いてJDBC版とR2DBC版を合わせて説明します。
-
-`JdbcDatabase`もしくは`R2dbcDatabase`が下記のように`db`という変数で宣言されていることを前提に説明を進めます。
+The API for transaction control provided by Komapper differs between the JDBC and R2DBC versions, 
+but the visual interface is unified. 
+The following explanation assumes that `JdbcDatabase` or `R2dbcDatabase` is declared with 
+the variable `db` as shown below.
 
 ```kotlin
 val db = JdbcDatabase("jdbc:h2:mem:example;DB_CLOSE_DELAY=-1")
@@ -61,9 +29,9 @@ val db = JdbcDatabase("jdbc:h2:mem:example;DB_CLOSE_DELAY=-1")
 val db = R2dbcDatabase("r2dbc:h2:mem:///example;DB_CLOSE_DELAY=-1")
 ```
 
-### 開始と終了 {#begin-and-end}
+### Beginning and ending transactions {#beginning-and-end}
 
-JDBC版とR2DBC版のそれぞれのモジュールに定義された`withTransaction`拡張関数の呼び出すことでトランザクションを開始できます。
+A transaction can be begun by calling the `withTransaction` function:
 
 ```kotlin
 db.withTransaction {
@@ -71,86 +39,137 @@ db.withTransaction {
 }
 ```
 
-`withTransaction`拡張関数にはトランザクション属性とトランザクション分離レベルを指定できます。
+The `withTransaction` function accepts a transaction attribute and a transaction property`:
 
 ```kotlin
 db.withTransaction(
   transactionAttribute = TransactionAttribute.REQUIRES_NEW, 
-  isolationLevel = IsolationLevel.SERIALIZABLE) {
+  transactionProperty = TransactionProperty.IsolationLevel.SERIALIZABLE) {
     ..
 }
 ```
 
-トランザクション属性を指定しない場合、トンランザクションがなければ作成しすでに存在すればそのトランザクションに参加します。
+The transaction attribute can be one of the following two types:
 
-トランザクション分離レベルを指定しない場合にどのレベルになるかは利用するドライバの挙動に従います。
+REQUIRED
+: Support a current transaction; create a new one if none exists.
 
-`withTransaction`拡張関数の呼び出しが終わるとトランザクションはコミットもしくはロールバックされます。
+REQUIRES_NEW
+: Create a new transaction, suspending the current transaction if one exists.
 
-ロールバックされる条件は次のとおりです。
+The transaction property can contain various property elements:
 
-- `withTransaction`拡張関数の呼び出しが例外のスローにより終了する
-- `withTransaction`拡張関数に渡されたラムダ式の中で明示的にロールバックを行う
+IsolationLevel
+: Isolation level requested for the transaction.
 
-ロールバックの条件に合致しない場合コミットされます。
+LockWaitTime
+: Lock wait timeout.
 
-### 明示的なロールバック {#explicit-rollback}
+Name
+: Name of the transaction.
 
-`withTransaction`拡張関数に渡されたラムダ式の中で`setRollbackOnly`関数を呼び出すと`withTransaction`拡張関数終了時にロールバックが実行されます。
+ReadOnly
+: Whether the transaction should be started in read-only mode.
+
+
+Multiple transaction property elements can be combined into a single transaction property with the `+` operator:
 
 ```kotlin
-db.withTransaction {
+val property = TransactionProperty.IsolationLevel.SERIALIZABLE + TransactionProperty.Name("myTx") + TransactionProperty.ReadOnly(true)
+```
+
+The transaction is committed or rolled back when the call to the `withTransaction` function is finished.
+
+The conditions for rollback are as follows:
+
+- Call to the `withTransaction` function is terminated with an exception.
+- [Explicit rollback]({{< relref "#explicit-rollback" >}}) is indicated in `withTransaction` function.
+
+If the above rollback conditions are not met, the commit is performed.
+
+### Explicit rollback {#explicit-rollback}
+
+If the `setRollbackOnly` function is called, rollback is performed at the end of the `withTransaction` function:
+
+```kotlin
+db.withTransaction { tx ->
     ..
-    setRollbackOnly()
+    tx.setRollbackOnly()
     ..
 }
 ```
 
-すでに`setRollbackOnly`関数を呼び出したかどうかは`isRollbackOnly`関数で確認できます。
+You can check if you have already called the `setRollbackOnly` function with the `isRollbackOnly` function:
 
 ```kotlin
-db.withTransaction {
+db.withTransaction { tx ->
     ..
-    if (isRollbackOnly()) {
+    if (tx.isRollbackOnly()) {
         ..
     }
     ..
 }
 ```
 
-### 新規トランザクションの開始と終了 {#begin-and-end-of-new-transaction}
+### Beginning and ending new transactions {#beginning-and-ending-new-transaction}
 
-すでに開始されたトランザクションの中で別のトランザクションを新しく開始するには`withTransaction`拡張関数に渡されたラムダ式の中で`requiresNew`関数を呼び出します。
+To begin a new transaction when the current transaction exists, call the `requiresNew` function.
 
 ```kotlin
-db.withTransaction {
+db.withTransaction { tx ->
     ..
-    requiresNew {
+    tx.requiresNew {
         ..
     }
     ..
 }
 ```
 
-`requiresNew`関数にはトランザクション分離レベルを指定できます。
+The `requiresNew` function accepts a transaction property`:
 
 ```kotlin
-db.withTransaction {
+db.withTransaction { tx ->
     ..
-    requiresNew(isolationLevel = IsolationLevel.SERIALIZABLE) {
+    tx.requiresNew(transactionProperty = TransactionProperty.IsolationLevel.SERIALIZABLE) {
         ..
     }
     ..
 }
 ```
 
-トランザクション分離レベルを指定しない場合にどのレベルになるかは利用するドライバの挙動に従います。
+The transaction is committed or rolled back when the call to the `requiresNew` function is finished.
 
-`requiresNew`関数の呼び出しが終わるとトランザクションはコミットもしくはロールバックされます。
+The conditions for rollback are as follows:
 
-ロールバックされる条件は次のとおりです。
+- Call to the `requiresNew` function is terminated with an exception.
+- [Explicit rollback]({{< relref "#explicit-rollback" >}}) is indicated in the `requiresNew` function.
 
-- `requiresNew`関数の呼び出しが例外のスローにより終了する
-- `requiresNew`関数に渡されたラムダ式の中で明示的にロールバックを行う
+If the above rollback conditions are not met, the commit is performed.
 
-ロールバックの条件に合致しない場合コミットされます。
+## Transactional flows {#transactional-flow}
+
+Only `R2dbcDatabase` provides the `flowTransaction` function that constructs a transactional flow:
+
+```kotlin
+val db = R2dbcDatabase("r2dbc:h2:mem:///example;DB_CLOSE_DELAY=-1")
+
+val transactionalFlow: Flow<Address> = db.flowTransaction {
+    val a = Meta.address
+    val address = db.runQuery {
+        QueryDsl.from(a).where { a.addressId eq 15 }.first()
+    }
+    db.runQuery { 
+        QueryDsl.update(a).single(address.copy(street = "TOKYO")) 
+    }
+    val addressFlow = db.flowQuery { 
+        QueryDsl.from(a).orderBy(a.addressId)
+    }
+    emitAll(addressFlow)
+}
+
+// Transaction is executed
+val list = transactionalFlow.toList()
+```
+
+In the above example, the call to the `flowTransaction` function only constructs a flow. 
+The transaction is executed for the first time when the `transactionalFlow` is collected.
