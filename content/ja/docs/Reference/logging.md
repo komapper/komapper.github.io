@@ -23,7 +23,7 @@ Komapperが出力するログのカテゴリは以下に示す4つです。
 
 ### org.komapper.Sql
 
-このカテゴリのログは次のようなバインド変数である`?`が含まれた形式のSQLでDEBUGレベルで出力されます。
+このカテゴリでは、バインド変数付きのSQLがDEBUGレベルで出力されます。
 
 ```sql
 insert into ADDRESS (STREET, VERSION, CREATED_AT, UPDATED_AT) values (?, ?, ?, ?)
@@ -32,7 +32,7 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION, t0_.CREATED_AT, t0_.UPDATED_AT f
 
 ### org.komapper.SqlWithArgs
 
-このカテゴリのログは次のようなバインド変数である`?`が実際の引数で置換された形式のSQLでTRACEレベルで出力されます。
+このカテゴリでは、バインド変数が引数によって解決された形式のSQLがTRACEレベルで出力されます。
 
 ```sql
 insert into ADDRESS (STREET, VERSION, CREATED_AT, UPDATED_AT) values ('street A', 0, '2021-07-31T21:23:24.511', '2021-07-31T21:23:24.511')
@@ -41,10 +41,13 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION, t0_.CREATED_AT, t0_.UPDATED_AT f
 
 ### org.komapper.Transaction
 
-このカテゴリのログは次のようなトランザクションの開始やコミットを示すメッセージでTRACEレベルで出力されます。
+このカテゴリでは、トランザクションの開始、コミット、ロールバックを示すメッセージがTRACEレベルで出力されます。
 
-```sql
-Begin: JdbcTransaction(id=81f6e616-9fb2-4dd7-a7c1-0f05ff3adb98, name=JDBC_TEST)
+```
+Begin:    JdbcTransaction(id=032d9623-919f-43d4-ad00-f7d4c1518393, name=null)
+Rollback: JdbcTransaction(id=032d9623-919f-43d4-ad00-f7d4c1518393, name=null)
+Begin:    JdbcTransaction(id=a108b824-3353-475c-a29b-cb1575951803, name=null)
+Commit:   JdbcTransaction(id=a108b824-3353-475c-a29b-cb1575951803, name=null)
 ```
 
 ### org.komapper.Other

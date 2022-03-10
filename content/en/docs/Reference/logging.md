@@ -3,63 +3,66 @@ title: "Logging"
 linkTitle: "Logging"
 weight: 50
 description: >
-  ロギング
 ---
 
-## 概要 {#overview}
+## Overview {#overview}
 
-KomapperはSQLやトランザクションに関するログを出力します。
+Komapper outputs log messages related to SQL and transactions.
 
-出力先のデフォルトは標準出力ですが変更可能です。
+The default output destination is standard output, but it can be changed.
 
-## ログカテゴリ {#log-category}
+## Log categories {#log-category}
 
-Komapperが出力するログのカテゴリは以下に示す4つです。
+Komapper has four log categories, as follows:
 
-- org.komapper.SQL
-- org.komapper.SQL_WITH_ARGS
-- org.komapper.TRANSACTION
-- org.komapper.OTHER
+- org.komapper.Sql
+- org.komapper.SqlWithArgs
+- org.komapper.Transaction
+- org.komapper.Other
 
-### org.komapper.SQL
+### org.komapper.Sql
 
-このカテゴリのログは次のようなバインド変数である`?`が含まれた形式のSQLでdebugレベルで出力されます。
+In the `org.komapper.Sql` category, SQL statements with bind variables are output at the DEBUG level:
 
 ```sql
 insert into ADDRESS (STREET, VERSION, CREATED_AT, UPDATED_AT) values (?, ?, ?, ?)
 select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION, t0_.CREATED_AT, t0_.UPDATED_AT from ADDRESS as t0_ where t0_.ADDRESS_ID = ?
 ```
 
-### org.komapper.SQL_WITH_ARGS
+### org.komapper.SqlWithArgs
 
-このカテゴリのログは次のようなバインド変数である`?`が実際の引数で置換された形式のSQLでtraceレベルで出力されます。
+In the `org.komapper.SqlWithArgs` category, 
+SQL statements in which bind variables are resolved with arguments are output at the TRACE level:
 
 ```sql
 insert into ADDRESS (STREET, VERSION, CREATED_AT, UPDATED_AT) values ('street A', 0, '2021-07-31T21:23:24.511', '2021-07-31T21:23:24.511')
 select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION, t0_.CREATED_AT, t0_.UPDATED_AT from ADDRESS as t0_ where t0_.ADDRESS_ID = 1
 ```
 
-### org.komapper.TRANSACTION
+### org.komapper.Transaction
 
-このカテゴリのログは次のようなトランザクションの開始やコミットを示すメッセージでtraceレベルで出力されます。
+In the `org.komapper.Transaction` category, 
+messages indicating transaction beginning, commit, and rollback are output at the TRACE level:
 
-```sql
-The transaction "83d5c2e5-8d3b-4a45-a5bb-215f846a0327" has begun.
-The transaction "83d5c2e5-8d3b-4a45-a5bb-215f846a0327" has committed.
+```
+Begin:    JdbcTransaction(id=032d9623-919f-43d4-ad00-f7d4c1518393, name=null)
+Rollback: JdbcTransaction(id=032d9623-919f-43d4-ad00-f7d4c1518393, name=null)
+Begin:    JdbcTransaction(id=a108b824-3353-475c-a29b-cb1575951803, name=null)
+Commit:   JdbcTransaction(id=a108b824-3353-475c-a29b-cb1575951803, name=null)
 ```
 
-### org.komapper.OTHER
+### org.komapper.Other
 
-このカテゴリは他のどのカテゴリにも属さないログを表します。
-デフォルトでは利用されていません。
+In the `org.komapper.Other` category, any message will be output at any log level.
 
-## LoggerFacadeの利用例 {#loggerfacade}
+## Use of LoggerFacade {#loggerfacade}
 
-LoggerFacadeを使えば、ログメッセージやログレベルの変更ができます。
+To change log messages and log levels, create your `LoggerFacade` implementation.
 
-### SQLのログレベルを変更する場合の設定例 {#loggerfacade-loglevel-example}
+### Example configuration for changing SQL log level {#loggerfacade-loglevel-example}
 
-例えば、SQLのログレベルをDEBUGからINFOに変更したい場合は、以下のような実装を作成します。
+For example, if you want to change the SQL log level from DEBUG to INFO, 
+create an implementation like the following:
 
 ```kotlin
 class MyLoggerFacade(private val logger: Logger): LoggerFacade by DefaultLoggerFacade(logger) {
@@ -70,8 +73,7 @@ class MyLoggerFacade(private val logger: Logger): LoggerFacade by DefaultLoggerF
     }
 }
 ```
-
-上記の実装クラスを`JdbcDatabaseConfig`に設定するには次のように記述します。
+To set the above implementation to `JdbcDatabaseConfig`, write as follows:
 
 ```kotlin
 val dataSource: DataSource = ..
@@ -84,19 +86,20 @@ val config: JdbcDatabaseConfig = object: DefaultJdbcDatabaseConfig(dataSource, d
 val db = JdbcDatabase(config)
 ```
 
-## SLF4Jの利用 {#slf4j}
+## Use of SLF4J {#slf4j}
 
-[SLF4J](http://www.slf4j.org/) を利用してログ出力するにはkomapper-slf4jモジュールをGradleの依存関係の宣言に含めます。
+To use [SLF4J](http://www.slf4j.org/) as a logging library, 
+include the komapper-slf4j module in the Gradle dependency declaration:
 
 ```kotlin
 val komapperVersion: String by project
-
 dependencies {
     runtimeOnly("org.komapper:komapper-slf4j:$komapperVersion")
 }
 ```
 
-また、SLF4Jの実装として [Logback](http://logback.qos.ch/) を使う場合はlogback-classicモジュールも依存関係の宣言に含めます。
+Also, if [Logback](http://logback.qos.ch/) is used as an implementation of SLF4J, 
+the logback-classic module should be included in the dependency declaration:
 
 ```kotlin
 val komapperVersion: String by project
@@ -108,13 +111,12 @@ dependencies {
 ```
 
 {{< alert title="Note" >}}
-Komapperが提供する各種starterモジュールはSLF4JとLogbackの設定を含んでいます。
-starterモジュールを使う場合、上記の設定は不要です。
+The above dependency declaration is not necessary when using [Starters]({{< relref "Starter" >}}).
 {{< /alert >}}
 
-### LogbackでSQLのログ出力をする場合の設定例 {#slf4j-logback-example}
+### Example configuration for SQL logging with Logback {#slf4j-logback-example}
 
-次のようなlogback.xmlをsrc/main/resourcesの下に配置すると、バインド変数`?`が含まれた形式のSQLがコンソールに出力されます。
+Place the following logback.xml under src/main/resources:
 
 ```xml
 <configuration>
@@ -124,7 +126,7 @@ starterモジュールを使う場合、上記の設定は不要です。
         </encoder>
     </appender>
     
-    <logger name="org.komapper.SQL" level="debug"/>
+    <logger name="org.komapper.Sql" level="debug"/>
 
     <root level="info">
         <appender-ref ref="STDOUT" />
@@ -132,7 +134,8 @@ starterモジュールを使う場合、上記の設定は不要です。
 </configuration>
 ```
 
-バインド変数を引数で置換した形式のSQLをコンソールに出力したい場合は以下のように設定してください。
+In the above example, the log category `org.komapper.Sql` is used.
+Instead, to use the log category `org.komapper.SqlWithArgs`, write as follows:
 
 ```xml
 <configuration>
@@ -142,7 +145,7 @@ starterモジュールを使う場合、上記の設定は不要です。
         </encoder>
     </appender>
     
-    <logger name="org.komapper.SQL_WITH_ARGS" level="trace"/>
+    <logger name="org.komapper.SqlWithArgs" level="trace"/>
 
     <root level="info">
         <appender-ref ref="STDOUT" />
