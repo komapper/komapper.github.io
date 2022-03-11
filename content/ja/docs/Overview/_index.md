@@ -59,7 +59,7 @@ fun main() {
 一方でR2DBCを使うコードは次のように書けます。（上述のJDBC版との違いがわかるでしょうか？）
 
 ```kotlin
-fun main() = runBlocking {
+suspend fun main() {
     // create a Database instance
     val db = R2dbcDatabase("r2dbc:h2:mem:///example;DB_CLOSE_DELAY=-1")
 
@@ -88,7 +88,7 @@ fun main() = runBlocking {
 
 見た目上の違いは以下の2点のみです。
 
-1. R2DBC版では`main`関数の処理全体を`runBlocking`で囲んでいる
+1. R2DBC版では`main`関数が`suspend`関数である
 2. `db`インスタンスの生成方法が異なる
 
 動作する完全なコードについては [komapper-examples](https://github.com/komapper/komapper-examples)
