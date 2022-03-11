@@ -16,6 +16,7 @@ fun replaceVersion(version: String, prefix :String, suffix: String = "\"") {
             "fileset"("dir" to "content") {
                 "include"("name" to "en/docs/Quickstart/_index.md")
                 "include"("name" to "ja/docs/Quickstart/_index.md")
+                "include"("name" to "en/docs/Reference/gradle-plugin.md")
                 "include"("name" to "ja/docs/Reference/gradle-plugin.md")
             }
         }
