@@ -14,7 +14,7 @@ Mapping definitions using annotations are necessary to map entity classes to tab
 
 The metamodels are used in the construction and execution of queries.
 
-## Entity class definition {#entity-class-definition}
+## Entity class definitions {#entity-class-definition}
 
 Entity classes must meet the following requirements:
 
@@ -47,10 +47,10 @@ data class Address(
 )
 ```
 
-The mapping between property types (Kotlin types) and 
-column types (database types) is defined by [Dialects]({{< relref "dialect.md" >}}).
+The type mappings between properties and columns 
+are defined by [Dialects]({{< relref "dialect.md" >}}).
 
-## Mapping definition {#mapping-definition}
+## Mapping definitions {#mapping-definition}
 
 There are two ways to create a mapping definition:
 
@@ -122,7 +122,7 @@ even though it does not appear in the separation mapping.
 There are no restrictions on the types of properties in the separation mapping. 
 We use `Nothing` in the above example.
 
-## Metamodel {#metamodel}
+## Metamodels {#metamodel}
 
 From a mapping definition, a metamodel is generated 
 in the form of an implementation of the `org.komapper.core.dsl.metamodel.EntityMetamodel` interface.

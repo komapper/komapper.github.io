@@ -11,7 +11,7 @@ Here, these are collectively referred to as Database instances.
 
 The Database instances are responsible for transaction control and query execution.
 
-## Creation of Database instance {#instantiation}
+## Instantiation {#instantiation}
 
 The method of creating a Database instance differs when using JDBC or R2DBC.
 
@@ -81,7 +81,7 @@ val db: R2dbcDatabase = R2dbcDatabase(
 
 See also [Dialect]({{< relref "Dialect" >}}).
 
-## Use of Database instances {#usage}
+## Usage {#usage}
 
 ### Transaction Control {#transaction-control}
 

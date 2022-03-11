@@ -1,5 +1,5 @@
 ---
-title: "SELECT Query"
+title: "SELECT Queries"
 linkTitle: "SELECT"
 weight: 10
 description: >

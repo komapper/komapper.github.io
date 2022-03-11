@@ -9,7 +9,7 @@ description: >
 The Starter module makes it easy to start a project using Komapper.
 There are several types of starter modules.
 
-## Simple starter {#simple-starter}
+## Simple starters {#simple-starter}
 
 ### komapper-starter-jdbc
 
@@ -35,7 +35,7 @@ dependencies {
 }
 ```
 
-## Spring Boot starter {#spring-boot-starter}
+## Spring Boot starters {#spring-boot-starter}
 
 ### komapper-spring-boot-starter-jdbc
 

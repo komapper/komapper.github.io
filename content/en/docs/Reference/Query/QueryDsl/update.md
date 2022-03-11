@@ -1,5 +1,5 @@
 ---
-title: "UPDATE Query"
+title: "UPDATE Queries"
 linkTitle: "UPDATE"
 weight: 30
 description: >

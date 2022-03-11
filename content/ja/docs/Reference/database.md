@@ -11,7 +11,7 @@ Komapperでデータベースにアクセスするためには`JdbcDatabase`も�
 
 Databaseインスタンスはトランザクションの制御やクエリの実行を担当します。
 
-## Databaseインスタンスの生成 {#instantiation}
+## インスタンスの生成 {#instantiation}
 
 Databaseインスタンスの生成方法はJDBCを使う場合とR2DBCを使う場合で異なります。
 
@@ -80,7 +80,7 @@ val db: R2dbcDatabase = R2dbcDatabase(
 
 [ダイアレクト]({{< relref "dialect.md" >}})も参照ください。
 
-## Databaseインスタンスの利用 {#usage}
+## インスタンスの利用 {#usage}
 
 ### トランザクションの制御 {#transaction-control}
 

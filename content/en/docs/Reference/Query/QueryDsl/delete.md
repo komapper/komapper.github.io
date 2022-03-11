@@ -1,5 +1,5 @@
 ---
-title: "DELETE Query"
+title: "DELETE Queries"
 linkTitle: "DELETE"
 weight: 40
 description: >

@@ -53,7 +53,7 @@ Commit:   JdbcTransaction(id=a108b824-3353-475c-a29b-cb1575951803, name=null)
 このカテゴリは他のどのカテゴリにも属さないログを表します。
 任意のログレベルで出力されます。
 
-## LoggerFacadeの利用例 {#loggerfacade}
+## LoggerFacadeの利用 {#loggerfacade}
 
 LoggerFacadeを使えば、ログメッセージやログレベルの変更ができます。
 

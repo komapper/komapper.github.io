@@ -144,7 +144,7 @@ db.withTransaction { tx ->
 
 ## トランザクショナルなFlow {#transactional-flow}
 
-`R2dbcDatabase`のみがトランザクションを表す`Flow`を構築するための`flowTransaction`関数を提供します。
+`R2dbcDatabase`はトランザクションを表す`Flow`を構築するための`flowTransaction`関数を提供します。
 
 ```kotlin
 val db = R2dbcDatabase("r2dbc:h2:mem:///example;DB_CLOSE_DELAY=-1")

@@ -1,5 +1,5 @@
 ---
-title: "INSERT Query"
+title: "INSERT Queries"
 linkTitle: "INSERT"
 weight: 20
 description: >

@@ -46,7 +46,7 @@ data class Address(
 )
 ```
 
-プロパティの型（Kotlinの型）とカラムの型（データベースの型）の対応関係は [ダイアレクト]({{< relref "Dialect" >}}) で定義されます。
+プロパティとカラムの間における型の対応関係は [ダイアレクト]({{< relref "Dialect" >}}) で定義されます。
 
 ## マッピング定義 {#mapping-definition}
 
