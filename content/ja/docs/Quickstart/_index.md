@@ -89,23 +89,20 @@ tasks {
 
 ### ソースコード {#source-code}
 
-最初に、データベースのテーブルに対応するエンティティクラス（`Employee`）と対応関係を定義するクラス（`EmployeeDef`）を作ります。
+最初に、データベースのテーブルに対応するエンティティクラスを作ります。
 
 ```kotlin
+@KomapperEntity
 data class Employee(
+  @KomapperId @KomapperAutoIncrement
   val id: Int = 0,
   val name: String,
+  @KomapperVersion
   val version: Int = 0,
+  @KomapperCreatedAt
   val createdAt: LocalDateTime = LocalDateTime.MIN,
+  @KomapperUpdatedAt
   val updatedAt: LocalDateTime = LocalDateTime.MIN,
-)
-
-@KomapperEntityDef(Employee::class)
-data class EmployeeDef(
-  @KomapperId @KomapperAutoIncrement val id: Nothing,
-  @KomapperVersion val version: Nothing,
-  @KomapperCreatedAt val createdAt: Nothing,
-  @KomapperUpdatedAt val updatedAt: Nothing,
 )
 ```
 
