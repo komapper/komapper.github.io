@@ -89,24 +89,27 @@ In the `kotlin` block, we tell Gradle that the generated code should be treated 
 
 ### Source code {#source-code}
 
-First, create an entity class:
+First, create an entity class (`Employee`) and its mapping definition class (`EmployeeDef`):
 
 ```kotlin
-@KomapperEntity
 data class Employee(
-  @KomapperId @KomapperAutoIncrement
   val id: Int = 0,
   val name: String,
-  @KomapperVersion
   val version: Int = 0,
-  @KomapperCreatedAt
   val createdAt: LocalDateTime = LocalDateTime.MIN,
-  @KomapperUpdatedAt
   val updatedAt: LocalDateTime = LocalDateTime.MIN,
+)
+
+@KomapperEntityDef(Employee::class)
+data class EmployeeDef(
+  @KomapperId @KomapperAutoIncrement val id: Nothing,
+  @KomapperVersion val version: Nothing,
+  @KomapperCreatedAt val createdAt: Nothing,
+  @KomapperUpdatedAt val updatedAt: Nothing,
 )
 ```
 
-Once you have finished creating the above class, [build]({{< relref "./#build" >}}) it.
+Once you have finished creating the above classes, [build]({{< relref "./#build" >}}) them.
 The metamodel code will be output and can be used in subsequent code.
 
 Next, create a main logic:
