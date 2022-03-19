@@ -84,8 +84,8 @@ val db: R2dbcDatabase = R2dbcDatabase(
 
 ### トランザクションの制御 {#transaction-control}
 
-Databaseインスタンスの`withTransaction`拡張関数でトランザクションを制御します。
-`withTransaction`拡張関数にはトランザクション内で処理したいロジックをラムダ式として渡します。
+Databaseインスタンスの`withTransaction`関数でトランザクションを制御します。
+`withTransaction`関数にはトランザクション内で処理したいロジックをラムダ式として渡します。
 
 ```kotlin
 db.withTransaction {
