@@ -61,29 +61,37 @@ To change log messages and log levels, create your `LoggerFacade` implementation
 ### Example configuration for changing SQL log level {#loggerfacade-loglevel-example}
 
 For example, if you want to change the SQL log level from DEBUG to INFO, 
-create an implementation like the following:
+create an implementation class for `LoggerFacade` and its factory class as follows:
 
 ```kotlin
-class MyLoggerFacade(private val logger: Logger): LoggerFacade by DefaultLoggerFacade(logger) {
-    override fun sql(statement: Statement, format: (Int, StatementPart.PlaceHolder) -> CharSequence) {
-        logger.info(LogCategory.SQL.value) {
+package example
+
+import org.komapper.core.DefaultLoggerFacade
+import org.komapper.core.LogCategory
+import org.komapper.core.Logger
+import org.komapper.core.LoggerFacade
+import org.komapper.core.Statement
+import org.komapper.core.StatementPart
+import org.komapper.core.spi.LoggerFacadeFactory
+
+class MyLoggerFacade(private val logger: Logger) : LoggerFacade by DefaultLoggerFacade(logger) {
+    override fun sql(statement: Statement, format: (Int, StatementPart.Value) -> CharSequence) {
+        logger.info(LogCategory.SQL) {
             statement.toSql(format)
         }
     }
 }
-```
-To set the above implementation to `JdbcDatabaseConfig`, write as follows:
 
-```kotlin
-val dataSource: DataSource = ..
-val dialect: JdbcDialect = ..
-val config: JdbcDatabaseConfig = object: DefaultJdbcDatabaseConfig(dataSource, dialect) {
-  override val loggerFacade: LoggerFacade by {
-    MyLoggerFacade(logger)
-  }
+class MyLoggerFacadeFactory : LoggerFacadeFactory {
+    override fun create(logger: Logger): LoggerFacade {
+        return MyLoggerFacade(logger)
+    }
 }
-val db = JdbcDatabase(config)
 ```
+
+Then, create a file "org.komapper.core.spi.LoggerFacadeFactory"
+in the directory "src/main/resource/META-INF/services" and
+add the fully qualified name of the above factory class to the file.
 
 ## Use of SLF4J {#slf4j}
 

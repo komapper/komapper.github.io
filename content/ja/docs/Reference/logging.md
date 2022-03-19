@@ -59,30 +59,37 @@ LoggerFacadeを使えば、ログメッセージやログレベルの変更が�
 
 ### SQLのログレベルを変更する場合の設定例 {#loggerfacade-loglevel-example}
 
-例えば、SQLのログレベルをDEBUGからINFOに変更したい場合は、以下のような実装を作成します。
+例えば、SQLのログレベルをDEBUGからINFOに変更したい場合は、以下のような`LoggerFacade`の実装とそのファクトリを作成します。
 
 ```kotlin
-class MyLoggerFacade(private val logger: Logger): LoggerFacade by DefaultLoggerFacade(logger) {
-    override fun sql(statement: Statement, format: (Int, StatementPart.PlaceHolder) -> CharSequence) {
-        logger.info(LogCategory.SQL.value) {
+package example
+
+import org.komapper.core.DefaultLoggerFacade
+import org.komapper.core.LogCategory
+import org.komapper.core.Logger
+import org.komapper.core.LoggerFacade
+import org.komapper.core.Statement
+import org.komapper.core.StatementPart
+import org.komapper.core.spi.LoggerFacadeFactory
+
+class MyLoggerFacade(private val logger: Logger) : LoggerFacade by DefaultLoggerFacade(logger) {
+    override fun sql(statement: Statement, format: (Int, StatementPart.Value) -> CharSequence) {
+        logger.info(LogCategory.SQL) {
             statement.toSql(format)
         }
     }
 }
-```
 
-上記の実装クラスを`JdbcDatabaseConfig`に設定するには次のように記述します。
-
-```kotlin
-val dataSource: DataSource = ..
-val dialect: JdbcDialect = ..
-val config: JdbcDatabaseConfig = object: DefaultJdbcDatabaseConfig(dataSource, dialect) {
-  override val loggerFacade: LoggerFacade by {
-    MyLoggerFacade(logger)
-  }
+class MyLoggerFacadeFactory : LoggerFacadeFactory {
+    override fun create(logger: Logger): LoggerFacade {
+        return MyLoggerFacade(logger)
+    }
 }
-val db = JdbcDatabase(config)
 ```
+
+`src/main/resource/META-INF/services`ディレクトリの下に
+`org.komapper.core.spi.LoggerFacadeFactory`という名前のファイルを作成し、
+このファイルにファクトリの完全修飾名を記載してください。
 
 ## SLF4Jの利用 {#slf4j}
 
