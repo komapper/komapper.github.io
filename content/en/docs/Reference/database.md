@@ -124,11 +124,11 @@ See [Queries]({{< relref "Query" >}}) for information on building queries.
 If the [Query DSL]({{< relref "Query/QueryDsl" >}}) API does not meet your requirements,
 the Low-level APIs are available.
 
-To use the JDBC API directly, call `db.config.session.getConnection()` to get `java.sql.Connection`.
+To use the JDBC API directly, call `db.config.session.useConnection()` to get `java.sql.Connection`.
 
 ```kotlin
 val db: JdbcDatabase = ...
-db.config.session.getConnection().use { con ->
+db.config.session.useConnection { con: java.sql.Connection ->
     val sql = "select employee_name from employee where employee_id = ?"
     con.prepareStatement(sql).use { ps ->
         ps.setInt(1,10)
@@ -141,9 +141,18 @@ db.config.session.getConnection().use { con ->
 }
 ```
 
-Similarly, to use R2DBC API directly, call `db.config.session.getConnection()` to get `io.r2dbc.spi.Connection`.
+Similarly, to use R2DBC API directly, call `db.config.session.useConnection()` to get `io.r2dbc.spi.Connection`.
 
 ```kotlin
 val db: R2dbcDatabase = ...
-val connection: Connection = db.config.session.getConnection()
+db.config.session.useConnection { con: io.r2dbc.spi.Connection ->
+    val sql = "select employee_name from employee where employee_id = ?"
+    val statement = con.createStatement(sql)
+    statement.bind(0, 10)
+    statement.execute().collect { result ->
+        result.map { row -> row.get(0, String::class.java) }.collect {
+            println(it)
+        }
+    }
+}
 ```

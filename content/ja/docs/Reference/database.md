@@ -121,14 +121,14 @@ val flow: Flow<Address> = db.flowQuery(query)
 
 [Query DSL]({{< relref "Query/QueryDSL" >}}) のAPIが要件に合わない場合、低レベルAPIを直接利用できます。
 
-JDBCのAPIを直接利用するには、`JdbcDatabase`インスタンスからいくつかのプロパティを呼び出して`java.sql.Connection`を取得します。
+JDBCのAPIを直接利用するには、`JdbcDatabase`インスタンスからいくつかのプロパティと関数を呼び出して`java.sql.Connection`を取得します。
 
 ```kotlin
 val db: JdbcDatabase = ...
-db.config.session.getConnection().use { con ->
+db.config.session.useConnection { con: java.sql.Connection ->
     val sql = "select employee_name from employee where employee_id = ?"
     con.prepareStatement(sql).use { ps ->
-        ps.setInt(1,10)
+        ps.setInt(1, 10)
         ps.executeQuery().use { rs ->
             if (rs.next()) {
                 println(rs.getString(1))
@@ -139,9 +139,18 @@ db.config.session.getConnection().use { con ->
 ```
 
 同様に、R2DBCのAPIを直接利用するには`R2dbcDatabase`インスタンスから
-いくつかのプロパティを呼び出して`io.r2dbc.spi.Connection`を取得します。
+いくつかのプロパティと関数を呼び出して`io.r2dbc.spi.Connection`を取得します。
 
 ```kotlin
 val db: R2dbcDatabase = ...
-val connection: Connection = db.config.session.getConnection()
+db.config.session.useConnection { con: io.r2dbc.spi.Connection ->
+    val sql = "select employee_name from employee where employee_id = ?"
+    val statement = con.createStatement(sql)
+    statement.bind(0, 10)
+    statement.execute().collect { result ->
+        result.map { row -> row.get(0, String::class.java) }.collect {
+            println(it)
+        }
+    }
+}
 ```
