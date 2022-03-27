@@ -1,8 +1,8 @@
 ---
 title: "SELECTクエリ"
-linkTitle: "SELECT"
+linkTitle: "検索"
 weight: 10
-description: >
+description: 検索のためのクエリ
 ---
 
 ## 概要 {#overview}

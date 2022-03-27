@@ -1,8 +1,8 @@
 ---
 title: "INSERTクエリ"
-linkTitle: "INSERT"
+linkTitle: "追加"
 weight: 20
-description: >
+description: 追加のためのクエリ
 ---
 
 ## 概要 {#overview}

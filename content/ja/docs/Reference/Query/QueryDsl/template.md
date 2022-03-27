@@ -1,6 +1,6 @@
 ---
 title: "TEMPLATEクエリ"
-linkTitle: "TEMPLATE"
+linkTitle: "テンプレート"
 weight: 50
 description: >
   SQLテンプレートを利用するクエリ

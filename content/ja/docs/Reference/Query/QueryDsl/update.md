@@ -1,8 +1,8 @@
 ---
 title: "UPDATEクエリ"
-linkTitle: "UPDATE"
+linkTitle: "更新"
 weight: 30
-description:
+description: 更新のためのクエリ
 ---
 
 ## 概要 {#overview}

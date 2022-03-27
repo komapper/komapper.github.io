@@ -1,5 +1,5 @@
 ---
-title: "Query DSL"
+title: "クエリのDSL"
 weight: 30
 description:
 ---
