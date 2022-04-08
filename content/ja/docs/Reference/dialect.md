@@ -66,364 +66,40 @@ dependencies {
 
 ## H2 - JDBC
 
-データ型の対応関係を示します。
-
-| Kotlin Type                    | Database Type            |
-|--------------------------------|--------------------------|
-| java.math.BigDecimal           | BIGINT                   |
-| java.math.BigInteger           | BIGINT                   |
-| java.sql.Array                 | ARRAY                    |
-| java.sql.Blob                  | BLOB                     |
-| java.sql.Clob                  | CLOB                     |
-| java.sql.NClob                 | CLOB                     |
-| java.sql.SQLXML                | CLOB                     |
-| java.time.Instant              | TIMESTAMP                |
-| java.time.LocalDate            | DATE                     |
-| java.time.LocalDateTime        | TIMESTAMP                |
-| java.time.LocalTime            | TIME                     |
-| java.time.OffsetDateTime       | TIMESTAMP WITH TIME ZONE |
-| java.util.UUID                 | UUID                     |
-| kotlin.Any                     | OTHER                    |
-| kotlin.Boolean                 | BOOLEAN                  |
-| kotlin.Byte                    | TINYINT                  |
-| kotlin.ByteArray               | BINARY                   |
-| kotlin.Double                  | DOUBLE                   |
-| kotlin.Float                   | REAL                     |
-| kotlin.Int                     | INT                      |
-| kotlin.Long                    | BIGINT                   |
-| kotlin.Short                   | SMALLINT                 |
-| kotlin.String                  | VARCHAR                  |
-| kotlin.UByte                   | SMALLINT                 |
-| kotlin.UInt                    | BIGINT                   |
-| kotlin.UShort                  | INT                      |
-| kotlinx.datetime.Instant       | TIMESTAMP                |
-| kotlinx.datetime.LocalDate     | DATE                     |
-| kotlinx.datetime.LocalDateTime | TIMESTAMP                |
-| enum class                     | VARCHAR                  |
+[データ型の対応関係]({{< relref path="dialect#h2---jdbc" lang="en" >}})
 
 ## H2 - R2DBC
 
-データ型の対応関係を示します。
-
-| Kotlin Type                    | Database Type            |
-|--------------------------------|--------------------------|
-| io.r2dbc.spi.Blob              | Blob                     |
-| io.r2dbc.spi.Clob              | Clob                     |
-| java.math.BigDecimal           | BIGINT                   |
-| java.math.BigDecimal           | BIGINT                   |
-| java.math.BigInteger           | BIGINT                   |
-| java.time.Instant              | TIMESTAMP                |
-| java.time.LocalDate            | DATE                     |
-| java.time.LocalDateTime        | TIMESTAMP                |
-| java.time.LocalTime            | TIME                     |
-| java.time.OffsetDateTime       | TIMESTAMP WITH TIME ZONE |
-| java.util.UUID                 | UUID                     |
-| kotlin.Any                     | OTHER                    |
-| kotlin.Boolean                 | BOOLEAN                  |
-| kotlin.Byte                    | TINYINT                  |
-| kotlin.ByteArray               | BINARY                   |
-| kotlin.Double                  | DOUBLE                   |
-| kotlin.Float                   | REAL                     |
-| kotlin.Int                     | INT                      |
-| kotlin.Long                    | BIGINT                   |
-| kotlin.Short                   | SMALLINT                 |
-| kotlin.String                  | VARCHAR                  |
-| kotlin.UByte                   | SMALLINT                 |
-| kotlin.UInt                    | BIGINT                   |
-| kotlin.UShort                  | INT                      |
-| kotlinx.datetime.Instant       | TIMESTAMP                |
-| kotlinx.datetime.LocalDate     | DATE                     |
-| kotlinx.datetime.LocalDateTime | TIMESTAMP                |
-| enum class                     | VARCHAR                  |
+[データ型の対応関係]({{< relref path="dialect#h2---r2dbc" lang="en" >}})
 
 ## MariaDB - JDBC
 
-データ型の対応関係を示します。
-
-| Kotlin Type                    | Database Type   |
-|--------------------------------|-----------------|
-| java.math.BigDecimal           | DECIMAL         |
-| java.math.BigInteger           | DECIMAL         |
-| java.sql.Array                 | N/A             |
-| java.sql.Blob                  | BLOB            |
-| java.sql.Clob                  | TEXT            |
-| java.sql.NClob                 | TEXT            |
-| java.sql.SQLXML                | TEXT            |
-| java.time.Instant              | TIMESTAMP       |
-| java.time.LocalDate            | DATE            |
-| java.time.LocalDateTime        | TIMESTAMP       |
-| java.time.LocalTime            | TIME            |
-| java.time.OffsetDateTime       | TIMESTAMP       |
-| java.util.UUID                 | N/A             |
-| kotlin.Any                     | N/A             |
-| kotlin.Boolean                 | BIT(1), BOOLEAN |
-| kotlin.Byte                    | TINYINT         |
-| kotlin.ByteArray               | VARBINARY       |
-| kotlin.Double                  | DOUBLE          |
-| kotlin.Float                   | FLOAT           |
-| kotlin.Int                     | INT             |
-| kotlin.Long                    | BIGINT          |
-| kotlin.Short                   | SMALLINT        |
-| kotlin.String                  | VARCHAR         |
-| kotlin.UByte                   | SMALLINT        |
-| kotlin.UInt                    | BIGINT          |
-| kotlin.UShort                  | INT             |
-| kotlinx.datetime.Instant       | TIMESTAMP       |
-| kotlinx.datetime.LocalDate     | DATE            |
-| kotlinx.datetime.LocalDateTime | TIMESTAMP       |
-| enum class                     | VARCHAR         |
+[データ型の対応関係]({{< relref path="dialect#mariadb---jdbc" lang="en" >}})
 
 ## MySQL - JDBC
 
-データ型の対応関係を示します。
-
-| Kotlin Type                    | Database Type   |
-|--------------------------------|-----------------|
-| java.math.BigDecimal           | DECIMAL         |
-| java.math.BigInteger           | DECIMAL         |
-| java.sql.Array                 | N/A             |
-| java.sql.Blob                  | BLOB            |
-| java.sql.Clob                  | TEXT            |
-| java.sql.NClob                 | TEXT            |
-| java.sql.SQLXML                | TEXT            |
-| java.time.Instant              | TIMESTAMP       |
-| java.time.LocalDate            | DATE            |
-| java.time.LocalDateTime        | TIMESTAMP(6)    |
-| java.time.LocalTime            | TIME            |
-| java.time.OffsetDateTime       | TIMESTAMP       |
-| java.util.UUID                 | N/A             |
-| kotlin.Any                     | N/A             |
-| kotlin.Boolean                 | BIT(1), BOOLEAN |
-| kotlin.Byte                    | TINYINT         |
-| kotlin.ByteArray               | VARBINARY       |
-| kotlin.Double                  | DOUBLE          |
-| kotlin.Float                   | FLOAT           |
-| kotlin.Int                     | INT             |
-| kotlin.Long                    | BIGINT          |
-| kotlin.Short                   | SMALLINT        |
-| kotlin.String                  | VARCHAR         |
-| kotlin.UByte                   | SMALLINT        |
-| kotlin.UInt                    | BIGINT          |
-| kotlin.UShort                  | INT             |
-| kotlinx.datetime.Instant       | TIMESTAMP       |
-| kotlinx.datetime.LocalDate     | DATE            |
-| kotlinx.datetime.LocalDateTime | TIMESTAMP       |
-| enum class                     | VARCHAR         |
+[データ型の対応関係]({{< relref path="dialect#mysql---jdbc" lang="en" >}})
 
 ## Oracle - JDBC
 
-データ型の対応関係を示します。
-
-| Kotlin Type                    | Database Type            |
-|--------------------------------|--------------------------|
-| java.math.BigDecimal           | NUMBER                   |
-| java.math.BigInteger           | NUMBER                   |
-| java.sql.Array                 | N/A                      |
-| java.sql.Blob                  | BLOB                     |
-| java.sql.Clob                  | CLOB                     |
-| java.sql.NClob                 | N/A                      |
-| java.sql.SQLXML                | N/A                      |
-| java.time.Instant              | TIMESTAMP                |
-| java.time.LocalDate            | DATE                     |
-| java.time.LocalDateTime        | TIMESTAMP                |
-| java.time.LocalTime            | TIME                     |
-| java.time.OffsetDateTime       | TIMESTAMP WITH TIME ZONE |
-| java.util.UUID                 | N/A                      |
-| kotlin.Any                     | N/A                      |
-| kotlin.Boolean                 | NUMBER                   |
-| kotlin.Byte                    | NUMBER                   |
-| kotlin.ByteArray               | RAW                      |
-| kotlin.Double                  | FLOAT                    |
-| kotlin.Float                   | FLOAT                    |
-| kotlin.Int                     | NUMBER                   |
-| kotlin.Long                    | NUMBER                   |
-| kotlin.Short                   | NUMBER                   |
-| kotlin.String                  | VARCHAR2                 |
-| kotlin.UByte                   | NUMBER                   |
-| kotlin.UInt                    | NUMBER                   |
-| kotlin.UShort                  | NUMBER                   |
-| kotlinx.datetime.Instant       | TIMESTAMP                |
-| kotlinx.datetime.LocalDate     | DATE                     |
-| kotlinx.datetime.LocalDateTime | TIMESTAMP                |
-| enum class                     | VARCHAR2                 |
+[データ型の対応関係]({{< relref path="dialect#oracle---jdbc" lang="en" >}})
 
 ## Oracle - R2DBC
 
-データ型の対応関係を示します。
-
-| Kotlin Type                    | Database Type            |
-|--------------------------------|--------------------------|
-| io.r2dbc.spi.Blob              | BLOB                     |
-| io.r2dbc.spi.Clob              | CLOB                     |
-| java.math.BigDecimal           | NUMBER                   |
-| java.math.BigInteger           | NUMBER                   |
-| java.time.Duration             | INTERVAL DAY TO SECOND   |
-| java.time.Instant              | TIMESTAMP                |
-| java.time.LocalDate            | DATE                     |
-| java.time.LocalDateTime        | TIMESTAMP                |
-| java.time.LocalTime            | TIME                     |
-| java.time.Period               | INTERVAL YEAR TO MONTH   |
-| java.time.OffsetDateTime       | TIMESTAMP WITH TIME ZONE |
-| java.util.UUID                 | N/A                      |
-| kotlin.Any                     | N/A                      |
-| kotlin.Boolean                 | NUMBER                   |
-| kotlin.Byte                    | NUMBER                   |
-| kotlin.ByteArray               | RAW                      |
-| kotlin.Double                  | FLOAT                    |
-| kotlin.Float                   | FLOAT                    |
-| kotlin.Int                     | NUMBER                   |
-| kotlin.Long                    | NUMBER                   |
-| kotlin.Short                   | NUMBER                   |
-| kotlin.String                  | VARCHAR2                 |
-| kotlin.UByte                   | NUMBER                   |
-| kotlin.UInt                    | NUMBER                   |
-| kotlin.UShort                  | NUMBER                   |
-| kotlinx.datetime.Instant       | TIMESTAMP                |
-| kotlinx.datetime.LocalDate     | DATE                     |
-| kotlinx.datetime.LocalDateTime | TIMESTAMP                |
-| enum class                     | VARCHAR2                 |
+[データ型の対応関係]({{< relref path="dialect#oracle---r2dbc" lang="en" >}})
 
 ## PostgreSQL - JDBC
 
-データ型の対応関係を示します。
-
-| Kotlin Type                    | Database Type                        |
-|--------------------------------|--------------------------------------|
-| java.math.BigDecimal           | numeric, decimal                     |
-| java.math.BigInteger           | numeric, decimal                     |
-| java.sql.Array                 | array of data type                   |
-| java.sql.Blob                  | N/A                                  |
-| java.sql.Clob                  | N/A                                  |
-| java.sql.NClob                 | N/A                                  |
-| java.sql.SQLXML                | xml                                  |
-| java.time.Instant              | timestamp                            |
-| java.time.LocalDate            | date                                 |
-| java.time.LocalDateTime        | timestamp                            |
-| java.time.LocalTime            | time                                 |
-| java.time.OffsetDateTime       | timestamp with time zone             |
-| java.util.UUID                 | uuid                                 |
-| kotlin.Any                     | N/A                                  |
-| kotlin.Boolean                 | boolean, bool                        |
-| kotlin.Byte                    | smallint                             |
-| kotlin.ByteArray               | bytea                                |
-| kotlin.Double                  | double precision, float8             |
-| kotlin.Float                   | real                                 |
-| kotlin.Int                     | integer, int, int4, serial           |
-| kotlin.Long                    | bigint, int8, bigserial, serial8     |
-| kotlin.Short                   | smallint, int2, smallserial, serial2 |
-| kotlin.String                  | character varying, varchar, text     |
-| kotlin.UByte                   | smallint, int2, smallserial, serial2 |
-| kotlin.UInt                    | bigint, int8, bigserial, serial8     |
-| kotlin.UShort                  | integer, int, int4, serial           |
-| kotlinx.datetime.Instant       | timestamp                            |
-| kotlinx.datetime.LocalDate     | date                                 |
-| kotlinx.datetime.LocalDateTime | timestamp                            |
-| enum class                     | character varying, varchar, text     |
+[データ型の対応関係]({{< relref path="dialect#postgresql---jdbc" lang="en" >}})
 
 ## PostgreSQL - R2DBC
 
-データ型の対応関係を示します。
-
-| Kotlin Type                        | Database Type                        |
-|------------------------------------|--------------------------------------|
-| io.r2dbc.postgresql.codec.Interval | interval                             |
-| io.r2dbc.postgresql.codec.Json     | json, jsonb                          |
-| io.r2dbc.spi.Blob                  | bytea                                |
-| io.r2dbc.spi.Clob                  | text                                 |
-| java.math.BigDecimal               | numeric, decimal                     |
-| java.math.BigInteger               | numeric, decimal                     |
-| java.time.Instant                  | timestamp                            |
-| java.time.LocalDate                | date                                 |
-| java.time.LocalDateTime            | timestamp                            |
-| java.time.LocalTime                | time                                 |
-| java.time.OffsetDateTime           | timestamp with time zone             |
-| java.util.UUID                     | uuid                                 |
-| kotlin.Any                         | N/A                                  |
-| kotlin.Array                       | array of data type                   |
-| kotlin.Boolean                     | boolean, bool                        |
-| kotlin.Byte                        | smallint                             |
-| kotlin.ByteArray                   | bytea                                |
-| kotlin.Double                      | double precision, float8             |
-| kotlin.Float                       | real                                 |
-| kotlin.Int                         | integer, int, int4, serial           |
-| kotlin.Long                        | bigint, int8, bigserial, serial8     |
-| kotlin.Short                       | smallint, int2, smallserial, serial2 |
-| kotlin.String                      | character varying, varchar, text     |
-| kotlin.UByte                       | smallint, int2, smallserial, serial2 |
-| kotlin.UInt                        | bigint, int8, bigserial, serial8     |
-| kotlin.UShort                      | integer, int, int4, serial           |
-| kotlinx.datetime.Instant           | timestamp                            |
-| kotlinx.datetime.LocalDate         | date                                 |
-| kotlinx.datetime.LocalDateTime     | timestamp                            |
-| enum class                         | character varying, varchar, text     |
+[データ型の対応関係]({{< relref path="dialect#postgresql---r2dbc" lang="en" >}})
 
 ## SQL Server - JDBC
 
-データ型の対応関係を示します。
-
-| Kotlin Type                    | Database Type     |
-|--------------------------------|-------------------|
-| java.math.BigDecimal           | decimal           |
-| java.math.BigInteger           | decimal           |
-| java.sql.Array                 | N/A               |
-| java.sql.Blob                  | varbinary(max)    |
-| java.sql.Clob                  | text              |
-| java.sql.NClob                 | N/A               |
-| java.sql.SQLXML                | xml               |
-| java.time.Instant              | datetime          |
-| java.time.LocalDate            | date              |
-| java.time.LocalDateTime        | datetime          |
-| java.time.LocalTime            | time              |
-| java.time.OffsetDateTime       | N/A               |
-| java.util.UUID                 | N/A               |
-| kotlin.Any                     | N/A               |
-| kotlin.Boolean                 | bit               |
-| kotlin.Byte                    | smallint, tinyint |
-| kotlin.ByteArray               | varbinary         |
-| kotlin.Double                  | float             |
-| kotlin.Float                   | real              |
-| kotlin.Int                     | int               |
-| kotlin.Long                    | bigint            |
-| kotlin.Short                   | smallint          |
-| kotlin.String                  | varchar, nvarchar |
-| kotlin.UByte                   | smallint          |
-| kotlin.UInt                    | bigint            |
-| kotlin.UShort                  | int               |
-| kotlinx.datetime.Instant       | datetime          |
-| kotlinx.datetime.LocalDate     | date              |
-| kotlinx.datetime.LocalDateTime | datetime          |
-| enum class                     | varchar, nvarchar |
+[データ型の対応関係]({{< relref path="dialect#sql-server---jdbc" lang="en" >}})
 
 ## SQL Server - R2DBC
 
-データ型の対応関係を示します。
-
-| Kotlin Type                    | Database Type     |
-|--------------------------------|-------------------|
-| io.r2dbc.spi.Blob              | varbinary(max)    |
-| io.r2dbc.spi.Clob              | text              |
-| java.math.BigDecimal           | decimal           |
-| java.math.BigInteger           | decimal           |
-| java.time.Instant              | datetime          |
-| java.time.LocalDate            | date              |
-| java.time.LocalDateTime        | datetime          |
-| java.time.LocalTime            | time              |
-| java.time.OffsetDateTime       | N/A               |
-| java.util.UUID                 | N/A               |
-| kotlin.Any                     | N/A               |
-| kotlin.Boolean                 | bit               |
-| kotlin.Byte                    | smallint, tinyint |
-| kotlin.ByteArray               | varbinary         |
-| kotlin.Double                  | float             |
-| kotlin.Float                   | real              |
-| kotlin.Int                     | int               |
-| kotlin.Long                    | bigint            |
-| kotlin.Short                   | smallint          |
-| kotlin.String                  | varchar, nvarchar |
-| kotlin.UByte                   | smallint          |
-| kotlin.UInt                    | bigint            |
-| kotlin.UShort                  | int               |
-| kotlinx.datetime.Instant       | datetime          |
-| kotlinx.datetime.LocalDate     | date              |
-| kotlinx.datetime.LocalDateTime | datetime          |
-| enum class                     | varchar, nvarchar |
+[データ型の対応関係]({{< relref path="dialect#sql-server---r2dbc" lang="en" >}})

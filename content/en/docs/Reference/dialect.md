@@ -70,20 +70,20 @@ The following table shows the data type mapping:
 
 | Kotlin Type                    | Database Type            |
 |--------------------------------|--------------------------|
-| java.math.BigDecimal           | BIGINT                   |
-| java.math.BigInteger           | BIGINT                   |
+| java.math.BigDecimal           | NUMERIC                  |
+| java.math.BigInteger           | NUMERIC                  |
 | java.sql.Array                 | ARRAY                    |
 | java.sql.Blob                  | BLOB                     |
 | java.sql.Clob                  | CLOB                     |
 | java.sql.NClob                 | CLOB                     |
 | java.sql.SQLXML                | CLOB                     |
-| java.time.Instant              | TIMESTAMP                |
+| java.time.Instant              | TIMESTAMP WITH TIME ZONE |
 | java.time.LocalDate            | DATE                     |
 | java.time.LocalDateTime        | TIMESTAMP                |
 | java.time.LocalTime            | TIME                     |
 | java.time.OffsetDateTime       | TIMESTAMP WITH TIME ZONE |
 | java.util.UUID                 | UUID                     |
-| kotlin.Any                     | OTHER                    |
+| kotlin.Any                     | JAVA_OBJECT              |
 | kotlin.Boolean                 | BOOLEAN                  |
 | kotlin.Byte                    | TINYINT                  |
 | kotlin.ByteArray               | BINARY                   |
@@ -96,7 +96,7 @@ The following table shows the data type mapping:
 | kotlin.UByte                   | SMALLINT                 |
 | kotlin.UInt                    | BIGINT                   |
 | kotlin.UShort                  | INT                      |
-| kotlinx.datetime.Instant       | TIMESTAMP                |
+| kotlinx.datetime.Instant       | TIMESTAMP WITH TIME ZONE |
 | kotlinx.datetime.LocalDate     | DATE                     |
 | kotlinx.datetime.LocalDateTime | TIMESTAMP                |
 | enum class                     | VARCHAR                  |
@@ -107,18 +107,17 @@ The following table shows the data type mapping:
 
 | Kotlin Type                    | Database Type            |
 |--------------------------------|--------------------------|
-| io.r2dbc.spi.Blob              | Blob                     |
-| io.r2dbc.spi.Clob              | Clob                     |
-| java.math.BigDecimal           | BIGINT                   |
-| java.math.BigDecimal           | BIGINT                   |
-| java.math.BigInteger           | BIGINT                   |
-| java.time.Instant              | TIMESTAMP                |
+| io.r2dbc.spi.Blob              | BLOB                     |
+| io.r2dbc.spi.Clob              | CLOB                     |
+| java.math.BigDecimal           | NUMERIC                  |
+| java.math.BigInteger           | NUMERIC                  |
+| java.time.Instant              | TIMESTAMP WITH TIME ZONE |
 | java.time.LocalDate            | DATE                     |
 | java.time.LocalDateTime        | TIMESTAMP                |
 | java.time.LocalTime            | TIME                     |
 | java.time.OffsetDateTime       | TIMESTAMP WITH TIME ZONE |
 | java.util.UUID                 | UUID                     |
-| kotlin.Any                     | OTHER                    |
+| kotlin.Any                     | N/A                      |
 | kotlin.Boolean                 | BOOLEAN                  |
 | kotlin.Byte                    | TINYINT                  |
 | kotlin.ByteArray               | BINARY                   |
@@ -131,7 +130,7 @@ The following table shows the data type mapping:
 | kotlin.UByte                   | SMALLINT                 |
 | kotlin.UInt                    | BIGINT                   |
 | kotlin.UShort                  | INT                      |
-| kotlinx.datetime.Instant       | TIMESTAMP                |
+| kotlinx.datetime.Instant       | TIMESTAMP WITH TIME ZONE |
 | kotlinx.datetime.LocalDate     | DATE                     |
 | kotlinx.datetime.LocalDateTime | TIMESTAMP                |
 | enum class                     | VARCHAR                  |
@@ -151,7 +150,7 @@ The following table shows the data type mapping:
 | java.sql.SQLXML                | TEXT            |
 | java.time.Instant              | TIMESTAMP       |
 | java.time.LocalDate            | DATE            |
-| java.time.LocalDateTime        | TIMESTAMP       |
+| java.time.LocalDateTime        | DATETIME        |
 | java.time.LocalTime            | TIME            |
 | java.time.OffsetDateTime       | TIMESTAMP       |
 | java.util.UUID                 | N/A             |
@@ -170,7 +169,7 @@ The following table shows the data type mapping:
 | kotlin.UShort                  | INT             |
 | kotlinx.datetime.Instant       | TIMESTAMP       |
 | kotlinx.datetime.LocalDate     | DATE            |
-| kotlinx.datetime.LocalDateTime | TIMESTAMP       |
+| kotlinx.datetime.LocalDateTime | DATETIME        |
 | enum class                     | VARCHAR         |
 
 ## MySQL - JDBC
@@ -188,7 +187,7 @@ The following table shows the data type mapping:
 | java.sql.SQLXML                | TEXT            |
 | java.time.Instant              | TIMESTAMP       |
 | java.time.LocalDate            | DATE            |
-| java.time.LocalDateTime        | TIMESTAMP(6)    |
+| java.time.LocalDateTime        | DATETIME        |
 | java.time.LocalTime            | TIME            |
 | java.time.OffsetDateTime       | TIMESTAMP       |
 | java.util.UUID                 | N/A             |
@@ -207,7 +206,7 @@ The following table shows the data type mapping:
 | kotlin.UShort                  | INT             |
 | kotlinx.datetime.Instant       | TIMESTAMP       |
 | kotlinx.datetime.LocalDate     | DATE            |
-| kotlinx.datetime.LocalDateTime | TIMESTAMP       |
+| kotlinx.datetime.LocalDateTime | DATETIME        |
 | enum class                     | VARCHAR         |
 
 ## Oracle - JDBC
@@ -223,7 +222,7 @@ The following table shows the data type mapping:
 | java.sql.Clob                  | CLOB                     |
 | java.sql.NClob                 | N/A                      |
 | java.sql.SQLXML                | N/A                      |
-| java.time.Instant              | TIMESTAMP                |
+| java.time.Instant              | TIMESTAMP WITH TIME ZONE |
 | java.time.LocalDate            | DATE                     |
 | java.time.LocalDateTime        | TIMESTAMP                |
 | java.time.LocalTime            | TIME                     |
@@ -242,7 +241,7 @@ The following table shows the data type mapping:
 | kotlin.UByte                   | NUMBER                   |
 | kotlin.UInt                    | NUMBER                   |
 | kotlin.UShort                  | NUMBER                   |
-| kotlinx.datetime.Instant       | TIMESTAMP                |
+| kotlinx.datetime.Instant       | TIMESTAMP WITH TIME ZONE |
 | kotlinx.datetime.LocalDate     | DATE                     |
 | kotlinx.datetime.LocalDateTime | TIMESTAMP                |
 | enum class                     | VARCHAR2                 |
@@ -258,7 +257,7 @@ The following table shows the data type mapping:
 | java.math.BigDecimal           | NUMBER                   |
 | java.math.BigInteger           | NUMBER                   |
 | java.time.Duration             | INTERVAL DAY TO SECOND   |
-| java.time.Instant              | TIMESTAMP                |
+| java.time.Instant              | TIMESTAMP WITH TIME ZONE |
 | java.time.LocalDate            | DATE                     |
 | java.time.LocalDateTime        | TIMESTAMP                |
 | java.time.LocalTime            | TIME                     |
@@ -278,7 +277,7 @@ The following table shows the data type mapping:
 | kotlin.UByte                   | NUMBER                   |
 | kotlin.UInt                    | NUMBER                   |
 | kotlin.UShort                  | NUMBER                   |
-| kotlinx.datetime.Instant       | TIMESTAMP                |
+| kotlinx.datetime.Instant       | TIMESTAMP WITH TIME ZONE |
 | kotlinx.datetime.LocalDate     | DATE                     |
 | kotlinx.datetime.LocalDateTime | TIMESTAMP                |
 | enum class                     | VARCHAR2                 |
@@ -296,7 +295,7 @@ The following table shows the data type mapping:
 | java.sql.Clob                  | N/A                                  |
 | java.sql.NClob                 | N/A                                  |
 | java.sql.SQLXML                | xml                                  |
-| java.time.Instant              | timestamp                            |
+| java.time.Instant              | timestamp with time zone             |
 | java.time.LocalDate            | date                                 |
 | java.time.LocalDateTime        | timestamp                            |
 | java.time.LocalTime            | time                                 |
@@ -315,7 +314,7 @@ The following table shows the data type mapping:
 | kotlin.UByte                   | smallint, int2, smallserial, serial2 |
 | kotlin.UInt                    | bigint, int8, bigserial, serial8     |
 | kotlin.UShort                  | integer, int, int4, serial           |
-| kotlinx.datetime.Instant       | timestamp                            |
+| kotlinx.datetime.Instant       | timestamp with time zone             |
 | kotlinx.datetime.LocalDate     | date                                 |
 | kotlinx.datetime.LocalDateTime | timestamp                            |
 | enum class                     | character varying, varchar, text     |
@@ -332,7 +331,7 @@ The following table shows the data type mapping:
 | io.r2dbc.spi.Clob                  | text                                 |
 | java.math.BigDecimal               | numeric, decimal                     |
 | java.math.BigInteger               | numeric, decimal                     |
-| java.time.Instant                  | timestamp                            |
+| java.time.Instant                  | timestamp with time zone             |
 | java.time.LocalDate                | date                                 |
 | java.time.LocalDateTime            | timestamp                            |
 | java.time.LocalTime                | time                                 |
@@ -352,7 +351,7 @@ The following table shows the data type mapping:
 | kotlin.UByte                       | smallint, int2, smallserial, serial2 |
 | kotlin.UInt                        | bigint, int8, bigserial, serial8     |
 | kotlin.UShort                      | integer, int, int4, serial           |
-| kotlinx.datetime.Instant           | timestamp                            |
+| kotlinx.datetime.Instant           | timestamp with time zone             |
 | kotlinx.datetime.LocalDate         | date                                 |
 | kotlinx.datetime.LocalDateTime     | timestamp                            |
 | enum class                         | character varying, varchar, text     |
@@ -370,11 +369,11 @@ The following table shows the data type mapping:
 | java.sql.Clob                  | text              |
 | java.sql.NClob                 | N/A               |
 | java.sql.SQLXML                | xml               |
-| java.time.Instant              | datetime          |
+| java.time.Instant              | datetimeoffset    |
 | java.time.LocalDate            | date              |
-| java.time.LocalDateTime        | datetime          |
+| java.time.LocalDateTime        | datetime2         |
 | java.time.LocalTime            | time              |
-| java.time.OffsetDateTime       | N/A               |
+| java.time.OffsetDateTime       | datetimeoffset    |
 | java.util.UUID                 | N/A               |
 | kotlin.Any                     | N/A               |
 | kotlin.Boolean                 | bit               |
@@ -389,9 +388,9 @@ The following table shows the data type mapping:
 | kotlin.UByte                   | smallint          |
 | kotlin.UInt                    | bigint            |
 | kotlin.UShort                  | int               |
-| kotlinx.datetime.Instant       | datetime          |
+| kotlinx.datetime.Instant       | datetimeoffset    |
 | kotlinx.datetime.LocalDate     | date              |
-| kotlinx.datetime.LocalDateTime | datetime          |
+| kotlinx.datetime.LocalDateTime | datetime2         |
 | enum class                     | varchar, nvarchar |
 
 ## SQL Server - R2DBC
@@ -404,9 +403,9 @@ The following table shows the data type mapping:
 | io.r2dbc.spi.Clob              | text              |
 | java.math.BigDecimal           | decimal           |
 | java.math.BigInteger           | decimal           |
-| java.time.Instant              | datetime          |
+| java.time.Instant              | datetimeoffset    |
 | java.time.LocalDate            | date              |
-| java.time.LocalDateTime        | datetime          |
+| java.time.LocalDateTime        | datetime2         |
 | java.time.LocalTime            | time              |
 | java.time.OffsetDateTime       | N/A               |
 | java.util.UUID                 | N/A               |
@@ -423,7 +422,7 @@ The following table shows the data type mapping:
 | kotlin.UByte                   | smallint          |
 | kotlin.UInt                    | bigint            |
 | kotlin.UShort                  | int               |
-| kotlinx.datetime.Instant       | datetime          |
+| kotlinx.datetime.Instant       | datetimeoffset    |
 | kotlinx.datetime.LocalDate     | date              |
-| kotlinx.datetime.LocalDateTime | datetime          |
+| kotlinx.datetime.LocalDateTime | datetimev         |
 | enum class                     | varchar, nvarchar |
