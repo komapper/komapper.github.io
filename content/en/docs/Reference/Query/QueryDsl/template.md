@@ -37,9 +37,9 @@ val query: Query<List<Address>> = QueryDsl.fromTemplate(sql)
     .bind("street", "STREET 10")
     .select { row: Row ->
         Address(
-            row.asInt("address_id")!!,
-            row.asString("street")!!,
-            row.asInt("version")!!
+            row.getNotNull("address_id"),
+            row.getNotNull("street"),
+            row.getNotNull("version")
         )
     }
 ```
@@ -71,9 +71,9 @@ val query: Query<List<Address>> = QueryDsl.fromTemplate(sql)
     .bind("street", "STREET 10")
     .select { row: Row ->
         Address(
-            row.asInt("address_id")!!,
-            row.asString("street")!!,
-            row.asInt("version")!!
+            row.getNotNull("address_id"),
+            row.getNotNull("street"),
+            row.getNotNull("version")
         )
     }
 ```
