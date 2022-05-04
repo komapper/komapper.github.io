@@ -80,7 +80,8 @@ There are three key points in this build script:
 
 `com.google.devtools.ksp` is a plugin for [Kotlin Symbol Processing API](https://github.com/google/ksp).
 It is required for code generation at compile time.
-The value before the hyphen in the version number of the plugin should match the version of Kotlin you are using.
+The value before the hyphen in the plugin version number 
+must be equal to or greater than the version of Kotlin you are using.
 
 The following is an overview of each of the Komapper modules specified in the `dependencies` block:
 

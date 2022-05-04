@@ -80,7 +80,7 @@ tasks {
 
 `com.google.devtools.ksp`は [Kotlin Symbol Processing API](https://github.com/google/ksp) のプラグインです。
 コンパイル時のコード生成に必要です。
-プラグインのバージョン番号内のハイフンより前の値は使用するKotlinのバージョンに合わせる必要があります。
+プラグインのバージョン番号内のハイフンより前の値は、使用するKotlinのバージョンと等しいかより大きな値でなければいけません。
 
 `dependencies`ブロックで指定するKomapperのモジュールのそれぞれの概要は以下の通りです。
 
