@@ -215,7 +215,7 @@ To set a value for each property and add one row, pass a lambda expression to th
 Within the lambda expression, values can be set to properties using the `eq` function:
 
 ```kotlin
-val query: Query<Pair<Int, Int?>> = QueryDsl.insert(a).values {
+val query: Query<Pair<Long, Int?>> = QueryDsl.insert(a).values {
   a.addressId eq 19
   a.street eq "STREET 16"
   a.version eq 0
@@ -228,7 +228,7 @@ insert into ADDRESS (ADDRESS_ID, STREET, VERSION) values (?, ?, ?)
 To set a value only if the value is not null, use the `eqIfNotNull` function:
 
 ```kotlin
-val query: Query<Pair<Int, Int?>> = QueryDsl.insert(a).values {
+val query: Query<Pair<Long, Int?>> = QueryDsl.insert(a).values {
     a.addressId eq 19
     a.street eqIfNotNull street
     a.version eq 0
@@ -256,7 +256,7 @@ To add search results, call the `select` function.
 
 ```kotlin
 val aa = Meta.address.clone(table = "ADDRESS_ARCHIVE")
-val query: Query<Int, List<Int>> = QueryDsl.insert(aa).select {
+val query: Query<Long, List<Int>> = QueryDsl.insert(aa).select {
   QueryDsl.from(a).where { a.addressId between 1..5 }
 }
 /*

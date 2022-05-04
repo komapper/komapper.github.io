@@ -65,7 +65,7 @@ update ADDRESS set STREET = ?, VERSION = ? + 1 where ADDRESS_ID = ? and VERSION 
 ラムダ式の中では`eq`関数を使って値を設定できます。
 
 ```kotlin
-val query: Query<Int> = QueryDsl.update(a).set {
+val query: Query<Long> = QueryDsl.update(a).set {
   a.street eq "STREET 16"
 }.where {
   a.addressId eq 1
@@ -78,7 +78,7 @@ update ADDRESS as t0_ set STREET = ? where t0_.ADDRESS_ID = ?
 `eqIfNotNull`を使って値が`null`でない場合にのみ値を設定することもできます。
 
 ```kotlin
-val query: Query<Int> = QueryDsl.update(e).set {
+val query: Query<Long> = QueryDsl.update(e).set {
   e.managerId eqIfNotNull managerId
   e.employeeName eq "test"
 }.where {
@@ -99,7 +99,7 @@ val query: Query<Int> = QueryDsl.update(e).set {
 任意の条件にマッチする行を更新するには`where`を呼び出します。
 
 ```kotlin
-val query: Query<Int> = QueryDsl.update(a).set {
+val query: Query<Long> = QueryDsl.update(a).set {
   a.street eq "STREET 16"
 }.where {
   a.addressId eq 1
@@ -113,7 +113,7 @@ update ADDRESS as t0_ set STREET = ? where t0_.ADDRESS_ID = ?
 意図的に全件更新を認める場合は`options`を呼び出して`allowMissingWhereClause`に`true`を設定します。
 
 ```kotlin
-val query: Query<Int> = QueryDsl.update(e).set {
+val query: Query<Long> = QueryDsl.update(e).set {
     e.employeeName eq "ABC"
 }.options { 
     it.copy(allowMissingWhereClause = true)

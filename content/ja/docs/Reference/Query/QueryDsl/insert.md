@@ -203,7 +203,7 @@ MariaDBのDialectではサポートされていません。
 ラムダ式の中では`eq`関数を使って値を設定できます。
 
 ```kotlin
-val query: Query<Pair<Int, Int?>> = QueryDsl.insert(a).values {
+val query: Query<Pair<Long, Int?>> = QueryDsl.insert(a).values {
   a.addressId eq 19
   a.street eq "STREET 16"
   a.version eq 0
@@ -216,7 +216,7 @@ insert into ADDRESS (ADDRESS_ID, STREET, VERSION) values (?, ?, ?)
 `eqIfNotNull`を使って値が`null`でない場合にのみ値を設定することもできます。
 
 ```kotlin
-val query: Query<Pair<Int, Int?>> = QueryDsl.insert(a).values {
+val query: Query<Pair<Long, Int?>> = QueryDsl.insert(a).values {
     a.addressId eq 19
     a.street eqIfNotNull street
     a.version eq 0
@@ -242,7 +242,7 @@ IDはマッピング定義に`@KomapperAutoIncrement`や`@KomapperSequence`が�
 
 ```kotlin
 val aa = Meta.address.clone(table = "ADDRESS_ARCHIVE")
-val query: Query<Int, List<Int>> = QueryDsl.insert(aa).select {
+val query: Query<Long, List<Int>> = QueryDsl.insert(aa).select {
   QueryDsl.from(a).where { a.addressId between 1..5 }
 }
 /*

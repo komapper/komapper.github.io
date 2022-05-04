@@ -67,7 +67,7 @@ To set a value to specific property, pass a lambda expression to the `set` funct
 Within the lambda expression, values can be set to properties using the `eq` function:
 
 ```kotlin
-val query: Query<Int> = QueryDsl.update(a).set {
+val query: Query<Long> = QueryDsl.update(a).set {
   a.street eq "STREET 16"
 }.where {
   a.addressId eq 1
@@ -80,7 +80,7 @@ update ADDRESS as t0_ set STREET = ? where t0_.ADDRESS_ID = ?
 To set a value only if the value is not null, use the `eqIfNotNull` function:
 
 ```kotlin
-val query: Query<Int> = QueryDsl.update(e).set {
+val query: Query<Long> = QueryDsl.update(e).set {
   e.managerId eqIfNotNull managerId
   e.employeeName eq "test"
 }.where {
@@ -103,7 +103,7 @@ If you explicitly call the `eq` function for those properties, the explicit valu
 To update rows that match specific criteria, call the `where` function:
 
 ```kotlin
-val query: Query<Int> = QueryDsl.update(a).set {
+val query: Query<Long> = QueryDsl.update(a).set {
   a.street eq "STREET 16"
 }.where {
   a.addressId eq 1
@@ -118,7 +118,7 @@ To intentionally allow updating of all rows, call the `options` function and
 set the `allowMissingWhereClause` property to true:
 
 ```kotlin
-val query: Query<Int> = QueryDsl.update(e).set {
+val query: Query<Long> = QueryDsl.update(e).set {
     e.employeeName eq "ABC"
 }.options { 
     it.copy(allowMissingWhereClause = true)

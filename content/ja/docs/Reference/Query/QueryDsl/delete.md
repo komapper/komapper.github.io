@@ -56,7 +56,7 @@ delete from ADDRESS as t0_ where t0_.ADDRESS_ID = ? and t0_.VERSION = ?
 全件を削除するには`all`を呼び出します。
 
 ```kotlin
-val query: Query<Int> = QueryDsl.delete(e).all().options { it.copy(allowMissingWhereClause = true) }
+val query: Query<Long> = QueryDsl.delete(e).all().options { it.copy(allowMissingWhereClause = true) }
 /*
 delete from EMPLOYEE as t0_
 */
@@ -71,7 +71,7 @@ delete from EMPLOYEE as t0_
 任意の条件にマッチする行を削除するには`where`を呼び出します。
 
 ```kotlin
-val query: Query<Int> = QueryDsl.delete(a).where { a.addressId eq 15 }
+val query: Query<Long> = QueryDsl.delete(a).where { a.addressId eq 15 }
 /*
 delete from ADDRESS as t0_ where t0_.ADDRESS_ID = ?
 */
@@ -81,7 +81,7 @@ delete from ADDRESS as t0_ where t0_.ADDRESS_ID = ?
 意図的に全件削除を認めたい場合は`options`を呼び出して`allowMissingWhereClause`に`true`を設定します。
 
 ```kotlin
-val query: Query<Int> = QueryDsl.delete(e).where {}.options { it.copy(allowMissingWhereClause = true) }
+val query: Query<Long> = QueryDsl.delete(e).where {}.options { it.copy(allowMissingWhereClause = true) }
 /*
 delete from EMPLOYEE as t0_
 */
