@@ -14,16 +14,16 @@ description: >
 
 | Database           | Type  |            Artifact ID            |     Dialect Class      |
 |--------------------|:-----:|:---------------------------------:|:----------------------:|
-| H2 Database Engine | JDBC  |     komapper-dialect-h2-jdbc      |    JdbcH2SqlDialect    |
-| H2 Database Engine | R2DBC |     komapper-dialect-h2-r2dbc     |   R2dbcH2SqlDialect    |
-| MariaDB            | JDBC  |   komapper-dialect-mariadb-jdbc   |   JdbcMariadbDialect   |
-| MySQL              | JDBC  |    komapper-dialect-mysql-jdbc    |    JdbcMySqlDialect    |
-| Oracle Database    | JDBC  |   komapper-dialect-oracle-jdbc    |   JdbcOracleDialect    |
-| Oracle Database    | R2DBC |   komapper-dialect-oracle-r2dbc   |   R2dbcOracleDialect   |
-| PostgreSQL         | JDBC  | komapper-dialect-postgresql-jdbc  | JdbcPostgreSqlDialect  |
-| PostgreSQL         | R2DBC | komapper-dialect-postgresql-r2dbc | R2dbcPostgreSqlDialect |
-| SQL Server         | JDBC  |  komapper-dialect-sqlserver-jdbc  |  JdbcSqlServerDialect  |
-| SQL Server         | R2DBC | komapper-dialect-sqlserver-r2dbc  | R2dbcSqlServerDialect  |
+| H2 Database Engine | JDBC  |     komapper-dialect-h2-jdbc      |    H2JdbcSqlDialect    |
+| H2 Database Engine | R2DBC |     komapper-dialect-h2-r2dbc     |   H2R2dbcSqlDialect    |
+| MariaDB            | JDBC  |   komapper-dialect-mariadb-jdbc   |   MariaDbJdbcDialect   |
+| MySQL              | JDBC  |    komapper-dialect-mysql-jdbc    |    MySqlJdbcDialect    |
+| Oracle Database    | JDBC  |   komapper-dialect-oracle-jdbc    |   OracleJdbcDialect    |
+| Oracle Database    | R2DBC |   komapper-dialect-oracle-r2dbc   |   OracleR2dbcDialect   |
+| PostgreSQL         | JDBC  | komapper-dialect-postgresql-jdbc  | PostgreSqlJdbcDialect  |
+| PostgreSQL         | R2DBC | komapper-dialect-postgresql-r2dbc | PostgreSqlR2dbcDialect |
+| SQL Server         | JDBC  |  komapper-dialect-sqlserver-jdbc  |  SqlServerJdbcDialect  |
+| SQL Server         | R2DBC | komapper-dialect-sqlserver-r2dbc  | SqlServerR2dbcDialect  |
 
 ダイアレクトを利用するにはGradleの依存関係の宣言の中で上述のArtifact IDを記述します。
 
