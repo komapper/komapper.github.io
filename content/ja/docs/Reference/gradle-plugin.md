@@ -42,7 +42,7 @@ buildscript {
 
 // Komapperプラグインの利用を宣言する
 plugins {
-  id("org.komapper.gradle") version "0.33.0"
+  id("org.komapper.gradle") version "1.0.0-RC1"
 }
 
 // Komapperプラグインに関する設定を行う
