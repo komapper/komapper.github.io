@@ -44,9 +44,13 @@ application {
 
 dependencies {
     val komapperVersion = "0.33.0"
-    implementation("org.komapper:komapper-starter-jdbc:$komapperVersion")
-    implementation("org.komapper:komapper-dialect-h2-jdbc:$komapperVersion")
-    ksp("org.komapper:komapper-processor:$komapperVersion")
+    platform("org.komapper:komapper-platform:$komapperVersion").let {
+        implementation(it)
+        ksp(it)
+    }
+    implementation("org.komapper:komapper-starter-jdbc")
+    implementation("org.komapper:komapper-dialect-h2-jdbc")
+    ksp("org.komapper:komapper-processor")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.2")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.2")
 }
@@ -80,6 +84,7 @@ The value before the hyphen in the version number of the plugin should match the
 
 The following is an overview of each of the Komapper modules specified in the `dependencies` block:
 
+- komapper-platform: Provides recommended versions of Komapper modules.
 - komapper-starter-jdbc: This module contains a set of modules that are necessary and useful for JDBC access using Komapper.
 - komapper-dialect-h2-jdbc: This module is necessary to connect to the H2 Database Engine.
 - komapper-processor: A module to generate code at compile-time. Note that they are declared using the keyword `ksp`.

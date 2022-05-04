@@ -44,9 +44,13 @@ application {
 
 dependencies {
     val komapperVersion = "0.33.0"
-    implementation("org.komapper:komapper-starter-jdbc:$komapperVersion")
-    implementation("org.komapper:komapper-dialect-h2-jdbc:$komapperVersion")
-    ksp("org.komapper:komapper-processor:$komapperVersion")
+    platform("org.komapper:komapper-platform:$komapperVersion").let {
+        implementation(it)
+        ksp(it)
+    }
+    implementation("org.komapper:komapper-starter-jdbc")
+    implementation("org.komapper:komapper-dialect-h2-jdbc")
+    ksp("org.komapper:komapper-processor")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.2")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.2")
 }
@@ -80,6 +84,7 @@ tasks {
 
 `dependencies`ブロックで指定するKomapperのモジュールのそれぞれの概要は以下の通りです。
 
+- komapper-platform: Komapperのモジュールに関して推奨バージョンを提供します。
 - komapper-starter-jdbc: Komapperを使ったJDBC接続に必要かつ便利なモジュール一式をまとめたモジュールです。
 - komapper-dialect-h2-jdbc: H2 Database Engineに接続するために必要なモジュールです。
 - komapper-processor: コンパイル時にコード生成を行うモジュールです。`ksp`というキーワードを使って宣言されていることに注意してください。
