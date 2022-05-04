@@ -5,7 +5,7 @@ val kotlinVersion: String by project
 val kspVersion: String by project
 val komapperVersion: String by project
 val encoding: String by project
-val branchName: String = komapperVersion.replace(Regex("(\\d+\\.\\d+)(\\.\\d+)(-.+)?"), "$1$3")
+val branchName: String = "v" + komapperVersion.replace(Regex("(\\d+\\.\\d+)(\\.\\d+)(-.+)?"), "$1$3")
 
 fun replaceVersion(version: String, prefix :String, suffix: String = "\"") {
     ant.withGroovyBuilder {
