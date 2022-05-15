@@ -54,11 +54,12 @@ anchor = "smart"
 [languages]
 [languages.en]
 title = "Komapper"
-description = "A Komapper site"
+description = "Kotlin ORM for JDBC and R2DBC"
 languageName ="English"
 # Weight used for sorting.
 weight = 1
 [languages.ja]
+description = "JDBC と R2DBC のための Kotlin ORM"
 languageName ="Japanese"
 contentDir = "content/ja"
 #time_format_default = "2006.02.01"
