@@ -21,12 +21,14 @@ https://www.komapper.org/ja/docs/contribution-guidelines/#contributing-to-these-
 1. Change version numbers in gradle.properties
 2. Execute `./gradlew updateVersion`
 3. Add new version and url in config.toml
-4. Commit changes
-5. Create a new branch from the main branch
-6. Change the new branch to a production branch on the Netlify page
-7. Push main and the new branches to remote
+4. Change the url of old version in config.toml
+5. Commit changes
+6. Create a new branch from the main branch
+7. Change the new branch to a production branch on the Netlify page
+8. Push main and the new branches to remote
 
 ### in the old branch
 
 1. Execute `./gradlew archive`
-2. Push the branch to remote
+2. Change the url in config.toml
+3. Push the branch to remote
