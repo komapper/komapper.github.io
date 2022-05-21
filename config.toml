@@ -132,6 +132,9 @@ prism_syntax_highlighting = false
 
 # Add your release versions here
 [[params.versions]]
+version = "latest"
+url = "https://www.komapper.org/"
+[[params.versions]]
 version = "1.0-RC1"
 url = "https://v1-0-rc1.komapper.org"
 [[params.versions]]
