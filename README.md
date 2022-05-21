@@ -30,5 +30,5 @@ https://www.komapper.org/ja/docs/contribution-guidelines/#contributing-to-these-
 ### in the old branch
 
 1. Execute `./gradlew archive`
-2. Change the url in config.toml
-3. Push the branch to remote
+2. Change the url and add the latest url in config.toml
+4. Push the branch to remote

@@ -131,6 +131,9 @@ offlineSearch = false #can_be_replaced_with_gradle
 prism_syntax_highlighting = false
 
 # Add your release versions here
+#[[params.versions]]
+#version = "latest"
+#url = "https://www.komapper.org/"
 [[params.versions]]
 version = "v1.0"
 url = "https://www.komapper.org/"
