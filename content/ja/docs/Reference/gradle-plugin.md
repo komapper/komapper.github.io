@@ -217,3 +217,14 @@ SQLの識別子を引用符で囲むことを行う関数です。
 
 デフォルト値は`org.komapper.codegen.Enquote.of()`です。
 
+### classNameResolver
+
+生成されるエンティティクラスの名前を決定するリゾルバです。
+
+デフォルト値は`org.komapper.codegen.ClassNameResolver.of(prefix, suffix)`です。
+
+### propertyNameResolver
+
+生成されるエンティティクラスのプロパティの名前を決定するリゾルバです。
+
+デフォルト値は`org.komapper.codegen.PropertyNameResolver.of()`です。

@@ -220,3 +220,15 @@ The default value is `org.komapper.codegen.PropertyTypeResolver.of()`.
 A function that quotes SQL identifiers.
 
 The default value is `org.komapper.codegen.Enquote.of()`.
+
+### classNameResolver
+
+A resolver that determines the names of the generated entity classes.
+
+The default value is `org.komapper.codegen.ClassNameResolver.of(prefix, suffix)`.
+
+### propertyNameResolver
+
+A resolver that determines the names of properties of the generated entity classes.
+
+The default value is `org.komapper.codegen.PropertyNameResolver.of()`.
