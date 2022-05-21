@@ -34,9 +34,9 @@ buildscript {
     }
     // TestcontainersとPostgreSQLのJDBCドライバへの依存を定義する
     dependencies {
-        classpath(platform("org.testcontainers:testcontainers-bom:1.16.3"))
+        classpath(platform("org.testcontainers:testcontainers-bom:1.17.1"))
         classpath("org.testcontainers:postgresql")
-        classpath("org.postgresql:postgresql:42.3.2")
+        classpath("org.postgresql:postgresql:42.3.4")
     }
 }
 

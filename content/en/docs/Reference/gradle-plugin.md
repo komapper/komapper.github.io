@@ -33,9 +33,9 @@ buildscript {
     }
     // Define dependencies on Testcontainers and PostgreSQL JDBC driver
     dependencies {
-        classpath(platform("org.testcontainers:testcontainers-bom:1.16.3"))
+        classpath(platform("org.testcontainers:testcontainers-bom:1.17.1"))
         classpath("org.testcontainers:postgresql")
-        classpath("org.postgresql:postgresql:42.3.2")
+        classpath("org.postgresql:postgresql:42.3.4")
     }
 }
 
@@ -211,7 +211,7 @@ The default value is `false`.
 
 ### propertyTypeResolver
 
-A type resolver that determines the types of properties of the generated entity classes.
+A resolver that determines the types of properties of the generated entity classes.
 
 The default value is `org.komapper.codegen.PropertyTypeResolver.of()`.
 
