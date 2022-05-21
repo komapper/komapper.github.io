@@ -136,7 +136,7 @@ version = "v1.0"
 url = "https://www.komapper.org/"
 [[params.versions]]
 version = "v1.0-RC1"
-url = "https://v1.0-RC1.komapper.org/"
+url = "https://v1-0-rc1.komapper.org"
 [[params.versions]]
 version = "v0.33"
 url = "https://v0-33.komapper.org/"
