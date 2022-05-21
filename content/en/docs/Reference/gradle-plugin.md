@@ -53,9 +53,9 @@ komapper {
             // Set JDBC parameters; use PostgreSQL on Testcontainers
             jdbc {
                 driver.set("org.testcontainers.jdbc.ContainerDatabaseDriver")
-                url = "jdbc:tc:postgresql:13.3:///test?TC_INITSCRIPT=file:${initScript.absolutePath}",
-                user = "test",
-                password = "test"
+                url.set("jdbc:tc:postgresql:13.3:///test?TC_INITSCRIPT=file:${initScript.absolutePath}")
+                user.set("test")
+                password.set("test")
             }
             packageName.set("org.komapper.example.postgresql")
             overwriteEntities.set(true)
