@@ -480,7 +480,7 @@ Call the `copy` function on the parameter to change its properties.
 
 ```kotlin
 val query: Query<List<Address>> = QueryDsl.from(a).options {
-    it.copty(
+    it.copy(
       fetchSize = 100,
       queryTimeoutSeconds = 5
     )
