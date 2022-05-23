@@ -63,7 +63,7 @@ Call the `copy` function on the parameter to change its properties:
 val sql = "select * from ADDRESS where street = /*street*/'test'"
 val query: Query<List<Address>> = QueryDsl.fromTemplate(sql)
     .options {
-        it.copty(
+        it.copy(
             fetchSize = 100,
             queryTimeoutSeconds = 5
         )
@@ -128,7 +128,7 @@ val query = Query<Long> = QueryDsl.executeTemplate(sql)
     .bind("id", 15)
     .bind("street", "NY street")
     .options {
-        it.copty(
+        it.copy(
             queryTimeoutSeconds = 5
         )
     }

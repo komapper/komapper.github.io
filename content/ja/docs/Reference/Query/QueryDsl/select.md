@@ -478,7 +478,7 @@ select t0_.EMPLOYEE_ID, t0_.EMPLOYEE_NO, t0_.EMPLOYEE_NAME, t0_.MANAGER_ID, t0_.
 
 ```kotlin
 val query: Query<List<Address>> = QueryDsl.from(a).options {
-    it.copty(
+    it.copy(
       fetchSize = 100,
       queryTimeoutSeconds = 5
     )

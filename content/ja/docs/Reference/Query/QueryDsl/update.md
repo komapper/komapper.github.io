@@ -131,7 +131,7 @@ val query: Query<Long> = QueryDsl.update(e).set {
 ```kotlin
 val address: Address = ..
 val query: Query<Address> = QueryDsl.update(a).single(address).options {
-    it.copty(
+    it.copy(
       queryTimeoutSeconds = 5
     )
 }

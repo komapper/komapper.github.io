@@ -64,7 +64,7 @@ Call the `copy` function on the parameter to change its properties:
 
 ```kotlin
 val query: Query<Unit> = QueryDsl.create(Meta.address, Meta.employee).options {
-    it.copty(
+    it.copy(
       queryTimeoutSeconds = 5
     )
 }

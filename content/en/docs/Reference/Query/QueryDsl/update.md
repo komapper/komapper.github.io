@@ -136,7 +136,7 @@ Call the `copy` function on the parameter to change its properties:
 ```kotlin
 val address: Address = ..
 val query: Query<Address> = QueryDsl.update(a).single(address).options {
-    it.copty(
+    it.copy(
       queryTimeoutSeconds = 5
     )
 }

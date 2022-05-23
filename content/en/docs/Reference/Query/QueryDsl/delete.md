@@ -102,7 +102,7 @@ Call the `copy` function on the parameter to change its properties:
 ```kotlin
 val address: Address = ..
 val query: Query<Unit> = QueryDsl.delete(a).single(address).options {
-    it.copty(
+    it.copy(
       queryTimeoutSeconds = 5
     )
 }

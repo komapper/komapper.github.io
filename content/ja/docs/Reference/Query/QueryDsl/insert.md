@@ -269,7 +269,7 @@ IDはエンティティクラスのマッピング定義に`@KomapperAutoIncreme
 ```kotlin
 val address: Address = Address(16, "STREET 16", 0)
 val query: Query<Address> = QueryDsl.insert(a).single(address).options {
-    it.copty(
+    it.copy(
       queryTimeoutSeconds = 5
     )
 }

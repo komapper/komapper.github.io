@@ -36,7 +36,7 @@ val query: Query<Unit> = QueryDsl.executeScript("""
     create table example (id integer not null primary key, value varchar(20));
     insert into example (id, value) values(1, 'test');
 """.trimIndent()).options {
-    it.copty(
+    it.copy(
       queryTimeoutSeconds = 5
     )
 }

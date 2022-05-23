@@ -65,7 +65,7 @@ drop table if exists EMPLOYEE;
 
 ```kotlin
 val query: Query<Unit> = QueryDsl.create(Meta.address, Meta.employee).options {
-    it.copty(
+    it.copy(
       queryTimeoutSeconds = 5
     )
 }

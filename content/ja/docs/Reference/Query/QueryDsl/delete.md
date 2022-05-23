@@ -98,7 +98,7 @@ delete from EMPLOYEE as t0_
 ```kotlin
 val address: Address = ..
 val query: Query<Unit> = QueryDsl.delete(a).single(address).options {
-    it.copty(
+    it.copy(
       queryTimeoutSeconds = 5
     )
 }
