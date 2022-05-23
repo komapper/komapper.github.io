@@ -135,7 +135,7 @@ Applications can use this property to construct queries.
 val a = Meta.address
 
 // define a query
-val query = QueryDsl.from(e).where { a.street eq "STREET 101" }.orderBy(a.id)
+val query = QueryDsl.from(a).where { a.street eq "STREET 101" }.orderBy(a.id)
 ```
 
 ### aliases {#metamodel-aliases}
