@@ -244,7 +244,7 @@ for (record: Record in list) {
 }
 ```
 
-If more than four columns are projected, the resulting value will be included in a `Record`. 
+If more than three columns are projected, the resulting value will be included in a `Record`. 
 You can retrieve the values from the `Record` using the columns specified in the `select` function as keys.
 
 ## selectNotNull
