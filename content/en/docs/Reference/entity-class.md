@@ -426,6 +426,28 @@ The type of the property to which this annotation is given must be one of the fo
 - java.time.OffsetDateTime
 - Value class with a property of one of the above types
 
+### @KomapperEnum
+
+Explicitly specifies how to map the enum property to the column.
+
+```kotlin
+@KomapperEnum(EnumType.ORDINAL)
+val color: Nothing // Assume that this color property corresponds to the Color enum class
+```
+
+The `type` property of `@KomapperEnum` can be one of the following:
+
+EnumType.NAME
+: map the `name` property of `Enum` class to the string type column.
+
+EnumType.ORDINAL
+: map the `ordinal` property of `Enum` class to the integer type column.
+
+If `@KomapperEnum` is not specified, the mapping method is resolved 
+according to the `komapper.enumStrategy` option in the annotation processing.
+
+See also [Options]({{< relref "annotation-processing#options" >}}).
+
 ### @KomapperColumn
 
 Explicitly specifies the name of the column to be mapped to the property.
@@ -441,6 +463,7 @@ If the `masking` property is set to `true`, the corresponding data will be maske
 
 If the column name is not specified in this annotation,
 the name will be resolved according to the `komapper.namingStrategy` option in the annotation process.
+
 See also [Options]({{< relref "annotation-processing#options" >}}).
 
 ### @KomapperIgnore

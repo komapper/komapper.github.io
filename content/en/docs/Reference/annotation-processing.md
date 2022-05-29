@@ -36,6 +36,7 @@ There are four available options:
 
 - komapper.prefix
 - komapper.suffix
+- komapper.enumStrategy
 - komapper.namingStrategy
 - komapper.metaObject
 
@@ -59,6 +60,22 @@ The default value is `_` (underscore).
 
 This option specifies the suffix for the name of generated metamodel class.
 The default value is an empty string.
+
+### komapper.enumStrategy
+
+This option specifies the strategy for how to map the enum properties to database columns.
+The value can be either `name` or `ordinal`.
+The default value is `name`.
+
+Note that specification by `@KomapperEnum` takes precedence over this strategy.
+
+The possible values for the `komapper.enumStrategy` option are defined as follows:
+
+name
+: map the `name` property of `Enum` class to the string type column.
+
+ordinal
+: map the `ordinal` property of `Enum` class to the integer type column.
 
 ### komapper.namingStrategy
 

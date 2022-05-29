@@ -421,6 +421,28 @@ val id: Int
 - java.time.OffsetDateTime
 - 上述の型をプロパティとして持つValue Class
 
+### @KomapperEnum
+
+Enum型のプロパティに対し、プロパティとカラムのマッピング方法を明示的に指定します。
+
+```kotlin
+@KomapperEnum(EnumType.ORDINAL)
+val color: Nothing // このcolorプロパティがColorというEnum型に対応すると想定してください
+```
+
+`@KomapperEnum`の`type`プロパティには次のいずれかを指定できます。
+
+EnumType.NAME
+: Enumクラスの`name`プロパティを文字列型のカラムにマッピングする。
+
+EnumType.ORDINAL
+: Enumクラスの`ordinal`プロパティを整数型のカラムにマッピングする。
+
+Enum型のプロパティに対して`@KomapperEnum`を指定しない場合、
+アノテーション処理の`komapper.enumStrategy`オプションに従ってマッピング方法が解決されます。
+
+[アノテーションプロセッシングのオプション]({{< relref "annotation-processing#options" >}})も参照ください。
+
 ### @KomapperColumn
 
 プロパティとマッピングするカラムの名前を明示的に指定します。
