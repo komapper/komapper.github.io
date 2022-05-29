@@ -59,7 +59,7 @@ val w1: WhereDeclaration = {
 val w2: WhereDeclaration = {
     a.version eq 1
 }
-val w3: WhereDeclaration = w1 + w2 // +演算子の利用
+val w3: WhereDeclaration = w1 + w2 // Use of the `+` operator
 val query: Query<List<Address>> = QueryDsl.from(a).where(w3)
 val list: List<Address> = db.runQuery { query }
 /*
@@ -81,7 +81,7 @@ val w2: WhereDeclaration = {
     a.version eq 1
     or { a.version eq 2 }
 }
-val w3: WhereDeclaration = w1.and(w2) // and関数の利用
+val w3: WhereDeclaration = w1.and(w2) // Use of the `and` function
 val query: Query<List<Address>> = QueryDsl.from(a).where(w3)
 val list: List<Address> = db.runQuery { query }
 /*
@@ -103,7 +103,7 @@ val w2: WhereDeclaration = {
     a.version eq 1
     a.street eq "STREET 1"
 }
-val w3: WhereDeclaration = w1.or(w2) // or関数の利用
+val w3: WhereDeclaration = w1.or(w2) // Use of the `or` function
 val query: Query<List<Address>> = QueryDsl.from(a).where(w3)
 val list: List<Address> = db.runQuery { query }
 /*
