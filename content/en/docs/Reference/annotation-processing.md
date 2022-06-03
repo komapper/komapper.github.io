@@ -46,6 +46,7 @@ The options can be specified in the Gradle build script as follows:
 ksp {
   arg("komapper.prefix", "")
   arg("komapper.suffix", "Metamodel")
+  arg("komapper.enumStrategy", "ordinal")
   arg("komapper.namingStrategy", "UPPER_SNAKE_CASE")
   arg("komapper.metaObject", "example.Metamodels")
 }
