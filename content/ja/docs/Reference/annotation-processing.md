@@ -31,10 +31,11 @@ dependencies {
 ## オプション {#options}
 
 オプションによりアノテーションプロセッサの挙動を変更できます。
-利用可能なオプションは以下の4つです。
+利用可能なオプションは以下の5つです。
 
 - komapper.prefix
 - komapper.suffix
+- komapper.enumStrategy
 - komapper.namingStrategy
 - komapper.metaObject
 
@@ -44,6 +45,7 @@ dependencies {
 ksp {
   arg("komapper.prefix", "")
   arg("komapper.suffix", "Metamodel")
+  arg("komapper.enumStrategy", "ordinal")
   arg("komapper.namingStrategy", "UPPER_SNAKE_CASE")
   arg("komapper.metaObject", "example.Metamodels")
 }
@@ -58,6 +60,21 @@ ksp {
 
 生成されるメタモデルクラスのサフィックスです。
 デフォルト値は空文字です。
+
+### komapper.enumStrategy
+
+Enum型のプロパティをデータベースのカラムどうマッピングするかの戦略です。
+値には`name`または`ordinal`のいずれかを選択できます。
+デフォルト値は`name`です。
+なお、`@KomapperEnum`による指定はこの戦略よりも優先されます。
+
+`komapper.enumStrategy`オプションに指定可能な値の定義は次の通りです。
+
+name
+: Enumクラスの`name`プロパティを文字列型のカラムにマッピングする。
+
+ordinal
+: Enumクラスの`ordinal`プロパティを整数型のカラムにマッピングする。
 
 ### komapper.namingStrategy
 
