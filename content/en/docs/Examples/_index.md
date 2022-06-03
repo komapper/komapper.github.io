@@ -10,7 +10,7 @@ description: >
 
 We provide several sample applications including JDBC access, R2DBC access, 
 [Spring Boot](https://spring.io/projects/spring-boot) integration, 
-[Ktor](https://spring.io/projects/spring-boot) integration.
+[Ktor](https://ktor.io/) integration.
 
 ## Requirements {#prerequisites}
 
