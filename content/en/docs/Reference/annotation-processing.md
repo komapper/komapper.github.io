@@ -19,7 +19,7 @@ plugins {
 }
 
 dependencies {
-  val komapperVersion = "1.0.0"
+  val komapperVersion = "1.1.1"
   ksp("org.komapper:komapper-processor:$komapperVersion")
 }
 ```
