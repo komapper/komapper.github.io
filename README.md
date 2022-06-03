@@ -31,4 +31,6 @@ https://www.komapper.org/ja/docs/contribution-guidelines/#contributing-to-these-
 
 1. Execute `./gradlew archive`
 2. Change the url and add the latest url in config.toml
+3. Commit changes
 4. Push the branch to remote
+5. Create a new subdomain for the old branch on the Netlify page
