@@ -47,8 +47,7 @@ data class Address(
 )
 ```
 
-The type mappings between properties and columns 
-are defined by [Dialects]({{< relref "dialect.md" >}}).
+See [Data Types]({{< relref "data-type.md" >}}) for type mapping between properties and columns.
 
 ## Mapping definitions {#mapping-definition}
 

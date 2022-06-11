@@ -34,36 +34,6 @@ dependencies {
 }
 ```
 
-## kotlinx-datetimeのサポート {#kotlinx-datetime-support}
-
-Komapperは [kotlinx-datetime](https://github.com/Kotlin/kotlinx-datetime) の以下のデータ型をサポートします。
-
-- kotlinx.datetime.Instant
-- kotlinx.datetime.LocalDate
-- kotlinx.datetime.LocalDateTime
-
-これらの型を利用するには、Gradleの依存関係の宣言で次のように宣言してください。
-
-```kotlin
-dependencies {
-    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.3.2")
-}
-```
-
-また、`komapper-datetime-jdbc`もしくは`komapper-datetime-r2dbc`を追加してください。
-
-```kotlin
-val komapperVersion: String by project
-dependencies {
-    runtimeOnly("org.komapper:komapper-datetime-jdbc:$komapperVersion")
-}
-```
-
-{{< alert title="Note" >}}
-[スターター]({{< relref "starter.md" >}}) を利用する場合、
-`komapper-datetime-jdbc`や`komapper-datetime-r2dbc`の宣言は不要です。
-{{< /alert >}}
-
 ## H2 - JDBC
 
 [データ型の対応関係]({{< relref path="dialect#h2---jdbc" lang="en" >}})

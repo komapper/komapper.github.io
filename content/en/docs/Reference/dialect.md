@@ -34,36 +34,6 @@ dependencies {
 }
 ```
 
-## Support for kotlinx-datetime {#kotlinx-datetime-support}
-
-Komapper supports following data types of [kotlinx-datetime](https://github.com/Kotlin/kotlinx-datetime):
-
-- kotlinx.datetime.Instant
-- kotlinx.datetime.LocalDate
-- kotlinx.datetime.LocalDateTime
-
-To use these types, declare `kotlinx-datetime` in the Gradle dependencies declaration as follows:
-
-```kotlin
-dependencies {
-    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.3.2")
-}
-```
-
-Also, declare `komapper-datetime-jdbc` or `komapper-datetime-r2dbc`:
-
-```kotlin
-val komapperVersion: String by project
-dependencies {
-    runtimeOnly("org.komapper:komapper-datetime-jdbc:$komapperVersion")
-}
-```
-
-{{< alert title="Note" >}}
-If you use one of the [Starters]({{< relref "starter.md" >}}) ,
-you do not need to declare `komapper-datetime-jdbc` and `komapper-datetime-r2dbc`.
-{{< /alert >}}
-
 ## H2 - JDBC
 
 The following table shows the data type mapping:

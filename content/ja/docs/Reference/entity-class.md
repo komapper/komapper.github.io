@@ -46,7 +46,7 @@ data class Address(
 )
 ```
 
-プロパティとカラムの間における型の対応関係は [ダイアレクト]({{< relref "Dialect" >}}) で定義されます。
+プロパティとカラムの間における型の対応関係については [データ型]({{< relref "data-type.md" >}}) を参照ください。
 
 ## マッピング定義 {#mapping-definition}
 
