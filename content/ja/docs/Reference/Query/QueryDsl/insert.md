@@ -281,7 +281,7 @@ batchSize
 : バッチサイズです。デフォルトは`null`です。
 
 disableSequenceAssignment
-: IDにシーケンスで生成した値をアサインすることを無効化かどうかです。デフォルトは`false`です。
+: IDにシーケンスで生成した値をアサインすることを無効化するかどうかです。デフォルトは`false`です。
 
 queryTimeoutSeconds
 : クエリタイムアウトの秒数です。デフォルトは`null`でドライバの値を使うことを示します。
