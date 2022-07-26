@@ -132,6 +132,53 @@ example.r2dbc.AgeType
 
 You can register multiple classes together by separating lines.
 
+## Data type conversion {#data-type-conversion}
+
+To convert a data type to another type,
+you must create and register a class that conforms to the Service Provider Interface specification.
+
+For example, suppose you want to treat `Int` as the following `example.PhoneNumber` in your application.
+
+```kotlin
+package example
+
+data class PhoneNumber(val value: Int)
+```
+
+Create a class that implements `org.komapper.core.spi.DataTypeConverter` to perform the conversion:
+
+```kotlin
+package example
+
+import org.komapper.core.spi.DataTypeConverter
+import kotlin.reflect.KClass
+
+class PhoneNumberTypeConverter : DataTypeConverter<PhoneNumber, Int> {
+    override val exteriorClass: KClass<PhoneNumber> = PhoneNumber::class
+    override val interiorClass: KClass<Int> = Int::class
+
+    override fun unwrap(exterior: PhoneNumber): Int {
+        return exterior.value
+    }
+
+    override fun wrap(interior: Int): PhoneNumber {
+        return PhoneNumber(interior)
+    }
+}
+```
+
+Register the above class in a file with the following name:
+
+- `META-INF/services/org.komapper.core.spi.DataTypeConverter`
+
+This file contains the fully qualified name of the class as follows:
+
+```
+example.PhoneNumberTypeConverter
+```
+
+You can register multiple classes together by separating lines.
+
 ## Value classes {#value-classes}
 
 When you use a value class, the inner type of the value class is used for mapping.

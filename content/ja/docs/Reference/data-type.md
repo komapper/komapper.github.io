@@ -131,6 +131,53 @@ example.r2dbc.AgeType
 
 この例では1つのクラスのみを登録していますが、行を分けて記載すれば複数のクラスをまとめて登録できます。
 
+## データ型の変換 {#data-type-conversion}
+
+データ型を他の型に変換してアプリケーションで扱うには
+Service Provider Interfaceの仕様に則ったクラスの作成と登録が必要です。
+
+例えば、`Int`をアプリケーションでは次のような`example.PhoneNumber`として扱うものとします。
+
+```kotlin
+package example
+
+data class PhoneNumber(val value: Int)
+```
+
+変換を実行するクラスを`org.komapper.core.spi.DataTypeConverter`を実装して作成します。
+
+```kotlin
+package example
+
+import org.komapper.core.spi.DataTypeConverter
+import kotlin.reflect.KClass
+
+class PhoneNumberTypeConverter : DataTypeConverter<PhoneNumber, Int> {
+    override val exteriorClass: KClass<PhoneNumber> = PhoneNumber::class
+    override val interiorClass: KClass<Int> = Int::class
+
+    override fun unwrap(exterior: PhoneNumber): Int {
+        return exterior.value
+    }
+
+    override fun wrap(interior: Int): PhoneNumber {
+        return PhoneNumber(interior)
+    }
+}
+```
+
+上述のクラスは次の名前のファイルに登録します。
+
+- `META-INF/services/org.komapper.core.spi.DataTypeConverter`
+
+ファイルには次のようにクラスの完全修飾名を記載します。
+
+```
+example.PhoneNumberTypeConverter
+```
+
+この例では1つのクラスのみを登録していますが、行を分けて記載すれば複数のクラスをまとめて登録できます。
+
 ## Value class {#value-classes}
 
 value classを利用する場合、value classの内側の型がマッピングに利用されます。
