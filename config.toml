@@ -140,33 +140,6 @@ url = "https://v1-1.komapper.org/"
 [[params.versions]]
 version = "v1.0"
 url = "https://v1-0.komapper.org/"
-[[params.versions]]
-version = "v1.0-RC1"
-url = "https://v1-0-rc1.komapper.org"
-[[params.versions]]
-version = "v0.33"
-url = "https://v0-33.komapper.org/"
-[[params.versions]]
-version = "v0.32"
-url = "https://v0-32.komapper.org/"
-[[params.versions]]
-version = "v0.31"
-url = "https://v0-31.komapper.org/"
-[[params.versions]]
-version = "v0.30"
-url = "https://v0-30.komapper.org/"
-[[params.versions]]
-version = "v0.29"
-url = "https://v0-29.komapper.org/"
-[[params.versions]]
-version = "v0.28"
-url = "https://v0-28.komapper.org/"
-[[params.versions]]
-version = "v0.27"
-url = "https://v0-27.komapper.org/"
-[[params.versions]]
-version = "v0.26"
-url = "https://v0-26.komapper.org/"
 
 # User interface configuration
 [params.ui]
