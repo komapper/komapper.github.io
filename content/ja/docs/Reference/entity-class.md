@@ -341,7 +341,7 @@ data class AddressDef(
 ### @KomapperId
 
 プライマリーキーであることを表します。
-エンティティクラスのマッピングを行う上でこのアノテーションの存在は必須です。
+複合プライマリキーを表すために、 1つのエンティティクラス内に複数指定することもできます。
 
 ### @KomapperSequence
 
@@ -463,3 +463,63 @@ val id: Nothing
 ### @KomapperIgnore
 
 マッピングの対象外であることを表します。
+
+### @KomapperEmbeddedId
+
+複合プライマリキーの[組込バリュー](https://www.martinfowler.com/eaaCatalog/embeddedValue.html)を表します。
+
+```kotlin
+data class EmoloyeeId(val id1: Int, val id2: String)
+
+@KomapperEntity
+data Employee(@KomapperEmbeddedId val id: EmoloyeeId, val: name: String)
+```
+
+### @KomapperEmbedded
+
+[組込バリュー](https://www.martinfowler.com/eaaCatalog/embeddedValue.html)を表します。
+
+```kotlin
+data class Money(val amount: BigDecimal, val currency: String)
+
+@KomapperEntity
+data Employee(@KomapperId val id: Int, @KomapperEmbedded val: salary: Money)
+```
+
+### @KomapperEnumOverride
+
+[組込バリュー](https://www.martinfowler.com/eaaCatalog/embeddedValue.html)内のEnum型のプロパティに対し、
+[`@KomapperEnum`]({{< relref "#komapperenum" >}})を適用します。
+
+```kotlin
+enum class Currency { JPY, USD }
+
+data class Money(val amount: BigDecimal, val currency: Currency)
+
+@KomapperEntity
+data Employee( 
+  @KomapperId
+  val id: Int,
+  @KomapperEmbedded
+  @KomapperEnumOverrde("currency", KomapperEnum(EnumType.ORDINAL))
+  val: salary: Money
+)
+```
+
+### @KomapperColumnOverride
+
+[組込バリュー](https://www.martinfowler.com/eaaCatalog/embeddedValue.html)内のプロパティに対し、
+[`@KomapperColumn`]({{< relref "#komappercolumn" >}})を適用します。
+
+```kotlin
+data class Money(val amount: BigDecimal, val currency: String)
+
+@KomapperEntity
+data Employee( 
+  @KomapperId
+  val id: Int,
+  @KomapperEmbedded
+  @KomapperColumnOverrde("amount", KomapperColumn("SALARY_AMOUNT"))
+  @KomapperColumnOverrde("currency", KomapperColumn("SALARY_CURRENCY"))
+  val: salary: Money
+)

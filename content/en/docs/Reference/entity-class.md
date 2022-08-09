@@ -343,8 +343,8 @@ All annotations described here belong to the `org.komapper.annotation` package.
 
 ### @KomapperId
 
-Indicates that it is the primary key.
-The presence of this annotation is essential for entity class mapping.
+Indicates that it is a primary key.
+To represent a composite primary key, you may specify this annotation more than one in a single entity class.
 
 ### @KomapperSequence
 
@@ -468,3 +468,64 @@ See also [Options]({{< relref "annotation-processing#options" >}}).
 ### @KomapperIgnore
 
 Indicates that it is not subject to mapping.
+
+### @KomapperEmbeddedId
+
+Indicates an [Embedded Value](https://www.martinfowler.com/eaaCatalog/embeddedValue.html)
+for a composite primary key.
+
+```kotlin
+data class EmoloyeeId(val id1: Int, val id2: String)
+
+@KomapperEntity
+data Employee(@KomapperEmbeddedId val id: EmoloyeeId, val: name: String)
+```
+
+### @KomapperEmbedded
+
+Indicates an [Embedded Value](https://www.martinfowler.com/eaaCatalog/embeddedValue.html).
+
+```kotlin
+data class Money(val amount: BigDecimal, val currency: String)
+
+@KomapperEntity
+data Employee(@KomapperId val id: Int, @KomapperEmbedded val: salary: Money)
+```
+
+### @KomapperEnumOverride
+
+Applies [`@KomapperEnum`]({{< relref "#komapperenum" >}}) to an Enum property in an
+[Embedded Value](https://www.martinfowler.com/eaaCatalog/embeddedValue.html).
+
+```kotlin
+enum class Currency { JPY, USD }
+
+data class Money(val amount: BigDecimal, val currency: Currency)
+
+@KomapperEntity
+data Employee( 
+  @KomapperId
+  val id: Int,
+  @KomapperEmbedded
+  @KomapperEnumOverrde("currency", KomapperEnum(EnumType.ORDINAL))
+  val: salary: Money
+)
+```
+
+### @KomapperColumnOverride
+
+Applies [`@KomapperColumn`]({{< relref "#komappercolumn" >}}) to a property in an
+[Embedded Value](https://www.martinfowler.com/eaaCatalog/embeddedValue.html).
+
+```kotlin
+data class Money(val amount: BigDecimal, val currency: String)
+
+@KomapperEntity
+data Employee( 
+  @KomapperId
+  val id: Int,
+  @KomapperEmbedded
+  @KomapperColumnOverrde("amount", KomapperColumn("SALARY_AMOUNT"))
+  @KomapperColumnOverrde("currency", KomapperColumn("SALARY_CURRENCY"))
+  val: salary: Money
+)
