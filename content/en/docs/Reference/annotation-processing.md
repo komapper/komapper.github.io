@@ -98,7 +98,7 @@ lower_snake_case
 UPPER_SNAKE_CASE
 : This strategy converts entity class and property names to snake_case and then to UPPERCASE.
 
-The default strategy is `implicit`.
+The default strategy is `lower_snake_case`.
 
 ### komapper.metaObject
 
