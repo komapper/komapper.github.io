@@ -63,7 +63,7 @@ ksp {
 
 Kotlinのエンティクラスとプロパティからデータベースのテーブルとカラムの名前をどう解決するのかの戦略です。
 値には`implicit`、`lower_snake_case`、`UPPER_SNAKE_CASE`のいずれかを選択できます。
-デフォルト値は`implicit`です。
+デフォルト値は`lower_snake_case`です。
 解決されたデータベースのテーブルとカラムの名前は生成されるメタモデルのコードの中に含まれます。
 なお、`@KomapperTable`や`@KomapperColumn`で名前が指定される場合この戦略で決定される名前よりも優先されます。
 
