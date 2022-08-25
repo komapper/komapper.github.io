@@ -507,7 +507,7 @@ data Employee(
   @KomapperId
   val id: Int,
   @KomapperEmbedded
-  @KomapperEnumOverrde("currency", KomapperEnum(EnumType.ORDINAL))
+  @KomapperEnumOverride("currency", KomapperEnum(EnumType.ORDINAL))
   val: salary: Money
 )
 ```
@@ -525,7 +525,7 @@ data Employee(
   @KomapperId
   val id: Int,
   @KomapperEmbedded
-  @KomapperColumnOverrde("amount", KomapperColumn("SALARY_AMOUNT"))
-  @KomapperColumnOverrde("currency", KomapperColumn("SALARY_CURRENCY"))
+  @KomapperColumnOverride("amount", KomapperColumn("SALARY_AMOUNT"))
+  @KomapperColumnOverride("currency", KomapperColumn("SALARY_CURRENCY"))
   val: salary: Money
 )
