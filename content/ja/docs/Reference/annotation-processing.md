@@ -31,13 +31,14 @@ dependencies {
 ## オプション {#options}
 
 オプションによりアノテーションプロセッサの挙動を変更できます。
-利用可能なオプションは以下の5つです。
+利用可能なオプションは以下の通りです。
 
 - komapper.prefix
 - komapper.suffix
 - komapper.enumStrategy
 - komapper.namingStrategy
 - komapper.metaObject
+- komapper.alwaysQuote
 
 オプションを指定するにはGradleのビルドスクリプトで次のように記述します。
 
@@ -99,3 +100,8 @@ UPPER_SNAKE_CASE
 
 メタモデルのインスタンスを拡張プロパティとして提供するobjectを指定します。
 デフォルト値は`org.komapper.core.dsl.Meta`です。
+
+### komapper.alwaysQuote
+
+SQL文の中でテーブル名やカラム名をクォートするかどうかです。
+デフォルト値は`false`です。

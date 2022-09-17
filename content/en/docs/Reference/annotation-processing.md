@@ -32,13 +32,14 @@ under the `build/generated/ksp/main/kotlin` directory.
 ## Options {#options}
 
 Options allow you to change the behavior of the annotation processor.
-There are four available options:
+Available options are as follows:
 
 - komapper.prefix
 - komapper.suffix
 - komapper.enumStrategy
 - komapper.namingStrategy
 - komapper.metaObject
+- komapper.alwaysQuote
 
 The options can be specified in the Gradle build script as follows:
 
@@ -103,4 +104,9 @@ The default strategy is `lower_snake_case`.
 ### komapper.metaObject
 
 This option specifies the name of the object that provides metamodel instances as extension properties.
-Default is `org.komapper.core.dsl.Meta`.
+The default value is `org.komapper.core.dsl.Meta`.
+
+### komapper.alwaysQuote
+
+This option indicates whether to quote table or column names in SQL statements.
+The default value is `flase`.
