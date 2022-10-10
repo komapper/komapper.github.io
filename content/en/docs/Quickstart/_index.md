@@ -13,7 +13,7 @@ We show you how to create an application that uses JDBC to access H2 Database En
 ## Prerequisites {#prerequisites}
 
 - JDK 11 or later
-- Gradle 7.2 or later
+- Gradle 6.7.1 or later
 
 ## Install {#install}
 
