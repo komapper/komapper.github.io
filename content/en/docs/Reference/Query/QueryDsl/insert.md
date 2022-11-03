@@ -156,6 +156,10 @@ When using PostgreSQL's Dialect, the SQL would be as follows:
 insert into DEPARTMENT as t0_ (DEPARTMENT_ID, DEPARTMENT_NO, DEPARTMENT_NAME, LOCATION, VERSION) values (?, ?, ?, ?, ?) on conflict (DEPARTMENT_ID) do update set DEPARTMENT_NO = excluded.DEPARTMENT_NO, DEPARTMENT_NAME = excluded.DEPARTMENT_NAME, LOCATION = excluded.LOCATION, VERSION = excluded.VERSION
 ```
 
+{{< alert color="warning" title="Warning" >}}
+Optimistic locking is not applied to the rows to be updated.
+{{< /alert >}}
+
 ### executeAndGet {#onduplicatekeyupdate-executeandget}
 
 If the `executeAndGet` function is called following onDuplicateKeyUpdate, 

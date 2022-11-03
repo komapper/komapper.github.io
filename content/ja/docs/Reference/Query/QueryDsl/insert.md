@@ -148,6 +148,10 @@ PostgreSQLのDialectを使う場合は次のようなSQLになります。
 insert into DEPARTMENT as t0_ (DEPARTMENT_ID, DEPARTMENT_NO, DEPARTMENT_NAME, LOCATION, VERSION) values (?, ?, ?, ?, ?) on conflict (DEPARTMENT_ID) do update set DEPARTMENT_NO = excluded.DEPARTMENT_NO, DEPARTMENT_NAME = excluded.DEPARTMENT_NAME, LOCATION = excluded.LOCATION, VERSION = excluded.VERSION
 ```
 
+{{< alert color="warning" title="Warning" >}}
+更新される行に楽観的ロックは適用されません。
+{{< /alert >}}
+
 ### executeAndGet {#onduplicatekeyupdate-executeandget}
 
 `onDuplicateKeyUpdate`に続けて`executeAndGet`を呼び出した場合、戻り値は追加もしくは更新されたデータを表すエンティティです。
