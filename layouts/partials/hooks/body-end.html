@@ -1,37 +1,12 @@
 {{ with .Site.Params.algolia_docsearch }}
 <!-- scripts for algolia docsearch -->
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@docsearch/js@3"></script>
 <script type="text/javascript">
-docsearch({ 
-apiKey: '4924a635b6132722899571450fa5a23a', 
-indexName: 'komapper', 
-inputSelector: 'header input.td-search-input', 
-debug: false // Set debug to true if you want to inspect the dropdown 
-}); 
-docsearch({ 
-apiKey: '4924a635b6132722899571450fa5a23a', 
-indexName: 'komapper', 
-inputSelector: '#content-mobile input.td-search-input', 
-debug: false // Set debug to true if you want to inspect the dropdown 
-}); 
-
-(function($) {
-    'use strict';
-    var Search = {
-        init: function() {
-            $(document).ready(function() {
-               $(document).off('keypress', '.td-search-input');
-               $(document).on('keypress', '.td-search-input', function(e) {
-                    if (e.keyCode !== 13) {
-                        return
-                    }
-                    document.location = "{{ "/" | absURL }}";
-                    return false;
-                });
-            });
-        },
-    };
-    Search.init();
-}(jQuery));
+docsearch({
+  container: '#docsearch',
+  appId: 'BH4D9OD16A',
+  apiKey: '4924a635b6132722899571450fa5a23a',
+  indexName: 'komapper',
+});
 </script>
 {{ end }}
