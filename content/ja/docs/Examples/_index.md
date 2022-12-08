@@ -16,8 +16,8 @@ JDBC接続、R2DBC接続、
 
 サンプルアプリケーションの動作に必要な要件です。
 
-- JDK 11、もしくはそれ以降のバージョン
-- Docker（spring-native-jdbc など一部のサンプルが利用）
+- JDK 17、もしくはそれ以降のバージョン
+- Docker（一部のサンプルが利用）
 
 ## リポジトリの取得 {#clone}
 
@@ -94,38 +94,6 @@ JSONで返されたデータがブラウザ上に表示されます。
 
 データを追加するには `http://localhost:8080/?text=Hi` のようにクエリパラメーターでデータを渡します。
 再度 `http://localhost:8080` を開くと追加されたデータと合わせて一覧されます。
-
-### spring-native-jdbc
-
-このプロジェクトは [Spring Native](https://docs.spring.io/spring-native/docs/current/reference/htmlsingle/) に対応したアプリケーションです。
-データベースの接続にJDBCを用います。
-
-以下のコマンドでネイティブアプリケーションをビルドできます。
-
-```sh
-$ ./gradlew :spring-native-jdbc:bootBuildImage
-```
-
-アプリケーションを動かすには次のようにDockerを起動します。
-
-```sh
-$ docker run --rm -p 8080:8080 docker.io/library/spring-native-jdbc:0.0.1
-```
-
-アプリケーションが実行されたら、ブラウザで `http://localhost:8080` を開いてください。
-JSONで返されたデータがブラウザ上に表示されます。
-
-データを追加するには `http://localhost:8080/?text=Hi` のようにクエリパラメーターでデータを渡します。
-再度 `http://localhost:8080` を開くと追加されたデータと合わせて一覧されます。
-
-### spring-native-r2dbc
-
-このプロジェクトは [Spring Native](https://docs.spring.io/spring-native/docs/current/reference/htmlsingle/) に対応したアプリケーションです。
-データベースの接続にR2DBCを用います。
-
-現在のバージョンでは、Kotlin コルーチンに関する制約を受けます。
- 
-- https://docs.spring.io/spring-native/docs/current/reference/htmlsingle/#limitations
 
 ### repository-pattern-jdbc
 
