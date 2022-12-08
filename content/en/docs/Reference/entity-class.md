@@ -206,7 +206,7 @@ When defined as above, the specified object in the `unit` property will have the
 val a = MyMeta.address
 
 // define a query
-val query = QueryDsl.from(e).where { a.street eq "STREET 101" }.orderBy(a.id)
+val query = QueryDsl.from(a).where { a.street eq "STREET 101" }.orderBy(a.id)
 ```
 
 ### clone {#metamodel-clone}
