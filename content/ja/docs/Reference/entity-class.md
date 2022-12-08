@@ -178,6 +178,30 @@ val query: Query<List<Employee>> = QueryDsl.from(m)
   }
 ```
 
+### unit {#metamodel-unit}
+
+上述の例では`address`の拡張プロパティを持つのは`org.komapper.core.dsl.Meta`ですが、
+このオブジェクトは`@KomapperEntity`や`@KomapperEntityDef`の`unit`プロパティで変更できます。
+
+```kotlin
+object MyMeta
+
+@KomapperEntity(unit = MyMeta::class)
+data class Address(
+  ...
+)
+```
+
+上のように定義すると`unit`プロパティに指定したオブジェクトが`address`の拡張プロパティを持ちます。
+
+```kotlin
+// get a generated metamodel
+val a = MyMeta.address
+
+// define a query
+val query = QueryDsl.from(e).where { a.street eq "STREET 101" }.orderBy(a.id)
+```
+
 ### clone {#metamodel-clone}
 
 `clone`関数を使って既存のメタモデルを基に別のメタモデルを生成できます。
@@ -289,7 +313,7 @@ val list = db.runQuery { query }
 ### @KomapperEntity
 
 エンティティクラスがマッピング定義を持つことを表します。
-`aliases`プロパティを持ちます。
+[aliases]({{< relref "#metamodel-aliases" >}})プロパティと[unit]({{< relref "#metamodel-unit" >}})プロパティを持ちます。
 
 ```kotlin
 @KomapperEntity(aliases = ["addr"])
@@ -298,12 +322,10 @@ data class Address(
 )
 ```
 
-`aliases`については [aliases]({{< relref "#metamodel-aliases" >}}) を参照ください。
-
 ### @KomapperEntityDef
 
 エンティティ定義クラスであることを表します。
-`entity`プロパティや`aliases`プロパティを指定できます。
+`entity`プロパティや[aliases]({{< relref "#metamodel-aliases" >}})プロパティや[unit]({{< relref "#metamodel-unit" >}})プロパティを指定できます。
 
 ```kotlin
 @KomapperEntityDef(entity = Address::class, aliases = ["addr"])
@@ -311,8 +333,6 @@ data class AddressDef(
   ...
 )
 ```
-
-`aliases`については [aliases]({{< relref "#metamodel-aliases" >}}) を参照ください。
 
 ### @KomapperTable
 

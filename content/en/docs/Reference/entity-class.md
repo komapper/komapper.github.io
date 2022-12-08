@@ -185,6 +185,30 @@ val query: Query<List<Employee>> = QueryDsl.from(m)
   }
 ```
 
+### unit {#metamodel-unit}
+
+In the above example, it is `org.komapper.core.dsl.Meta` that has the `address` extended property.
+However, this can be changed with the `@KomapperEntity` or `@KomapperEntityDef` unit property.
+
+```kotlin
+object MyMeta
+
+@KomapperEntity(unit = MyMeta::class)
+data class Address(
+  ...
+)
+```
+
+When defined as above, the specified object in the `unit` property will have the `address` extended property:
+
+```kotlin
+// get a generated metamodel
+val a = MyMeta.address
+
+// define a query
+val query = QueryDsl.from(e).where { a.street eq "STREET 101" }.orderBy(a.id)
+```
+
 ### clone {#metamodel-clone}
 
 The `clone` function can be used to generate another metamodel based on an existing metamodel.
@@ -296,7 +320,7 @@ All annotations described here belong to the `org.komapper.annotation` package.
 ### @KomapperEntity
 
 Indicates that the entity class has a mapping definition.
-It has an [aliases]({{< relref "#metamodel-aliases" >}}) property.
+It has [aliases]({{< relref "#metamodel-aliases" >}}) and [unit]({{< relref "#metamodel-unit" >}}) property.
 
 ```kotlin
 @KomapperEntity(aliases = ["addr"])
@@ -308,7 +332,7 @@ data class Address(
 ### @KomapperEntityDef
 
 Indicates that the class is a mapping definition. 
-You can specify the entity and [aliases]({{< relref "#metamodel-aliases" >}}) properties.
+You can specify the entity and [aliases]({{< relref "#metamodel-aliases" >}}) and [unit]({{< relref "#metamodel-unit" >}}) properties.
 
 ```kotlin
 @KomapperEntityDef(entity = Address::class, aliases = ["addr"])
