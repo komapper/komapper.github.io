@@ -34,8 +34,8 @@ Include the following code in your build.gradle.kts:
 ```kotlin
 plugins {
     application
-    id("com.google.devtools.ksp") version "1.7.10-1.0.6"
-    kotlin("jvm") version "1.7.10"
+    id("com.google.devtools.ksp") version "1.7.22-1.0.8"
+    kotlin("jvm") version "1.7.22"
 }
 
 application {
@@ -43,7 +43,7 @@ application {
 }
 
 dependencies {
-    val komapperVersion = "1.4.0"
+    val komapperVersion = "1.5.0"
     platform("org.komapper:komapper-platform:$komapperVersion").let {
         implementation(it)
         ksp(it)
