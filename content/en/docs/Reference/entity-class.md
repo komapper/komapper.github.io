@@ -474,6 +474,26 @@ EnumType.NAME
 EnumType.ORDINAL
 : map the `ordinal` property of `Enum` class to the integer type column.
 
+EnumType.PROPERTY
+: map an arbitrary property of `Enum` class to the column.
+The name of the property to be mapped must be specified in the `hint` property of `@KomapperEnum`.
+
+```kotlin
+enum class Color(val code: String) { RED("r"), GREEN("g"), BLUE("b") }
+
+@KomapperEntity
+data class Box(
+    @KomapperId
+    val id: Int,
+    @KomapperEnum(EnumType.NAME)
+    val top: Color,
+    @KomapperEnum(EnumType.ORDINAL)
+    val bottom: Color,
+    @KomapperEnum(EnumType.PROPERTY, hint = "code")
+    val side: Color
+)
+```
+
 If `@KomapperEnum` is not specified, the mapping method is resolved 
 according to the `komapper.enumStrategy` option in the annotation processing.
 

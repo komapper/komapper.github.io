@@ -466,6 +466,26 @@ EnumType.NAME
 EnumType.ORDINAL
 : Enumクラスの`ordinal`プロパティを整数型のカラムにマッピングする。
 
+EnumType.PROPERTY
+: Enumクラスの任意のプロパティをカラムにマッピングする。
+マッピング対象のプロパティ名は`@KomapperEnum`の`hint`プロパティに指定する必要がある。
+
+```kotlin
+enum class Color(val code: String) { RED("r"), GREEN("g"), BLUE("b") }
+
+@KomapperEntity
+data class Box(
+    @KomapperId
+    val id: Int,
+    @KomapperEnum(EnumType.NAME)
+    val top: Color,
+    @KomapperEnum(EnumType.ORDINAL)
+    val bottom: Color,
+    @KomapperEnum(EnumType.PROPERTY, hint = "code")
+    val side: Color
+)
+```
+
 Enum型のプロパティに対して`@KomapperEnum`を指定しない場合、
 アノテーション処理の`komapper.enumStrategy`オプションに従ってマッピング方法が解決されます。
 
