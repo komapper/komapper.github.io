@@ -533,6 +533,16 @@ data class EmoloyeeId(val id1: Int, val id2: String)
 data Employee(@KomapperEmbeddedId val id: EmoloyeeId, val: name: String)
 ```
 
+If the `virtual` property is set to `true`, then
+[SCHEMA Queries]({{< relref "query/QueryDsl/schema" >}}) will not consider the annotated property as a composite primary key.
+
+```kotlin
+data class EmoloyeeId(val id1: Int, val id2: String)
+
+@KomapperEntity
+data Employee(@KomapperEmbeddedId(virtual = true) val id: EmoloyeeId, val: name: String)
+```
+
 ### @KomapperEmbedded
 
 Indicates an [Embedded Value](https://www.martinfowler.com/eaaCatalog/embeddedValue.html).

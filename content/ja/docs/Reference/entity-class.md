@@ -523,6 +523,16 @@ data class EmoloyeeId(val id1: Int, val id2: String)
 data Employee(@KomapperEmbeddedId val id: EmoloyeeId, val: name: String)
 ```
 
+`virtual`プロパティに`true`が設定された場合、
+[SCHEMAクエリ]({{< relref "query/QueryDsl/schema" >}})は注釈されたプロパティを複合主キーだと見做しません。
+
+```kotlin
+data class EmoloyeeId(val id1: Int, val id2: String)
+
+@KomapperEntity
+data Employee(@KomapperEmbeddedId(virtual = true) val id: EmoloyeeId, val: name: String)
+```
+
 ### @KomapperEmbedded
 
 [組込バリュー](https://www.martinfowler.com/eaaCatalog/embeddedValue.html)を表します。
