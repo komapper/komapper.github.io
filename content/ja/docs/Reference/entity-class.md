@@ -363,6 +363,14 @@ data class AddressDef(
 プライマリーキーであることを表します。
 複合プライマリキーを表すために、 1つのエンティティクラス内に複数指定することもできます。
 
+`virtual`プロパティに`true`が設定された場合、
+[SCHEMAクエリ]({{< relref "query/QueryDsl/schema" >}})は注釈されたプロパティを主キーだと見做しません。
+
+```kotlin
+@KomapperId(virtual = true)
+val id: Int
+```
+
 ### @KomapperSequence
 
 プライマリキーがデータベースのシーケンスで生成されることを表します。
