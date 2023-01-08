@@ -1,3 +1,7 @@
+{{ $indexName := "komapper" }}
+{{ if eq .Site.Language.Lang "ja" }}
+  {{ $indexName = "komapper_ja" }}
+{{ end }}
 {{ with .Site.Params.algolia_docsearch }}
 <!-- scripts for algolia docsearch -->
 <script src="https://cdn.jsdelivr.net/npm/@docsearch/js@3"></script>
@@ -6,13 +10,13 @@ docsearch({
   container: '#docsearch',
   appId: '2CVTL4038Q',
   apiKey: 'ddf623a4fa01ee2b9f2b19721f8d2dcf',
-  indexName: 'komapper',
+  indexName: '{{ $indexName }}',
 });
 docsearch({
   container: '#content-mobile #docsearch',
   appId: '2CVTL4038Q',
   apiKey: 'ddf623a4fa01ee2b9f2b19721f8d2dcf',
-  indexName: 'komapper',
+  indexName: '{{ $indexName }}',
 });
 </script>
 {{ end }}
