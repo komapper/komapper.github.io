@@ -17,9 +17,9 @@ description: >
 | H2 Database Engine | JDBC  |     komapper-dialect-h2-jdbc      |    H2JdbcSqlDialect    |
 | H2 Database Engine | R2DBC |     komapper-dialect-h2-r2dbc     |   H2R2dbcSqlDialect    |
 | MariaDB            | JDBC  |   komapper-dialect-mariadb-jdbc   |   MariaDbJdbcDialect   |
-| MariaDB            | JDBC  |  komapper-dialect-mariadb-r2dbc   |  MariaDbR2dbcDialect   |
+| MariaDB            | R2DBC |  komapper-dialect-mariadb-r2dbc   |  MariaDbR2dbcDialect   |
 | MySQL              | JDBC  |    komapper-dialect-mysql-jdbc    |    MySqlJdbcDialect    |
-| MySQL              | JDBC  |   komapper-dialect-mysql-r2dbc    |   MySqlR2dbcDialect    |
+| MySQL              | R2DBC |   komapper-dialect-mysql-r2dbc    |   MySqlR2dbcDialect    |
 | Oracle Database    | JDBC  |   komapper-dialect-oracle-jdbc    |   OracleJdbcDialect    |
 | Oracle Database    | R2DBC |   komapper-dialect-oracle-r2dbc   |   OracleR2dbcDialect   |
 | PostgreSQL         | JDBC  | komapper-dialect-postgresql-jdbc  | PostgreSqlJdbcDialect  |
