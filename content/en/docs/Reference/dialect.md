@@ -18,6 +18,7 @@ and the choice of which module to use must be based on the destination database 
 | H2 Database Engine | R2DBC |     komapper-dialect-h2-r2dbc     |   H2R2dbcSqlDialect    |
 | MariaDB            | JDBC  |   komapper-dialect-mariadb-jdbc   |   MariaDbJdbcDialect   |
 | MySQL              | JDBC  |    komapper-dialect-mysql-jdbc    |    MySqlJdbcDialect    |
+| MySQL              | JDBC  |   komapper-dialect-mysql-r2dbc    |   MySqlR2dbcDialect    |
 | Oracle Database    | JDBC  |   komapper-dialect-oracle-jdbc    |   OracleJdbcDialect    |
 | Oracle Database    | R2DBC |   komapper-dialect-oracle-r2dbc   |   OracleR2dbcDialect   |
 | PostgreSQL         | JDBC  | komapper-dialect-postgresql-jdbc  | PostgreSqlJdbcDialect  |
@@ -159,6 +160,40 @@ The following table shows the data type mapping:
 | java.time.LocalDate            | DATE            |
 | java.time.LocalDateTime        | DATETIME        |
 | java.time.LocalTime            | TIME            |
+| java.time.OffsetDateTime       | TIMESTAMP       |
+| java.util.UUID                 | N/A             |
+| kotlin.Any                     | N/A             |
+| kotlin.Boolean                 | BIT(1), BOOLEAN |
+| kotlin.Byte                    | TINYINT         |
+| kotlin.ByteArray               | VARBINARY       |
+| kotlin.Double                  | DOUBLE          |
+| kotlin.Float                   | FLOAT           |
+| kotlin.Int                     | INT             |
+| kotlin.Long                    | BIGINT          |
+| kotlin.Short                   | SMALLINT        |
+| kotlin.String                  | VARCHAR         |
+| kotlin.UByte                   | SMALLINT        |
+| kotlin.UInt                    | BIGINT          |
+| kotlin.UShort                  | INT             |
+| kotlinx.datetime.Instant       | TIMESTAMP       |
+| kotlinx.datetime.LocalDate     | DATE            |
+| kotlinx.datetime.LocalDateTime | DATETIME        |
+| enum class                     | VARCHAR         |
+
+## MySQL - R2DBC
+
+The following table shows the data type mapping:
+
+| Kotlin Type                    | Database Type   |
+|--------------------------------|-----------------|
+| io.r2dbc.spi.Blob              | N/A             |
+| io.r2dbc.spi.Clob              | N/A             |
+| java.math.BigDecimal           | DECIMAL         |
+| java.math.BigInteger           | DECIMAL         |
+| java.time.Instant              | TIMESTAMP       |
+| java.time.LocalDate            | DATE            |
+| java.time.LocalDateTime        | DATETIME        |
+| java.time.LocalTime            | N/A             |
 | java.time.OffsetDateTime       | TIMESTAMP       |
 | java.util.UUID                 | N/A             |
 | kotlin.Any                     | N/A             |
