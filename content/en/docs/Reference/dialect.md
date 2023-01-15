@@ -17,6 +17,7 @@ and the choice of which module to use must be based on the destination database 
 | H2 Database Engine | JDBC  |     komapper-dialect-h2-jdbc      |    H2JdbcSqlDialect    |
 | H2 Database Engine | R2DBC |     komapper-dialect-h2-r2dbc     |   H2R2dbcSqlDialect    |
 | MariaDB            | JDBC  |   komapper-dialect-mariadb-jdbc   |   MariaDbJdbcDialect   |
+| MariaDB            | JDBC  |  komapper-dialect-mariadb-r2dbc   |  MariaDbR2dbcDialect   |
 | MySQL              | JDBC  |    komapper-dialect-mysql-jdbc    |    MySqlJdbcDialect    |
 | MySQL              | JDBC  |   komapper-dialect-mysql-r2dbc    |   MySqlR2dbcDialect    |
 | Oracle Database    | JDBC  |   komapper-dialect-oracle-jdbc    |   OracleJdbcDialect    |
@@ -119,6 +120,40 @@ The following table shows the data type mapping:
 | java.sql.Clob                  | TEXT            |
 | java.sql.NClob                 | TEXT            |
 | java.sql.SQLXML                | TEXT            |
+| java.time.Instant              | TIMESTAMP       |
+| java.time.LocalDate            | DATE            |
+| java.time.LocalDateTime        | DATETIME        |
+| java.time.LocalTime            | TIME            |
+| java.time.OffsetDateTime       | TIMESTAMP       |
+| java.util.UUID                 | N/A             |
+| kotlin.Any                     | N/A             |
+| kotlin.Boolean                 | BIT(1), BOOLEAN |
+| kotlin.Byte                    | TINYINT         |
+| kotlin.ByteArray               | VARBINARY       |
+| kotlin.Double                  | DOUBLE          |
+| kotlin.Float                   | FLOAT           |
+| kotlin.Int                     | INT             |
+| kotlin.Long                    | BIGINT          |
+| kotlin.Short                   | SMALLINT        |
+| kotlin.String                  | VARCHAR         |
+| kotlin.UByte                   | SMALLINT        |
+| kotlin.UInt                    | BIGINT          |
+| kotlin.UShort                  | INT             |
+| kotlinx.datetime.Instant       | TIMESTAMP       |
+| kotlinx.datetime.LocalDate     | DATE            |
+| kotlinx.datetime.LocalDateTime | DATETIME        |
+| enum class                     | VARCHAR         |
+
+## MariaDB - R2DBC
+
+The following table shows the data type mapping:
+
+| Kotlin Type                    | Database Type   |
+|--------------------------------|-----------------|
+| io.r2dbc.spi.Blob              | BLOB            |
+| io.r2dbc.spi.Clob              | TEXT            |
+| java.math.BigDecimal           | DECIMAL         |
+| java.math.BigInteger           | DECIMAL         |
 | java.time.Instant              | TIMESTAMP       |
 | java.time.LocalDate            | DATE            |
 | java.time.LocalDateTime        | DATETIME        |
