@@ -6,15 +6,15 @@ description: >
 
 ## 概要 {#overview}
 
-Kotlinとデータベースのデータ型の対応関係について説明します。
+KotlinとSQLのデータ型の対応関係について説明します。
 
 ## ダイアレクトのデータ型 {#dialect-data-types}
 
-データ型に関するKotlinとデータベースのデフォルトの対応関係は利用する [ダイアレクト]({{< relref "dialect.md" >}}) によって決まります。
+データ型に関するKotlinとSQLのデフォルトの対応関係は利用する [ダイアレクト]({{< relref "dialect.md" >}}) によって決まります。
 
 ## ユーザー定義のデータ型 {#user-defined-data-types}
 
-独自に定義したKotlinのデータ型とデータベースのデータ型をマッピングさせるには、
+独自に定義したKotlinのデータ型とSQLのデータ型をマッピングさせるには、
 Service Provider Interfaceの仕様に則ったクラスの作成と登録が必要です。
 
 例えば、次のような`example.Age`というKotlinのデータ型をデータベースのINTEGER型にマッピングするとします。

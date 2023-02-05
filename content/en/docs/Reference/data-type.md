@@ -6,19 +6,19 @@ description: >
 
 ## Overview {#overview}
 
-This section describes data type mapping between Kotlin and databases.
+This section describes data type mapping between Kotlin and SQL.
 
 ## Dialect data types {#dialect-data-types}
 
-A [dialect]({{< relref "dialect.md" >}}) determines the default data type mapping between Kotlin and database.
+A [dialect]({{< relref "dialect.md" >}}) determines the default data type mapping between Kotlin and SQL.
 
 ## User-defined data types {#user-defined-data-types}
 
-To map a user-defined Kotlin data type to a database data type, 
+To map a user-defined Kotlin data type to a SQL data type, 
 you must create and register a class that conforms to the Service Provider Interface specification.
 
 For example, suppose you want to map the following Kotlin data type `example.Age` 
-to an INTEGER type in a database.
+to an SQL INTEGER type.
 
 ```kotlin
 package example

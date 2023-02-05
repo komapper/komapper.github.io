@@ -7,7 +7,7 @@ description: >
 ## Overview {#overview}
 
 Dialects absorb differences in databases and drivers.
-A typical function of dialects is to resolve the type mappings between Kotlin and databases.
+A typical function of dialects is to resolve the type mappings between Kotlin and SQL.
 
 The classes representing dialects are contained in separate modules (artifacts), 
 and the choice of which module to use must be based on the destination database and connectivity type.
@@ -40,7 +40,7 @@ dependencies {
 
 The following table shows the data type mapping:
 
-| Kotlin Type                    | Database Type            | Description                                                                                     |
+| Kotlin Type                    | SQL Type                 | Description                                                                                     |
 |--------------------------------|--------------------------|-------------------------------------------------------------------------------------------------|
 | java.math.BigDecimal           | NUMERIC                  |                                                                                                 |
 | java.math.BigInteger           | NUMERIC                  |                                                                                                 |
@@ -65,7 +65,7 @@ The following table shows the data type mapping:
 | kotlin.Long                    | BIGINT                   |                                                                                                 |
 | kotlin.Short                   | SMALLINT                 |                                                                                                 |
 | kotlin.String                  | VARCHAR                  |                                                                                                 |
-| kotlin.String                  | CLOB                     | `ClobString` must be specified as [Alternate Type]({{< relref "data-type#alternate-types" >}}). |
+| kotlin.String                  | CLOB                     | `ClobString` must be specified as [alternate type]({{< relref "data-type#alternate-types" >}}). |
 | kotlin.UByte                   | SMALLINT                 |                                                                                                 |
 | kotlin.UInt                    | BIGINT                   |                                                                                                 |
 | kotlin.UShort                  | INT                      |                                                                                                 |
@@ -78,7 +78,7 @@ The following table shows the data type mapping:
 
 The following table shows the data type mapping:
 
-| Kotlin Type                    | Database Type            | Description                                                                                     |
+| Kotlin Type                    | SQL Type                 | Description                                                                                     |
 |--------------------------------|--------------------------|-------------------------------------------------------------------------------------------------|
 | io.r2dbc.spi.Blob              | BLOB                     |                                                                                                 |
 | io.r2dbc.spi.Clob              | CLOB                     |                                                                                                 |
@@ -100,7 +100,7 @@ The following table shows the data type mapping:
 | kotlin.Long                    | BIGINT                   |                                                                                                 |
 | kotlin.Short                   | SMALLINT                 |                                                                                                 |
 | kotlin.String                  | VARCHAR                  |                                                                                                 |
-| kotlin.String                  | CLOB                     | `ClobString` must be specified as [Alternate Type]({{< relref "data-type#alternate-types" >}}). |
+| kotlin.String                  | CLOB                     | `ClobString` must be specified as [alternate type]({{< relref "data-type#alternate-types" >}}). |
 | kotlin.UByte                   | SMALLINT                 |                                                                                                 |
 | kotlin.UInt                    | BIGINT                   |                                                                                                 |
 | kotlin.UShort                  | INT                      |                                                                                                 |
@@ -113,7 +113,7 @@ The following table shows the data type mapping:
 
 The following table shows the data type mapping:
 
-| Kotlin Type                    | Database Type   | Description                                                                                     |
+| Kotlin Type                    | SQL Type        | Description                                                                                     |
 |--------------------------------|-----------------|-------------------------------------------------------------------------------------------------|
 | java.math.BigDecimal           | DECIMAL         |                                                                                                 |
 | java.math.BigInteger           | DECIMAL         |                                                                                                 |
@@ -138,7 +138,7 @@ The following table shows the data type mapping:
 | kotlin.Long                    | BIGINT          |                                                                                                 |
 | kotlin.Short                   | SMALLINT        |                                                                                                 |
 | kotlin.String                  | VARCHAR         |                                                                                                 |
-| kotlin.String                  | TEXT            | `ClobString` must be specified as [Alternate Type]({{< relref "data-type#alternate-types" >}}). |
+| kotlin.String                  | TEXT            | `ClobString` must be specified as [alternate type]({{< relref "data-type#alternate-types" >}}). |
 | kotlin.UByte                   | SMALLINT        |                                                                                                 |
 | kotlin.UInt                    | BIGINT          |                                                                                                 |
 | kotlin.UShort                  | INT             |                                                                                                 |
@@ -151,7 +151,7 @@ The following table shows the data type mapping:
 
 The following table shows the data type mapping:
 
-| Kotlin Type                    | Database Type   | Description                                                                                     |
+| Kotlin Type                    | SQL Type        | Description                                                                                     |
 |--------------------------------|-----------------|-------------------------------------------------------------------------------------------------|
 | io.r2dbc.spi.Blob              | BLOB            |                                                                                                 |
 | io.r2dbc.spi.Clob              | TEXT            |                                                                                                 |
@@ -173,7 +173,7 @@ The following table shows the data type mapping:
 | kotlin.Long                    | BIGINT          |                                                                                                 |
 | kotlin.Short                   | SMALLINT        |                                                                                                 |
 | kotlin.String                  | VARCHAR         |                                                                                                 |
-| kotlin.String                  | TEXT            | `ClobString` must be specified as [Alternate Type]({{< relref "data-type#alternate-types" >}}). |
+| kotlin.String                  | TEXT            | `ClobString` must be specified as [alternate type]({{< relref "data-type#alternate-types" >}}). |
 | kotlin.UByte                   | SMALLINT        |                                                                                                 |
 | kotlin.UInt                    | BIGINT          |                                                                                                 |
 | kotlin.UShort                  | INT             |                                                                                                 |
@@ -186,7 +186,7 @@ The following table shows the data type mapping:
 
 The following table shows the data type mapping:
 
-| Kotlin Type                    | Database Type   | Description                                                                                     |
+| Kotlin Type                    | SQL Type        | Description                                                                                     |
 |--------------------------------|-----------------|-------------------------------------------------------------------------------------------------|
 | java.math.BigDecimal           | DECIMAL         |                                                                                                 |
 | java.math.BigInteger           | DECIMAL         |                                                                                                 |
@@ -211,7 +211,7 @@ The following table shows the data type mapping:
 | kotlin.Long                    | BIGINT          |                                                                                                 |
 | kotlin.Short                   | SMALLINT        |                                                                                                 |
 | kotlin.String                  | VARCHAR         |                                                                                                 |
-| kotlin.String                  | TEXT            | `ClobString` must be specified as [Alternate Type]({{< relref "data-type#alternate-types" >}}). |
+| kotlin.String                  | TEXT            | `ClobString` must be specified as [alternate type]({{< relref "data-type#alternate-types" >}}). |
 | kotlin.UByte                   | SMALLINT        |                                                                                                 |
 | kotlin.UInt                    | BIGINT          |                                                                                                 |
 | kotlin.UShort                  | INT             |                                                                                                 |
@@ -224,7 +224,7 @@ The following table shows the data type mapping:
 
 The following table shows the data type mapping:
 
-| Kotlin Type                    | Database Type   | Description                                                                                     |
+| Kotlin Type                    | SQL Type        | Description                                                                                     |
 |--------------------------------|-----------------|-------------------------------------------------------------------------------------------------|
 | io.r2dbc.spi.Blob              | N/A             |                                                                                                 |
 | io.r2dbc.spi.Clob              | N/A             |                                                                                                 |
@@ -246,7 +246,7 @@ The following table shows the data type mapping:
 | kotlin.Long                    | BIGINT          |                                                                                                 |
 | kotlin.Short                   | SMALLINT        |                                                                                                 |
 | kotlin.String                  | VARCHAR         |                                                                                                 |
-| kotlin.String                  | TEXT            | `ClobString` must be specified as [Alternate Type]({{< relref "data-type#alternate-types" >}}). |
+| kotlin.String                  | TEXT            | `ClobString` must be specified as [alternate type]({{< relref "data-type#alternate-types" >}}). |
 | kotlin.UByte                   | SMALLINT        |                                                                                                 |
 | kotlin.UInt                    | BIGINT          |                                                                                                 |
 | kotlin.UShort                  | INT             |                                                                                                 |
@@ -259,7 +259,7 @@ The following table shows the data type mapping:
 
 The following table shows the data type mapping:
 
-| Kotlin Type                    | Database Type            | Description                                                                                     |
+| Kotlin Type                    | SQL Type                 | Description                                                                                     |
 |--------------------------------|--------------------------|-------------------------------------------------------------------------------------------------|
 | java.math.BigDecimal           | NUMBER                   |                                                                                                 |
 | java.math.BigInteger           | NUMBER                   |                                                                                                 |
@@ -284,7 +284,7 @@ The following table shows the data type mapping:
 | kotlin.Long                    | NUMBER                   |                                                                                                 |
 | kotlin.Short                   | NUMBER                   |                                                                                                 |
 | kotlin.String                  | VARCHAR2                 |                                                                                                 |
-| kotlin.String                  | CLOB                     | `ClobString` must be specified as [Alternate Type]({{< relref "data-type#alternate-types" >}}). |
+| kotlin.String                  | CLOB                     | `ClobString` must be specified as [alternate type]({{< relref "data-type#alternate-types" >}}). |
 | kotlin.UByte                   | NUMBER                   |                                                                                                 |
 | kotlin.UInt                    | NUMBER                   |                                                                                                 |
 | kotlin.UShort                  | NUMBER                   |                                                                                                 |
@@ -297,7 +297,7 @@ The following table shows the data type mapping:
 
 The following table shows the data type mapping:
 
-| Kotlin Type                    | Database Type            | Description                                                                                     |
+| Kotlin Type                    | SQL Type                 | Description                                                                                     |
 |--------------------------------|--------------------------|-------------------------------------------------------------------------------------------------|
 | io.r2dbc.spi.Blob              | BLOB                     |                                                                                                 |
 | io.r2dbc.spi.Clob              | CLOB                     |                                                                                                 |
@@ -321,7 +321,7 @@ The following table shows the data type mapping:
 | kotlin.Long                    | NUMBER                   |                                                                                                 |
 | kotlin.Short                   | NUMBER                   |                                                                                                 |
 | kotlin.String                  | VARCHAR2                 |                                                                                                 |
-| kotlin.String                  | CLOB                     | `ClobString` must be specified as [Alternate Type]({{< relref "data-type#alternate-types" >}}). |
+| kotlin.String                  | CLOB                     | `ClobString` must be specified as [alternate type]({{< relref "data-type#alternate-types" >}}). |
 | kotlin.UByte                   | NUMBER                   |                                                                                                 |
 | kotlin.UInt                    | NUMBER                   |                                                                                                 |
 | kotlin.UShort                  | NUMBER                   |                                                                                                 |
@@ -334,7 +334,7 @@ The following table shows the data type mapping:
 
 The following table shows the data type mapping:
 
-| Kotlin Type                    | Database Type                        | Description                                                                                     |
+| Kotlin Type                    | SQL Type                             | Description                                                                                     |
 |--------------------------------|--------------------------------------|-------------------------------------------------------------------------------------------------|
 | java.math.BigDecimal           | numeric, decimal                     |                                                                                                 |
 | java.math.BigInteger           | numeric, decimal                     |                                                                                                 |
@@ -359,7 +359,7 @@ The following table shows the data type mapping:
 | kotlin.Long                    | bigint, int8, bigserial, serial8     |                                                                                                 |
 | kotlin.Short                   | smallint, int2, smallserial, serial2 |                                                                                                 |
 | kotlin.String                  | character varying, varchar, text     |                                                                                                 |
-| kotlin.String                  | text                                 | `ClobString` must be specified as [Alternate Type]({{< relref "data-type#alternate-types" >}}). |
+| kotlin.String                  | text                                 | `ClobString` must be specified as [alternate type]({{< relref "data-type#alternate-types" >}}). |
 | kotlin.UByte                   | smallint, int2, smallserial, serial2 |                                                                                                 |
 | kotlin.UInt                    | bigint, int8, bigserial, serial8     |                                                                                                 |
 | kotlin.UShort                  | integer, int, int4, serial           |                                                                                                 |
@@ -372,7 +372,7 @@ The following table shows the data type mapping:
 
 The following table shows the data type mapping:
 
-| Kotlin Type                        | Database Type                        | Description                                                                                     |
+| Kotlin Type                        | SQL Type                             | Description                                                                                     |
 |------------------------------------|--------------------------------------|-------------------------------------------------------------------------------------------------|
 | io.r2dbc.postgresql.codec.Interval | interval                             |                                                                                                 |
 | io.r2dbc.postgresql.codec.Json     | json, jsonb                          |                                                                                                 |
@@ -397,7 +397,7 @@ The following table shows the data type mapping:
 | kotlin.Long                        | bigint, int8, bigserial, serial8     |                                                                                                 |
 | kotlin.Short                       | smallint, int2, smallserial, serial2 |                                                                                                 |
 | kotlin.String                      | character varying, varchar, text     |                                                                                                 |
-| kotlin.String                      | text                                 | `ClobString` must be specified as [Alternate Type]({{< relref "data-type#alternate-types" >}}). |
+| kotlin.String                      | text                                 | `ClobString` must be specified as [alternate type]({{< relref "data-type#alternate-types" >}}). |
 | kotlin.UByte                       | smallint, int2, smallserial, serial2 |                                                                                                 |
 | kotlin.UInt                        | bigint, int8, bigserial, serial8     |                                                                                                 |
 | kotlin.UShort                      | integer, int, int4, serial           |                                                                                                 |
@@ -410,7 +410,7 @@ The following table shows the data type mapping:
 
 The following table shows the data type mapping:
 
-| Kotlin Type                    | Database Type     | Description                                                                                     |
+| Kotlin Type                    | SQL Type          | Description                                                                                     |
 |--------------------------------|-------------------|-------------------------------------------------------------------------------------------------|
 | java.math.BigDecimal           | decimal           |                                                                                                 |
 | java.math.BigInteger           | decimal           |                                                                                                 |
@@ -435,7 +435,7 @@ The following table shows the data type mapping:
 | kotlin.Long                    | bigint            |                                                                                                 |
 | kotlin.Short                   | smallint          |                                                                                                 |
 | kotlin.String                  | varchar, nvarchar |                                                                                                 |
-| kotlin.String                  | text              | `ClobString` must be specified as [Alternate Type]({{< relref "data-type#alternate-types" >}}). |
+| kotlin.String                  | text              | `ClobString` must be specified as [alternate type]({{< relref "data-type#alternate-types" >}}). |
 | kotlin.UByte                   | smallint          |                                                                                                 |
 | kotlin.UInt                    | bigint            |                                                                                                 |
 | kotlin.UShort                  | int               |                                                                                                 |
@@ -448,7 +448,7 @@ The following table shows the data type mapping:
 
 The following table shows the data type mapping:
 
-| Kotlin Type                    | Database Type     | Description                                                                                     |
+| Kotlin Type                    | SQL Type          | Description                                                                                     |
 |--------------------------------|-------------------|-------------------------------------------------------------------------------------------------|
 | io.r2dbc.spi.Blob              | varbinary(max)    |                                                                                                 |
 | io.r2dbc.spi.Clob              | text              |                                                                                                 |
@@ -470,7 +470,7 @@ The following table shows the data type mapping:
 | kotlin.Long                    | bigint            |                                                                                                 |
 | kotlin.Short                   | smallint          |                                                                                                 |
 | kotlin.String                  | varchar, nvarchar |                                                                                                 |
-| kotlin.String                  | text              | `ClobString` must be specified as [Alternate Type]({{< relref "data-type#alternate-types" >}}). |
+| kotlin.String                  | text              | `ClobString` must be specified as [alternate type]({{< relref "data-type#alternate-types" >}}). |
 | kotlin.UByte                   | smallint          |                                                                                                 |
 | kotlin.UInt                    | bigint            |                                                                                                 |
 | kotlin.UShort                  | int               |                                                                                                 |
