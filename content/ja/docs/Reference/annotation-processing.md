@@ -39,6 +39,7 @@ dependencies {
 - komapper.namingStrategy
 - komapper.metaObject
 - komapper.alwaysQuote
+- komapper.enableEntityMetamodelListing
 
 オプションを指定するにはGradleのビルドスクリプトで次のように記述します。
 
@@ -50,6 +51,7 @@ ksp {
   arg("komapper.namingStrategy", "UPPER_SNAKE_CASE")
   arg("komapper.metaObject", "example.Metamodels")
   arg("komapper.alwaysQuote", "true")
+  arg("komapper.enableEntityMetamodelListing", "true")
 }
 ```
 
@@ -106,3 +108,18 @@ UPPER_SNAKE_CASE
 
 SQL文の中でテーブル名やカラム名をクォートするかどうかです。
 デフォルト値は`false`です。
+
+### komapper.enableEntityMetamodelListing
+
+エンティティメタモデルの一覧を取得できるようにするかどうかです。
+デフォルト値は`false`です。
+
+`true`を設定すると、次のような方法で一覧を取得できます。
+
+```kotlin
+val metamodels: List<EntityMetamodel<*, *, *>> = Meta.all()
+```
+
+```kotlin
+val metamodels: List<EntityMetamodel<*, *, *>> = EntityMetamodels.list(Meta)
+```

@@ -40,6 +40,7 @@ Available options are as follows:
 - komapper.namingStrategy
 - komapper.metaObject
 - komapper.alwaysQuote
+- komapper.enableEntityMetamodelListing
 
 The options can be specified in the Gradle build script as follows:
 
@@ -51,6 +52,7 @@ ksp {
   arg("komapper.namingStrategy", "UPPER_SNAKE_CASE")
   arg("komapper.metaObject", "example.Metamodels")
   arg("komapper.alwaysQuote", "true")
+  arg("komapper.enableEntityMetamodelListing", "true")
 }
 ```
 
@@ -111,3 +113,18 @@ The default value is `org.komapper.core.dsl.Meta`.
 
 This option indicates whether to quote table or column names in SQL statements.
 The default value is `flase`.
+
+### komapper.enableEntityMetamodelListing
+
+This option indicates whether a list of entity metamodels should be available.
+The default value is `flase`.
+
+If you set this option to `true`, you can get the list in the following ways:
+
+```kotlin
+val metamodels: List<EntityMetamodel<*, *, *>> = Meta.all()
+```
+
+```kotlin
+val metamodels: List<EntityMetamodel<*, *, *>> = EntityMetamodels.list(Meta)
+```
