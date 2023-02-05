@@ -427,7 +427,7 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION, t1_.EMPLOYEE_ID, t1_.EMPLOYEE_NO
 このクエリを実行した場合の戻り値は、SQLの結果セットから生成された複数のエンティティを保持する
 `org.komapper.core.dsl.query.EntityStore`インスタンスです。
 
-`EntityStore`からエンティティの一覧を`List`として取得したり、エンティティの関連を`Map`として取得したりが可能です。
+`EntityStore`からエンティティの一覧を`Set`として取得したり、エンティティの関連を`Map`として取得したりが可能です。
 上述の`query`を実行して`EntityStore`から一覧や関連を取り出す例を以下に示します。
 
 ```kotlin
@@ -447,6 +447,8 @@ val employeeAddress: Map<Employee, Address?> = store.oneToOne(e, a)
 ```kotlin
 val departmentIdEmployees: Map<Int, Set<Employee>> = store.oneToManyById(d, e)
 ```
+
+`EntityStore`からオブジェクトを取り出す手続きを簡易化する[Association API]({{< relref "../../association" >}})も参照ください。
 
 ## includeAll
 

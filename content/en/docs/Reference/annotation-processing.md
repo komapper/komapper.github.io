@@ -41,6 +41,7 @@ Available options are as follows:
 - komapper.metaObject
 - komapper.alwaysQuote
 - komapper.enableEntityMetamodelListing
+- komapper.enableEntityStoreContext
 
 The options can be specified in the Gradle build script as follows:
 
@@ -53,6 +54,7 @@ ksp {
   arg("komapper.metaObject", "example.Metamodels")
   arg("komapper.alwaysQuote", "true")
   arg("komapper.enableEntityMetamodelListing", "true")
+  arg("komapper.enableEntityStoreContext", "true")
 }
 ```
 
@@ -128,3 +130,26 @@ val metamodels: List<EntityMetamodel<*, *, *>> = Meta.all()
 ```kotlin
 val metamodels: List<EntityMetamodel<*, *, *>> = EntityMetamodels.list(Meta)
 ```
+
+### komapper.enableEntityStoreContext
+
+Whether to enable the `EntityStore` context.
+The default value is `false`.
+
+If this option is set to `true`, the Komapper`s annotation processor will generate code for 
+the [Association API]({{< relref "association" >}}) that uses the [context receiver](https://kotlinlang.org/docs/whatsnew1620.html#prototype-of-context-receivers-for-kotlin-jvm).
+
+See also [Navigation code using context receiver]({{< relref "association#example-navigation-code-using-context-receiver" >}}).
+
+{{< alert title="Note" >}}
+To enable this option, add the following code to your Gradle build script:
+
+```kotlin
+tasks {
+    withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+        kotlinOptions.freeCompilerArgs += listOf("-Xcontext-receivers")
+    }
+}
+```
+{{< /alert >}}
+

@@ -430,7 +430,7 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION, t1_.EMPLOYEE_ID, t1_.EMPLOYEE_NO
 
 When the above query is executed, the return value is a `org.komapper.core.dsl.query.EntityStore` instance.
 
-You can retrieve a list of entities and a map of entity relationships from the `EntityStore` instance as follows:
+You can retrieve a set of entities and a map of entity relationships from the `EntityStore` instance as follows:
 
 ```kotlin
 val store: EntityStore = db.runQuery { query }
@@ -449,6 +449,9 @@ You can obtain a map whose key is the ID of the entity:
 ```kotlin
 val departmentIdEmployees: Map<Int, Set<Employee>> = store.oneToManyById(d, e)
 ```
+
+See also [Association API]({{< relref "../../association" >}}), 
+which simplifies the procedure for retrieving entity objects from the `EntityStore`.
 
 ## includeAll
 

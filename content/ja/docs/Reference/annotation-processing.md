@@ -40,6 +40,7 @@ dependencies {
 - komapper.metaObject
 - komapper.alwaysQuote
 - komapper.enableEntityMetamodelListing
+- komapper.enableEntityStoreContext
 
 オプションを指定するにはGradleのビルドスクリプトで次のように記述します。
 
@@ -52,6 +53,7 @@ ksp {
   arg("komapper.metaObject", "example.Metamodels")
   arg("komapper.alwaysQuote", "true")
   arg("komapper.enableEntityMetamodelListing", "true")
+  arg("komapper.enableEntityStoreContext", "true")
 }
 ```
 
@@ -123,3 +125,26 @@ val metamodels: List<EntityMetamodel<*, *, *>> = Meta.all()
 ```kotlin
 val metamodels: List<EntityMetamodel<*, *, *>> = EntityMetamodels.list(Meta)
 ```
+
+### komapper.enableEntityStoreContext
+
+`EntityStore`のコンテキストを有効にするかどうかです。
+デフォルト値は`false`です。
+
+`true`を設定すると、[context receiver](https://kotlinlang.org/docs/whatsnew1620.html#prototype-of-context-receivers-for-kotlin-jvm)
+を利用する[Association API]({{< relref "association" >}})のコードを生成します。
+
+[context receiverを使った走査のコード]({{< relref "association#example-navigation-code-using-context-receiver" >}}) も参照ください。
+
+{{< alert title="Note" >}}
+このオプションを有効にするには、 合わせて以下のコードをGradleのビルドスクリプトに追加してください。
+
+```kotlin
+tasks {
+    withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+        kotlinOptions.freeCompilerArgs += listOf("-Xcontext-receivers")
+    }
+}
+```
+{{< /alert >}}
+
