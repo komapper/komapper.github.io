@@ -49,6 +49,7 @@ ksp {
   arg("komapper.enumStrategy", "ordinal")
   arg("komapper.namingStrategy", "UPPER_SNAKE_CASE")
   arg("komapper.metaObject", "example.Metamodels")
+  arg("komapper.alwaysQuote", "true")
 }
 ```
 
