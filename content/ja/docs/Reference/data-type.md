@@ -182,6 +182,27 @@ example.PhoneNumberTypeConverter
 
 value classを利用する場合、value classの内側の型がマッピングに利用されます。
 
+## Alternate type {#alternate-types}
+
+`@KomapperColumn`の`alternateType`プロパティにvalue classを指定することでマッピング対象のSQL型を変更できます。
+
+例えば、`kotlin.String`を`VARCHAR`や`VARCHAR2`ではなく`CLOB`または`TEXT`にマッピングしたい場合、
+`org.komapper.core.type.ClobString`を指定します。
+
+```kotlin
+@KomapperColumn(alternateType = ClobString::class)
+val description: String
+```
+
+`alternateType`プロパティにはユーザーが独自に作成したvalue classを指定できます。
+ただし、そのvalue classに対応する[ユーザー定義のデータ型]({{< relref "#user-defined-data-types" >}})の作成と登録が必要です。
+
+なお、value classは次の要件を満たす必要があります。
+
+- コンストラクターがpublicである
+- パラメータープロパティがpublicでnon-nullableである
+- パラメータープロパティの型が`@KomapperColumn`で注釈されたエンティティプロパティの型と同じである
+
 ## kotlinx-datetimeのサポート {#kotlinx-datetime-support}
 
 Komapperは [kotlinx-datetime](https://github.com/Kotlin/kotlinx-datetime) の以下のデータ型をサポートします。

@@ -504,6 +504,9 @@ val id: Nothing
 
 `masking`プロパティに`true`を設定すると、 ログの中で対応するデータがマスキングされます。
 
+`alternateType`プロパティを利用すると、マッピングするSQLの型を変更できます。
+詳細は、[Alternate Type]({{< relref "data-type#alternate-types" >}})を参照ください。
+
 このアノテーションでカラムの名前を指定しない場合、アノテーション処理の`komapper.namingStrategy`オプションに従って名前が解決されます。
 
 [アノテーションプロセッシングのオプション]({{< relref "annotation-processing#options" >}})も参照ください。

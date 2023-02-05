@@ -512,6 +512,9 @@ If the `alwaysQuote` property is set to `true`, the identifier in the generated 
 
 If the `masking` property is set to `true`, the corresponding data will be masked in the log.
 
+If the `alternateType` property is used, the SQL type to be mapped can be changed.
+See [Alternate Type]({{< relref "data-type#alternate-types" >}}) for mode details.
+
 If the column name is not specified in this annotation,
 the name will be resolved according to the `komapper.namingStrategy` option in the annotation process.
 

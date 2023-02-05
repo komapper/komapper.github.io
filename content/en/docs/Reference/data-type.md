@@ -183,6 +183,28 @@ You can register multiple classes together by separating lines.
 
 When you use a value class, the inner type of the value class is used for mapping.
 
+## Alternate types {#alternate-types}
+
+You can change the SQL type to be mapped by specifying a value class for the `@KomapperColumn.alternateType` property.
+
+For example, if you want to map `kotlin.String` to `CLOB` or `TEXT` instead of `VARCHAR` or `VARCHAR2`,
+specify `org.komapper.core.type.ClobString`.
+
+```kotlin
+@KomapperColumn(alternateType = ClobString::class)
+val description: String
+```
+
+The `alternateType` property allows users to specify their own value class.
+However, the [user-defined data type]({{< relref "#user-defined-data-types" >}}) corresponding to that value class
+must be created and registered.
+
+Note that the value class must meet the following requirements:
+
+- the constructor must be public
+- the parameter property must be public and non-nullable
+- the parameter property type must match the entity property type annotated with `@KomapperColumn`
+
 ## Support for kotlinx-datetime {#kotlinx-datetime-support}
 
 Komapper supports following data types of [kotlinx-datetime](https://github.com/Kotlin/kotlinx-datetime):
