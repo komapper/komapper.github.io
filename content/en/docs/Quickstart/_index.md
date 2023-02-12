@@ -55,12 +55,6 @@ dependencies {
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.2")
 }
 
-kotlin {
-    sourceSets.main {
-        kotlin.srcDir("build/generated/ksp/main/kotlin")
-    }
-}
-
 repositories {
     mavenCentral()
 }
@@ -72,11 +66,10 @@ tasks {
 }
 ```
 
-There are three key points in this build script:
+There are two key points in this build script:
 
 1. Specify the `com.google.devtools.ksp` plugin in the `plugins` block
 2. Use Komapper modules with the same version number in the `dependencies` block.
-3. Specify the directory of the output source code in the `kotlin` block.
 
 `com.google.devtools.ksp` is a plugin for [Kotlin Symbol Processing API](https://github.com/google/ksp).
 It is required for code generation at compile time.
@@ -90,8 +83,6 @@ The following is an overview of each of the Komapper modules specified in the `d
 - komapper-dialect-h2-jdbc: This module is necessary to connect to the H2 Database Engine.
 - komapper-processor: A module to generate code at compile-time. Note that they are declared using the keyword `ksp`.
   The `ksp` keyword is provided by the Kotlin Symbol Processing API plugin.
-
-In the `kotlin` block, we tell Gradle that the generated code should be treated as source code.
 
 ### Source code {#source-code}
 
