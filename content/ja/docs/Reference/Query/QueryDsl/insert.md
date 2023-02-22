@@ -215,6 +215,34 @@ val query = QueryDsl.insert(d).onDuplicateKeyUpdate().where {
 MariaDBやMySQLのDialectではサポートされていません。
 {{< /alert >}}
 
+## dangerouslyOnDuplicateKeyIgnore
+
+この関数は、任意のconflict_targetを指定できることを除いて、[onDuplicateKeyIgnore]({{< relref "#onduplicatekeyignore" >}})と同等です。
+
+{{< alert color="warning" title="Warning" >}}
+この関数にSQLインジェクションの可能性がある文字列を渡さないでください。
+{{< /alert >}}
+
+{{< alert color="warning" title="Warning" >}}
+PostgreSQLのDialectでのみサポートされます。
+conflict_targetについてはPostgreSQLのドキュメントを参照ください。
+https://www.postgresql.org/docs/current/sql-insert.html
+{{< /alert >}}
+
+## dangerouslyOnDuplicateKeyUpdate
+
+この関数は、任意のconflict_targetを指定できることを除いて、[onDuplicateKeyUpdate]({{< relref "#onduplicatekeyupdate" >}})と同等です。
+
+{{< alert color="warning" title="Warning" >}}
+この関数にSQLインジェクションの可能性がある文字列を渡さないでください。
+{{< /alert >}}
+
+{{< alert color="warning" title="Warning" >}}
+PostgreSQLのDialectでのみサポートされます。
+conflict_targetについてはPostgreSQLのドキュメントを参照ください。
+https://www.postgresql.org/docs/current/sql-insert.html
+{{< /alert >}}
+
 ## values
 
 プロパティごとの値を設定して1件を追加するには`values`関数にラムダ式を渡します。

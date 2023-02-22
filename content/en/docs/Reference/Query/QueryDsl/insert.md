@@ -229,6 +229,36 @@ val query = QueryDsl.insert(d).onDuplicateKeyUpdate().where {
 Not supported by MariaDB and MySQL Dialects.
 {{< /alert >}}
 
+## dangerouslyOnDuplicateKeyIgnore
+
+This function is equivalent to [onDuplicateKeyIgnore]({{< relref "#onduplicatekeyignore" >}})
+except that an arbitrary conflict_target can be specified.
+
+{{< alert color="warning" title="Warning" >}}
+Do not pass a SQL injection potential string to this function.
+{{< /alert >}}
+
+{{< alert color="warning" title="Warning" >}}
+Supported only by PostgreSQL Dialect.
+See the PostgreSQL documentation for more information on conflict_target.
+https://www.postgresql.org/docs/current/sql-insert.html
+{{< /alert >}}
+
+## dangerouslyOnDuplicateKeyUpdate
+
+This function is equivalent to [onDuplicateKeyUpdate]({{< relref "#onduplicatekeyupdate" >}})
+except that an arbitrary conflict_target can be specified.
+
+{{< alert color="warning" title="Warning" >}}
+Do not pass a SQL injection potential string to this function.
+{{< /alert >}}
+
+{{< alert color="warning" title="Warning" >}}
+Supported only by PostgreSQL Dialect.
+See the PostgreSQL documentation for more information on conflict_target.
+https://www.postgresql.org/docs/current/sql-insert.html
+{{< /alert >}}
+
 ## values
 
 To set a value for each property and add one row, pass a lambda expression to the `values` function.
