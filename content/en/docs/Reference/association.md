@@ -230,7 +230,7 @@ val query = QueryDsl.from(a)
 val store: EntityStore = db.runQuery(query)
 
 with(store.asContext()) {
-    for (department in store.departments()) {
+    for (department in departments()) {
         val employees = department.employees()
         for (employee in employees) {
             val address = employee.address()
