@@ -170,7 +170,7 @@ insert into DEPARTMENT as t0_ (DEPARTMENT_ID, DEPARTMENT_NO, DEPARTMENT_NAME, LO
 
 ### set {#onduplicatekeyupdate-set}
 
-`onDuplicateKeyUpdate`の呼び出し後、他の関数を呼ぶ前に`set`を使って更新対象のカラムに特定の値を設定できます。
+`onDuplicateKeyUpdate`の呼び出し後、`set`を使って更新対象のカラムに特定の値を設定できます。
 
 ```kotlin
 val department: Department = ..
@@ -198,6 +198,21 @@ insert into DEPARTMENT (DEPARTMENT_ID, DEPARTMENT_NO, DEPARTMENT_NAME, LOCATION,
 
 {{< alert color="warning" title="Warning" >}}
 MariaDBのDialectではサポートされていません。
+{{< /alert >}}
+
+### where {#onduplicatekeyupdate-where}
+
+`onDuplicateKeyUpdate`の呼び出し後、`where`を使って更新条件を設定できます。
+
+```kotlin
+val department: Department = ..
+val query = QueryDsl.insert(d).onDuplicateKeyUpdate().where {
+    d.departmentName eq "PLANNING"
+}.single(department)
+```
+
+{{< alert color="warning" title="Warning" >}}
+MariaDBやMySQLのDialectではサポートされていません。
 {{< /alert >}}
 
 ## values

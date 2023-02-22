@@ -182,7 +182,7 @@ the return value is driver specific.
 
 ### set {#onduplicatekeyupdate-set}
 
-After calling the `onDuplicateKeyUpdate` function and before calling other functions,
+After calling the `onDuplicateKeyUpdate` function,
 you can call the `set` function to set specific values to the columns to be updated:
 
 ```kotlin
@@ -211,6 +211,22 @@ insert into DEPARTMENT (DEPARTMENT_ID, DEPARTMENT_NO, DEPARTMENT_NAME, LOCATION,
 
 {{< alert color="warning" title="Warning" >}}
 Not supported by MariaDB Dialect.
+{{< /alert >}}
+
+### where {#onduplicatekeyupdate-where}
+
+After calling the `onDuplicateKeyUpdate` function,
+you can call the `where` function to set search conditions:
+
+```kotlin
+val department: Department = ..
+val query = QueryDsl.insert(d).onDuplicateKeyUpdate().where {
+    d.departmentName eq "PLANNING"
+}.single(department)
+```
+
+{{< alert color="warning" title="Warning" >}}
+Not supported by MariaDB and MySQL Dialects.
 {{< /alert >}}
 
 ## values
