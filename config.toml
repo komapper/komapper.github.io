@@ -201,18 +201,18 @@ enable = false
 	name ="Twitter"
 	url = "https://twitter.com/komapper"
 	icon = "fab fa-twitter"
-        desc = "Follow us on Twitter to get the latest news!"
+		desc = "Follow us on Twitter to get the latest news!"
+[[params.links.user]]
+	name = "Slack"
+	url = "https://kotlinlang.slack.com/messages/komapper/"
+	icon = "fab fa-slack"
+		desc = "Chat with other project developers"
 #[[params.links.user]]
 #	name = "Stack Overflow"
 #	url = "https://example.org/stack"
 #	icon = "fab fa-stack-overflow"
 #        desc = "Practical questions and curated answers"
 # Developer relevant links. These will show up on right side of footer and in the community page if you have one.
-#[[params.links.developer]]
-#	name = "Slack"
-#	url = "https://example.org/slack"
-#	icon = "fab fa-slack"
-#        desc = "Chat with other project developers"
 #[[params.links.developer]]
 #	name = "Developer mailing list"
 #	url = "https://example.org/mail"
