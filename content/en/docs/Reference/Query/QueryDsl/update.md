@@ -61,6 +61,34 @@ Depending on the mapping definitions shown below, both the SQL and the new entit
 If optimistic locking fails during query execution,
 the `org.komapper.core.OptimisticLockException` is thrown.
 
+## include {#include}
+
+To include only specific properties to be updated 
+in a [single]({{< relref "#single" >}})  or [batch]({{< relref "#batch" >}}) run, 
+call the `include` function in advance:
+
+```kotlin
+val department: Department = ..
+val query: Query<Department> = QueryDsl.update(d).include(d.departmentName).single(department)
+/*
+update DEPARTMENT set DEPARTMENT_NAME = ?, VERSION = ? + 1 where DEPARTMENT_ID = ? and VERSION = ?
+*/
+```
+
+## exclude {#exclude}
+
+To exclude specific properties from being updated 
+in a [single]({{< relref "#single" >}}) or [batch]({{< relref "#batch" >}}) run, 
+call the `exclude` function in advance:
+
+```kotlin
+val department: Department = ..
+val query: Query<Department> = QueryDsl.update(d).exclude(d.departmentName).single(department)
+/*
+update DEPARTMENT set DEPARTMENT_NO = ?, LOCATION = ?, VERSION = ? + 1 where DEPARTMENT_ID = ? and VERSION = ?
+*/
+```
+
 ## set {#set}
 
 To set a value to specific property, pass a lambda expression to the `set` function.

@@ -58,6 +58,32 @@ update ADDRESS set STREET = ?, VERSION = ? + 1 where ADDRESS_ID = ? and VERSION 
 
 クエリ実行時に楽観的排他制御が失敗した場合、`org.komapper.core.OptimisticLockException`がスローされます。
 
+## include {#include}
+
+[single]({{< relref "#single" >}}) や [batch]({{< relref "#batch" >}})
+の実行で特定のプロパティのみを更新対象に含めるには事前に`include`関数を呼び出します。
+
+```kotlin
+val department: Department = ..
+val query: Query<Department> = QueryDsl.update(d).include(d.departmentName).single(department)
+/*
+update DEPARTMENT set DEPARTMENT_NAME = ?, VERSION = ? + 1 where DEPARTMENT_ID = ? and VERSION = ?
+*/
+```
+
+## exclude {#exclude}
+
+[single]({{< relref "#single" >}}) や [batch]({{< relref "#batch" >}})
+の実行で特定のプロパティを更新対象から除外するには事前に`exclude`関数を呼び出します。
+
+```kotlin
+val department: Department = ..
+val query: Query<Department> = QueryDsl.update(d).exclude(d.departmentName).single(department)
+/*
+update DEPARTMENT set DEPARTMENT_NO = ?, LOCATION = ?, VERSION = ? + 1 where DEPARTMENT_ID = ? and VERSION = ?
+*/
+```
+
 ## set {#set}
 
 任意のプロパティに更新データをセットするには`set`関数にラムダ式を渡します。
