@@ -523,7 +523,7 @@ val id: Nothing
 data class EmoloyeeId(val id1: Int, val id2: String)
 
 @KomapperEntity
-data class Employee(@KomapperEmbeddedId val id: EmoloyeeId, val: name: String)
+data class Employee(@KomapperEmbeddedId val id: EmoloyeeId, val name: String)
 ```
 
 `virtual`プロパティに`true`が設定された場合、
@@ -533,7 +533,7 @@ data class Employee(@KomapperEmbeddedId val id: EmoloyeeId, val: name: String)
 data class EmoloyeeId(val id1: Int, val id2: String)
 
 @KomapperEntity
-data class Employee(@KomapperEmbeddedId(virtual = true) val id: EmoloyeeId, val: name: String)
+data class Employee(@KomapperEmbeddedId(virtual = true) val id: EmoloyeeId, val name: String)
 ```
 
 ### @KomapperEmbedded
@@ -544,7 +544,7 @@ data class Employee(@KomapperEmbeddedId(virtual = true) val id: EmoloyeeId, val:
 data class Money(val amount: BigDecimal, val currency: String)
 
 @KomapperEntity
-data class Employee(@KomapperId val id: Int, @KomapperEmbedded val: salary: Money)
+data class Employee(@KomapperId val id: Int, @KomapperEmbedded val salary: Money)
 ```
 
 ### @KomapperEnumOverride
@@ -563,7 +563,7 @@ data class Employee(
   val id: Int,
   @KomapperEmbedded
   @KomapperEnumOverrde("currency", KomapperEnum(EnumType.ORDINAL))
-  val: salary: Money
+  val salary: Money
 )
 ```
 
@@ -582,6 +582,6 @@ data class Employee(
   @KomapperEmbedded
   @KomapperColumnOverrde("amount", KomapperColumn("SALARY_AMOUNT"))
   @KomapperColumnOverrde("currency", KomapperColumn("SALARY_CURRENCY"))
-  val: salary: Money
+  val salary: Money
 )
 ```
