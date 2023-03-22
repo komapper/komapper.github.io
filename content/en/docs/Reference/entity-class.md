@@ -533,7 +533,7 @@ for a composite primary key.
 data class EmoloyeeId(val id1: Int, val id2: String)
 
 @KomapperEntity
-data Employee(@KomapperEmbeddedId val id: EmoloyeeId, val: name: String)
+data class Employee(@KomapperEmbeddedId val id: EmoloyeeId, val: name: String)
 ```
 
 If the `virtual` property is set to `true`, then
@@ -543,7 +543,7 @@ If the `virtual` property is set to `true`, then
 data class EmoloyeeId(val id1: Int, val id2: String)
 
 @KomapperEntity
-data Employee(@KomapperEmbeddedId(virtual = true) val id: EmoloyeeId, val: name: String)
+data class Employee(@KomapperEmbeddedId(virtual = true) val id: EmoloyeeId, val: name: String)
 ```
 
 ### @KomapperEmbedded
@@ -554,7 +554,7 @@ Indicates an [Embedded Value](https://www.martinfowler.com/eaaCatalog/embeddedVa
 data class Money(val amount: BigDecimal, val currency: String)
 
 @KomapperEntity
-data Employee(@KomapperId val id: Int, @KomapperEmbedded val: salary: Money)
+data class Employee(@KomapperId val id: Int, @KomapperEmbedded val: salary: Money)
 ```
 
 ### @KomapperEnumOverride
@@ -568,7 +568,7 @@ enum class Currency { JPY, USD }
 data class Money(val amount: BigDecimal, val currency: Currency)
 
 @KomapperEntity
-data Employee( 
+data class Employee( 
   @KomapperId
   val id: Int,
   @KomapperEmbedded
@@ -586,7 +586,7 @@ Applies [`@KomapperColumn`]({{< relref "#komappercolumn" >}}) to a property in a
 data class Money(val amount: BigDecimal, val currency: String)
 
 @KomapperEntity
-data Employee( 
+data class Employee( 
   @KomapperId
   val id: Int,
   @KomapperEmbedded
@@ -594,3 +594,4 @@ data Employee(
   @KomapperColumnOverride("currency", KomapperColumn("SALARY_CURRENCY"))
   val: salary: Money
 )
+```
