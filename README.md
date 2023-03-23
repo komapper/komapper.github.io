@@ -8,11 +8,7 @@ https://www.komapper.org/
 
 ## Contributing to these docs
 
-English version:
-https://www.komapper.org/docs/contribution-guidelines/#contributing-to-these-docs
-
-日本語版:
-https://www.komapper.org/ja/docs/contribution-guidelines/#contributing-to-these-docs
+See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Release steps
 
