@@ -13,8 +13,9 @@ description: クエリの構成要素を成す式
 - [比較演算子]({{< relref "#comparison-operator" >}})
 - [論理演算子]({{< relref "#logical-operator" >}})
 - [算術演算子]({{< relref "#arithmetic-operator" >}})
-- [集約関数]({{< relref "#aggregate-function" >}})
+- [数学関数]({{< relref "#mathematical-function" >}})
 - [文字列関数]({{< relref "#string-function" >}})
+- [集約関数]({{< relref "#aggregate-function" >}})
 - [CASE式]({{< relref "#case-expression" >}})
 - [スカラサブクエリ]({{< relref "#scalar-subquery" >}})
 - [リテラル]({{< relref "#literal" >}})
@@ -515,6 +516,23 @@ QueryDsl.update(a).set {
 }
 /*
 update ADDRESS as t0_ set VERSION = (t0_.VERSION + ?) where t0_.ADDRESS_ID = ?
+*/
+```
+
+## 数学関数 {#mathematical-function}
+
+次の関数が使えます。
+
+- random
+
+この関数は`org.komapper.core.dsl.operator`に定義されています。
+
+`random`関数を使った例を次に示します。
+
+```kotlin
+QueryDsl.from(a).orderBy(random())
+/*
+select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ order by random() asc
 */
 ```
 

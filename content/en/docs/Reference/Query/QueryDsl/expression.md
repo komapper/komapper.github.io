@@ -13,8 +13,9 @@ This page covers the components of an expression, including declarations, operat
 - [Comparison operators]({{< relref "#comparison-operator" >}})
 - [Logical operators]({{< relref "#logical-operator" >}})
 - [Arithmetic operators]({{< relref "#arithmetic-operator" >}})
-- [Aggregate functions]({{< relref "#aggregate-function" >}})
+- [Mathematical functions]({{< relref "#mathematical-function" >}})
 - [String functions]({{< relref "#string-function" >}})
+- [Aggregate functions]({{< relref "#aggregate-function" >}})
 - [CASE expressions]({{< relref "#case-expression" >}})
 - [Scalar subqueries]({{< relref "#scalar-subquery" >}})
 - [literals]({{< relref "#literal" >}})
@@ -516,6 +517,23 @@ QueryDsl.update(a).set {
 }
 /*
 update ADDRESS as t0_ set VERSION = (t0_.VERSION + ?) where t0_.ADDRESS_ID = ?
+*/
+```
+
+## Mathematical functions {#mathematical-function}
+
+The following function is available:
+
+- random
+
+This function is defined in `org.komapper.core.dsl.operator`.
+
+The following is an example of using the `random` function:
+
+```kotlin
+QueryDsl.from(a).orderBy(random())
+/*
+select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ order by random() asc
 */
 ```
 
