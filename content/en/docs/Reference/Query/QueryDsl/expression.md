@@ -16,7 +16,7 @@ This page covers the components of an expression, including declarations, operat
 - [Mathematical functions]({{< relref "#mathematical-function" >}})
 - [String functions]({{< relref "#string-function" >}})
 - [Aggregate functions]({{< relref "#aggregate-function" >}})
-- [CASE expressions]({{< relref "#case-expression" >}})
+- [Conditional expressions]({{< relref "#conditional-expression" >}})
 - [Scalar subqueries]({{< relref "#scalar-subquery" >}})
 - [literals]({{< relref "#literal" >}})
 
@@ -646,8 +646,27 @@ QueryDsl.from(a).select(min(a.addressId))
 select min(t0_.ADDRESS_ID) from ADDRESS as t0_
 */
 ```
+## Conditional expression {#conditional-expression}
 
-## CASE expressions {#case-expression}
+The following functions and expressions are available as conditional expressions:
+
+- coalesce
+- case
+
+These are defined in `org.komapper.core.dsl.operator`.
+
+### coalesce {#conditional-expression-coalesce}
+
+The following is an example of using the `coalesce` function:
+
+```kotlin
+QueryDsl.from(a).select(a.addressId, coalesce(a.street, literal("default")))
+/*
+select t0_.ADDRESS_ID, coalesce(t0_.STREET, 'default') from ADDRESS as t0_
+*/
+```
+
+### CASE expressions {#case-expression}
 
 To use a CASE expression, call the `case` function:
 

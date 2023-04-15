@@ -16,7 +16,7 @@ description: クエリの構成要素を成す式
 - [数学関数]({{< relref "#mathematical-function" >}})
 - [文字列関数]({{< relref "#string-function" >}})
 - [集約関数]({{< relref "#aggregate-function" >}})
-- [CASE式]({{< relref "#case-expression" >}})
+- [条件式]({{< relref "#conditional-expression" >}})
 - [スカラサブクエリ]({{< relref "#scalar-subquery" >}})
 - [リテラル]({{< relref "#literal" >}})
 
@@ -646,7 +646,27 @@ select min(t0_.ADDRESS_ID) from ADDRESS as t0_
 */
 ```
 
-## CASE式 {#case-expression}
+## 条件式 {#conditional-expression}
+
+次の関数や式が使えます。
+
+- coalesce
+- case
+
+これらは`org.komapper.core.dsl.operator`に定義されています。
+
+### coalesce {#conditional-expression-coalesce}
+
+`coalesce`関数を使う例です。
+
+```kotlin
+QueryDsl.from(a).select(a.addressId, coalesce(a.street, literal("default")))
+/*
+select t0_.ADDRESS_ID, coalesce(t0_.STREET, 'default') from ADDRESS as t0_
+*/
+```
+
+### CASE式 {#case-expression}
 
 CASE式を使うには`case`を呼び出します。
 
