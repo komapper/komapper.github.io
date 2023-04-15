@@ -112,7 +112,7 @@ the `flowQuery` function can be executed.
 ```kotlin
 val a = Meta.address
 val query: FlowQuery<Address> = QueryDsl.from(a)
-val flow: Flow<Address> = db.flow(query)
+val flow: Flow<Address> = db.flowQuery(query)
 ```
 
 Database access is made only when the `flow` instance is collected.
