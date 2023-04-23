@@ -148,6 +148,52 @@ val query: Query<Long> = QueryDsl.update(e).set {
 
 このクエリを実行した場合の戻り値は更新された件数です。
 
+## returning
+
+以下の関数の後続で`returning`関数を呼び出すことで、更新された値を取得できます。
+
+- single
+- set
+
+`single`関数の後続で`returning`関数を呼び出す例です。
+
+```kotlin
+val address: Address = ..
+val query: Query<Address?> = QueryDsl.update(a).single(address).returning()
+/*
+update ADDRESS set STREET = ?, VERSION = ? + 1 where ADDRESS_ID = ? and VERSION = ? returning ADDRESS_ID, STREET, VERSION
+*/
+```
+
+`returning`関数にプロパティを指定することで取得対象のカラムを限定できます。
+
+```kotlin
+val query: Query<Int?> = QueryDsl.update(a).single(address).returning(a.addressId)
+/*
+update ADDRESS set STREET = ?, VERSION = ? + 1 where ADDRESS_ID = ? and VERSION = ? returning ADDRESS_ID
+*/
+```
+
+```kotlin
+val query: Query<Pair<Int?, String?>?> = QueryDsl.update(a).single(address).returning(a.addressId, a.street)
+/*
+update ADDRESS set STREET = ?, VERSION = ? + 1 where ADDRESS_ID = ? and VERSION = ? returning ADDRESS_ID, STREET
+*/
+```
+
+```kotlin
+val query: Query<Triple<Int?, String?, Int?>?> = QueryDsl.update(a).single(address).returning(a.addressId, a.street, a.version)
+/*
+update ADDRESS set STREET = ?, VERSION = ? + 1 where ADDRESS_ID = ? and VERSION = ? returning ADDRESS_ID, STREET, VERSION
+*/
+```
+
+{{< alert color="warning" title="Warning" >}}
+`returning`関数は次のDialectでのみサポートされています。
+- PostgreSQL
+- SQL Server
+{{< /alert >}}
+
 ## options
 
 クエリの挙動をカスタマイズするには`options`を呼び出します。

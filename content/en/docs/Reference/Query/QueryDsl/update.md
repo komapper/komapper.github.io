@@ -155,6 +155,53 @@ val query: Query<Long> = QueryDsl.update(e).set {
 
 When the above query is executed, the return value is the number of updated rows.
 
+## returning
+
+By calling the `returning` function after the following functions,
+you can retrieve the updated values:
+
+- single
+- set
+
+Here is an example of calling the `returning` function after the `single` function:
+
+```kotlin
+val address: Address = ..
+val query: Query<Address?> = QueryDsl.update(a).single(address).returning()
+/*
+update ADDRESS set STREET = ?, VERSION = ? + 1 where ADDRESS_ID = ? and VERSION = ? returning ADDRESS_ID, STREET, VERSION
+*/
+```
+
+You can limit the columns to be retrieved by specifying properties in the `returning` function:
+
+```kotlin
+val query: Query<Int?> = QueryDsl.update(a).single(address).returning(a.addressId)
+/*
+update ADDRESS set STREET = ?, VERSION = ? + 1 where ADDRESS_ID = ? and VERSION = ? returning ADDRESS_ID
+*/
+```
+
+```kotlin
+val query: Query<Pair<Int?, String?>?> = QueryDsl.update(a).single(address).returning(a.addressId, a.street)
+/*
+update ADDRESS set STREET = ?, VERSION = ? + 1 where ADDRESS_ID = ? and VERSION = ? returning ADDRESS_ID, STREET
+*/
+```
+
+```kotlin
+val query: Query<Triple<Int?, String?, Int?>?> = QueryDsl.update(a).single(address).returning(a.addressId, a.street, a.version)
+/*
+update ADDRESS set STREET = ?, VERSION = ? + 1 where ADDRESS_ID = ? and VERSION = ? returning ADDRESS_ID, STREET, VERSION
+*/
+```
+
+{{< alert color="warning" title="Warning" >}}
+The `returning` function is supported only in the following Dialects:
+- PostgreSQL
+- SQL Server
+{{< /alert >}}
+
 ## options
 
 To customize the behavior of the query, call the `options` function.

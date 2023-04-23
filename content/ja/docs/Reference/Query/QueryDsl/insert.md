@@ -307,6 +307,71 @@ IDはエンティティクラスのマッピング定義に`@KomapperAutoIncreme
 - `@KomapperCreatedAt`
 - `@KomapperUpdatedAt`
 
+## returning
+
+以下の関数の後続で`returning`関数を呼び出すことで、 追加された値や更新された値を取得できます。
+
+- single
+- multiple
+- values
+
+`single`関数の後続で`returning`関数を呼び出す例です。
+
+```kotlin
+val address: Address = Address(16, "STREET 16", 0)
+val query: Query<Address> = QueryDsl.insert(a).single(address).returning()
+/*
+insert into ADDRESS (ADDRESS_ID, STREET, VERSION) values (?, ?, ?) returning ADDRESS_ID, STREET, VERSION
+*/
+```
+
+`returning`関数にプロパティを指定することで取得対象のカラムを限定できます。
+
+```kotlin
+val query: Query<Int?> = QueryDsl.insert(a).single(address).returning(a.addressId)
+/*
+insert into ADDRESS (ADDRESS_ID, STREET, VERSION) values (?, ?, ?) returning ADDRESS_ID
+*/
+```
+
+```kotlin
+val query: Query<Pair<Int?, String?>> = QueryDsl.insert(a).single(address).returning(a.addressId, a.street)
+/*
+insert into ADDRESS (ADDRESS_ID, STREET, VERSION) values (?, ?, ?) returning ADDRESS_ID, STREET
+*/
+```
+
+```kotlin
+val query: Query<Triple<Int?, String?, Int?>> = QueryDsl.insert(a).single(address).returning(a.addressId, a.street, a.version)
+/*
+insert into ADDRESS (ADDRESS_ID, STREET, VERSION) values (?, ?, ?) returning ADDRESS_ID, STREET, VERSION
+*/
+```
+
+`returning`関数は、`onDuplicateKeyIgnore`関数や`onDuplicateKeyUpdate`関数と組み合わせて使用することもできます。
+
+```kotlin
+val departments = listOf(
+    Department(5, 50, "PLANNING", 1),
+    Department(1, 60, "DEVELOPMENT", 1),
+)
+val query: Query<List<Department>> = QueryDsl.insert(d).onDuplicateKeyUpdate().multiple(departments).returning()
+/*
+insert into department as t0_ (department_id, department_no, department_name, version) 
+values (?, ?, ?, ?), (?, ?, ?, ?) on conflict (department_id)
+do update set department_no = excluded.department_no, department_name = excluded.department_name, version = excluded.version 
+returning department_id, department_no, department_name, version
+*/
+```
+
+{{< alert color="warning" title="Warning" >}}
+`returning`関数は次のDialectでのみサポートされています。
+- H2
+- MariaDB
+- PostgreSQL
+- SQL Server
+{{< /alert >}}
+
 ## options
 
 クエリの挙動をカスタマイズするには`options`を呼び出します。

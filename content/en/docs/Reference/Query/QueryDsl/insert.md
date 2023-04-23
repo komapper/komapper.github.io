@@ -324,6 +324,73 @@ The following mapping definitions are not considered:
 - `@KomapperCreatedAt`
 - `@KomapperUpdatedAt`
 
+## returning
+
+By calling the `returning` function after the following functions, 
+you can retrieve the added or updated values:
+
+- single
+- multiple
+- values
+
+Here is an example of calling the `returning` function after the `single` function:
+
+```kotlin
+val address: Address = Address(16, "STREET 16", 0)
+val query: Query<Address> = QueryDsl.insert(a).single(address).returning()
+/*
+insert into ADDRESS (ADDRESS_ID, STREET, VERSION) values (?, ?, ?) returning ADDRESS_ID, STREET, VERSION
+*/
+```
+
+You can limit the columns to be retrieved by specifying properties in the `returning` function:
+
+```kotlin
+val query: Query<Int?> = QueryDsl.insert(a).single(address).returning(a.addressId)
+/*
+insert into ADDRESS (ADDRESS_ID, STREET, VERSION) values (?, ?, ?) returning ADDRESS_ID
+*/
+```
+
+```kotlin
+val query: Query<Pair<Int?, String?>> = QueryDsl.insert(a).single(address).returning(a.addressId, a.street)
+/*
+insert into ADDRESS (ADDRESS_ID, STREET, VERSION) values (?, ?, ?) returning ADDRESS_ID, STREET
+*/
+```
+
+```kotlin
+val query: Query<Triple<Int?, String?, Int?>> = QueryDsl.insert(a).single(address).returning(a.addressId, a.street, a.version)
+/*
+insert into ADDRESS (ADDRESS_ID, STREET, VERSION) values (?, ?, ?) returning ADDRESS_ID, STREET, VERSION
+*/
+```
+
+The `returning` function can also be used in combination 
+with the `onDuplicateKeyIgnore` or `onDuplicateKeyUpdate` functions:
+
+```kotlin
+val departments = listOf(
+    Department(5, 50, "PLANNING", 1),
+    Department(1, 60, "DEVELOPMENT", 1),
+)
+val query: Query<List<Department>> = QueryDsl.insert(d).onDuplicateKeyUpdate().multiple(departments).returning()
+/*
+insert into department as t0_ (department_id, department_no, department_name, version) 
+values (?, ?, ?, ?), (?, ?, ?, ?) on conflict (department_id)
+do update set department_no = excluded.department_no, department_name = excluded.department_name, version = excluded.version 
+returning department_id, department_no, department_name, version
+*/
+```
+
+{{< alert color="warning" title="Warning" >}}
+The `returning` function is supported only in the following Dialects:
+- H2
+- MariaDB
+- PostgreSQL
+- SQL Server
+{{< /alert >}}
+
 ## options
 
 To customize the behavior of the query, call the `options` function.
