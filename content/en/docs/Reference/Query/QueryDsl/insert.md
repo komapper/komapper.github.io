@@ -387,8 +387,15 @@ returning department_id, department_no, department_name, version
 The `returning` function is supported only in the following Dialects:
 - H2
 - MariaDB
+- Oracle Database
 - PostgreSQL
 - SQL Server
+
+However, there are the following limitations when using the `returning` function with Oracle Database Dialect:
+- R2DBC is not supported
+- Combination with the `multiple` function is not supported
+- Combination with the `onDuplicateKeyIgnore` function or the `onDuplicateKeyUpdate` functions is not supported.
+
 {{< /alert >}}
 
 ## options

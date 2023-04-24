@@ -368,8 +368,14 @@ returning department_id, department_no, department_name, version
 `returning`関数は次のDialectでのみサポートされています。
 - H2
 - MariaDB
+- Oracle Database
 - PostgreSQL
 - SQL Server
+
+ただし、Oracle DatabaseのDialectで`returning`関数を使う場合、次のような制限があります。
+- R2DBCはサポートされない
+- `multiple`関数との組み合わせはサポートされない
+- `onDuplicateKeyIgnore`関数や`onDuplicateKeyUpdate`関数との組み合わせはサポートされない
 {{< /alert >}}
 
 ## options

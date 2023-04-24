@@ -190,6 +190,7 @@ update ADDRESS set STREET = ?, VERSION = ? + 1 where ADDRESS_ID = ? and VERSION 
 
 {{< alert color="warning" title="Warning" >}}
 `returning`関数は次のDialectでのみサポートされています。
+- Oracle Database
 - PostgreSQL
 - SQL Server
 {{< /alert >}}

@@ -198,6 +198,7 @@ update ADDRESS set STREET = ?, VERSION = ? + 1 where ADDRESS_ID = ? and VERSION 
 
 {{< alert color="warning" title="Warning" >}}
 The `returning` function is supported only in the following Dialects:
+- Oracle Database
 - PostgreSQL
 - SQL Server
 {{< /alert >}}
