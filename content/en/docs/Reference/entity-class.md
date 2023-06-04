@@ -444,7 +444,6 @@ The type of the property to which this annotation is given must be one of the fo
 - java.time.OffsetDateTime
 - kotlinx.datetime.Instant
 - kotlinx.datetime.LocalDateTime
-- kotlinx.datetime.OffsetDateTime
 - Value class with a property of one of the above types
 
 {{< alert title="Note" >}}
@@ -467,7 +466,6 @@ The type of the property to which this annotation is given must be one of the fo
 - java.time.OffsetDateTime
 - kotlinx.datetime.Instant
 - kotlinx.datetime.LocalDateTime
-- kotlinx.datetime.OffsetDateTime
 - Value class with a property of one of the above types
 
 {{< alert title="Note" >}}

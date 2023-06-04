@@ -436,7 +436,6 @@ val id: Int
 - java.time.OffsetDateTime
 - kotlinx.datetime.Instant
 - kotlinx.datetime.LocalDateTime
-- kotlinx.datetime.OffsetDateTime
 - 上述の型をプロパティとして持つValue Class
 
 {{< alert title="Note" >}}
@@ -459,7 +458,6 @@ kotlinx-datetimeのデータ型を使うには、
 - java.time.OffsetDateTime
 - kotlinx.datetime.Instant
 - kotlinx.datetime.LocalDateTime
-- kotlinx.datetime.OffsetDateTime
 - 上述の型をプロパティとして持つValue Class
 
 {{< alert title="Note" >}}
