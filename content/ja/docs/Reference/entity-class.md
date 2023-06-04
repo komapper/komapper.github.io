@@ -431,9 +431,18 @@ val id: Int
 
 このアノテーションを付与するプロパティの型は次のいずれかでなければいけません。
 
+- java.time.Instant
 - java.time.LocalDateTime
 - java.time.OffsetDateTime
+- kotlinx.datetime.Instant
+- kotlinx.datetime.LocalDateTime
+- kotlinx.datetime.OffsetDateTime
 - 上述の型をプロパティとして持つValue Class
+
+{{< alert title="Note" >}}
+kotlinx-datetimeのデータ型を使うには、
+[kotlinx-datetimeのサポート]({{< relref "data-type#kotlinx-datetime-support" >}}) を参照ください。
+{{< /alert >}}
 
 ### @KomapperUpdatedAt
 
@@ -445,9 +454,18 @@ val id: Int
 
 このアノテーションを付与するプロパティの型は次のいずれかでなければいけません。
 
+- java.time.Instant
 - java.time.LocalDateTime
 - java.time.OffsetDateTime
+- kotlinx.datetime.Instant
+- kotlinx.datetime.LocalDateTime
+- kotlinx.datetime.OffsetDateTime
 - 上述の型をプロパティとして持つValue Class
+
+{{< alert title="Note" >}}
+kotlinx-datetimeのデータ型を使うには、
+[kotlinx-datetimeのサポート]({{< relref "data-type#kotlinx-datetime-support" >}}) を参照ください。
+{{< /alert >}}
 
 ### @KomapperEnum
 

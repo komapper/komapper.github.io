@@ -439,9 +439,18 @@ the [INSERT]({{< relref "query/QueryDsl/insert" >}}) process.
 
 The type of the property to which this annotation is given must be one of the following:
 
+- java.time.Instant
 - java.time.LocalDateTime
 - java.time.OffsetDateTime
+- kotlinx.datetime.Instant
+- kotlinx.datetime.LocalDateTime
+- kotlinx.datetime.OffsetDateTime
 - Value class with a property of one of the above types
+
+{{< alert title="Note" >}}
+To use kotlinx-datetime data types,
+see [Support for kotlinx-datetime]({{< relref "data-type#kotlinx-datetime-support" >}}).
+{{< /alert >}}
 
 ### @KomapperUpdatedAt
 
@@ -453,9 +462,18 @@ If this annotation is given, the timestamp is set to the property in the
 
 The type of the property to which this annotation is given must be one of the following:
 
+- java.time.Instant
 - java.time.LocalDateTime
 - java.time.OffsetDateTime
+- kotlinx.datetime.Instant
+- kotlinx.datetime.LocalDateTime
+- kotlinx.datetime.OffsetDateTime
 - Value class with a property of one of the above types
+
+{{< alert title="Note" >}}
+To use kotlinx-datetime data types,
+see [Support for kotlinx-datetime]({{< relref "data-type#kotlinx-datetime-support" >}}).
+{{< /alert >}}
 
 ### @KomapperEnum
 
