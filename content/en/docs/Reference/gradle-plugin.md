@@ -197,6 +197,13 @@ The default value is `false`.
 If this value is `false`, the decision to declare the property as a nullable type 
 is determined from the database metadata for each property.
 
+### useSelfMapping
+
+Indicates whether to generate mapping definitions in the entity class itself.
+See [Self mapping]({{< relref "entity-class/#self-mapping-definition" >}}) for details.
+
+The default value is `false`.
+
 ### useCatalog
 
 Indicates whether the catalog name should be explicit in the generated mapping definitions.
