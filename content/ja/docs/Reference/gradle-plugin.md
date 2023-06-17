@@ -158,6 +158,13 @@ JDBCのパスワードを表します。
 これらのファイル名は変更できません。
 {{< /alert >}}
 
+### useSelfMapping
+
+[セルフマッピング]({{< relref "entity-class#self-mapping-definition" >}})を使うかどうかです。
+`false`の場合、[分離マッピング]({{< relref "entity-class#separation-mapping-definition" >}})が使われます。
+
+デフォルトの値は`false`です。
+
 ### packageName
 
 生成されるエンティティクラスやマッピング定義クラスのパッケージ名です。

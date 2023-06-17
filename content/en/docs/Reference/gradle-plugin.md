@@ -160,6 +160,13 @@ And the source code for mapping definitions is output as "entityDefinitions.kt".
 These file names cannot be changed.
 {{< /alert >}}
 
+### useSelfMapping
+
+A flag indicating whether [Self mapping]({{< relref "entity-class#self-mapping-definition" >}}) is used or not.
+If the flag is `false`, [Separation mapping]({{< relref "entity-class#separation-mapping-definition" >}}) is used.
+
+The default value is `false`.
+
 ### packageName
 
 The package name of the generated entity classes and mapping definition classes.
