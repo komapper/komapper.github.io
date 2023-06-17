@@ -93,6 +93,56 @@ delete from EMPLOYEE as t0_
 
 When the above query is executed, the return value is the number of deleted rows.
 
+## returning
+
+By calling the `returning` function after the following functions,
+you can retrieve the deleted values:
+
+- single
+- where
+
+Here is an example of calling the `returning` function after the `single` function:
+
+```kotlin
+val address: Address = ..
+val query: Query<Address?> = QueryDsl.delete(a).single(address).returning()
+/*
+delete from ADDRESS where ADDRESS_ID = ? and VERSION = ? returning ADDRESS_ID, STREET, VERSION
+*/
+```
+
+You can limit the columns to be retrieved by specifying properties in the `returning` function:
+
+```kotlin
+val query: Query<Int?> = QueryDsl.delete(a).single(address).returning(a.addressId)
+/*
+delete from ADDRESS where ADDRESS_ID = ? and VERSION = ? returning ADDRESS_ID
+*/
+```
+
+```kotlin
+val query: Query<Pair<Int?, String?>?> = QueryDsl.update(a).single(address).returning(a.addressId, a.street)
+/*
+delete from ADDRESS where ADDRESS_ID = ? and VERSION = ? returning ADDRESS_ID, STREET
+*/
+```
+
+```kotlin
+val query: Query<Triple<Int?, String?, Int?>?> = QueryDsl.update(a).single(address).returning(a.addressId, a.street, a.version)
+/*
+delete from ADDRESS where ADDRESS_ID = ? and VERSION = ? returning ADDRESS_ID, STREET, VERSION
+*/
+```
+
+{{< alert color="warning" title="Warning" >}}
+The `returning` function is supported only in the following Dialects:
+- H2 Database
+- MariaDB
+- Oracle Database
+- PostgreSQL
+- SQL Server
+{{< /alert >}}
+
 ## options
 
 To customize the behavior of the query, call the `options` function.

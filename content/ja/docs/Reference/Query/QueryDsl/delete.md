@@ -89,6 +89,55 @@ delete from EMPLOYEE as t0_
 
 このクエリを実行した場合の戻り値は削除された件数です。
 
+## returning
+
+以下の関数の後続で`returning`関数を呼び出すことで、削除された値を取得できます。
+
+- single
+- where
+
+`single`関数の後続で`returning`関数を呼び出す例です。
+
+```kotlin
+val address: Address = ..
+val query: Query<Address?> = QueryDsl.delete(a).single(address).returning()
+/*
+delete from ADDRESS where ADDRESS_ID = ? and VERSION = ? returning ADDRESS_ID, STREET, VERSION
+*/
+```
+
+`returning`関数にプロパティを指定することで取得対象のカラムを限定できます。
+
+```kotlin
+val query: Query<Int?> = QueryDsl.delete(a).single(address).returning(a.addressId)
+/*
+delete from ADDRESS where ADDRESS_ID = ? and VERSION = ? returning ADDRESS_ID
+*/
+```
+
+```kotlin
+val query: Query<Pair<Int?, String?>?> = QueryDsl.update(a).single(address).returning(a.addressId, a.street)
+/*
+delete from ADDRESS where ADDRESS_ID = ? and VERSION = ? returning ADDRESS_ID, STREET
+*/
+```
+
+```kotlin
+val query: Query<Triple<Int?, String?, Int?>?> = QueryDsl.update(a).single(address).returning(a.addressId, a.street, a.version)
+/*
+delete from ADDRESS where ADDRESS_ID = ? and VERSION = ? returning ADDRESS_ID, STREET, VERSION
+*/
+```
+
+{{< alert color="warning" title="Warning" >}}
+`returning`関数は次のDialectでのみサポートされています。
+- H2 Database
+- MariaDB
+- Oracle Database
+- PostgreSQL
+- SQL Server
+{{< /alert >}}
+
 ## options
 
 クエリの挙動をカスタマイズするには`options`を呼び出します。
