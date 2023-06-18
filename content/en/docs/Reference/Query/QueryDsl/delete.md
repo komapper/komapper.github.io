@@ -121,14 +121,14 @@ delete from ADDRESS where ADDRESS_ID = ? and VERSION = ? returning ADDRESS_ID
 ```
 
 ```kotlin
-val query: Query<Pair<Int?, String?>?> = QueryDsl.update(a).single(address).returning(a.addressId, a.street)
+val query: Query<Pair<Int?, String?>?> = QueryDsl.delete(a).single(address).returning(a.addressId, a.street)
 /*
 delete from ADDRESS where ADDRESS_ID = ? and VERSION = ? returning ADDRESS_ID, STREET
 */
 ```
 
 ```kotlin
-val query: Query<Triple<Int?, String?, Int?>?> = QueryDsl.update(a).single(address).returning(a.addressId, a.street, a.version)
+val query: Query<Triple<Int?, String?, Int?>?> = QueryDsl.delete(a).single(address).returning(a.addressId, a.street, a.version)
 /*
 delete from ADDRESS where ADDRESS_ID = ? and VERSION = ? returning ADDRESS_ID, STREET, VERSION
 */
