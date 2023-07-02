@@ -183,6 +183,19 @@ A suffix for the qualified name of generated entity classes.
 
 The default value is an empty string.
 
+### singularize
+
+Indicates whether the generated entity class names will be singular.
+If the flag is `true`, the singular name of entity class are generated from the plural name of table.
+
+The default value is `false`.
+
+### useTableNameAsAlias
+
+Indicates whether the [aliases]({{< relref "entity-class#metamodel-aliases" >}}) property is generated based on the table name.
+
+The default value is `false`.
+
 ### overwriteEntities
 
 Indicates whether the source code of the generated entity classes should be overwritten.
@@ -232,10 +245,28 @@ The default value is `org.komapper.codegen.Enquote.of()`.
 
 A resolver that determines the names of the generated entity classes.
 
-The default value is `org.komapper.codegen.ClassNameResolver.of(prefix, suffix)`.
+The default value is `org.komapper.codegen.ClassNameResolver.of(prefix, suffix, singularize)`.
 
 ### propertyNameResolver
 
 A resolver that determines the names of properties of the generated entity classes.
 
 The default value is `org.komapper.codegen.PropertyNameResolver.of()`.
+
+### versionPropertyName
+
+A name of property to set [`@KomapperVersion`]({{< relref "entity-class#komapperversion" >}}) annotation.
+
+The default value is an empty string.
+
+### createdAtPropertyName
+
+A name of property to set [`@KomapperCreatedAt`]({{< relref "entity-class#komappercreatedat" >}}) annotation.
+
+The default value is an empty string.
+
+### updatedAtPropertyName
+
+A name of property to set [`@KomapperUpdatedAt`]({{< relref "entity-class#komapperupdatedat" >}}) annotation.
+
+The default value is an empty string.
