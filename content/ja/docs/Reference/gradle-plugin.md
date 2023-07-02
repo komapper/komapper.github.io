@@ -181,6 +181,19 @@ JDBCのパスワードを表します。
 
 デフォルトの値は空文字です。
 
+### singularize
+
+生成されるエンティティクラス名を単数化するかどうかを表します。
+`true`の場合、複数形のテーブル名から単数形のエンティティクラス名を生成します。
+
+デフォルトの値は`false`です。
+
+### useTableNameAsAlias
+
+テーブル名をもとに[aliases]({{< relref "entity-class#metamodel-aliases" >}})プロパティを生成するかどうかを表します。
+
+デフォルトの値は`false`です。
+
 ### overwriteEntities
 
 生成されるエンティティクラスのソースコードを上書きするかどうかを表します。
@@ -228,10 +241,28 @@ SQLの識別子を引用符で囲むことを行う関数です。
 
 生成されるエンティティクラスの名前を決定するリゾルバです。
 
-デフォルト値は`org.komapper.codegen.ClassNameResolver.of(prefix, suffix)`です。
+デフォルト値は`org.komapper.codegen.ClassNameResolver.of(prefix, suffix, singularize)`です。
 
 ### propertyNameResolver
 
 生成されるエンティティクラスのプロパティの名前を決定するリゾルバです。
 
 デフォルト値は`org.komapper.codegen.PropertyNameResolver.of()`です。
+
+### versionPropertyName
+
+[`@KomapperVersion`]({{< relref "entity-class#komapperversion" >}}) アノテーションを付与するプロパティの名前を指定できます。
+
+デフォルトの値は空文字です。
+
+### createdAtPropertyName
+
+[`@KomapperCreatedAt`]({{< relref "entity-class#komappercreatedat" >}}) アノテーションを付与するプロパティの名前を指定できます。
+
+デフォルトの値は空文字です。
+
+### updatedAtPropertyName
+
+[`@KomapperUpdatedAt`]({{< relref "entity-class#komapperupdatedat" >}}) アノテーションを付与するプロパティの名前を指定できます。
+
+デフォルトの値は空文字です。
