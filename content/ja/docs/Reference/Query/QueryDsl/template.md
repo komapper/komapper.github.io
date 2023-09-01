@@ -117,7 +117,7 @@ val query: Query<Long> = QueryDsl.executeTemplate(sql)
 
 ```kotlin
 val sql = "update ADDRESS set street = /*street*/'' where address_id = /*id*/0"
-val query = Query<Long> = QueryDsl.executeTemplate(sql)
+val query: Query<Long> = QueryDsl.executeTemplate(sql)
   .bind("id", 15)
   .bind("street", "NY street")
   .options {
