@@ -471,7 +471,7 @@ Enum型のプロパティに対し、プロパティとカラムのマッピン�
 
 ```kotlin
 @KomapperEnum(EnumType.ORDINAL)
-val color: Nothing // このcolorプロパティがColorというEnum型に対応すると想定してください
+val color: Color // このcolorプロパティがColorというEnum型に対応すると想定してください
 ```
 
 `@KomapperEnum`の`type`プロパティには次のいずれかを指定できます。
@@ -485,6 +485,10 @@ EnumType.ORDINAL
 EnumType.PROPERTY
 : Enumクラスの任意のプロパティをカラムにマッピングする。
 マッピング対象のプロパティ名は`@KomapperEnum`の`hint`プロパティに指定する必要がある。
+
+EnumType.TYPE
+: Enumクラスをenum型のカラムにマッピングする。
+Enumクラスに対応する [ユーザー定義のデータ型]({{< relref "data-type#user-defined-data-types" >}}) が必要であることに注意してほしい。
 
 ```kotlin
 enum class Color(val code: String) { RED("r"), GREEN("g"), BLUE("b") }

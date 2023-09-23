@@ -82,6 +82,10 @@ name
 ordinal
 : Enumクラスの`ordinal`プロパティを整数型のカラムにマッピングする。
 
+type
+: Enumクラスをenum型のカラムにマッピングする。
+Enumクラスに対応する [ユーザー定義のデータ型]({{< relref "data-type#user-defined-data-types" >}}) が必要であることに注意してほしい。
+
 ### komapper.namingStrategy
 
 Kotlinのエンティクラスとプロパティからデータベースのテーブルとカラムの名前をどう解決するのかの戦略です。

@@ -84,6 +84,10 @@ name
 ordinal
 : map the `ordinal` property of `Enum` class to the integer type column.
 
+type
+: map the `Enum` class to the enum type column.
+Note that a [user-defined data type]({{< relref "data-type#user-defined-data-types" >}}) corresponding to the Enum class is required.
+
 ### komapper.namingStrategy
 
 This option specifies the strategy for how to resolve database table and column names 

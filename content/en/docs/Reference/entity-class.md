@@ -479,7 +479,7 @@ Explicitly specifies how to map the enum property to the column.
 
 ```kotlin
 @KomapperEnum(EnumType.ORDINAL)
-val color: Nothing // Assume that this color property corresponds to the Color enum class
+val color: Color // Assume that this color property corresponds to the Color enum class
 ```
 
 The `type` property of `@KomapperEnum` can be one of the following:
@@ -493,6 +493,10 @@ EnumType.ORDINAL
 EnumType.PROPERTY
 : map an arbitrary property of `Enum` class to the column.
 The name of the property to be mapped must be specified in the `hint` property of `@KomapperEnum`.
+
+EnumType.TYPE
+: map the `Enum` class to the enum type column.
+Note that a [user-defined data type]({{< relref "data-type#user-defined-data-types" >}}) corresponding to the Enum class is required.
 
 ```kotlin
 enum class Color(val code: String) { RED("r"), GREEN("g"), BLUE("b") }
