@@ -56,13 +56,11 @@ delete from ADDRESS as t0_ where t0_.ADDRESS_ID = ? and t0_.VERSION = ?
 全件を削除するには`all`を呼び出します。
 
 ```kotlin
-val query: Query<Long> = QueryDsl.delete(e).all().options { it.copy(allowMissingWhereClause = true) }
+val query: Query<Long> = QueryDsl.delete(e).all() }
 /*
 delete from EMPLOYEE as t0_
 */
 ```
-
-`options`を呼び出して`allowMissingWhereClause`に`true`を設定する必要があります。
 
 このクエリを実行した場合の戻り値は削除された件数です。
 

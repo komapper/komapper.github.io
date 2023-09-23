@@ -58,14 +58,11 @@ the `org.komapper.core.OptimisticLockException` is thrown.
 To delete all rows, call the `all` function:
 
 ```kotlin
-val query: Query<Long> = QueryDsl.delete(e).all().options { it.copy(allowMissingWhereClause = true) }
+val query: Query<Long> = QueryDsl.delete(e).all() }
 /*
 delete from EMPLOYEE as t0_
 */
 ```
-
-To allow deleting of all rows, you have to call the `options` function and
-set the `allowMissingWhereClause` property to true.
 
 When the above query is executed, the return value is the number of deleted rows.
 
