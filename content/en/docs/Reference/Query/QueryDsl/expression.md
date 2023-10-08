@@ -543,6 +543,7 @@ The following functions are available as string functions:
 
 - concat
 - substring
+- locate
 - lower
 - upper
 - trim

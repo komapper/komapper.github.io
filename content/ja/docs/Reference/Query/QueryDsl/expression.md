@@ -542,6 +542,7 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_ order by rand
 
 - concat
 - substring
+- locate
 - lower
 - upper
 - trim
