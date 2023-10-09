@@ -19,6 +19,8 @@ This page covers the components of an expression, including declarations, operat
 - [Conditional expressions]({{< relref "#conditional-expression" >}})
 - [Scalar subqueries]({{< relref "#scalar-subquery" >}})
 - [literals]({{< relref "#literal" >}})
+- [User-defined expressions]({{< relref "#user-defined-expression" >}})
+
 
 ## Declarations {#declaration}
 
@@ -731,3 +733,119 @@ QueryDsl.insert(a).values {
 insert into ADDRESS (ADDRESS_ID, STREET, VERSION) values (?, 'STREET 100', 100)
 */
 ```
+
+## User-defined expressions {#user-defined-expression}
+
+### Custom comparison operators {#user-defined-expression-comparison-operator}
+
+Define custom comparison operators within a class that takes 
+`org.komapper.core.dsl.operator.CriteriaContext` as a constructor argument. 
+The logic to generate SQL corresponding to the operator is added to CriteriaContext as a lambda function.
+
+In the example below, the `~` and `!~` operators are defined:
+
+```kotlin
+class MyExtension(private val context: CriteriaContext) {
+
+    infix fun <T : Any> ColumnExpression<T, String>.`~`(pattern: T?) {
+        if (pattern == null) return
+        val o1 = Operand.Column(this)
+        val o2 = Operand.Argument(this, pattern)
+        context.add {
+            visit(o1)
+            append(" ~ ")
+            visit(o2)
+        }
+    }
+
+    infix fun <T : Any> ColumnExpression<T, String>.`!~`(pattern: T?) {
+        if (pattern == null) return
+        val o1 = Operand.Column(this)
+        val o2 = Operand.Argument(this, pattern)
+        context.add {
+            visit(o1)
+            append(" !~ ")
+            visit(o2)
+        }
+    }
+}
+```
+
+To use the operator, call the `extension` function within declarations like Where or Having.
+Specify the above constructor and a lambda expression to invoke the operator as arguments to the `extension` function.
+
+You can use the `~` and `!~` operators in your query as follows:
+
+```kotlin
+QueryDsl.from(e).where {
+    e.salary greaterEq BigDecimal(1000)
+    extension(::MyExtension) {
+        e.employeeName `~` "S"
+        e.employeeName `!~` "T"
+    }
+}.orderBy(e.employeeName)
+/*
+select 
+    t0_.EMPLOYEE_ID, 
+    t0_.EMPLOYEE_NO, 
+    t0_.EMPLOYEE_NAME, 
+    t0_.MANAGER_ID, 
+    t0_.HIREDATE, 
+    t0_.SALARY, 
+    t0_.DEPARTMENT_ID, 
+    t0_.ADDRESS_ID, 
+    t0_.VERSION 
+from 
+    EMPLOYEE as t0_ 
+where 
+    t0_.SALARY >= ?
+    t0_.EMPLOYEE_NAME ~ ?
+    t0_.EMPLOYEE_NAME !~ ?
+order by
+    t0_.EMPLOYEE_NAME
+*/
+```
+
+### Custom column expressions {#user-defined-expression-column-expression}
+
+Define custom column expressions as Kotlin functions that return 
+`org.komapper.core.dsl.expression.ColumnExpression`. 
+You can create `ColumnExpression` by calling `org.komapper.core.dsl.operator.columnExpression`.
+Pass the type of the column expression, information to uniquely identify the column expression, 
+and a lambda expression to generate SQL to `columnExpression`.
+
+In the example below, the `replace` function is defined:
+
+```kotlin
+private fun <T: Any> replace(
+    expression: ColumnExpression<T, String>,
+    from: T,
+    to: T,
+): ColumnExpression<T, String> {
+    val name = "replace"
+    val o1 = Operand.Column(expression)
+    val o2 = Operand.Argument(expression, from)
+    val o3 = Operand.Argument(expression, to)
+    return columnExpression(expression, name, listOf(o1, o2, o3)) {
+        append("$name(")
+        visit(o1)
+        append(", ")
+        visit(o2)
+        append(", ")
+        visit(o3)
+        append(")")
+    }
+}
+```
+
+You can use the `replace` function in your query as follows:
+
+```kotlin
+QueryDsl.from(a)
+    .where { a.addressId eq 1 }
+    .select(replace(a.street, "STREET", "St.")).first()
+/*
+select replace(t0_.STREET, ?, ?) from ADDRESS as t0_ where t0_.ADDRESS_ID = ?
+*/
+```
+

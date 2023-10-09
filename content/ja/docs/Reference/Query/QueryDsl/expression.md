@@ -19,6 +19,7 @@ description: クエリの構成要素を成す式
 - [条件式]({{< relref "#conditional-expression" >}})
 - [スカラサブクエリ]({{< relref "#scalar-subquery" >}})
 - [リテラル]({{< relref "#literal" >}})
+- [ユーザー定義の式]({{< relref "#user-defined-expression" >}})
 
 ## 宣言 {#declaration}
 
@@ -730,3 +731,114 @@ QueryDsl.insert(a).values {
 insert into ADDRESS (ADDRESS_ID, STREET, VERSION) values (?, 'STREET 100', 100)
 */
 ```
+
+## ユーザー定義の式 {#user-defined-expression}
+
+### 独自の比較演算子 {#user-defined-expression-comparison-operator}
+
+独自の比較演算子は、`org.komapper.core.dsl.operator.CriteriaContext`をコンストラクタの引数に持つクラス内で定義してください。
+演算子に対応するSQLを生成する処理は、ラムダ関数として`CriteriaContext`に`add`します。
+
+以下の例では、`~`演算子と`!~`演算子を定義します。
+
+```kotlin
+class MyExtension(private val context: CriteriaContext) {
+
+    infix fun <T : Any> ColumnExpression<T, String>.`~`(pattern: T?) {
+        if (pattern == null) return
+        val o1 = Operand.Column(this)
+        val o2 = Operand.Argument(this, pattern)
+        context.add {
+            visit(o1)
+            append(" ~ ")
+            visit(o2)
+        }
+    }
+
+    infix fun <T : Any> ColumnExpression<T, String>.`!~`(pattern: T?) {
+        if (pattern == null) return
+        val o1 = Operand.Column(this)
+        val o2 = Operand.Argument(this, pattern)
+        context.add {
+            visit(o1)
+            append(" !~ ")
+            visit(o2)
+        }
+    }
+}
+```
+
+演算子を利用するには、WhereやHavingの宣言の中で`extension`関数を呼び出します。
+`extension`関数の引数には上述のコンストラクタと演算子を呼び出すラムダ式を指定してください。
+
+```kotlin
+QueryDsl.from(e).where {
+    e.salary greaterEq BigDecimal(1000)
+    extension(::MyExtension) {
+        e.employeeName `~` "S"
+        e.employeeName `!~` "T"
+    }
+}.orderBy(e.employeeName)
+/*
+select 
+    t0_.EMPLOYEE_ID, 
+    t0_.EMPLOYEE_NO, 
+    t0_.EMPLOYEE_NAME, 
+    t0_.MANAGER_ID, 
+    t0_.HIREDATE, 
+    t0_.SALARY, 
+    t0_.DEPARTMENT_ID, 
+    t0_.ADDRESS_ID, 
+    t0_.VERSION 
+from 
+    EMPLOYEE as t0_ 
+where 
+    t0_.SALARY >= ?
+    t0_.EMPLOYEE_NAME ~ ?
+    t0_.EMPLOYEE_NAME !~ ?
+order by
+    t0_.EMPLOYEE_NAME
+*/
+```
+
+### 独自のカラム式 {#user-defined-expression-column-expression}
+
+独自のカラム式（例えば文字列関数など）は、`org.komapper.core.dsl.expression.ColumnExpression`を返す関数として定義します。
+`ColumnExpression`は、`org.komapper.core.dsl.operator.columnExpression`を呼び出すことで生成できます。
+`columnExpression`には、カラム式の型、カラム式を一意に特定するための情報、SQLを生成するラムダ式を渡します。
+
+以下の例では、`replace`関数を定義します。
+
+```kotlin
+private fun <T: Any> replace(
+    expression: ColumnExpression<T, String>,
+    from: T,
+    to: T,
+): ColumnExpression<T, String> {
+    val name = "replace"
+    val o1 = Operand.Column(expression)
+    val o2 = Operand.Argument(expression, from)
+    val o3 = Operand.Argument(expression, to)
+    return columnExpression(expression, name, listOf(o1, o2, o3)) {
+        append("$name(")
+        visit(o1)
+        append(", ")
+        visit(o2)
+        append(", ")
+        visit(o3)
+        append(")")
+    }
+}
+```
+
+以下は、定義した`replace`関数をクエリに組み込む例です。
+
+```kotlin
+QueryDsl.from(a)
+    .where { a.addressId eq 1 }
+    .select(replace(a.street, "STREET", "St.")).first()
+/*
+select replace(t0_.STREET, ?, ?) from ADDRESS as t0_ where t0_.ADDRESS_ID = ?
+*/
+```
+
