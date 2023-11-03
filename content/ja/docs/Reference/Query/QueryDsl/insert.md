@@ -196,10 +196,6 @@ MySQLのDialectを使う場合、上記のクエリは次のようなSQLとし�
 insert into DEPARTMENT (DEPARTMENT_ID, DEPARTMENT_NO, DEPARTMENT_NAME, LOCATION, VERSION) values (?, ?, ?, ?, ?) as excluded on duplicate key update DEPARTMENT_NAME = ?, LOCATION = (concat(DEPARTMENT.LOCATION, (concat(?, excluded.LOCATION))))
 ```
 
-{{< alert color="warning" title="Warning" >}}
-MariaDBのDialectではサポートされていません。
-{{< /alert >}}
-
 ### where {#onduplicatekeyupdate-where}
 
 `onDuplicateKeyUpdate`の呼び出し後、`where`を使って更新条件を設定できます。

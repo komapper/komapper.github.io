@@ -209,10 +209,6 @@ When using MySQL's Dialect, the above query generates the following SQL:
 insert into DEPARTMENT (DEPARTMENT_ID, DEPARTMENT_NO, DEPARTMENT_NAME, LOCATION, VERSION) values (?, ?, ?, ?, ?) as excluded on duplicate key update DEPARTMENT_NAME = ?, LOCATION = (concat(DEPARTMENT.LOCATION, (concat(?, excluded.LOCATION))))
 ```
 
-{{< alert color="warning" title="Warning" >}}
-Not supported by MariaDB Dialect.
-{{< /alert >}}
-
 ### where {#onduplicatekeyupdate-where}
 
 After calling the `onDuplicateKeyUpdate` function,
