@@ -16,6 +16,7 @@ This page covers the components of an expression, including declarations, operat
 - [Mathematical functions]({{< relref "#mathematical-function" >}})
 - [String functions]({{< relref "#string-function" >}})
 - [Aggregate functions]({{< relref "#aggregate-function" >}})
+- [Window functions]({{< relref "#window-function" >}})
 - [Conditional expressions]({{< relref "#conditional-expression" >}})
 - [Scalar subqueries]({{< relref "#scalar-subquery" >}})
 - [literals]({{< relref "#literal" >}})
@@ -649,6 +650,190 @@ QueryDsl.from(a).select(min(a.addressId))
 select min(t0_.ADDRESS_ID) from ADDRESS as t0_
 */
 ```
+
+## Window Functions {#window-function}
+
+The following functions are available:
+
+- rowNumber
+- rank
+- denseRank
+- percentRank
+- cumeDist
+- ntile
+- lag
+- lead
+- firstValue
+- lastValue
+- nthValue
+
+These functions are defined in `org.komapper.core.dsl.operator`.
+
+### rowNumber {#window-function-rownumber}
+
+```kotlin
+QueryDsl.from(e)
+    .orderBy(e.departmentId)
+    .selectNotNull(e.departmentId, rowNumber().over { orderBy(e.departmentId) })
+/*
+select t0_.department_id, row_number() over(order by t0_.department_id asc) from employee as t0_ order by t0_.department_id asc
+*/
+```
+
+### rank {#window-function-rank}
+
+```kotlin
+QueryDsl.from(e)
+    .orderBy(e.departmentId)
+    .selectNotNull(e.departmentId, rank().over { orderBy(e.departmentId) })
+/*
+select t0_.department_id, rank() over(order by t0_.department_id asc) from employee as t0_ order by t0_.department_id asc
+*/
+```
+
+### denseRank {#window-function-denserank}
+
+```kotlin
+QueryDsl.from(e)
+    .orderBy(e.departmentId)
+    .selectNotNull(e.departmentId, denseRank().over { orderBy(e.departmentId) })
+/*
+select t0_.department_id, dense_rank() over(order by t0_.department_id asc) from employee as t0_ order by t0_.department_id asc
+*/
+```
+
+### percentRank {#window-function-percentrank}
+
+```kotlin
+QueryDsl.from(e)
+    .orderBy(e.departmentId)
+    .selectNotNull(e.departmentId, percentRank().over { orderBy(e.departmentId) })
+/*
+select t0_.department_id, percent_rank() over(order by t0_.department_id asc) from employee as t0_ order by t0_.department_id asc
+*/
+```
+
+### cumeDist {#window-function-cumedist}
+
+```kotlin
+QueryDsl.from(e)
+    .orderBy(e.departmentId)
+    .selectNotNull(e.departmentId, cumeDist().over { orderBy(e.departmentId) })
+/*
+select t0_.department_id, cume_dist() over(order by t0_.department_id asc) from employee as t0_ order by t0_.department_id asc
+*/
+```
+
+### ntile {#window-function-ntile}
+
+```kotlin
+QueryDsl.from(e)
+    .orderBy(e.departmentId)
+    .selectNotNull(e.departmentId, ntile(5).over { orderBy(e.departmentId) })
+/*
+select t0_.department_id, ntile(5) over(order by t0_.department_id asc) from employee as t0_ order by t0_.department_id asc
+*/
+```
+
+### lag {#window-function-lag}
+
+```kotlin
+val c1 = d.departmentId
+val c2 = lag(d.departmentId).over { orderBy(d.departmentId) }
+val c3 = lag(d.departmentId, 2).over { orderBy(d.departmentId) }
+val c4 = lag(d.departmentId, 2, literal(-1)).over { orderBy(d.departmentId) }
+
+QueryDsl.from(d)
+    .orderBy(d.departmentId)
+    .select(c1, c2, c3, c4)
+/*
+select t0_.department_id, lag(t0_.department_id) over(order by t0_.department_id asc), lag(t0_.department_id, 2) over(order by t0_.department_id asc), lag(t0_.department_id, 2, -1) over(order by t0_.department_id asc) from department as t0_ order by t0_.department_id asc
+*/
+```
+
+### lead {#window-function-lead}
+
+```kotlin
+val d = Meta.department
+
+val c1 = d.departmentId
+val c2 = lead(d.departmentId).over { orderBy(d.departmentId) }
+val c3 = lead(d.departmentId, 2).over { orderBy(d.departmentId) }
+val c4 = lead(d.departmentId, 2, literal(-1)).over { orderBy(d.departmentId) }
+
+QueryDsl.from(d)
+    .orderBy(d.departmentId)
+    .select(c1, c2, c3, c4)
+/*
+select t0_.department_id, lead(t0_.department_id) over(order by t0_.department_id asc), lead(t0_.department_id, 2) over(order by t0_.department_id asc), lead(t0_.department_id, 2, -1) over(order by t0_.department_id asc) from department as t0_ order by t0_.department_id asc
+*/
+```
+
+### firstValue {#window-function-firstvalue}
+
+```kotlin
+val d = Meta.department
+
+val c1 = d.departmentId
+val c2 = firstValue(d.departmentId).over { orderBy(d.departmentId) }
+val c3 = firstValue(d.departmentId).over {
+    orderBy(d.departmentId)
+    rows(preceding(1))
+}
+
+QueryDsl.from(d)
+    .orderBy(d.departmentId)
+    .select(c1, c2, c3)
+/*
+select t0_.department_id, first_value(t0_.department_id) over(order by t0_.department_id asc), first_value(t0_.department_id) over(order by t0_.department_id asc rows 1 preceding) from department as t0_ order by t0_.department_id asc
+*/
+```
+
+### lastValue {#window-function-lastvalue}
+
+```kotlin
+val d = Meta.department
+
+val c1 = d.departmentId
+val c2 = lastValue(d.departmentId).over {
+    orderBy(d.departmentId)
+    rows(unboundedPreceding, unboundedFollowing)
+}
+val c3 = lastValue(d.departmentId).over {
+    orderBy(d.departmentId)
+    rows(currentRow, following(1))
+}
+
+QueryDsl.from(d)
+    .orderBy(d.departmentId)
+    .select(c1, c2, c3)
+/*
+select t0_.department_id, last_value(t0_.department_id) over(order by t0_.department_id asc rows between unbounded preceding and unbounded following), last_value(t0_.department_id) over(order by t0_.department_id asc rows between current row and 1 following) from department as t0_ order by t0_.department_id asc
+*/
+```
+
+### nthValue {#window-function-nthvalue}
+
+```kotlin
+val d = Meta.department
+
+val c1 = d.departmentId
+val c2 = nthValue(d.departmentId, 2).over {
+    orderBy(d.departmentId)
+}
+val c3 = nthValue(d.departmentId, 2).over {
+    orderBy(d.departmentId)
+    rows(preceding(2))
+}
+
+QueryDsl.from(d)
+    .orderBy(d.departmentId)
+    .select(c1, c2, c3)
+/*
+select t0_.department_id, nth_value(t0_.department_id, 2) over(order by t0_.department_id asc), nth_value(t0_.department_id, 2) over(order by t0_.department_id asc rows 2 preceding) from department as t0_ order by t0_.department_id asc
+*/
+```
+
 ## Conditional expression {#conditional-expression}
 
 The following functions and expressions are available as conditional expressions:
