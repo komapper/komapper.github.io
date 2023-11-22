@@ -7,7 +7,7 @@ description: 検索のためのクエリ
 
 ## 概要 {#overview}
 
-SELECTクエリは`QueryDsl`の`from`または`with`を呼び出して構築します。
+SELECTクエリは`QueryDsl`の`from`、`with`または`select`を呼び出して構築します。
 
 次のクエリは`ADDRESS`テーブルを全件取得するSQLに対応します。
 

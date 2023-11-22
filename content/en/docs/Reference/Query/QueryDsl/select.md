@@ -7,7 +7,7 @@ description: >
 
 ## Overview {#overview}
 
-SELECT queries are constructed by calling `from` or `with` in `QueryDsl`.
+SELECT queries are constructed by calling `from`, `with`, or `select` on `QueryDsl`.
 
 The following query corresponds to SQL that retrieves all records from the `ADDRESS` table.
 
