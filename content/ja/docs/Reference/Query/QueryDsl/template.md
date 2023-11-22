@@ -51,6 +51,21 @@ val query: Query<List<Address>> = QueryDsl.fromTemplate(sql)
 カラムのラベル名やインデックスで値を取得する関数を持ちます。
 なお、インデックスは0から始まります。
 
+### selectAsEntity
+
+結果を任意のエンティティとして受け取りたい場合は`selectAsEntity`を呼び出します。
+第一引数にはエンティティのメタモデルを指定します。
+SQLテンプレートのSELECT句にはエンティティの全プロパティに対応するカラムが含まれていなければいけません。
+
+次の例では結果を`Address`エンティティとして受け取っています。
+
+```kotlin
+val sql = "select address_id, street, version from ADDRESS where street = /*street*/'test'"
+val query: Query<List<Address>> = QueryDsl.fromTemplate(sql)
+  .bind("street", "STREET 10")
+  .selectAsEntity(a)
+```
+
 ### options {#select-options}
 
 クエリの挙動をカスタマイズするには`options`を呼び出します。

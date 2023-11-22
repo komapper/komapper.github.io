@@ -282,6 +282,20 @@ select t0_.STREET from ADDRESS as t0_ where t0_.ADDRESS_ID in (?, ?) order by t0
 */
 ```
 
+## selectAsEntity
+
+If you want to project the result and receive it as a specific entity, call `selectAsEntity`. Specify the entity's metamodel as the first argument, and the properties to project as the subsequent arguments. The order and type of properties must match the constructor of the entity class.
+
+In the following example, the `EMPLOYEE` table is being queried, but the result is received as an `Address` entity.
+
+```kotlin
+val query: Query<List<Address>> = QueryDsl.from(e)
+    .selectAsEntity(a, e.addressId, e.employeeName, e.version)
+/*
+select t0_.ADDRESS_ID, t0_.EMPLOYEE_NAME, t0_.VERSION from EMPLOYEE as t0_
+*/
+```
+
 ## having
 
 To specify a HAVING clause, call the `having` function:

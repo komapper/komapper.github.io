@@ -53,6 +53,21 @@ The `select` function converts a `Row` to any type using the given lambda expres
 It has functions to retrieve values by column label or index.
 Note that the index starts from 0.
 
+### selectAsEntity
+
+If you want to receive the result as a specific entity, call `selectAsEntity`.
+For the first argument, specify the entity's metamodel.
+The SELECT clause in the SQL template must include columns corresponding to all properties of the entity.
+
+In the following example, the result is received as an `Address` entity.
+
+```kotlin
+val sql = "select address_id, street, version from ADDRESS where street = /*street*/'test'"
+val query: Query<List<Address>> = QueryDsl.fromTemplate(sql)
+  .bind("street", "STREET 10")
+  .selectAsEntity(a)
+```
+
 ### options {#select-options}
 
 To customize the behavior of the query, call the `options` function.

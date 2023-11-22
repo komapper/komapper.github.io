@@ -280,6 +280,22 @@ select t0_.STREET from ADDRESS as t0_ where t0_.ADDRESS_ID in (?, ?) order by t0
 */
 ```
 
+## selectAsEntity
+
+結果を射影して任意のエンティティとして受け取りたい場合は`selectAsEntity`を呼び出します。
+第一引数にはエンティティのメタモデル、第二引数以降には射影するプロパティを指定します。
+プロパティの順番や型はエンティティクラスのコンストラクタに合わせなければいけません。
+
+次の例では`EMPLOYEE`テーブルを検索していますが、結果を`Address`エンティティとして受け取っています。
+
+```kotlin
+val query: Query<List<Address> = QueryDsl.from(e)
+    .selectAsEntity(a, e.addressId, e.employeeName, e.version)
+/*
+select t0_.ADDRESS_ID, t0_.EMPLOYEE_NAME, t0_.VERSION from EMPLOYEE as t0_
+*/
+```
+
 ## having
 
 HAVING句を指定するには`having`を呼び出します。
