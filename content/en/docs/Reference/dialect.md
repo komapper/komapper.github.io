@@ -12,20 +12,20 @@ A typical function of dialects is to resolve the type mappings between Kotlin an
 The classes representing dialects are contained in separate modules (artifacts), 
 and the choice of which module to use must be based on the destination database and connectivity type.
 
-| Database           | Type  |            Artifact ID            |     Dialect Class      |
-|--------------------|:-----:|:---------------------------------:|:----------------------:|
-| H2 Database Engine | JDBC  |     komapper-dialect-h2-jdbc      |    H2JdbcSqlDialect    |
-| H2 Database Engine | R2DBC |     komapper-dialect-h2-r2dbc     |   H2R2dbcSqlDialect    |
-| MariaDB            | JDBC  |   komapper-dialect-mariadb-jdbc   |   MariaDbJdbcDialect   |
-| MariaDB            | R2DBC |  komapper-dialect-mariadb-r2dbc   |  MariaDbR2dbcDialect   |
-| MySQL              | JDBC  |    komapper-dialect-mysql-jdbc    |    MySqlJdbcDialect    |
-| MySQL              | R2DBC |   komapper-dialect-mysql-r2dbc    |   MySqlR2dbcDialect    |
-| Oracle Database    | JDBC  |   komapper-dialect-oracle-jdbc    |   OracleJdbcDialect    |
-| Oracle Database    | R2DBC |   komapper-dialect-oracle-r2dbc   |   OracleR2dbcDialect   |
-| PostgreSQL         | JDBC  | komapper-dialect-postgresql-jdbc  | PostgreSqlJdbcDialect  |
-| PostgreSQL         | R2DBC | komapper-dialect-postgresql-r2dbc | PostgreSqlR2dbcDialect |
-| SQL Server         | JDBC  |  komapper-dialect-sqlserver-jdbc  |  SqlServerJdbcDialect  |
-| SQL Server         | R2DBC | komapper-dialect-sqlserver-r2dbc  | SqlServerR2dbcDialect  |
+| Database           | Type  |            Artifact ID            |     Dialect Class      | Supported Database Version |
+|--------------------|:-----:|:---------------------------------:|:----------------------:|----------------------------|
+| H2 Database Engine | JDBC  |     komapper-dialect-h2-jdbc      |    H2JdbcSqlDialect    | v2.2.222 and above         |
+| H2 Database Engine | R2DBC |     komapper-dialect-h2-r2dbc     |   H2R2dbcSqlDialect    | v2.2.222 and above         |
+| MariaDB            | JDBC  |   komapper-dialect-mariadb-jdbc   |   MariaDbJdbcDialect   | v10.6.3 and above          |
+| MariaDB            | R2DBC |  komapper-dialect-mariadb-r2dbc   |  MariaDbR2dbcDialect   | v10.6.3 and above          |
+| MySQL              | JDBC  |    komapper-dialect-mysql-jdbc    |    MySqlJdbcDialect    | v5.7.x and v8.x            |
+| MySQL              | R2DBC |   komapper-dialect-mysql-r2dbc    |   MySqlR2dbcDialect    | v5.7.x and v8.x            |
+| Oracle Database    | JDBC  |   komapper-dialect-oracle-jdbc    |   OracleJdbcDialect    | v18c and above             |
+| Oracle Database    | R2DBC |   komapper-dialect-oracle-r2dbc   |   OracleR2dbcDialect   | v18c and above             |
+| PostgreSQL         | JDBC  | komapper-dialect-postgresql-jdbc  | PostgreSqlJdbcDialect  | v12.9 and above            |
+| PostgreSQL         | R2DBC | komapper-dialect-postgresql-r2dbc | PostgreSqlR2dbcDialect | v12.9 and above            |
+| SQL Server         | JDBC  |  komapper-dialect-sqlserver-jdbc  |  SqlServerJdbcDialect  | v2019 and above            |
+| SQL Server         | R2DBC | komapper-dialect-sqlserver-r2dbc  | SqlServerR2dbcDialect  | v2019 and above            |
 
 To use a dialect, specify the Artifact ID above in the Gradle dependencies declaration.
 
@@ -184,6 +184,13 @@ The following table shows the data type mapping:
 
 ## MySQL - JDBC
 
+The MySQL Dialect in our system supports both MySQL versions 5 and 8, with the default being version 8.
+To instantiate a Dialect specifically for version 5, you should explicitly specify the version as follows:
+
+```kotlin
+val dialect = MySqlJdbcDialect(MySqlVersion.V5)
+```
+
 The following table shows the data type mapping:
 
 | Kotlin Type                    | SQL Type        | Description                                                                                                                                                               |
@@ -221,6 +228,13 @@ The following table shows the data type mapping:
 | enum class                     | VARCHAR         | Can be customized by [@KomapperEnum]({{< relref "entity-class#komapperenum" >}}) or [komapper.enumStrategy]({{< relref "annotation-processing#komapperenumstrategy" >}}). |
 
 ## MySQL - R2DBC
+
+The MySQL Dialect in our system supports both MySQL versions 5 and 8, with the default being version 8.
+To instantiate a Dialect specifically for version 5, you should explicitly specify the version as follows:
+
+```kotlin
+val dialect = MySqlR2dbcDialect(MySqlVersion.V5)
+```
 
 The following table shows the data type mapping:
 

@@ -12,20 +12,20 @@ description: >
 ダイアレクトを表すクラスは個別のモジュール（Artifact）に含まれており、
 どのモジュールを利用するかは接続先データベースや接続タイプに合わせて選択する必要があります。
 
-| Database           | Type  |            Artifact ID            |     Dialect Class      |
-|--------------------|:-----:|:---------------------------------:|:----------------------:|
-| H2 Database Engine | JDBC  |     komapper-dialect-h2-jdbc      |    H2JdbcSqlDialect    |
-| H2 Database Engine | R2DBC |     komapper-dialect-h2-r2dbc     |   H2R2dbcSqlDialect    |
-| MariaDB            | JDBC  |   komapper-dialect-mariadb-jdbc   |   MariaDbJdbcDialect   |
-| MariaDB            | R2DBC |  komapper-dialect-mariadb-r2dbc   |  MariaDbR2dbcDialect   |
-| MySQL              | JDBC  |    komapper-dialect-mysql-jdbc    |    MySqlJdbcDialect    |
-| MySQL              | R2DBC |   komapper-dialect-mysql-r2dbc    |   MySqlR2dbcDialect    |
-| Oracle Database    | JDBC  |   komapper-dialect-oracle-jdbc    |   OracleJdbcDialect    |
-| Oracle Database    | R2DBC |   komapper-dialect-oracle-r2dbc   |   OracleR2dbcDialect   |
-| PostgreSQL         | JDBC  | komapper-dialect-postgresql-jdbc  | PostgreSqlJdbcDialect  |
-| PostgreSQL         | R2DBC | komapper-dialect-postgresql-r2dbc | PostgreSqlR2dbcDialect |
-| SQL Server         | JDBC  |  komapper-dialect-sqlserver-jdbc  |  SqlServerJdbcDialect  |
-| SQL Server         | R2DBC | komapper-dialect-sqlserver-r2dbc  | SqlServerR2dbcDialect  |
+| Database           | Type  |            Artifact ID            |     Dialect Class      | Supported Database Version |
+|--------------------|:-----:|:---------------------------------:|:----------------------:|----------------------------|
+| H2 Database Engine | JDBC  |     komapper-dialect-h2-jdbc      |    H2JdbcSqlDialect    | v2.2.222 and above         |
+| H2 Database Engine | R2DBC |     komapper-dialect-h2-r2dbc     |   H2R2dbcSqlDialect    | v2.2.222 and above         |
+| MariaDB            | JDBC  |   komapper-dialect-mariadb-jdbc   |   MariaDbJdbcDialect   | v10.6.3 and above          |
+| MariaDB            | R2DBC |  komapper-dialect-mariadb-r2dbc   |  MariaDbR2dbcDialect   | v10.6.3 and above          |
+| MySQL              | JDBC  |    komapper-dialect-mysql-jdbc    |    MySqlJdbcDialect    | v5.7.x and v8.x            |
+| MySQL              | R2DBC |   komapper-dialect-mysql-r2dbc    |   MySqlR2dbcDialect    | v5.7.x and v8.x            |
+| Oracle Database    | JDBC  |   komapper-dialect-oracle-jdbc    |   OracleJdbcDialect    | v18c and above             |
+| Oracle Database    | R2DBC |   komapper-dialect-oracle-r2dbc   |   OracleR2dbcDialect   | v18c and above             |
+| PostgreSQL         | JDBC  | komapper-dialect-postgresql-jdbc  | PostgreSqlJdbcDialect  | v12.9 and above            |
+| PostgreSQL         | R2DBC | komapper-dialect-postgresql-r2dbc | PostgreSqlR2dbcDialect | v12.9 and above            |
+| SQL Server         | JDBC  |  komapper-dialect-sqlserver-jdbc  |  SqlServerJdbcDialect  | v2019 and above            |
+| SQL Server         | R2DBC | komapper-dialect-sqlserver-r2dbc  | SqlServerR2dbcDialect  | v2019 and above            |
 
 ダイアレクトを利用するにはGradleの依存関係の宣言の中で上述のArtifact IDを記述します。
 
