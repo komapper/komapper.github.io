@@ -7,7 +7,7 @@ description: 検索のためのクエリ
 
 ## 概要 {#overview}
 
-SELECTクエリは`QueryDsl`の`from`を呼び出して構築します。これが基本の形となります。
+SELECTクエリは`QueryDsl`の`from`または`with`を呼び出して構築します。
 
 次のクエリは`ADDRESS`テーブルを全件取得するSQLに対応します。
 
@@ -18,7 +18,125 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_
 */
 ```
 
-`from`を呼び出した後、以下に説明するような関数をいくつか呼び出すことでクエリを組み立てます。
+## from
+
+FROM句を指定する場合は`from`を呼び出します。
+`from`にはエンティティメタモデルを指定します。
+
+```kotlin
+val query: Query<List<Address>> = QueryDsl.from(a)
+/*
+select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_
+*/
+```
+
+`from`にはエンティティメタモデルと共にサブクエリを指定できます。
+エンティティメタモデルはサブクエリの結果に対応していなければいけません。
+
+```kotlin
+val e = Meta.employee
+val t = Meta.employeeRank
+
+val subquery = QueryDsl.from(e).select(
+    e.employeeId,
+    e.employeeName,
+    rank().over {
+        partitionBy(e.departmentId)
+        orderBy(e.salary.desc())
+    }
+)
+
+val query = QueryDsl.from(t, subquery)
+    .where {
+        t.rank eq 1
+    }
+    .orderBy(t.employeeId)
+/*
+select t0_.employee_id, t0_.employee_name, t0_.rank from (select t1_.employee_id as employee_id, t1_.employee_name as employee_name, rank() over(partition by t1_.department_id order by t1_.salary desc) as rank from employee as t1_) as t0_ where t0_.rank = ? order by t0_.employee_id asc
+*/
+```
+
+上述の`Meta.employeeRank`に対応するエンティティ定義は次の通りです。
+
+```kotlin
+@KomapperEntity
+data class EmployeeRank(
+    @KomapperId
+    val employeeId: Int,
+    val employeeName: String,
+    val rank: Int,
+)
+```
+
+## with
+
+WITH句を指定する場合は`with`を呼び出します。
+`with`関数には、エンティティメタモデルとサブクエリを指定します。
+エンティティメタモデルはサブクエリの結果に対応していなければいけません。
+
+```kotlin
+val e = Meta.employee
+val t = Meta.employeeRank
+
+val subquery = QueryDsl.from(e).select(
+    e.employeeId,
+    e.employeeName,
+    rank().over {
+        partitionBy(e.departmentId)
+        orderBy(e.salary.desc())
+    }
+)
+
+val query = QueryDsl.with(t, subquery)
+        .from(e)
+        .innerJoin(t) { e.employeeId eq t.employeeId }
+        .where { t.rank eq 1 }
+        .orderBy(e.departmentId)
+        .select(e.departmentId, e.employeeId, e.employeeName)
+/*
+with employee_rank (employee_id, employee_name, rank) as (select t0_.employee_id, t0_.employee_name, rank() over(partition by t0_.department_id order by t0_.salary desc) from employee as t0_) select t0_.department_id, t0_.employee_id, t0_.employee_name from employee as t0_ inner join employee_rank as t1_ on (t0_.employee_id = t1_.employee_id) where t1_.rank = ? order by t0_.department_id asc
+*/
+```
+
+上述の`Meta.employeeRank`に対応するエンティティ定義は次の通りです。
+
+```kotlin
+@KomapperEntity
+data class EmployeeRank(
+    @KomapperId
+    val employeeId: Int,
+    val employeeName: String,
+    val rank: Int,
+)
+```
+
+## withRecursive
+
+WITH RECURSIVE句を指定する場合は`withRecursive`を呼び出します。
+`withRecursive`関数には、エンティティメタモデルとサブクエリを指定します。
+エンティティメタモデルはサブクエリの結果に対応していなければいけません。
+
+```kotlin
+val t = Meta.t
+val subquery =
+    QueryDsl.select(literal(1)).unionAll(
+    QueryDsl.from(t).where { t.n less 10 }.select(t.n + 1),
+)
+val query = QueryDsl.withRecursive(t, subquery).from(t).select(sum(t.n))
+/*
+with recursive t (n) as ((select 1) union all (select (t0_.n + ?) from t as t0_ where t0_.n < ?)) select sum(t0_.n) from t as t0_
+*/
+```
+
+上述の`Meta.t`に対応するエンティティ定義は次の通りです。
+
+```kotlin
+@KomapperEntity
+data class T(
+    @KomapperId(virtual = true)
+    val n: Int,
+)
+```
 
 ## where
 

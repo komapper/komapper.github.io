@@ -7,10 +7,9 @@ description: >
 
 ## Overview {#overview}
 
-The SELECT query is constructed by calling the `QueryDsl.from` function.
-This is the basic form.
+SELECT queries are constructed by calling `from` or `with` in `QueryDsl`.
 
-The following query corresponds to SQL to retrieve all rows from the ADDRESS table:
+The following query corresponds to SQL that retrieves all records from the `ADDRESS` table.
 
 ```kotlin
 val query: Query<List<Address>> = QueryDsl.from(a)
@@ -19,7 +18,125 @@ select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_
 */
 ```
 
-The query is assembled by calling several more functions as follows.
+## from
+
+To specify a FROM clause, call `from`.
+You should specify the entity metamodel for `from`.
+
+```kotlin
+val query: Query<List<Address>> = QueryDsl.from(a)
+/*
+select t0_.ADDRESS_ID, t0_.STREET, t0_.VERSION from ADDRESS as t0_
+*/
+```
+
+With `from`, you can also specify a subquery along with the entity metamodel.
+The entity metamodel must correspond to the result of the subquery.
+
+```kotlin
+val e = Meta.employee
+val t = Meta.employeeRank
+
+val subquery = QueryDsl.from(e).select(
+    e.employeeId,
+    e.employeeName,
+    rank().over {
+        partitionBy(e.departmentId)
+        orderBy(e.salary.desc())
+    }
+)
+
+val query = QueryDsl.from(t, subquery)
+    .where {
+        t.rank eq 1
+    }
+    .orderBy(t.employeeId)
+/*
+select t0_.employee_id, t0_.employee_name, t0_.rank from (select t1_.employee_id as employee_id, t1_.employee_name as employee_name, rank() over(partition by t1_.department_id order by t1_.salary desc) as rank from employee as t1_) as t0_ where t0_.rank = ? order by t0_.employee_id asc
+*/
+```
+
+The entity definition corresponding to the above `Meta.employeeRank` is as follows:
+
+```kotlin
+@KomapperEntity
+data class EmployeeRank(
+    @KomapperId
+    val employeeId: Int,
+    val employeeName: String,
+    val rank: Int,
+)
+```
+
+## with
+
+To specify a WITH clause, call `with`.
+The `with` function requires specifying an entity metamodel and a subquery.
+The entity metamodel must correspond to the result of the subquery.
+
+```kotlin
+val e = Meta.employee
+val t = Meta.employeeRank
+
+val subquery = QueryDsl.from(e).select(
+    e.employeeId,
+    e.employeeName,
+    rank().over {
+        partitionBy(e.departmentId)
+        orderBy(e.salary.desc())
+    }
+)
+
+val query = QueryDsl.with(t, subquery)
+        .from(e)
+        .innerJoin(t) { e.employeeId eq t.employeeId }
+        .where { t.rank eq 1 }
+        .orderBy(e.departmentId)
+        .select(e.departmentId, e.employeeId, e.employeeName)
+/*
+with employee_rank (employee_id, employee_name, rank) as (select t0_.employee_id, t0_.employee_name, rank() over(partition by t0_.department_id order by t0_.salary desc) from employee as t0_) select t0_.department_id, t0_.employee_id, t0_.employee_name from employee as t0_ inner join employee_rank as t1_ on (t0_.employee_id = t1_.employee_id) where t1_.rank = ? order by t0_.department_id asc
+*/
+```
+
+The entity definition corresponding to the above `Meta.employeeRank` is as follows:
+
+```kotlin
+@KomapperEntity
+data class EmployeeRank(
+    @KomapperId
+    val employeeId: Int,
+    val employeeName: String,
+    val rank: Int,
+)
+```
+
+## withRecursive
+
+To specify a WITH RECURSIVE clause, call `withRecursive`.
+The `withRecursive` function requires specifying an entity metamodel and a subquery.
+The entity metamodel must correspond to the result of the subquery.
+
+```kotlin
+val t = Meta.t
+val subquery =
+    QueryDsl.select(literal(1)).unionAll(
+    QueryDsl.from(t).where { t.n less 10 }.select(t.n + 1),
+)
+val query = QueryDsl.withRecursive(t, subquery).from(t).select(sum(t.n))
+/*
+with recursive t (n) as ((select 1) union all (select (t0_.n + ?) from t as t0_ where t0_.n < ?)) select sum(t0_.n) from t as t0_
+*/
+```
+
+The entity definition corresponding to the above `Meta.t` is as follows:
+
+```kotlin
+@KomapperEntity
+data class T(
+    @KomapperId(virtual = true)
+    val n: Int,
+)
+```
 
 ## where
 
