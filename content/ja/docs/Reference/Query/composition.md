@@ -13,10 +13,10 @@ description: >
 
 Komapperにおいて、クエリは以下のクラスのいずれかもしくは両方で表現されます。
 
-org.komapper.core.dsl.query.Query<T>
+`org.komapper.core.dsl.query.Query<T>`
 : `JdbcDatabase`もしくは`R2dbcDatabase`インスタンスを介して実行するとデータベースにアクセスし`T`型の値を返すクエリ。
 
-org.komapper.core.dsl.query.FlowQuery<T>
+`org.komapper.core.dsl.query.FlowQuery<T>`
 : `R2dbcDatabase`インスタンスを介して実行すると`kotlinx.coroutines.flow.Flow<T>`型の値を返すクエリ。データベースアクセスは`Flow`が`collect`されたときに初めて行われます。
 
 これらのうち、合成をサポートしているのは`Query<T>`のみです。
