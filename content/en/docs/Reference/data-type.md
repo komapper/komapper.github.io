@@ -56,6 +56,7 @@ class AgeType : JdbcUserDefinedDataType<Age> {
     }
 
     override fun setValue(ps: PreparedStatement, index: Int, value: Age) {
+        // The second argument must be a type corresponding to the jdbcType property.
         ps.setInt(index, value.value)
     }
 
@@ -96,7 +97,7 @@ class AgeType : R2dbcUserDefinedDataType<Age> {
 
     override val klass: KClass<Age> = Age::class
 
-    override val javaObjectType: Class<*> = Int::class.javaObjectType
+    override val r2dbcType: Class<Int> = Int::class.javaObjectType
 
     override fun getValue(row: Row, index: Int): Age? {
         return row.get(index, Int::class.javaObjectType)?.let { Age(it) }
@@ -107,10 +108,12 @@ class AgeType : R2dbcUserDefinedDataType<Age> {
     }
 
     override fun setValue(statement: Statement, index: Int, value: Age) {
+        // The second argument must be of the same type as the r2dbcType property.
         statement.bind(index, value.value)
     }
 
     override fun setValue(statement: Statement, name: String, value: Age) {
+        // The second argument must be of the same type as the r2dbcType property.
         statement.bind(name, value.value)
     }
 
