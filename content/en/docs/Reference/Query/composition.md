@@ -13,10 +13,10 @@ Queries support composition.
 
 In Komapper, a query is represented by one or both of the following classes.
 
-org.komapper.core.dsl.query.Query<T>
+`org.komapper.core.dsl.query.Query<T>`
 : A query that returns the value of type `T`
 
-org.komapper.core.dsl.query.FlowQuery<T>
+`org.komapper.core.dsl.query.FlowQuery<T>`
 : A query that returns the value of type `kotlinx.coroutines.flow.Flow<T>`
 
 Of these, only `Query<T>` supports composition.
