@@ -42,6 +42,7 @@ Available options are as follows:
 - komapper.alwaysQuote
 - komapper.enableEntityMetamodelListing
 - komapper.enableEntityStoreContext
+- komapper.enableEntityProjection
 
 The options can be specified in the Gradle build script as follows:
 
@@ -55,6 +56,7 @@ ksp {
   arg("komapper.alwaysQuote", "true")
   arg("komapper.enableEntityMetamodelListing", "true")
   arg("komapper.enableEntityStoreContext", "true")
+  arg("komapper.enableEntityProjection", "true")
 }
 ```
 
@@ -157,3 +159,14 @@ tasks {
 ```
 {{< /alert >}}
 
+### komapper.enableEntityProjection
+
+This setting determines whether to enable the projection of query results into entities.
+When enabled, extension functions for both `SelectQuery` and `TemplateSelectQueryBuilder` are generated for all entity classes.
+The default value is `false`.
+
+The name of the extension function will be formed as `selectAs + the simple name of the entity class`,
+like `selectAsAddress`.
+
+If you want to change the name of the extension function or enable projection only for specific entity classes,
+please use the `@KomapperProjection` annotation.

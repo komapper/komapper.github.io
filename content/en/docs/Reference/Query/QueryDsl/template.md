@@ -68,6 +68,33 @@ val query: Query<List<Address>> = QueryDsl.fromTemplate(sql)
   .selectAsEntity(a)
 ```
 
+By default, entities are mapped based on the order of columns in the SELECT list.
+However, by passing `ProjectionType.NAME` as the second argument to `selectAsEntity`, you can map based on the column names.
+
+```kotlin
+val sql = "select street, version, address_id from ADDRESS where street = /*street*/'test'"
+val query: Query<List<Address>> = QueryDsl.fromTemplate(sql)
+  .bind("street", "STREET 10")
+  .selectAsEntity(a, ProjectionType.NAME)
+```
+
+When you annotate the entity class you want to receive as a result with `@KomapperProjection`,
+you can use a dedicated extension function to write your code more concisely as follows:
+
+```kotlin
+val sql = "select address_id, street, version from ADDRESS where street = /*street*/'test'"
+val query: Query<List<Address>> = QueryDsl.fromTemplate(sql)
+  .bind("street", "STREET 10")
+  .selectAsAddress()
+```
+
+```kotlin
+val sql = "select street, version, address_id from ADDRESS where street = /*street*/'test'"
+val query: Query<List<Address>> = QueryDsl.fromTemplate(sql)
+  .bind("street", "STREET 10")
+  .selectAsAddress(ProjectionType.NAME)
+```
+
 ### options {#select-options}
 
 To customize the behavior of the query, call the `options` function.

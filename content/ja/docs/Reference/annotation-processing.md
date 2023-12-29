@@ -41,6 +41,7 @@ dependencies {
 - komapper.alwaysQuote
 - komapper.enableEntityMetamodelListing
 - komapper.enableEntityStoreContext
+- komapper.enableEntityProjection
 
 オプションを指定するにはGradleのビルドスクリプトで次のように記述します。
 
@@ -54,6 +55,7 @@ ksp {
   arg("komapper.alwaysQuote", "true")
   arg("komapper.enableEntityMetamodelListing", "true")
   arg("komapper.enableEntityStoreContext", "true")
+  arg("komapper.enableEntityProjection", "true")  
 }
 ```
 
@@ -152,3 +154,12 @@ tasks {
 ```
 {{< /alert >}}
 
+### komapper.enableEntityProjection
+
+クエリの結果をエンティティへ射影することを有効にするかどうかです。
+有効にすると全てのエンティティクラスについて`SelectQuery`と`TemplateSelectQueryBuilder`の拡張関数が生成されます。
+デフォルト値は`false`です。
+
+拡張関数の名前は`selectAsAddress`のように`selectAs + エンティティクラスの単純名`となります。
+
+拡張関数の名前を変更したり、特定のエンティティクラスについてのみ射影を有効にしたい場合は`@KomapperProjection`を使ってください。

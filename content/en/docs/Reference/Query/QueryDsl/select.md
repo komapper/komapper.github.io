@@ -413,6 +413,22 @@ select t0_.ADDRESS_ID, t0_.EMPLOYEE_NAME, t0_.VERSION from EMPLOYEE as t0_
 */
 ```
 
+When you annotate the entity class you want to receive as a result with `@KomapperProjection`,
+you can use a dedicated extension function to write your code more concisely as follows:
+
+```kotlin
+val e = Meta.employee
+
+val query: Query<List<Address>> = QueryDsl.from(e)
+    .selectAsAddress(
+        version = e.version,
+        addressId = e.addressId,
+        street = e.employeeName,
+    )
+```
+
+Using named arguments, you have the freedom to specify the properties in any order.
+
 ## having
 
 To specify a HAVING clause, call the `having` function:

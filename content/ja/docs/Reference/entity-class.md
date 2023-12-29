@@ -354,6 +354,49 @@ data class AddressDef(
 
 [アノテーションプロセッシングのオプション]({{< relref "annotation-processing#options" >}})も参照ください。
 
+### @KomapperProjection
+
+クエリの結果をエンティティへ射影することを有効にします。
+
+```kotlin
+@KomapperEntity
+@KomapperProjection
+data class Address(
+  ...
+)
+```
+
+`function`プロパティには生成される拡張関数の名前を指定できます。
+指定しない場合、`selectAsAddress`のように`selectAs + エンティティクラスの単純名`となります。
+拡張関数は`SelectQuery`と`TemplateSelectQueryBuilder`に対して生成されます。
+
+`SelectQuery`の拡張関数は次のように利用できます。
+
+```kotlin
+val e = Meta.employee
+
+val query: Query<List<Address>> = QueryDsl.from(e)
+    .where { e.employeeName startsWith "S" }
+    .selectAsAddress(
+        version = e.version,
+        addressId = e.employeeId,
+        street = concat(e.employeeName, " STREET"),
+    )
+```
+
+`TemplateSelectQueryBuilder`の拡張関数は次のように利用できます。
+
+```kotlin
+val sql = "select address_id, street, version from address order by address_id"
+val query: Query<List<Address>> = QueryDsl.fromTemplate(sql).selectAsAddress()
+```
+
+このアノテーションを利用せずに全エンティティクラスについて射影を有効にしたい場合、
+アノテーション処理の`komapper.enableEntityProjection`オプションを利用できます。
+
+[アノテーションプロセッシングのオプション]({{< relref "annotation-processing#options" >}})も参照ください。
+
+
 ## プロパティに付与するアノテーション一覧 {#annotation-list-for-property}
 
 ここで説明するアノテーションは全て`org.komapper.annotation`パッケージに属します。

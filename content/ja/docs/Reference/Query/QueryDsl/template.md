@@ -66,6 +66,33 @@ val query: Query<List<Address>> = QueryDsl.fromTemplate(sql)
   .selectAsEntity(a)
 ```
 
+デフォルトではSELECTリストのカラムの順序でエンティティにマッピングしますが、
+`selectAsEntity`の第二引数に`ProjectionType.NAME`を渡すことでカラムの名前でマッピングできます。
+
+```kotlin
+val sql = "select street, version, address_id from ADDRESS where street = /*street*/'test'"
+val query: Query<List<Address>> = QueryDsl.fromTemplate(sql)
+  .bind("street", "STREET 10")
+  .selectAsEntity(a, ProjectionType.NAME)
+```
+
+結果として受け取りたいエンティティクラスに`@KomapperProjection`を付与している場合、
+専用の拡張関数を使って以下のように簡潔に記述できます。
+
+```kotlin
+val sql = "select address_id, street, version from ADDRESS where street = /*street*/'test'"
+val query: Query<List<Address>> = QueryDsl.fromTemplate(sql)
+  .bind("street", "STREET 10")
+  .selectAsAddress()
+```
+
+```kotlin
+val sql = "select street, version, address_id from ADDRESS where street = /*street*/'test'"
+val query: Query<List<Address>> = QueryDsl.fromTemplate(sql)
+  .bind("street", "STREET 10")
+  .selectAsAddress(ProjectionType.NAME)
+```
+
 ### options {#select-options}
 
 クエリの挙動をカスタマイズするには`options`を呼び出します。

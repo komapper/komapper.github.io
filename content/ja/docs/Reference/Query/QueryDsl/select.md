@@ -414,6 +414,22 @@ select t0_.ADDRESS_ID, t0_.EMPLOYEE_NAME, t0_.VERSION from EMPLOYEE as t0_
 */
 ```
 
+結果として受け取りたいエンティティクラスに`@KomapperProjection`を付与している場合、
+専用の拡張関数を使って以下のように簡潔に記述できます。
+
+```kotlin
+val e = Meta.employee
+
+val query: Query<List<Address>> = QueryDsl.from(e)
+    .selectAsAddress(
+        version = e.version,
+        addressId = e.addressId,
+        street = e.employeeName,
+    )
+```
+
+名前つき引数を使えばプロパティを指定する順番は自由です。
+
 ## having
 
 HAVING句を指定するには`having`を呼び出します。

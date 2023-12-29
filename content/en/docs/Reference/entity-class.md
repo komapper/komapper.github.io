@@ -361,6 +361,48 @@ If the table name is not specified in this annotation,
 the name will be resolved according to the `komapper.namingStrategy` option in the annotation process.
 See also [Options]({{< relref "annotation-processing#options" >}}).
 
+### @KomapperProjection
+
+Enables projecting the results of a query into an entity.
+
+```kotlin
+@KomapperEntity
+@KomapperProjection
+data class Address(
+  ...
+)
+```
+
+The `function` property allows you to specify the name of the generated extension function.
+If not specified, the name will be `selectAs + the simple name of the entity class`, like `selectAsAddress`.
+The extension function is generated for both `SelectQuery` and `TemplateSelectQueryBuilder`.
+
+The extension function for `SelectQuery` can be used as follows:
+
+```kotlin
+val e = Meta.employee
+
+val query: Query<List<Address>> = QueryDsl.from(e)
+    .where { e.employeeName startsWith "S" }
+    .selectAsAddress(
+        version = e.version,
+        addressId = e.employeeId,
+        street = concat(e.employeeName, " STREET"),
+    )
+```
+
+The extension function for `TemplateSelectQueryBuilder` can be used as follows:
+
+```kotlin
+val sql = "select address_id, street, version from address order by address_id"
+val query: Query<List<Address>> = QueryDsl.fromTemplate(sql).selectAsAddress()
+```
+
+If you want to enable projection for all entity classes without using this annotation,
+you can use the `komapper.enableEntityProjection` option in the annotation processing.
+
+See also [Options]({{< relref "annotation-processing#options" >}}).
+
 ## List of annotations for properties {#annotation-list-for-property}
 
 All annotations described here belong to the `org.komapper.annotation` package.
