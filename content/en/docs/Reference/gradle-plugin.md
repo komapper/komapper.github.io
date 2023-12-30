@@ -41,7 +41,7 @@ buildscript {
 
 // Declare the use of the Komapper plugin
 plugins {
-  id("org.komapper.gradle") version "1.15.0"
+  id("org.komapper.gradle") version "1.16.0"
 }
 
 // Configure settings related to the Komapper plugin
