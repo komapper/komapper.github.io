@@ -895,7 +895,7 @@ select t0_.department_name, (select count(*) from employee as t1_ where t0_.depa
 
 ## Literals {#literal}
 
-To embed a value directly into SQL as a literal without binding variable, call the `literal` function.
+To embed a value directly into SQL as a literal without binding variable, call the `literal` function or `nullLiteral` function.
 
 These functions are defined in `org.komapper.core.dsl.operator`.
 
@@ -916,6 +916,19 @@ QueryDsl.insert(a).values {
 }
 /*
 insert into ADDRESS (ADDRESS_ID, STREET, VERSION) values (?, 'STREET 100', 100)
+*/
+```
+
+To use a null literal, call the `nullLiteral` function:
+
+```kotlin
+QueryDsl.insert(a).values {
+  a.addressId eq 100
+  a.street eq nullLiteral(String::class)
+  a.version eq nullLiteral(Long::class)
+}
+/*
+insert into ADDRESS (ADDRESS_ID, STREET, VERSION) values (?, null, null)
 */
 ```
 

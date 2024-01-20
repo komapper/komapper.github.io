@@ -891,9 +891,9 @@ select t0_.department_name, (select count(*) from employee as t1_ where t0_.depa
 
 ## リテラル {#literal}
 
-バインド変数を介さず直接値をリテラルとしてSQLに埋め込みたい場合は`literal`を呼び出します。
+バインド変数を介さず直接値をリテラルとしてSQLに埋め込みたい場合は`literal`または`nullLiteral`を呼び出します。
 
-`literal`関数は`org.komapper.core.dsl.operator`に定義されています。
+`literal`関数と`nullLiteral`関数は`org.komapper.core.dsl.operator`に定義されています。
 
 `literal`関数がサポートする引数の型は以下のものです。
 
@@ -912,6 +912,19 @@ QueryDsl.insert(a).values {
 }
 /*
 insert into ADDRESS (ADDRESS_ID, STREET, VERSION) values (?, 'STREET 100', 100)
+*/
+```
+
+nullリテラルを使うには`nullLiteral`関数を呼び出します。
+
+```kotlin
+QueryDsl.insert(a).values {
+  a.addressId eq 100
+  a.street eq nullLiteral(String::class)
+  a.version eq nullLiteral(Long::class)
+}
+/*
+insert into ADDRESS (ADDRESS_ID, STREET, VERSION) values (?, null, null)
 */
 ```
 
