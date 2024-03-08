@@ -346,7 +346,7 @@ select
   name
 from
   employee
-where /*%! This comment will be removed */
+where /*%! このコメントは削除されます */
   employee_id = /* employeeId */99
 ```
 

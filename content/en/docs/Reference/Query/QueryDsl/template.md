@@ -371,13 +371,13 @@ The special variable returns a boolean value indicating whether the next iterati
 The name of the special variable is a concatenation of the identifier and `_has_next`.
 In the above example, the name of the special variable is `name_has_next`.
 
-### end directive {#sql-template-end-directive}
+### end directives {#sql-template-end-directive}
 
 To end conditional branching and loop processing, use end directives.
 
 End directives are SQL comments expressed as `/*%end*/`.
 
-### parser-level comment directives {#sql-template-parser-level-comment-directive}
+### Parser-level comment directives {#sql-template-parser-level-comment-directive}
 
 Using a parser-level comment directive allows you to include comments in an SQL template 
 that will be removed after the template is parsed.
