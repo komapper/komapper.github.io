@@ -622,6 +622,15 @@ select count(t0_.STREET) from ADDRESS as t0_
 */
 ```
 
+count distinct は`countDistinct`関数で表現できます。
+
+```kotlin
+QueryDsl.from(a).select(countDistinct(a.street))
+/*
+select count(distinct t0_.STREET) from ADDRESS as t0_
+*/
+```
+
 ### sum {#aggregate-function-sum}
 
 ```kotlin
