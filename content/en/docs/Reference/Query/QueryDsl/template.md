@@ -377,6 +377,35 @@ To end conditional branching and loop processing, use end directives.
 
 End directives are SQL comments expressed as `/*%end*/`.
 
+### parser-level comment directives {#sql-template-parser-level-comment-directive}
+
+Using a parser-level comment directive allows you to include comments in an SQL template 
+that will be removed after the template is parsed.
+
+To express parser-level comments, you can use the syntax `/*%! comment */`.
+
+Suppose you have the following SQL template:
+
+```sql
+select
+  name
+from
+  employee
+where /*%! This comment will be removed */
+  employee_id = /* employeeId */99
+```
+
+The above SQL template is parsed into the following SQL:
+
+```sql
+select
+  name
+from 
+  employee
+where
+  employee_id = ?
+```
+
 ### Expressions {#sql-template-expression}
 
 Expressions in the directives can perform the following:

@@ -333,6 +333,34 @@ employee_name like /* name */'hoge'
 
 endディレクティブは`/*%end*/`というSQLコメントで表現されます。
 
+### パーサーレベルのコメントディレクティブ {#sql-template-parser-level-comment-directive}
+
+パーサーレベルのコメントディレクティブを使用すると、SQLテンプレートが解析された後にコメントを削除できます。
+
+パーサーレベルのコメントを表現するには、`/*%! コメント */` という構文を使います。
+
+次のようなSQLテンプレートがあるとします。
+
+```sql
+select
+  name
+from
+  employee
+where /*%! This comment will be removed */
+  employee_id = /* employeeId */99
+```
+
+上記のSQLテンプレートは、次のSQLへと解析されます。
+
+```sql
+select
+  name
+from 
+  employee
+where
+  employee_id = ?
+```
+
 ### 式 {#sql-template-expression}
 
 ディレクティブ内で参照される式の中では以下の機能がサポートされています。
