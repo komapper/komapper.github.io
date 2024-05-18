@@ -15,6 +15,10 @@ Annotating an entity class (or entity definition class) with a dedicated annotat
 generates a utility function for navigating association objects.
 
 {{< alert title="Note" >}}
+Sets returned by the Association API preserve the order of elements.
+{{< /alert >}}
+
+{{< alert title="Note" >}}
 The Association API is an experimental feature.
 To use it, add the following code to your Gradle build script:
 

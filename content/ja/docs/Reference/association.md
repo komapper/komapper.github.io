@@ -14,6 +14,10 @@ Association APIは、 [include]({{< relref "Query/QueryDsl/select#include" >}})
 関連オブジェクトの走査のためのユーティリティ関数が生成されます。
 
 {{< alert title="Note" >}}
+Association APIから返されるSetは要素の順序を保持します。
+{{< /alert >}}
+
+{{< alert title="Note" >}}
 Association APIは実験的な機能です。
 利用するには、以下のコードをGradleのビルドスクリプトに追加してください。
 
