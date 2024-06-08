@@ -14,12 +14,12 @@ To run KSP, you need to configure your Gradle build script as follows:
 
 ```kotlin
 plugins {
-  id("com.google.devtools.ksp") version "1.9.24-1.0.20"
-  kotlin("jvm") version "1.9.24"
+  id("com.google.devtools.ksp") version "2.0.0-1.0.22"
+  kotlin("jvm") version "2.0.0"
 }
 
 dependencies {
-  val komapperVersion = "1.18.0"
+  val komapperVersion = "1.18.1"
   ksp("org.komapper:komapper-processor:$komapperVersion")
 }
 ```
