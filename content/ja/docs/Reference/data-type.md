@@ -38,11 +38,13 @@ import java.sql.JDBCType
 import java.sql.PreparedStatement
 import java.sql.ResultSet
 import kotlin.reflect.KClass
+import kotlin.reflect.KType
+import kotlin.reflect.typeOf
 
 class AgeType : JdbcUserDefinedDataType<Age> {
     override val name: String = "integer"
 
-    override val klass: KClass<Age> = Age::class
+    override val klass: KType = typeOf<Age>()
 
     override val jdbcType: JDBCType = JDBCType.INTEGER
 
@@ -89,12 +91,13 @@ import io.r2dbc.spi.Row
 import io.r2dbc.spi.Statement
 import org.komapper.r2dbc.spi.R2dbcUserDefinedDataType
 import kotlin.reflect.KClass
+import kotlin.reflect.typeOf
 
 class AgeType : R2dbcUserDefinedDataType<Age> {
 
     override val name: String = "integer"
 
-    override val klass: KClass<Age> = Age::class
+    override val type: KType = typeOf<Age>()
 
     override val r2dbcType: Class<Int> = Int::class.javaObjectType
 
@@ -154,10 +157,12 @@ package example
 
 import org.komapper.core.spi.DataTypeConverter
 import kotlin.reflect.KClass
+import kotlin.reflect.KType
+import kotlin.reflect.typeOf
 
 class PhoneNumberTypeConverter : DataTypeConverter<PhoneNumber, Int> {
-    override val exteriorClass: KClass<PhoneNumber> = PhoneNumber::class
-    override val interiorClass: KClass<Int> = Int::class
+    override val exteriorType: KType = typeOf<PhoneNumber>()
+    override val interiorType: KType = typeOf<Int>()
 
     override fun unwrap(exterior: PhoneNumber): Int {
         return exterior.value

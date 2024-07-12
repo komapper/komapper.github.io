@@ -39,11 +39,13 @@ import java.sql.JDBCType
 import java.sql.PreparedStatement
 import java.sql.ResultSet
 import kotlin.reflect.KClass
+import kotlin.reflect.KType
+import kotlin.reflect.typeOf
 
 class AgeType : JdbcUserDefinedDataType<Age> {
     override val name: String = "integer"
 
-    override val klass: KClass<Age> = Age::class
+    override val klass: KType = typeOf<Age>()
 
     override val jdbcType: JDBCType = JDBCType.INTEGER
 
@@ -56,7 +58,7 @@ class AgeType : JdbcUserDefinedDataType<Age> {
     }
 
     override fun setValue(ps: PreparedStatement, index: Int, value: Age) {
-        // The second argument must be a type corresponding to the jdbcType property.
+        // 第二引数はjdbcTypeプロパティに対応する型でなければいけません
         ps.setInt(index, value.value)
     }
 
@@ -90,12 +92,13 @@ import io.r2dbc.spi.Row
 import io.r2dbc.spi.Statement
 import org.komapper.r2dbc.spi.R2dbcUserDefinedDataType
 import kotlin.reflect.KClass
+import kotlin.reflect.typeOf
 
 class AgeType : R2dbcUserDefinedDataType<Age> {
 
     override val name: String = "integer"
 
-    override val klass: KClass<Age> = Age::class
+    override val type: KType = typeOf<Age>()
 
     override val r2dbcType: Class<Int> = Int::class.javaObjectType
 
@@ -108,12 +111,12 @@ class AgeType : R2dbcUserDefinedDataType<Age> {
     }
 
     override fun setValue(statement: Statement, index: Int, value: Age) {
-        // The second argument must be of the same type as the r2dbcType property.
+        // 第二引数はr2dbcTypeプロパティと同じ型でなければいけません
         statement.bind(index, value.value)
     }
 
     override fun setValue(statement: Statement, name: String, value: Age) {
-        // The second argument must be of the same type as the r2dbcType property.
+        // 第二引数はr2dbcTypeプロパティと同じ型でなければいけません
         statement.bind(name, value.value)
     }
 
@@ -155,10 +158,12 @@ package example
 
 import org.komapper.core.spi.DataTypeConverter
 import kotlin.reflect.KClass
+import kotlin.reflect.KType
+import kotlin.reflect.typeOf
 
 class PhoneNumberTypeConverter : DataTypeConverter<PhoneNumber, Int> {
-    override val exteriorClass: KClass<PhoneNumber> = PhoneNumber::class
-    override val interiorClass: KClass<Int> = Int::class
+    override val exteriorType: KType = typeOf<PhoneNumber>()
+    override val interiorType: KType = typeOf<Int>()
 
     override fun unwrap(exterior: PhoneNumber): Int {
         return exterior.value
