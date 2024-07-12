@@ -1015,7 +1015,7 @@ order by
 以下の例では、`replace`関数を定義します。
 
 ```kotlin
-private fun <T: Any> replace(
+private inline fun <reified T : Any> replace(
     expression: ColumnExpression<T, String>,
     from: T,
     to: T,

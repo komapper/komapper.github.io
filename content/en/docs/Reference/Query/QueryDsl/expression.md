@@ -1024,7 +1024,7 @@ and a lambda expression to generate SQL to `columnExpression`.
 In the example below, the `replace` function is defined:
 
 ```kotlin
-private fun <T: Any> replace(
+private inline fun <reified T : Any> replace(
     expression: ColumnExpression<T, String>,
     from: T,
     to: T,
