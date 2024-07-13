@@ -108,6 +108,10 @@ PostgreSQLのDialectを使う場合は次のようなSQLになります。
 insert into ADDRESS as t0_ (ADDRESS_ID, STREET, VERSION) values (?, ?, ?) on conflict (ADDRESS_ID) do nothing
 ```
 
+{{< alert color="warning" title="Warning" >}}
+auto increment カラムは重複しません。
+{{< /alert >}}
+
 ### executeAndGet {#onduplicatekeyignore-executeandget}
 
 `onDuplicateKeyIgnore`に続けて`executeAndGet`を呼び出した場合、戻り値は追加されたデータを表すエンティティです。
@@ -150,6 +154,10 @@ insert into DEPARTMENT as t0_ (DEPARTMENT_ID, DEPARTMENT_NO, DEPARTMENT_NAME, LO
 
 {{< alert color="warning" title="Warning" >}}
 更新される行に楽観的ロックは適用されません。
+{{< /alert >}}
+
+{{< alert color="warning" title="Warning" >}}
+auto increment カラムは重複しません。
 {{< /alert >}}
 
 ### executeAndGet {#onduplicatekeyupdate-executeandget}

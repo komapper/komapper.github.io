@@ -111,6 +111,10 @@ When using PostgreSQL's Dialect, the SQL would be as follows:
 insert into ADDRESS as t0_ (ADDRESS_ID, STREET, VERSION) values (?, ?, ?) on conflict (ADDRESS_ID) do nothing
 ```
 
+{{< alert color="warning" title="Warning" >}}
+Auto-incremented columns never duplicate.
+{{< /alert >}}
+
 ### executeAndGet {#onduplicatekeyignore-executeandget}
 
 If the `executeAndGet` function is called following the `onDuplicateKeyIgnore` function, 
@@ -158,6 +162,10 @@ insert into DEPARTMENT as t0_ (DEPARTMENT_ID, DEPARTMENT_NO, DEPARTMENT_NAME, LO
 
 {{< alert color="warning" title="Warning" >}}
 Optimistic locking is not applied to the rows to be updated.
+{{< /alert >}}
+
+{{< alert color="warning" title="Warning" >}}
+Auto-incremented columns never duplicate.
 {{< /alert >}}
 
 ### executeAndGet {#onduplicatekeyupdate-executeandget}
