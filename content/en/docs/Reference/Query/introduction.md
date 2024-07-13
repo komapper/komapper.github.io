@@ -18,8 +18,8 @@ val query: Query<List<Address>> = QueryDsl.from(a)
 val result: List<Address> = db.runQuery { query }
 ```
 
-In the above example, a singleton Query DSL is used, 
-but Query DSL can also be instantiated. 
+In the above example, a singleton `QueryDSL` is used, 
+but `QueryDSL` can also be instantiated. 
 Instantiation is useful when you want to share query options 
 among queries generated from the same instance.
 

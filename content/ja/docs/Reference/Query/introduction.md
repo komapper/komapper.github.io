@@ -17,7 +17,7 @@ val query: Query<List<Address>> = QueryDsl.from(a)
 val result: List<Address> = db.runQuery { query }
 ```
 
-上述の例ではシングルトンの Query DSL を利用していますが、 Query DSL はインスタンス化することもできます。
+上述の例ではシングルトンの `QueryDSL` を利用していますが、 `QueryDSL` はインスタンス化することもできます。
 インスタンス化は、同一のインスタンスから生成するクエリ間でクエリのオプションを共有する場合に有用です。
 
 ```kotlin
