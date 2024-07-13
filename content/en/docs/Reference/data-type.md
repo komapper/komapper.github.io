@@ -58,7 +58,7 @@ class AgeType : JdbcUserDefinedDataType<Age> {
     }
 
     override fun setValue(ps: PreparedStatement, index: Int, value: Age) {
-        // 第二引数はjdbcTypeプロパティに対応する型でなければいけません
+        // The second argument must correspond to the type of the jdbcType property.
         ps.setInt(index, value.value)
     }
 
