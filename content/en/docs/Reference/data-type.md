@@ -45,7 +45,7 @@ import kotlin.reflect.typeOf
 class AgeType : JdbcUserDefinedDataType<Age> {
     override val name: String = "integer"
 
-    override val klass: KType = typeOf<Age>()
+    override val type: KType = typeOf<Age>()
 
     override val jdbcType: JDBCType = JDBCType.INTEGER
 
