@@ -17,6 +17,18 @@ val query: Query<List<Address>> = QueryDsl.from(a)
 val result: List<Address> = db.runQuery { query }
 ```
 
+上述の例ではシングルトンの Query DSL を利用していますが、 Query DSL はインスタンス化することもできます。
+インスタンス化は、同一のインスタンスから生成するクエリ間でクエリのオプションを共有する場合に有用です。
+
+```kotlin
+// instantiate a QueryDSL
+val myDsl = QueryDsl(selectOptions = SelectOptions(queryTimeoutSeconds = 10))
+
+// share the query options
+val query1: Query<List<Address>> = myDsl.from(a)
+val query2: Query<List<Employee>> = myDsl.from(e)
+```
+
 ## 前提条件 {#prerequisites}
 
 [クエリ]({{< relref "../Query" >}}) の下位ページでは、下記のエンティティ定義、マッピング定義、変数が存在することを前提に説明をします。

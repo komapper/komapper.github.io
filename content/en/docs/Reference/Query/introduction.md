@@ -18,6 +18,20 @@ val query: Query<List<Address>> = QueryDsl.from(a)
 val result: List<Address> = db.runQuery { query }
 ```
 
+In the above example, a singleton Query DSL is used, 
+but Query DSL can also be instantiated. 
+Instantiation is useful when you want to share query options 
+among queries generated from the same instance.
+
+```kotlin
+// instantiate a QueryDSL
+val myDsl = QueryDsl(selectOptions = SelectOptions(queryTimeoutSeconds = 10))
+
+// share the query options
+val query1: Query<List<Address>> = myDsl.from(a)
+val query2: Query<List<Employee>> = myDsl.from(e)
+```
+
 ## Prerequisites {#prerequisites}
 
 The pages under [Queries]({{< relref "../Query" >}}) assume that
