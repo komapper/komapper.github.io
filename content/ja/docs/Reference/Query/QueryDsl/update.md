@@ -71,6 +71,12 @@ update DEPARTMENT set DEPARTMENT_NAME = ?, VERSION = ? + 1 where DEPARTMENT_ID =
 */
 ```
 
+`include`関数の呼び出しに関係なく、 以下のアノテーションで注釈されたプロパティは常に更新対象に含まれます。
+
+- `@KomapperVersion`
+- `@KomapperUpdatedAt`
+
+
 ## exclude {#exclude}
 
 [single]({{< relref "#single" >}}) や [batch]({{< relref "#batch" >}})
@@ -83,6 +89,11 @@ val query: Query<Department> = QueryDsl.update(d).exclude(d.departmentName).sing
 update DEPARTMENT set DEPARTMENT_NO = ?, LOCATION = ?, VERSION = ? + 1 where DEPARTMENT_ID = ? and VERSION = ?
 */
 ```
+
+`exclude`関数の呼び出しに関係なく、 以下のアノテーションで注釈されたプロパティは常に更新対象に含まれます。
+
+- `@KomapperVersion`
+- `@KomapperUpdatedAt`
 
 ## set {#set}
 

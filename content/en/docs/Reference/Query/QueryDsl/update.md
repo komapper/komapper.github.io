@@ -75,6 +75,11 @@ update DEPARTMENT set DEPARTMENT_NAME = ?, VERSION = ? + 1 where DEPARTMENT_ID =
 */
 ```
 
+Properties annotated with the following annotations will always be included in the update target, regardless of the call to the `include` function:
+
+- `@KomapperVersion`
+- `@KomapperUpdatedAt`
+
 ## exclude {#exclude}
 
 To exclude specific properties from being updated 
@@ -88,6 +93,11 @@ val query: Query<Department> = QueryDsl.update(d).exclude(d.departmentName).sing
 update DEPARTMENT set DEPARTMENT_NO = ?, LOCATION = ?, VERSION = ? + 1 where DEPARTMENT_ID = ? and VERSION = ?
 */
 ```
+
+Properties annotated with the following annotations will always be included in the update target, regardless of the call to the `exclude` function:
+
+- `@KomapperVersion`
+- `@KomapperUpdatedAt`
 
 ## set {#set}
 
