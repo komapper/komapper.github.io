@@ -190,6 +190,148 @@ suppressLogging
 Properties explicitly set here will be used in preference to properties with the same name that exist
 in [executionOptions]({{< relref "../../database-config/#executionoptions" >}}).
 
+## Command {#command}
+
+A command is a feature that treats an SQL template and parameters as a single unit. You define an SQL template by annotating a class with the `org.komapper.annotation.KomapperCommand` annotation, and define the parameters in the class properties. How the SQL result is handled is expressed by inheriting from a specific class.
+
+Below is an example of a command that retrieves multiple records.
+
+```kotlin
+@KomapperCommand("""
+    select * from ADDRESS where street = /*street*/'test'
+""")
+class ListAddresses(val street: String): Many<Address>({ selectAsAddress() })
+```
+
+When you define a command and run the build, an extension function named `execute` is generated in the `QueryDsl`. Therefore, the above command can be executed as follows:
+
+```kotlin
+val query: Query<List<Address>> = QueryDsl.execute(ListAddresses("STREET 10"))
+```
+
+Commands have the advantage of enabling SQL template validation at compile time compared to using methods like [fromTemplate]({{< relref "#fromtemplate" >}}) or [executeTemplate]({{< relref "#executetemplate" >}}). Specifically, the following can be achieved:
+
+- Detect syntax errors in SQL templates. For example, if `/*%end*/` is missing, a compile-time error occurs.
+- Detect unused parameters. If unused parameters are found, a warning message is output. You can suppress this warning by annotating the parameter with `org.komapper.annotation.KomapperUnused`.
+- Validate the types and members of parameters. For instance, if `name` is a parameter of type `String`, attempting to access a non-existent member in the SQL template like `/* name.unknown */` will result in a compile-time error.
+
+{{< alert title="Note" >}}
+A command class can be defined as a top-level class, a nested class, or an inner class, but not as a local class.
+{{< /alert >}}
+
+There are five types of commands:
+
+- One
+- Many
+- Exec
+- ExecReturnOne
+- ExecReturnMany
+
+### One {#command-one}
+
+A command that retrieves a single record inherits from `org.komapper.core.One`.
+
+```kotlin
+@KomapperCommand("""
+    select * from ADDRESS where address_id = /*id*/0
+""")
+class GetAddressById(val id: Int): One<Address?>({ selectAsAddress().singleOrNull() })
+```
+
+The type parameter of `One` specifies the type of the value to be retrieved. The constructor of `One` takes a lambda expression to process the search result. What can be done within the lambda is the same as the `select` and `selectAsEntity` functions mentioned in [fromTemplate]({{< relref "#fromtemplate" >}}).
+
+The above example assumes that the `Address` class is annotated with `@KomapperProjection`. Therefore, the `selectAsAddress` function is used to convert the result to the `Address` class.
+
+### Many {#command-many}
+
+A command that retrieves multiple records inherits from `org.komapper.core.Many`.
+
+```kotlin
+@KomapperCommand("""
+    select * from ADDRESS where street = /*street*/'test'
+""")
+class ListAddresses(val street: String): Many<Address>({ selectAsAddress() })
+```
+
+The type parameter of `Many` specifies the type representing a single record to be retrieved. The constructor of `Many` takes a lambda expression to process the search result. What can be done within the lambda is the same as the `select` and `selectAsEntity` functions mentioned in [fromTemplate]({{< relref "#fromtemplate" >}}).
+
+The above example assumes that the `Address` class is annotated with `@KomapperProjection`. Therefore, the `selectAsAddress` function is used to convert the result to the `Address` class.
+
+### Exec {#command-exec}
+
+A command that executes an update DML inherits from `org.komapper.core.Exec`.
+
+```kotlin
+@KomapperCommand("""
+    update ADDRESS set street = /*street*/'' where address_id = /*id*/0
+""")
+class UpdateAddress(val id: Int, val street: String): Exec()
+```
+
+### ExecReturnOne {#command-exec-return-one}
+
+A command that executes an update DML and returns a single record inherits from `org.komapper.core.ExecReturnOne`.
+
+```kotlin
+@KomapperCommand("""
+    insert into ADDRESS
+        (address_id, street, version)
+    values
+        (/* id */0, /* street */'', /* version */1)
+    returning address_id, street, version
+""")
+class InsertAddressThenReturn(val id: Int, val street: String): ExecReturnOne<Address>({ selectAsAddress().single() })
+```
+
+The type parameter and constructor of `ExecReturnOne` are similar to those of [One]({{< relref "#command-one" >}}).
+
+### ExecReturnMany {#command-exec-return-many}
+
+A command that executes an update DML and returns multiple records inherits from `org.komapper.core.ExecReturnMany`.
+
+```kotlin
+@KomapperCommand("""
+    update ADDRESS set street = /*street*/'' returning address_id, street, version
+""")
+class UpdateAddressThenReturn(val id: Int, val street: String): ExecReturnMany<Address>({ selectAsAddress() })
+```
+
+The type parameter and constructor of `ExecReturnMany` are similar to those of [Many]({{< relref "#command-many" >}}).
+
+### Partial {#command-partial}
+
+Partial is a feature for reusing parts of an SQL template.
+A partial is defined as a top-level `const` with the `org.komapper.annotation.KomapperPartial` annotation.
+
+```kotlin
+@KomapperPartial(
+    """
+    /*%if pagination != null */
+    limit /* pagination.limit */0 offset /*pagination.offset*/0
+    /*%end*/
+    """,
+)
+private const val paginationPartial = ""
+```
+
+To use a partial, define the command in the same file where the partial is defined, and reference the partial in the SQL template using the `/*> partialName */` notation.
+
+```kotlin
+@KomapperCommand(
+    """
+    select * from address order by address_id
+    /*> paginationPartial */
+    """,
+)
+class UsePartial(val pagination: Pagination?) : Many<Address>({ selectAsAddress() })
+
+class Pagination(val limit: Int, val offset: Int)
+```
+
+{{< alert title="Note" >}}
+One partial cannot reference another partial.
+{{< /alert >}}
+
 ## SQL templates  {#sql-template}
 
 In SQL template, directives such as bind variables and conditional branches are expressed as SQL comments.
