@@ -170,7 +170,7 @@ val sql = """
         (/*id*/0, /*street*/'', /*version*/0)
     returning address_id, street, version
 """.trimIndent()
-QueryDsl.executeTemplate(sql)
+val query: Query<Address> = QueryDsl.executeTemplate(sql)
     .returning()
     .bind("id", 16)
     .bind("street", "NY street")
