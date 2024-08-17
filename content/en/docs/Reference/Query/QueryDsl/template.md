@@ -158,6 +158,37 @@ The `bind` function binds a value to a [bind variable directive]({{< relref "#sq
 If a duplicate key is detected during query execution,
 the `org.komapper.core.UniqueConstraintException` is thrown.
 
+### returning {#executeTemplate-returning}
+
+By using the `returning` function, you can execute an update DML and also retrieve the results. After executing the `returning` function, you can use the `select` and `selectAsEntity` functions mentioned in [fromTemplate]({{< relref "#fromtemplate" >}}).
+
+```kotlin
+val sql = """
+    insert into address
+        (address_id, street, version)
+    values
+        (/*id*/0, /*street*/'', /*version*/0)
+    returning address_id, street, version
+""".trimIndent()
+QueryDsl.executeTemplate(sql)
+    .returning()
+    .bind("id", 16)
+    .bind("street", "NY street")
+    .bind("version", 1)
+    .select { row: Row ->
+        Address(
+            row.getNotNull("address_id"),
+            row.getNotNull("street"),
+            row.getNotNull("version")
+        )
+    }
+    .single()
+```
+
+{{< alert title="Note" >}}
+The above SQL template uses the RETURNING clause, which is supported by PostgreSQL and other databases. Please note that the SQL for returning results from update DML varies depending on the DBMS.
+{{< /alert >}}
+
 ### options {#execute-options}
 
 To customize the behavior of the query, call the `options` function.

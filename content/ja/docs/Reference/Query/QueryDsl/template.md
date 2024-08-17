@@ -151,6 +151,38 @@ val query: Query<Long> = QueryDsl.executeTemplate(sql)
     .bind("street", "NY street")
 ```
 
+### returning {#executeTemplate-returning}
+
+`returning`関数を使うことで、更新系のDMLを実行しかつ結果を取得できます。
+`returning`関数実行後は、[fromTemplate]({{< relref "#fromtemplate" >}})で言及した`select`関数や`selectAsEntity`関数が利用できます。
+
+```kotlin
+val sql = """
+    insert into address
+        (address_id, street, version)
+    values
+        (/*id*/0, /*street*/'', /*version*/0)
+    returning address_id, street, version
+""".trimIndent()
+QueryDsl.executeTemplate(sql)
+    .returning()
+    .bind("id", 16)
+    .bind("street", "NY street")
+    .bind("version", 1)
+    .select { row: Row ->
+        Address(
+            row.getNotNull("address_id"),
+            row.getNotNull("street"),
+            row.getNotNull("version")
+        )
+    }
+    .single()
+```
+
+{{< alert title="Note" >}}
+上述のSQLテンプレートではPostgreSQLなどでサポートされているRETURNING句を使用していますが、 更新系のDMLから結果を返すSQLはDBMSごとに異なることに注意ください。
+{{< /alert >}}
+
 ### options {#execute-options}
 
 クエリの挙動をカスタマイズするには`options`を呼び出します。
