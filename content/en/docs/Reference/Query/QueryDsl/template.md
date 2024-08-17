@@ -221,7 +221,7 @@ suppressLogging
 Properties explicitly set here will be used in preference to properties with the same name that exist
 in [executionOptions]({{< relref "../../database-config/#executionoptions" >}}).
 
-## Command {#command}
+## Commands {#command}
 
 A command is a feature that treats an SQL template and parameters as a single unit. You define an SQL template by annotating a class with the `org.komapper.annotation.KomapperCommand` annotation, and define the parameters in the class properties. How the SQL result is handled is expressed by inheriting from a specific class.
 
