@@ -125,7 +125,7 @@ Applications can use the metamodel to construct queries in a type-safe manner:
 val a = Meta.address
 
 // define a query
-val query = QueryDsl.from(e).where { a.street eq "STREET 101" }.orderBy(a.id)
+val query = QueryDsl.from(a).where { a.street eq "STREET 101" }.orderBy(a.id)
 ```
 
 ### Immutable and composable queries {#immutable-and-composable-queries}
