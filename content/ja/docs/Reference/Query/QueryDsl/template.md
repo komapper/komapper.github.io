@@ -226,9 +226,9 @@ Komapperが提供するSQLテンプレートはいわゆる2-Way-SQL対応のテ
 
 ```sql
 select name, age from person where
-/*%if name != null*/
-  name = /*name*/'test'
-/*%end*/
+/*% if name != null */
+  name = /* name */'test'
+/*% end */
 order by name
 ```
 
@@ -251,9 +251,9 @@ KomapperのSQLテンプレートは、WHERE句、HAVING句、GROUP BY句、ORDER
 
 ```kotlin
 select name, age from person where 1 = 1  // このような対応は不要
-/*%if name != null*/
-  and name = /*name*/'test'
-/*%end*/
+/*% if name != null */
+  and name = /* name */'test'
+/*% end */
 order by name
 ```
 {{< /alert >}}
@@ -261,17 +261,17 @@ order by name
 
 ### バインド変数ディレクティブ  {#sql-template-bind-variable-directive}
 
-バインド変数は`/*expression*/`のように`/*`と`*/`で囲んで表します。
+バインド変数は`/* expression */`のように`/*`と`*/`で囲んで表します。
 `expression`には任意の値を返す式が入ります。
 
 次の`'test'`のようにディレクティブの直後にはテスト用の値が必須です。
 
 ```sql
-where name = /*name*/'test'
+where name = /* name */'test'
 ```
 
 最終的にはテスト用の値は取り除かれ上述のテンプレートは次のようなSQLに変換されます。
-`/*name*/`は`?`に置換され、`?`には`name`が返す値がバインドされます。
+`/* name */`は`?`に置換され、`?`には`name`が返す値がバインドされます。
 
 ```sql
 where name = ?
@@ -280,28 +280,28 @@ where name = ?
 IN句にバインドするには`expression`は`Iterable`型の値でなければいけません。
 
 ```sql
-where name in /*names*/('a', 'b')
+where name in /* names */('a', 'b')
 ```
 
 IN句にタプル形式で値をバインドするには`expression`を`Iterable<Pair>`型や`Iterable<Triple>`型の値にします。
 
 ```sql
-where (name, age) in /*pairs*/(('a', 'b'), ('c', 'd'))
+where (name, age) in /* pairs */(('a', 'b'), ('c', 'd'))
 ```
 
 ### リテラル変数ディレクティブ {#sql-template-literal-variable-directive}
 
-リテラル変数は`/*^expression*/`のように`/*^`と`*/`で囲んで表します。
+リテラル変数は`/*^ expression */`のように`/*^`と`*/`で囲んで表します。
 `expression`には任意の値を返す式が入ります。
 
 次の`'test'`のようにディレクティブの直後にはテスト用の値が必須です。
 
 ```sql
-where name = /*^name*/'test'
+where name = /*^ name */'test'
 ```
 
 最終的にはテスト用の値は取り除かれ上述のテンプレートは次のようなSQLに変換されます。
-`/*^name*/`は`name`が返す値（この例では`"abc"`）のリテラル表現（`'abc'`）で置換されます。
+`/*^ name */`は`name`が返す値（この例では`"abc"`）のリテラル表現（`'abc'`）で置換されます。
 
 ```sql
 where name = 'abc'
@@ -309,7 +309,7 @@ where name = 'abc'
 
 ### 埋め込み変数ディレクティブ {#sql-template-embedded-variable-directive}
 
-埋め込み変数は`/*#expression*/`のように`/*#`と`*/`で囲んで表します。
+埋め込み変数は`/*# expression */`のように`/*#`と`*/`で囲んで表します。
 `expression`には任意の値を返す式が入ります。
 
 ```sql
@@ -324,46 +324,46 @@ select name, age from person where age > 1 order by name
 
 ### ifディレクティブ {#sql-template-if-directive}
 
-ifの条件分岐は`/*%if expression*/`で始めて`/*%end*/`で終わります。
+ifの条件分岐は`/*% if expression */`で始めて`/*% end */`で終わります。
 `expression`には真偽値を返す式が入ります。
 
 ```kotlin
-/*%if name != null*/
-  name = /*name*/'test'
-/*%end*/
+/*% if name != null */
+  name = /* name */'test'
+/*% end */
 ```
 
-`/*%if expression*/`と`/*%end*/`の間に`/*%else*/`を入れることもできます。
+`/*% if expression */`と`/*% end */`の間に`/*% else */`を入れることもできます。
 
 ```kotlin
-/*%if name != null*/
-  name = /*name*/'test'
-/*%else*/
+/*% if name != null */
+  name = /* name */'test'
+/*% else */
   name is null
-/*%end*/
+/*% end */
 ```
 
 ### forディレクティブ {#sql-template-for-directive}
 
-forを使ったループは`/*%for identifier in expression */`で始めて`/*%end*/`で終わります。
+forを使ったループは`/*% for identifier in expression */`で始めて`/*% end */`で終わります。
 `expression`には`Iterable`を返す式が入り`identifier`は`Iterable`のそれぞれの要素を表す識別子となります。
 forのループの中では`identifier`に`_has_next`のプレフィックをつけた識別子が利用可能になります。
 これは次の繰り返し要素が存在するかどうかを表す真偽値を返します。
 
 ```sql
-/*%for name in names */
+/*% for name in names */
 employee_name like /* name */'hoge'
-  /*%if name_has_next */
+  /*% if name_has_next */
 /*# "or" */
-  /*%end */
-/*%end*/
+  /*% end */
+/*% end*/
 ```
 
 ### endディレクティブ {#sql-template-end-directive}
 
 条件分岐やループ処理を終了するには、endディレクティブを使います。
 
-endディレクティブは`/*%end*/`というSQLコメントで表現されます。
+endディレクティブは`/*% end */`というSQLコメントで表現されます。
 
 ### パーサーレベルのコメントディレクティブ {#sql-template-parser-level-comment-directive}
 
@@ -420,11 +420,11 @@ where
 次のように利用できます。
 
 ```kotlin
-/*%if name != null && name.length > 0 */
-  name = /*name*/'test'
-/*%else*/
+/*% if name != null && name.length > 0 */
+  name = /* name */'test'
+/*% else */
   name is null
-/*%end*/
+/*% end */
 ```
 
 #### プロパティアクセス {#sql-template-expression-property-access}
@@ -432,11 +432,11 @@ where
 `.`や`?.`を使ってプロパティにアクセスできます。`?.`はKotlinのsafe call operatorと同じ挙動をします。
 
 ```kotlin
-/*%if person?.name != null */
-  name = /*person?.name*/'test'
-/*%else*/
+/*% if person?.name != null */
+  name = /* person?.name */'test'
+/*% else */
   name is null
-/*%end*/
+/*% end */
 ```
 
 #### 関数呼び出し {#sql-template-expression-function-invocation}
@@ -444,11 +444,11 @@ where
 関数を呼び出せます。
 
 ```kotlin
-/*%if isValid(name) */
+/*% if isValid(name) */
   name = /*name*/'test'
-/*%else*/
+/*% else */
   name is null
-/*%end*/
+/*% end */
 ```
 
 #### クラス参照 {#sql-template-expression-class-reference}
@@ -457,9 +457,9 @@ where
 例えば`example.Direction`というenum classに`WEST`という要素がある場合、次のように参照できます。
 
 ```kotlin
-/*%if direction == @example.Direction@.WEST */
+/*% if direction == @example.Direction@.WEST */
   direction = 'west'
-/*%end*/
+/*% end */
 ```
 
 #### 拡張プロパティと拡張関数 {#sql-template-expression-extensions}
@@ -477,11 +477,11 @@ Kotlinが提供する以下の拡張プロパティと拡張関数をデフォ�
 - `fun CharSequence.none(): Boolean`
 
 ```kotlin
-/*%if name.isNotBlank() */
-  name = /*name*/'test'
-/*%else*/
+/*% if name.isNotBlank() */
+  name = /* name */'test'
+/*% else */
   name is null
-/*%end*/
+/*% end */
 ```
 
 また、Komapperが定義する以下の拡張関数も利用できます。
@@ -494,7 +494,7 @@ Kotlinが提供する以下の拡張プロパティと拡張関数をデフォ�
 例えば、asPrefix()を呼び出すと`"hello"`という文字列が`"hello%"`となり前方一致検索で利用できるようになります。
 
 ```kotlin
-where name like /*name.asPrefix()*/
+where name like /* name.asPrefix() */
 ```
 
 同様に`asInfix()`を呼び出すと中間一致検索用の文字列に変換し、`asSuffix()`を呼び出すと後方一致検索用の文字列に変換します。

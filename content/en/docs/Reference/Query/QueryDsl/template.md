@@ -231,9 +231,9 @@ For example, an SQL template containing a conditional branch and a bind variable
 
 ```sql
 select name, age from person where
-/*%if name != null*/
-  name = /*name*/'test'
-/*%end*/
+/*% if name != null */
+  name = /* name */'test'
+/*% end */
 order by name
 ```
 
@@ -261,9 +261,9 @@ to prevent incorrect SQL from being generated:
 
 ```kotlin
 select name, age from person where 1 = 1  // unnecessary
-/*%if name != null*/
-  and name = /*name*/'test'
-/*%end*/
+/*% if name != null */
+  and name = /* name */'test'
+/*% end */
 order by name
 ```
 {{< /alert >}}
@@ -275,11 +275,11 @@ To represent bind variables, use bind variable directives.
 Bind variable directives are simple SQL comments enclosed in `/*` and `*/`.
 They require test data immediately after the directive.
 
-In the following example, `/*name*/` is the bind variable directive, 
+In the following example, `/* name */` is the bind variable directive, 
 and the following `'test'` is the test data:
 
 ```sql
-where name = /*name*/'test'
+where name = /* name */'test'
 ```
 
 Test data exists only to preserve correct SQL syntax. It is not used by the application.
@@ -294,7 +294,7 @@ To bind a value to an IN clause, the bound value must be `kotlin.collections.Ite
 In the following example, `names` is `Iterable<String>`, and the following `('a', 'b')` is the test data:
 
 ```sql
-where name in /*names*/('a', 'b')
+where name in /* names */('a', 'b')
 ```
 
 To bind a `Pair` value to an IN clause, the bound value must be `kotlin.collections.Iterable<Pair>`
@@ -302,7 +302,7 @@ In the following example, `pairs` is `Iterable<Pair<String, String>>`,
 and the following `(('a', 'b'), ('c', 'd'))` is the test data:
 
 ```sql
-where (name, age) in /*pairs*/(('a', 'b'), ('c', 'd'))
+where (name, age) in /* pairs */(('a', 'b'), ('c', 'd'))
 ```
 
 ### Literal variable directives {#sql-template-literal-variable-directive}
@@ -312,11 +312,11 @@ To represent literals, use literal variable directives.
 Literal variable directives are SQL comments enclosed in `/*^` and `*/`.
 They require test data immediately after the directive.
 
-In the following example, `/*^myLiteral*/` is the literal variable directive,
+In the following example, `/*^ myLiteral */` is the literal variable directive,
 and the following `'test'` is the test data:
 
 ```sql
-where name = /*^myLiteral*/'test'
+where name = /*^ myLiteral */'test'
 ```
 
 Test data exists only to preserve correct SQL syntax. It is not used by the application.
@@ -351,50 +351,50 @@ select name, age from person where age > 1 order by name
 
 To start conditional branching, use if directives.
 
-If directives are SQL comments enclosed in `/*%if` and `*/`.
+If directives are SQL comments enclosed in `/*% if` and `*/`.
 
 A conditional branch must begin with an if directive and 
 end with an [end directive]({{< relref "#sql-template-end-directive" >}}).
 
-In the following example, `/*%if name != null*/` is the if directive:
+In the following example, `/*% if name != null */` is the if directive:
 
 ```kotlin
-/*%if name != null*/
-  name = /*name*/'test'
-/*%end*/
+/*% if name != null */
+  name = /* name */'test'
+/*% end */
 ```
 
 You can also put an else directive between an if directive and an end directive:
 
 ```kotlin
-/*%if name != null*/
-  name = /*name*/'test'
-/*%else*/
+/*% if name != null */
+  name = /* name */'test'
+/*% else */
   name is null
-/*%end*/
+/*% end */
 ```
 
 ### for directives {#sql-template-for-directive}
 
 To start loop processing, use for directives.
 
-For directives are SQL comments enclosed in `/*%for` and `*/`.
+For directives are SQL comments enclosed in `/*% for` and `*/`.
 
 A loop process must begin with a for directive and
 end with an [end directive]({{< relref "#sql-template-end-directive" >}}).
 
-In the following example, `/*%for name in names */` is the for directive:
+In the following example, `/*% for name in names */` is the for directive:
 
 ```sql
-/*%for name in names */
+/*% for name in names */
 employee_name like /* name */'hoge'
-  /*%if name_has_next */
+  /*% if name_has_next */
 /*# "or" */
-  /*%end */
-/*%end*/
+  /*% end */
+/*% end */
 ```
 
-In the `/*%for name in names */` directive, the `names` express an `Iterable` object 
+In the `/*% for name in names */` directive, the `names` express an `Iterable` object 
 and the `name` is an identifier for each element of the `Iterable` object.
 
 Between the for and end directives, a special variable is available.
@@ -406,7 +406,7 @@ In the above example, the name of the special variable is `name_has_next`.
 
 To end conditional branching and loop processing, use end directives.
 
-End directives are SQL comments expressed as `/*%end*/`.
+End directives are SQL comments expressed as `/*% end */`.
 
 ### Parser-level comment directives {#sql-template-parser-level-comment-directive}
 
@@ -464,11 +464,11 @@ The following operators are supported. Semantics are the same as for operators i
 These can be used as follows:
 
 ```kotlin
-/*%if name != null && name.length > 0 */
-  name = /*name*/'test'
-/*%else*/
+/*% if name != null && name.length > 0 */
+  name = /* name */'test'
+/*% else */
   name is null
-/*%end*/
+/*% end */
 ```
 
 #### Property accesses {#sql-template-expression-property-access}
@@ -476,11 +476,11 @@ These can be used as follows:
 To access properties, use `.` or `?.` as follows:
 
 ```kotlin
-/*%if person?.name != null */
-  name = /*person?.name*/'test'
-/*%else*/
+/*% if person?.name != null */
+  name = /* person?.name */'test'
+/*% else */
   name is null
-/*%end*/
+/*% end */
 ```
 
 `?.` is equivalent to the safe call operator of Kotlin.
@@ -491,11 +491,11 @@ To access properties, use `.` or `?.` as follows:
 Functions can be called as follows:
 
 ```kotlin
-/*%if isValid(name) */
+/*% if isValid(name) */
   name = /*name*/'test'
-/*%else*/
+/*% else */
   name is null
-/*%end*/
+/*% end */
 ```
 
 #### Class references {#sql-template-expression-class-reference}
@@ -506,9 +506,9 @@ For example, if the `example.Direction` enum class has an element named `WEST`,
 it can be referenced as follows:
 
 ```kotlin
-/*%if direction == @example.Direction@.WEST */
+/*% if direction == @example.Direction@.WEST */
   direction = 'west'
-/*%end*/
+/*% end */
 ```
 
 #### Extension properties and functions {#sql-template-expression-extensions}
@@ -526,11 +526,11 @@ The following extension properties and functions provided by Kotlin are availabl
 - `fun CharSequence.none(): Boolean`
 
 ```kotlin
-/*%if name.isNotBlank() */
-  name = /*name*/'test'
-/*%else*/
+/*% if name.isNotBlank() */
+  name = /* name */'test'
+/*% else */
   name is null
-/*%end*/
+/*% end */
 ```
 
 The following extension functions defined by Komapper are also available:
@@ -544,7 +544,7 @@ For example, if you call the `asPrefix` function,
 the string `"hello"` becomes `"hello%"` and can be used in a prefix search:
 
 ```kotlin
-where name like /*name.asPrefix()*/
+where name like /* name.asPrefix() */
 ```
 
 Similarly, calling the `asInfix` function converts it to a string for an infix search, 
