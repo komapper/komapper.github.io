@@ -57,7 +57,7 @@ val query: Query<List<Address>> = QueryDsl.execute(ListAddresses("STREET 10"))
 コマンドのクラスは、トップレベルのクラス、ネストされたクラス、インナークラスとして定義できます。ローカルクラスとしては定義できません。
 {{< /alert >}}
 
-コマンドには5つの種類あります。
+コマンドには5つの種類があります。
 
 - One
 - Many
