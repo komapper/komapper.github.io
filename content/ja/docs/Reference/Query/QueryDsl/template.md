@@ -345,10 +345,13 @@ ifの条件分岐は`/*% if expression */`で始めて`/*% end */`で終わり�
 
 ### forディレクティブ {#sql-template-for-directive}
 
-forを使ったループは`/*% for identifier in expression */`で始めて`/*% end */`で終わります。
-`expression`には`Iterable`を返す式が入り`identifier`は`Iterable`のそれぞれの要素を表す識別子となります。
-forのループの中では`identifier`に`_has_next`のプレフィックをつけた識別子が利用可能になります。
-これは次の繰り返し要素が存在するかどうかを表す真偽値を返します。
+ループ処理を開始するには、forディレクティブを使用します。
+
+forディレクティブは、`/*% for` と `*/` で囲まれたSQLコメントです。
+
+ループ処理は、forディレクティブで開始し、[endディレクティブ]({{< relref "#sql-template-end-directive" >}})で終了しなければなりません。
+
+次の例では、`/*% for name in names */` がforディレクティブです：
 
 ```sql
 /*% for name in names */
@@ -356,7 +359,27 @@ employee_name like /* name */'hoge'
   /*% if name_has_next */
 /*# "or" */
   /*% end */
-/*% end*/
+/*% end */
+```
+
+`/*% for name in names */` ディレクティブでは、`names` は `Iterable` オブジェクトを表し、`name` はその `Iterable` オブジェクトの各要素に対する識別子（identifier）です。
+
+forディレクティブとendディレクティブの間では、以下の特別な変数を使用できます。
+
+- *identifier*_has_next: 次の繰り返しが実行されるかどうかを示すブール値を返します。
+- *identifier*_next_comma: 次の繰り返しが実行される場合は `,` を返し、それ以外の場合は空の文字列を返します。
+- *identifier*_next_or: 次の繰り返しが実行される場合は `or` を返し、それ以外の場合は空の文字列を返します。
+- *identifier*_next_and: 次の繰り返しが実行される場合は `and` を返し、それ以外の場合は空の文字列を返します。
+
+上記の例では、`name_has_next` が特別な変数です。
+
+上記の例は、`name_next_or` を使用して次のように書き換えることができます：
+
+```sql
+/*% for name in names */
+employee_name like /* name */'hoge'
+/*# name_next_or */
+/*% end */
 ```
 
 ### endディレクティブ {#sql-template-end-directive}

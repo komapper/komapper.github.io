@@ -397,10 +397,23 @@ employee_name like /* name */'hoge'
 In the `/*% for name in names */` directive, the `names` express an `Iterable` object 
 and the `name` is an identifier for each element of the `Iterable` object.
 
-Between the for and end directives, a special variable is available.
-The special variable returns a boolean value indicating whether the next iteration should be executed.
-The name of the special variable is a concatenation of the identifier and `_has_next`.
-In the above example, the name of the special variable is `name_has_next`.
+Between the for and end directives, the following special variables are available.
+
+- *identifier*_has_next: Returns a boolean value indicating whether the next iteration should be executed.
+- *identifier*_next_comma: Returns `,` if the next iteration will be executed; otherwise, returns an empty string.
+- *identifier*_next_or: Returns `or` if the next iteration should be executed; otherwise, returns an empty string.
+- *identifier*_next_and: Returns `and` if the next iteration should be executed; otherwise, returns an empty string.
+
+In the above example, `name_has_next` is a special variable.
+
+The above example can be rewritten as follows using `name_next_or`:
+
+```sql
+/*% for name in names */
+employee_name like /* name */'hoge'
+/*# name_next_or */
+/*% end */
+```
 
 ### end directives {#sql-template-end-directive}
 
