@@ -567,6 +567,8 @@ val id: Nothing
 
 `masking`プロパティに`true`を設定すると、 ログの中で対応するデータがマスキングされます。
 
+`updatable` プロパティが `false` に設定されている場合、そのカラムは、明示的に `set {}` ブロックが指定されていない限り、[`update()`]({{< relref "Query/QueryDsl/update" >}}) および [`insert().onDuplicateKeyUpdate()`]({{< relref "Query/QueryDsl/insert#onduplicatekeyupdate" >}}) DSL によって生成されるデフォルトの `UPDATE` 文から除外されます。
+
 `alternateType`プロパティを利用すると、マッピングするSQLの型を変更できます。
 詳細は、[Alternate type]({{< relref "data-type#alternate-types" >}})を参照ください。
 
