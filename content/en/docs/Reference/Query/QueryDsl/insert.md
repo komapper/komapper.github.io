@@ -136,7 +136,7 @@ the return value is driver specific.
 If the `batch` function is called following the `onDuplicateKeyIgnore` function,
 the return value is driver specific.
 
-## onDuplicateKeyUpdate
+## onDuplicateKeyUpdate {#onduplicatekeyupdate}
 
 Call the `onDuplicateKeyUpdate` function to update the target row when a key is duplicated.
 The key to be checked for duplicates can be specified in the `onDuplicateKeyUpdate` function.
