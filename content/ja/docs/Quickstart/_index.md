@@ -34,8 +34,8 @@ JDKとGradleをインストールしてください。
 ```kotlin
 plugins {
     application
-    id("com.google.devtools.ksp") version "2.0.20-1.0.25"
-    kotlin("jvm") version "2.0.20"
+    id("com.google.devtools.ksp") version "2.0.21-1.0.28"
+    kotlin("jvm") version "2.0.21"
 }
 
 application {
@@ -43,7 +43,7 @@ application {
 }
 
 dependencies {
-    val komapperVersion = "3.1.0"
+    val komapperVersion = "4.0.0"
     platform("org.komapper:komapper-platform:$komapperVersion").let {
         implementation(it)
         ksp(it)
