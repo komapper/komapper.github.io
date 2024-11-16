@@ -115,6 +115,18 @@ insert into ADDRESS as t0_ (ADDRESS_ID, STREET, VERSION) values (?, ?, ?) on con
 Auto-incremented columns never duplicate.
 {{< /alert >}}
 
+{{< alert title="Support for the ON CONFLICT WHERE clause in PostgreSQL" >}}
+When using PostgreSQL, you can represent the `ON CONFLICT WHERE` clause 
+by specifying a lambda expression for `onDuplicateKeyIgnore`.
+
+```kotlin
+val address: Address = ..
+val query: Query<Address?> = QueryDsl.insert(a).onDuplicateKeyIgnore() {
+    a.street.isNull()
+}.single(address)
+```
+{{< /alert >}}
+
 ### executeAndGet {#onduplicatekeyignore-executeandget}
 
 If the `executeAndGet` function is called following the `onDuplicateKeyIgnore` function, 
@@ -166,6 +178,18 @@ Optimistic locking is not applied to the rows to be updated.
 
 {{< alert color="warning" title="Warning" >}}
 Auto-incremented columns never duplicate.
+{{< /alert >}}
+
+{{< alert title="Support for the ON CONFLICT WHERE clause in PostgreSQL" >}}
+When using PostgreSQL, you can represent the `ON CONFLICT WHERE` clause
+by specifying a lambda expression for `onDuplicateKeyUpdate`.
+
+```kotlin
+val address: Address = ..
+val query: Query<Address?> = QueryDsl.insert(a).onDuplicateKeyUpdate() {
+    a.street.isNull()
+}.single(address)
+```
 {{< /alert >}}
 
 ### executeAndGet {#onduplicatekeyupdate-executeandget}

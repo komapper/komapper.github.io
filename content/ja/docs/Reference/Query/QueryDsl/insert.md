@@ -112,6 +112,18 @@ insert into ADDRESS as t0_ (ADDRESS_ID, STREET, VERSION) values (?, ?, ?) on con
 auto increment カラムは重複しません。
 {{< /alert >}}
 
+{{< alert title="Support for the ON CONFLICT WHERE clause in PostgreSQL" >}}
+PostgreSQLを利用する場合、`onDuplicateKeyIgnore`にラムダ式を指定することで
+`ON CONFLICT WHERE`句を表現できます。
+
+```kotlin
+val address: Address = ..
+val query: Query<Address?> = QueryDsl.insert(a).onDuplicateKeyIgnore() {
+    a.street.isNull()
+}.single(address)
+```
+{{< /alert >}}
+
 ### executeAndGet {#onduplicatekeyignore-executeandget}
 
 `onDuplicateKeyIgnore`に続けて`executeAndGet`を呼び出した場合、戻り値は追加されたデータを表すエンティティです。
@@ -159,6 +171,19 @@ insert into DEPARTMENT as t0_ (DEPARTMENT_ID, DEPARTMENT_NO, DEPARTMENT_NAME, LO
 {{< alert color="warning" title="Warning" >}}
 auto increment カラムは重複しません。
 {{< /alert >}}
+
+{{< alert title="Support for the ON CONFLICT WHERE clause in PostgreSQL" >}}
+PostgreSQLを利用する場合、`onDuplicateKeyUpdate`にラムダ式を指定することで
+`ON CONFLICT WHERE`句を表現できます。
+
+```kotlin
+val address: Address = ..
+val query: Query<Address?> = QueryDsl.insert(a).onDuplicateKeyUpdate() {
+    a.street.isNull()
+}.single(address)
+```
+{{< /alert >}}
+
 
 ### executeAndGet {#onduplicatekeyupdate-executeandget}
 
