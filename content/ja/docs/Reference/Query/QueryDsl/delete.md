@@ -28,6 +28,8 @@ delete from ADDRESS as t0_ where t0_.ADDRESS_ID = ? and t0_.VERSION = ?
 
 クエリ実行時に楽観的排他制御が失敗した場合、`org.komapper.core.OptimisticLockException`がスローされます。
 
+クエリ実行時にエンティティが見つからなかった場合、`org.komapper.core.EntityNotFoundException`がスローされます。
+
 ## batch
 
 バッチでエンティティ複数件を削除するには`batch`を呼び出します。
@@ -50,6 +52,8 @@ delete from ADDRESS as t0_ where t0_.ADDRESS_ID = ? and t0_.VERSION = ?
 - `@KomapperVersion`
 
 クエリ実行時に楽観的排他制御が失敗した場合、`org.komapper.core.OptimisticLockException`がスローされます。
+
+クエリ実行時にエンティティが見つからなかった場合、`org.komapper.core.EntityNotFoundException`がスローされます。
 
 ## all
 
@@ -173,6 +177,9 @@ suppressLogging
 
 suppressOptimisticLockException
 : 楽観的ロックの取得に失敗した場合に`OptimisticLockException`のスローを抑制するかどうかです。デフォルトは`false`です。
+
+suppressEntityNotFoundException
+: エンティティが見つからない場合に`EntityNotFoundException`のスローを抑制するかどうかです。デフォルトは`false`です。
 
 [executionOptions]({{< relref "../../database-config/#executionoptions" >}})
 の同名プロパティよりもこちらに明示的に設定した値が優先的に利用されます。
