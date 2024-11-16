@@ -33,6 +33,8 @@ update ADDRESS set STREET = ?, VERSION = ? + 1 where ADDRESS_ID = ? and VERSION 
 
 クエリ実行時に楽観的排他制御が失敗した場合、`org.komapper.core.OptimisticLockException`がスローされます。
 
+クエリ実行時にエンティティが見つからなかった場合、`org.komapper.core.EntityNotFoundException`がスローされます。
+
 ## batch {#batch}
 
 バッチでエンティティ複数件を更新するには`batch`を呼び出します。
@@ -57,6 +59,8 @@ update ADDRESS set STREET = ?, VERSION = ? + 1 where ADDRESS_ID = ? and VERSION 
 - `@KomapperUpdatedAt`
 
 クエリ実行時に楽観的排他制御が失敗した場合、`org.komapper.core.OptimisticLockException`がスローされます。
+
+クエリ実行時にエンティティが見つからなかった場合、`org.komapper.core.EntityNotFoundException`がスローされます。
 
 ## include {#include}
 
@@ -243,6 +247,9 @@ suppressLogging
 
 suppressOptimisticLockException
 : 楽観的ロックの取得に失敗した場合に`OptimisticLockException`のスローを抑制するかどうかです。デフォルトは`false`です。
+
+suppressEntityNotFoundException
+: エンティティが見つからない場合に`EntityNotFoundException`のスローを抑制するかどうかです。デフォルトは`false`です。
 
 [executionOptions]({{< relref "../../database-config/#executionoptions" >}})
 の同名プロパティよりもこちらに明示的に設定した値が優先的に利用されます。

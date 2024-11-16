@@ -35,6 +35,9 @@ Depending on the mapping definitions shown below, both the SQL and the new entit
 If optimistic locking fails during query execution, 
 the `org.komapper.core.OptimisticLockException` is thrown.
 
+If the entity is not found during query execution,
+the `org.komapper.core.EntityNotFoundException` is thrown.
+
 ## batch {#batch}
 
 To update multiple entities in a batch, call the `batch` function:
@@ -60,6 +63,9 @@ Depending on the mapping definitions shown below, both the SQL and the new entit
 
 If optimistic locking fails during query execution,
 the `org.komapper.core.OptimisticLockException` is thrown.
+
+If the entity is not found during query execution,
+the `org.komapper.core.EntityNotFoundException` is thrown.
 
 ## include {#include}
 
@@ -253,6 +259,9 @@ suppressLogging
 suppressOptimisticLockException
 : Whether to suppress the throwing of `OptimisticLockException` if an attempt to acquire an optimistic lock fails.
 Default is `false`.
+
+suppressEntityNotFoundException
+: Whether to suppress the throwing of `EntityNotFoundException` if the entity is not found. Default is `false`.
 
 Properties explicitly set here will be used in preference to properties with the same name that exist
 in [executionOptions]({{< relref "../../database-config/#executionoptions" >}}).
