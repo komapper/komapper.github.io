@@ -99,7 +99,7 @@ See also [Logging]({{< relref "logging.md" >}}).
 The `statementInspector` inspects `org.komapper.core.Statement` just before SQL execution.
 
 By default, this property is resolved by the service loader.
-If the service loader cannot resolve the logger, this property returns an inspector that does nothing.
+If the service loader cannot resolve the statementInspector, this property returns an inspector that does nothing.
 
 The following modules provide inspector implementations:
 
