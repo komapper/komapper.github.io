@@ -117,3 +117,31 @@ The following modules provide builder implementations:
 - komapper-template
 
 See also [TEMPLATE]({{< relref "Query/QueryDsl/template.md" >}}).
+
+### statisticManager
+
+The `statisticManager` manages statistical information related to SQL execution.
+It retains the following information for each SQL statement:
+
+- execution count
+- execution maximum time in milliseconds
+- execution minimum time in milliseconds
+- total execution time in milliseconds
+- average execution time in milliseconds
+
+To enable the `statisticManager`, set `enableStatistics = true` as follows:
+
+```kotlin
+val config: JdbcDatabaseConfig = DefaultJdbcDatabaseConfig(dataSource, dialect, enableStatistics = true)
+```
+
+```kotlin
+val config: R2dbcDatabaseConfig = DefaultR2dbcDatabaseConfig(connectionFactory, dialect, enableStatistics = true)
+```
+
+By default, this property is resolved by the service loader.
+If the service loader cannot resolve the statisticManager, this property returns a default statisticManager.
+
+The default statisticManager collects statistical information indefinitely while enabled. 
+To prevent memory exhaustion, either call the `clear` method of the statisticManager periodically 
+or create an appropriate implementation class for `org.komapper.core.StatisticManager`.

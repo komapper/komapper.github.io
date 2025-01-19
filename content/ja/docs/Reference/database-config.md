@@ -113,3 +113,32 @@ SQLテンプレートから`org.komapper.core.Statement`を生成するビルダ
 - komapper-template
 
 [Templateクエリ]({{< relref "Query/QueryDsl/template.md" >}})も参照ください。
+
+### statisticManager
+
+`statisticManager` は、SQL 実行に関連する統計情報を管理します。  
+各 SQL ステートメントに対して以下の情報を保持します：
+
+- 実行回数
+- 実行時間の最大値（ミリ秒単位）
+- 実行時間の最小値（ミリ秒単位）
+- 実行時間の合計（ミリ秒単位）
+- 実行時間の平均値（ミリ秒単位）
+
+`statisticManager` を有効化するには、以下のように `enableStatistics = true` を設定してください：
+
+```kotlin
+val config: JdbcDatabaseConfig = DefaultJdbcDatabaseConfig(dataSource, dialect, enableStatistics = true)
+```
+
+```kotlin
+val config: R2dbcDatabaseConfig = DefaultR2dbcDatabaseConfig(connectionFactory, dialect, enableStatistics = true)
+```
+
+デフォルトでは、このプロパティはサービスローダーによって解決されます。
+サービスローダーが statisticManager を解決できない場合、
+このプロパティはデフォルトの statisticManager を返します。
+
+デフォルトの statisticManager は、有効化されている間、統計情報を無期限に収集します。
+メモリ不足を防ぐために、定期的に statisticManager の `clear` メソッドを呼び出すか、
+`org.komapper.core.StatisticManager` の適切な実装クラスを作成してください。
